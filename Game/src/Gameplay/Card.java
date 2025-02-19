@@ -1,5 +1,7 @@
 package Gameplay;
 
+import Gameplay.Cards.*;
+
 import java.util.Scanner;
 
 public abstract class Card {
@@ -20,6 +22,31 @@ public abstract class Card {
 
     public String getName() {
         return name;
+    }
+
+    public static Card createCard(String name,int number){
+        switch (name){
+            case "Plus":
+                return new Plus(number);
+            case "Minus":
+                return new Minus(number);
+        }
+        return null;
+    }
+    public static Card createCard(String name){
+        switch (name){
+            case "Absolute":
+                return new Absolute();
+            case "CatNap":
+                return new CatNap();
+            case "CatTreat":
+                return new CatTreat();
+            case "FlipSigned":
+                return new FlipSigned();
+            case "Sqrt":
+                return new Sqrt();
+        }
+        return null;
     }
 
     public void setName(String name) {

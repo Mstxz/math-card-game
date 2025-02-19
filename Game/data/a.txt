@@ -1,0 +1,9 @@
+Plus 1 2
+Plus 2 4
+Minus 9 2
+Minus 8 5
+Absolute 2
+CatNap 2
+CatTreat 2
+FlipSigned 2
+Sqrt 2
