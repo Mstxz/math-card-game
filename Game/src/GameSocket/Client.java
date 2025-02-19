@@ -37,7 +37,7 @@ public class Client implements AutoCloseable{
         }
     }
     public static void main(String[] args) {
-        Client c = new Client("127.0.0.1", 5000);
+        Client c = new Client("49.228.32.138", 12345);
     }
 
     @Override
