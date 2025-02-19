@@ -1,8 +1,13 @@
 package Gameplay;
 
+import Gameplay.Cards.Plus;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class Deck {
     private String name;
@@ -10,10 +15,41 @@ public class Deck {
     private ArrayList<Card> dispose;
     private Difficulty hardestDifficulty;
 
+    public static Deck LoadDeck(String name) throws FileNotFoundException{
+        File deckFile = new File("Game/data/"+name+".txt");
+        Deck d = new Deck(name);
+        try {
+            Scanner sc = new Scanner(deckFile);
+            while (sc.hasNextLine()){
+                String card = sc.nextLine();
+                String info[] = card.split(" ");
+                Card c;
+                if (info[0].equals("Plus")||info[0].equals("Minus")){
+                    c = Card.createCard(info[0],Integer.parseInt(info[1]));
+                    for (int i=0;i<Integer.parseInt(info[2]);i++){
+                        d.addCard(c);
+                    }
+                }
+                else {
+                    c = Card.createCard(info[0]);
+                    for (int i = 0;i<Integer.parseInt(info[1]);i++){
+                        d.addCard(c);
+                    }
+                }
+
+            }
+        }
+        catch (FileNotFoundException e){
+            throw e;
+        }
+        return d;
+    }
+
     public Deck(String name){
         this.name = name;
         this.cards = new ArrayList<Card>();
         this.dispose = new ArrayList<Card>();
+
     }
 
     public String getName() {

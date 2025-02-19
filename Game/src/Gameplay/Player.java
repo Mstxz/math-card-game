@@ -39,6 +39,10 @@ public class Player {
     }
 
     public void setMana(int mana) {
+        if (this.mana<0){
+            this.mana = 0;
+            return;
+        }
         this.mana = mana;
     }
 
