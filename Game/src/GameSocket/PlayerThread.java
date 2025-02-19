@@ -29,8 +29,7 @@ public class PlayerThread extends Thread{
             }
             this.close();
         } catch (IOException e) {
-            System.out.println("PlayerThread");
-            e.printStackTrace();
+            System.out.println("Player Left");
         }
         finally {
             finished = true;
@@ -43,5 +42,8 @@ public class PlayerThread extends Thread{
 
     public boolean isFinished() {
         return finished;
+    }
+    public void setFinished(boolean isFinished) {
+        finished = isFinished;
     }
 }
