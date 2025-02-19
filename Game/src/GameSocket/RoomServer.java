@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class RoomServer extends Thread {
-    private int port = 5000;
+    private int port = 12345;
     private ServerSocket ss = null;
     private PlayerThread[] threads = null;
     private int capacity = 0;
