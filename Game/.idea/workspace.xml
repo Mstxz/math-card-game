@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9367f9fa-2c05-4380-8694-1479a621bde3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/MstxzEXE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/MainMenu.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/GUI/icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUI/Bg.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/MainMenu.form" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,10 +44,11 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "112",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "451",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/projects/math-card-game",
+    "last_opened_file_path": "C:/Users/MstxzEXE/OneDrive/Desktop/math-card-game/Game/src/GUI",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -63,6 +60,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\MstxzEXE\OneDrive\Desktop\math-card-game\Game\src\GUI" />
       <recent name="C:\Users\USER\projects\math-card-game\Game\src\GameSocket" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -89,6 +87,7 @@
       <workItem from="1739935020995" duration="55000" />
       <workItem from="1739945193298" duration="514000" />
       <workItem from="1739945716940" duration="6433000" />
+      <workItem from="1739967656403" duration="8381000" />
     </task>
     <servers />
   </component>
