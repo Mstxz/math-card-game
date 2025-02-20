@@ -8,6 +8,7 @@ import Gameplay.Player;
 public class CatNap extends Card {
     public CatNap(){
         super("Cat Nap","Draw 2 cards",0, Difficulty.EASY, CardType.BLUE);
+        this.picture = "assets/Yellow_BetaCatNap.png";
     }
 
     @Override

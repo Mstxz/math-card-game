@@ -7,6 +7,7 @@ import Gameplay.Numbers.Constant;
 public class Sqrt extends Card implements HaveCondition {
     public Sqrt(){
         super("Sqrt(HP)","Sqare root opponent HP",7, Difficulty.MEDIUM, CardType.RED);
+        this.picture = "assets/Red_BetaTimeSquare.png";
     }
 
     @Override

@@ -9,6 +9,7 @@ import Gameplay.Player;
 public class Absolute extends Card {
     public Absolute(){
         super("Absolute HP","Absolute user hp",2, Difficulty.MEDIUM, CardType.BLUE);
+        this.picture = "assets/Blue_BetaAbsoluteHP.png";
     }
 
     @Override

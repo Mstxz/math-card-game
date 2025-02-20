@@ -11,6 +11,7 @@ public class Minus extends Card {
     public Minus(int number){
         super("Minus"+number,"Subtract "+number+" to hp",1, Difficulty.EASY, CardType.GREEN);
         this.number = number;
+        this.picture = "assets/Green_BetaHP-"+number+".png";
     }
 
     @Override
