@@ -44,7 +44,7 @@ public class Room {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.roomServer = new RoomServer(5000,capacity,players);
+        //this.roomServer = new RoomServer(5000,capacity,players);
         this.roomServer.start();
     }
 

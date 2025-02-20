@@ -8,6 +8,8 @@ public class PlayerThread extends Thread{
     private Socket s;
     private DataInputStream in;
     private boolean finished = false;
+    private boolean waiting = false;
+    private String incomingMessage = "";
     PlayerThread(Socket s) throws IOException {
         this.s = s;
         try{
@@ -19,13 +21,18 @@ public class PlayerThread extends Thread{
     }
     @Override
     public void run(){
-        String m = "";
         try {
             // Reads message from client until "Over" is sent
-            while (!m.equals("Over"))
+            while (!finished)
             {
-                m = in.readUTF();
-                System.out.println(m);
+                incomingMessage = in.readUTF();
+                while (incomingMessage.equals("QUIT")){
+                    if(finished){
+                        System.out.println("Player Left");
+                        break;
+                    }
+                }
+
             }
             this.close();
         } catch (IOException e) {
@@ -45,5 +52,9 @@ public class PlayerThread extends Thread{
     }
     public void setFinished(boolean isFinished) {
         finished = isFinished;
+    }
+
+    public String getIncomingMessage() {
+        return incomingMessage;
     }
 }
