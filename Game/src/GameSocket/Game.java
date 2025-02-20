@@ -21,5 +21,8 @@ public class Game {
         this.capacity = capacity;
     }
     public void start(){
+        Player host = otherPlayers[0];
+
+        System.out.println();
     }
 }

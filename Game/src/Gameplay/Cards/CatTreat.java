@@ -9,7 +9,7 @@ public class CatTreat extends Card implements HaveCondition {
 
     @Override
     public boolean checkCondition(Player user, Player receiver) {
-        return receiver.getMana() == 0;
+        return user.getMana() == 0;
     }
 
     @Override
