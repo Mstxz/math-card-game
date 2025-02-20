@@ -10,6 +10,7 @@ import Gameplay.Player;
 public class FlipSigned extends Card {
     public FlipSigned(){
         super("*(-1)","multiply -1 to your HP",2, Difficulty.MEDIUM, CardType.BLUE);
+        this.picture = "assets/Blue_BetaFlipSignedHP.png";
     }
 
     @Override

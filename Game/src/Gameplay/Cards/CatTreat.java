@@ -5,11 +5,12 @@ import Gameplay.*;
 public class CatTreat extends Card implements HaveCondition {
     public CatTreat(){
         super("CatTreat","Increase user mana by 2",0, Difficulty.EASY, CardType.BLUE);
+        this.picture = "assets/Yellow_BetaCatFood.png";
     }
 
     @Override
     public boolean checkCondition(Player user, Player receiver) {
-        return receiver.getMana() == 0;
+        return user.getMana() == 0;
     }
 
     @Override
