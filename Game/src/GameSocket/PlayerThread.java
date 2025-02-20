@@ -1,8 +1,6 @@
 package GameSocket;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.Vector;
 
@@ -60,10 +58,17 @@ public class PlayerThread extends Thread{
                         this.ev.add(new PlayerEvent(index,PlayerEventType.DRAW));
                         break;
                     case "PLAY":
-                        this.ev.add(new PlayerEvent(index,PlayerEventType.PLAY,m[1]));
+                        this.ev.add(new PlayerEvent(index,PlayerEventType.PLAY, new String[]{m[1]}));
                         break;
                     case "NAME":
-                        this.ev.add(new PlayerEvent(index,PlayerEventType.REGISTER_NAME,m[1]));
+                        this.ev.add(new PlayerEvent(index,PlayerEventType.REGISTER_NAME, new String[]{m[1]}));
+                        break;
+                    case "READY":
+                        this.ev.add(new PlayerEvent(index,PlayerEventType.READY, new String[]{m[1]}));
+                        this.writeFile(m[1]);
+                        break;
+                    case "UPLOAD":
+                        this.ev.add(new PlayerEvent(index,PlayerEventType.UPLOAD_DECK));
                         break;
                 }
 
@@ -89,7 +94,16 @@ public class PlayerThread extends Thread{
         s.close();
         in.close();
     }
-
+    public void writeFile(String name) throws IOException {
+        int count;
+        byte[] buffer = new byte[8192];
+        File f = new File("Game/data/temp/"+name);
+        FileOutputStream fs = new FileOutputStream(f);
+        while ((count = in.read(buffer)) > 0)
+        {
+            fs.write(buffer, 0, count);
+        }
+    }
     public boolean getFinished() {
         return finished;
     }

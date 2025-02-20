@@ -3,13 +3,13 @@ package GameSocket;
 public class PlayerEvent {
     private int playerIndex;
     private PlayerEventType type;
-    private String arg;
+    private String arg[];
     public PlayerEvent(int playerIndex, PlayerEventType type) {
         this.playerIndex = playerIndex;
         this.type = type;
     }
 
-    public PlayerEvent(int playerIndex, PlayerEventType type, String arg) {
+    public PlayerEvent(int playerIndex, PlayerEventType type, String[] arg) {
         this.playerIndex = playerIndex;
         this.type = type;
         this.arg = arg;
@@ -31,11 +31,11 @@ public class PlayerEvent {
         this.type = type;
     }
 
-    public String getArg() {
+    public String[] getArg() {
         return arg;
     }
 
-    public void setArg(String arg) {
+    public void setArg(String[] arg) {
         this.arg = arg;
     }
 
