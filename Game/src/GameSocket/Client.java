@@ -2,7 +2,7 @@ package GameSocket;
 import java.io.*;
 import java.net.*;
 
-public class Client implements AutoCloseable{
+public class Client extends Thread implements AutoCloseable{
 
     // Initialize socket and input/output streams
     private Socket s = null;
@@ -36,6 +36,18 @@ public class Client implements AutoCloseable{
             throw e;
         }
     }
+
+    @Override
+    public void run() {
+        while (!this.isInterrupted()){
+            try {
+                String input = in.readUTF();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Client c = new Client("localhost", 12345);
     }

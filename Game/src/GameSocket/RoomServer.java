@@ -3,18 +3,18 @@ package GameSocket;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class RoomServer extends Thread {
     private int port = 12345;
     private ServerSocket ss = null;
-    private PlayerThread[] threads = null;
+    private OtherPlayer[] threads = null;
+    private int playerInLobby = 0;
     private int capacity = 0;
     private boolean running = true;
     private Vector<PlayerEvent> ev;
     // Constructor with port
-    public RoomServer(int port, int capacity, PlayerThread[] threads, Vector<PlayerEvent> ev) {
+    public RoomServer(int port, int capacity, OtherPlayer[] threads, Vector<PlayerEvent> ev) {
         this.port = port;
         this.threads = threads;
         this.capacity = capacity;
@@ -27,38 +27,15 @@ public class RoomServer extends Thread {
             System.out.println("Server started");
             for(int i=0;i<capacity;i++){
                 Socket s = ss.accept();
-                this.threads[i] = new PlayerThread(s);
-                this.threads[i].start();
-                System.out.println("Player "+ (i + 1) +" join the game.");
+                PlayerThread pt = new PlayerThread(i,s,ev);
+                pt.start();
+                this.threads[i] = new OtherPlayer("",pt);
+
+                playerInLobby += 1;
             }
-            while (running){
-                for(int i=0;i<capacity;i++){
-                    if(this.threads[i] == null){
-                        continue;
-                    }
-                    String m = this.threads[i].getIncomingMessage();
-                    switch (m){
-                        case "QUIT":
-                            this.ev.add(new PlayerEvent(i,PlayerEventType.QUIT));
-                            break;
-                        case "END_TURN":
-                            this.ev.add(new PlayerEvent(i,PlayerEventType.END_TURN));
-                            break;
-                        case "DRAW":
-                            this.ev.add(new PlayerEvent(i,PlayerEventType.DRAW));
-                            break;
-                        default:
-                            if (m.equals("")){
-                                break;
-                            }
-                            String[] played = m.split(" ");
-                            this.ev.add(new PlayerEvent(i,PlayerEventType.PLAY,Integer.parseInt(played[1])));
-                            break;
-                    }
-                }
-            }
+
             ss.close();
-            System.out.println("Server closed");
+            //System.out.println("Server closed");
         }
         catch (IOException i){
             System.out.println(i);
@@ -70,5 +47,11 @@ public class RoomServer extends Thread {
         this.running = running;
     }
 
+    public int getPlayerInLobby() {
+        return playerInLobby;
+    }
 
+    public void setPlayerInLobby(int playerInLobby) {
+        this.playerInLobby = playerInLobby;
+    }
 }

@@ -4,5 +4,6 @@ public enum PlayerEventType {
     QUIT,
     DRAW,
     PLAY,
-    END_TURN
+    END_TURN,
+    REGISTER_NAME
 }
