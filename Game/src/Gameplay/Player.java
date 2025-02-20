@@ -13,6 +13,7 @@ public class Player {
     public Number hp = new Constant(100);
     public NumberType numberType = NumberType.CONSTANT;
     public int maxMana = 1;
+    private int playerNumber;
 
     public Player(String name){
         this.name = name;
@@ -48,12 +49,13 @@ public class Player {
     }
 
     public void setMana(int mana) {
-        if (this.mana<0){
+        if (mana<0){
             this.mana = 0;
             return;
         }
-        if (this.mana>mana){
+        if (mana>maxMana){
             this.mana = maxMana;
+            return;
         }
         this.mana = mana;
     }
@@ -75,6 +77,14 @@ public class Player {
 
     public void setHp(Number hp) {
         this.hp = hp;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
     }
 
     public void draw(){
@@ -104,10 +114,11 @@ public class Player {
         self.draw();
         Player.log(self,enemy);
         ArrayList<Integer> playable = self.showCard(self,enemy);
-        while (!playable.isEmpty()){
+        while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
             Scanner sc = new Scanner(System.in);
             int index;
             do {
+                System.out.print("Input the number of card: ");
                 index = sc.nextInt();
                 if (!playable.contains(index)){
                     System.out.println("It's not playable! Choose the white color text (Start from 0)");
@@ -120,6 +131,16 @@ public class Player {
             deck.addDispose(c);
             Player.log(self,enemy);
             playable = self.showCard(self,enemy);
+            if (!playable.isEmpty()){
+                System.out.print("Do you want to end turn (Y/N) : ");
+                sc.nextLine();
+                char a = sc.nextLine().charAt(0);
+                //System.out.println(b);
+                if (a == 'Y' || a == 'y'){
+                    break;
+                }
+
+            }
         }
         System.out.println();
         if (maxMana<10){
@@ -128,9 +149,34 @@ public class Player {
 
     }
     public static void log(Player self,Player enemy){
-        System.out.println(self.getName()+"'s hp : "+self.getHp());
-        System.out.println(self.getName()+"'s mana : "+self.getMana());
-        System.out.println(enemy.getName()+"'s hp : "+enemy.getHp());
-        System.out.println(enemy.getName()+"'s mana : "+enemy.getMana());
+        System.out.println(self.getName()+"'s hp ("+self.getPlayerNumber()+") : "+self.getHp());
+        System.out.println(self.getName()+"'s mana ("+self.getPlayerNumber()+") : "+self.getMana());
+        System.out.println(enemy.getName()+"'s hp ("+enemy.getPlayerNumber()+") : "+enemy.getHp());
+        System.out.println(enemy.getName()+"'s mana ("+enemy.getPlayerNumber()+") : "+enemy.getMana());
+    }
+
+    public static boolean checkWin(Player a,Player b){
+        if (((Constant)(a.getHp())).getNumber() == 0){
+            System.out.println("Player "+a.getName()+" has eliminated.");
+            System.out.println("Player "+b.getName()+" is victory!!");
+        }
+        else if (a.getDeck().getCards().isEmpty()){
+            System.out.println("Player "+a.getName()+" has 0 card to draw.");
+            System.out.println("Player "+b.getName()+" is victory!!");
+        } else if (((Constant)(b.getHp())).getNumber() == 0) {
+            System.out.println("Player "+b.getName()+" has eliminated.");
+            System.out.println("Player "+a.getName()+" is victory!!");
+        } else if (b.getDeck().getCards().isEmpty()) {
+            System.out.println("Player "+b.getName()+" has 0 card to draw.");
+            System.out.println("Player "+a.getName()+" is victory!!");
+        }
+        else {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean checkWinNonPrint(Player a,Player b){
+        return ((Constant) (a.getHp())).getNumber() == 0 || a.getDeck().getCards().isEmpty() || ((Constant) (b.getHp())).getNumber() == 0 || b.getDeck().getCards().isEmpty();
     }
 }

@@ -93,13 +93,19 @@ public abstract class Card {
             return self;
         }
         else{
+            if (self instanceof Bot) {
+                if (this instanceof Plus){
+                    return self;
+                }
+                return enemy;
+            }
             System.out.print("Select Opponent : ");
             Scanner sc = new Scanner(System.in);
-            String name = sc.nextLine();
-            if (name.equals(self.getName())){
-                return self;
+            int index = sc.nextInt();
+            if (index == 0 || index == 1){
+                return Game.getPlayer(index);
             }
-            return enemy;
+            return null;
         }
     }
 
