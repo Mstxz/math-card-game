@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player {
-    public String name;
-    public Deck deck = new Deck("Test");
-    public int mana = 1;
-    public ArrayList<Card> hand = new ArrayList<Card>();
-    public Number hp = new Constant(100);
-    public NumberType numberType = NumberType.CONSTANT;
-    public int maxMana = 1;
+    private String name;
+    private Deck deck = new Deck("Test");
+    private int mana = 1;
+    private ArrayList<Card> hand = new ArrayList<Card>();
+    private Number hp = new Constant(100);
+    private NumberType numberType = NumberType.CONSTANT;
+    private int maxMana = 1;
     private int playerNumber;
 
     public Player(String name){

@@ -35,7 +35,7 @@ public class OtherPlayer extends Player {
     @Override
     public String toString() {
         return "OtherPlayer{" +
-                "name='" + name + '\'' +
+                "name='" + this.getName() + '\'' +
                 '}';
     }
 }
