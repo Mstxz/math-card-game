@@ -4,45 +4,101 @@ import javax.swing.*;
 import java.awt.*;
 
 public class newGui {
-    private JFrame frame;
-    private JPanel panel;
-    private JPanel panel2;
-    private JPanel profileSelf;
-    private JLabel name1;
+    /* Main Frame */
+    private JFrame frame = new JFrame("Math Card Game");
+
+    /* Zones */
+    private JPanel playerZone = new JPanel();
+    private JPanel gameZone = new JPanel();
+    private JPanel enemyZone = new JPanel();
+
+    /* Status Elements */
+    private JLabel hpLabel;
+    private JLabel manaLabel;
+    private JProgressBar hpBar;
+    private JProgressBar manaBar;
+
+    private int hp = 100;
+    private int mana = 100;
 
     public newGui() {
-        frame = new JFrame();
-        panel = new JPanel();
-        panel2 = new JPanel();
-        name1 = new JLabel("Bot 1");
-        profileSelf = new JPanel();
-        profileSelf.setBackground(Color.RED);
-        //profileSelf.setSize(165,165);
-        frame.setTitle("New Game");
-        panel.setLayout(new GridLayout(3,3));
-        //panel2.setLayout(new BorderLayout());
-        panel.add(name1);
-        panel.add(new JLabel("Bot 2"));
-        panel.add(new JLabel("Bot 3"));
-        panel.add(new JLabel("Bot 4"));
-        panel.add(new JLabel("Bot 5"));
-        panel.add(new JLabel("Bot 6"));
-        panel.add(new JLabel("Bot 7"));
-        panel.add(new JLabel("Bot 8"));
-        panel.add(new JLabel("Bot 9"));
-//        panel2.add(profileSelf, BorderLayout.CENTER);
-//        panel2.add(name1, BorderLayout.NORTH);
+        frame.setLayout(new BorderLayout());
 
-        frame.add(panel);
-        //panel.setSize(1920,1080);
+        // Load Background Image
+        JLabel background = new JLabel(new ImageIcon("background.jpg"));
+        background.setLayout(new BorderLayout());
+        frame.setContentPane(background); // Set as background
+
+        // Main Panel to hold everything
+        JPanel mainPanel = new JPanel(new GridLayout(3, 1));
+        mainPanel.setOpaque(false); // Make it transparent
+
+        // Enemy Zone (Top)
+        enemyZone.setLayout(new GridLayout(1, 3));
+        createProfilePanel(enemyZone, "assets/ProfileCat1.jpg", "SoKen");
+        enemyZone.add(new JPanel()); // Spacer
+        createStatusPanel(enemyZone);
+
+        // Game Zone (Middle)
+        gameZone.setOpaque(false);
+
+        // Player Zone (Bottom)
+        playerZone.setLayout(new GridLayout(1, 3));
+        createStatusPanel(playerZone);
+        playerZone.add(new JPanel()); // Spacer
+        createProfilePanel(playerZone, "assets/ProfileCat2.png", "TheHerta");
+
+        // Add everything to main panel
+        mainPanel.add(enemyZone);
+        mainPanel.add(gameZone);
+        mainPanel.add(playerZone);
+
+        // Add panel to frame
+        frame.add(mainPanel, BorderLayout.CENTER);
+
         frame.setSize(1920, 1080);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        panel2.setVisible(true);
-        panel.setVisible(true);
         frame.setVisible(true);
-        profileSelf.setVisible(true);
-        name1.setVisible(true);
     }
+
+    private void createStatusPanel(JPanel zone) {
+        JPanel statusContainer = new JPanel(new GridLayout(2, 2, 5, 5));
+        statusContainer.setOpaque(false);
+
+        // Labels
+        hpLabel = new JLabel("HP: " + hp);
+        manaLabel = new JLabel("Mana: " + mana);
+
+        hpLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        manaLabel.setFont(new Font("Arial", Font.BOLD, 24));
+
+        // Add components
+        statusContainer.add(hpLabel);
+
+        statusContainer.add(manaLabel);
+
+
+        zone.add(statusContainer);
+    }
+
+    private void createProfilePanel(JPanel zone, String path, String name) {
+        JPanel profileContainer = new JPanel(new BorderLayout());
+        profileContainer.setOpaque(false);
+
+        // Load Profile Image
+        ImageIcon profileIcon = new ImageIcon(path);
+        Image scaledImage = profileIcon.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH);
+        JLabel profileImage = new JLabel(new ImageIcon(scaledImage));
+
+        // Add to panel
+        profileContainer.add(profileImage, BorderLayout.CENTER);
+        JLabel profileName = new JLabel(name, SwingConstants.CENTER);
+        profileName.setFont(new Font("Arial", Font.BOLD, 32));
+        profileContainer.add(profileName, BorderLayout.SOUTH);
+
+        zone.add(profileContainer);
+    }
+
     public static void main(String[] args) {
         new newGui();
     }
