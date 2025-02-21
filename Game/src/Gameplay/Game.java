@@ -7,11 +7,8 @@ import java.io.FileNotFoundException;
 
 public class Game {
     public static Player[] players = new Player[2];
-    public GUI gui;
 
     public Game(Player a,Player b){
-        gui = new GUI();
-        gui.setVisible(true);
         int index = ((int)(Math.random()*2));
         players[index] = a;
         a.setPlayerNumber(index);
