@@ -5,7 +5,5 @@ public enum PlayerEventType {
     DRAW,
     PLAY,
     END_TURN,
-    REGISTER_NAME,
-    READY,
-    UPLOAD_DECK
+    REGISTER_NAME
 }

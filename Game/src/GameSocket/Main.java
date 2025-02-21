@@ -1,21 +1,22 @@
 package GameSocket;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class Main {
     public static void main(String[] args) {
-        OnlineGame r = new OnlineGame(2);
+        OnlineGame r = new OnlineGame(4);
         r.start();
-        GameController p = new GameController("Arktik","localhost");
-        GameController q = new GameController("Pupe","localhost");
-        p.pressReady(Paths.get("Game/data/a.txt"));
-//        try {
-//            r.join();
+//        System.out.println(r.getPrivateIp());
+//        Client c1 = new Client(r.getPrivateIp(),5000);
+//        try{
+//            c1.send("QUIT");
+//            //r.cleanUp();
+//            c1.close();
+//            //c2.close();
 //
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
 //        }
+//        catch (Exception e){
+//            System.out.println(e);
+//        }
+        //r.getRoomServer().setRunning(false);
     }
 
 }
