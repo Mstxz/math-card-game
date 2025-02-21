@@ -24,7 +24,7 @@ public class Cards extends JPanel {
         setBounds(x, y, width, height); // Initial size and position
 
         // Mouse event handlers
-        addMouseListener(new MouseAdapter() {
+        /*addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 increaseSizeUpwards(); // Increase size upwards
@@ -34,7 +34,7 @@ public class Cards extends JPanel {
             public void mouseExited(MouseEvent e) {
                 resetSize(); // Restore original size and position
             }
-        });
+        });*/
     }
 
     @Override

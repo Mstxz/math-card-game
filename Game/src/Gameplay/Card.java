@@ -24,7 +24,15 @@ public abstract class Card {
         return name;
     }
 
-    public static Card createCard(String name,int number){
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public static Card createCard(String name, int number){
         switch (name){
             case "Plus":
                 return new Plus(number);
