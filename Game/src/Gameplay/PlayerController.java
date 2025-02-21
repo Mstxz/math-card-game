@@ -5,7 +5,7 @@ import Gameplay.Numbers.Constant;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Player {
+public class PlayerController extends Player{
     public String name;
     public Deck deck = new Deck("Test");
     public int mana = 1;
@@ -15,8 +15,9 @@ public class Player {
     public int maxMana = 1;
     private int playerNumber;
 
-    public Player(String name){
-        this.name = name;
+    public PlayerController(String name){
+        super(name);
+        //this.name = name;
 
     }
 
@@ -92,7 +93,7 @@ public class Player {
         Game.cardGui.updateHand();
 
     }
-    public static ArrayList<Integer> listPlayableCard(Player self, Player enemy){
+    public static ArrayList<Integer> listPlayableCard(PlayerController self, PlayerController enemy){
         ArrayList<Integer> playable = new ArrayList<>();
         for (int i=0;i<self.hand.size();i++){
             Card c = self.hand.get(i);
@@ -103,7 +104,7 @@ public class Player {
         }
         return playable;
     }
-    public ArrayList<Integer> showCard(Player self, Player enemy){
+    public ArrayList<Integer> showCard(PlayerController self, PlayerController enemy){
         System.out.print("This is your hand: ");
         String reset = "\u001B[0m";
         String red = "\u001B[31m";
@@ -123,52 +124,52 @@ public class Player {
         System.out.println();
         return playable;
     }
-    public void play(Player self,Player enemy){
+    public void play(PlayerController self, PlayerController enemy){
         self.draw();
-//        Player.log(self,enemy);
-//        ArrayList<Integer> playable = self.showCard(self,enemy);
-//        while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
-//            Scanner sc = new Scanner(System.in);
-//            int index;
-//            do {
-//                System.out.print("Input the number of card: ");
-//                //index = sc.nextInt();
-//                //if (!playable.contains(index)){
-//                //    System.out.println("It's not playable! Choose the white color text (Start from 0)");
-//                //    self.showCard(self,enemy);
-//                //}
-//            }
-//            while (!playable.contains(index));
-            //Card c = hand.remove(index);
-            //c.action(self,enemy);
-            //deck.addDispose(c);
-            //Player.log(self,enemy);
-            //playable = self.showCard(self,enemy);
-//            if (!playable.isEmpty()){
-//                System.out.print("Do you want to end turn (Y/N) : ");
-//                sc.nextLine();
-//                char a = sc.nextLine().charAt(0);
-//                //System.out.println(b);
-//                if (a == 'Y' || a == 'y'){
-//                    break;
-//                }
-//
-//            }
-//        }
-//        System.out.println();
+        //PlayerController.log(self,enemy);
+        ArrayList<Integer> playable = PlayerController.listPlayableCard(self,enemy);
+        while (!playable.isEmpty()&&!PlayerController.checkWin(self,enemy)){
+            Scanner sc = new Scanner(System.in);
+            int index;
+            do {
+                System.out.print("Input the number of card: ");
+                index = sc.nextInt();
+                if (!playable.contains(index)){
+                    System.out.println("It's not playable! Choose the white color text (Start from 0)");
+                    self.showCard(self,enemy);
+                }
+            }
+            while (!playable.contains(index));
+            Card c = hand.remove(index);
+            c.action(self,enemy);
+            deck.addDispose(c);
+            PlayerController.log(self,enemy);
+            playable = self.showCard(self,enemy);
+            if (!playable.isEmpty()){
+                System.out.print("Do you want to end turn (Y/N) : ");
+                sc.nextLine();
+                char a = sc.nextLine().charAt(0);
+                //System.out.println(b);
+                if (a == 'Y' || a == 'y'){
+                    break;
+                }
+
+            }
+        }
+        System.out.println();
         if (maxMana<10){
             maxMana+=1;
         }
 
     }
-    public static void log(Player self,Player enemy){
+    public static void log(PlayerController self, PlayerController enemy){
         System.out.println(self.getName()+"'s hp ("+self.getPlayerNumber()+") : "+self.getHp());
         System.out.println(self.getName()+"'s mana ("+self.getPlayerNumber()+") : "+self.getMana());
         System.out.println(enemy.getName()+"'s hp ("+enemy.getPlayerNumber()+") : "+enemy.getHp());
         System.out.println(enemy.getName()+"'s mana ("+enemy.getPlayerNumber()+") : "+enemy.getMana());
     }
 
-    public static boolean checkWin(Player a,Player b){
+    public static boolean checkWin(PlayerController a, PlayerController b){
         if (((Constant)(a.getHp())).getNumber() == 0){
             System.out.println("Player "+a.getName()+" has eliminated.");
             System.out.println("Player "+b.getName()+" is victory!!");
@@ -189,7 +190,7 @@ public class Player {
         return true;
     }
 
-    public static boolean checkWinNonPrint(Player a,Player b){
+    public static boolean checkWinNonPrint(PlayerController a, PlayerController b){
         return ((Constant) (a.getHp())).getNumber() == 0 || a.getDeck().getCards().isEmpty() || ((Constant) (b.getHp())).getNumber() == 0 || b.getDeck().getCards().isEmpty();
     }
 }

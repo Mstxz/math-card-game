@@ -2,16 +2,15 @@ package Gameplay;
 
 import GUI.CardGameGUI;
 import Gameplay.Numbers.Constant;
-
 import java.io.FileNotFoundException;
 
-public class Game {
-    public static Player[] players = new Player[2];
-    public static  CardGameGUI cardGui;
-    public Game(Player a,Player b){
+public class GameplayGUI {
+    public static PlayerController[] players = new PlayerController[2];
+    public static CardGameGUI cardGui;
+
+    public GameplayGUI(PlayerController a,PlayerController b){
         int index = ((int)(Math.random()*2));
         players[index] = a;
-
         a.setPlayerNumber(index);
         cardGui = new CardGameGUI(a.getHand(),a,b);
         if (index == 0) {
@@ -24,7 +23,7 @@ public class Game {
         }
     }
 
-    public static Player getPlayer(int index){
+    public static PlayerController getPlayer(int index){
         if (index!=0 && index!=1){
             return null;
         }
@@ -32,8 +31,8 @@ public class Game {
     }
 
     public void Play() {
-        Player a = players[0];
-        Player b = players[1];
+        PlayerController a = players[0];
+        PlayerController b = players[1];
         b.setHp(new Constant(100));
         a.setHp(new Constant(100));
         System.out.println("Welcome to the game!");
@@ -55,12 +54,12 @@ public class Game {
             System.out.println("Round "+i);
             System.out.println();
             a.play(a,b);
-            if (Player.checkWinNonPrint(a,b)){
+            if (PlayerController.checkWinNonPrint(a,b)){
                 break;
             }
             b.play(b,a);
             System.out.println();
-            if (Player.checkWinNonPrint(a,b)){
+            if (PlayerController.checkWinNonPrint(a,b)){
                 break;
             }
             a.setMana(a.getMaxMana());
@@ -68,3 +67,4 @@ public class Game {
         }
     }
 }
+
