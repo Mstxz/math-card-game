@@ -1,0 +1,10 @@
+เวลาสร้างหน้าใหม่ให้ สร้างคลาสใหม่ซึ่ง extends คลาส Page
+
+โดยการเขียน GUI ให้ทำใน Constructor เหมือนที่จารย์แบงค์ให้ทำใน Lab
+ในคลาส Page มี attribute ชื่อ mainPanel
+ให้ใส่ UI ทุกอย่างลงใน MainPanel แล้ว setVisible เป็น true
+
+จากนั้นเดี๋ยวคลาส Router จะจัดการในการแสดงผลเอง
+*** ห้ามแก้คลาส Router เจอปัญหาไรให้ ping ลงกลุ่ม
+
+ตัวอย่างดูได้จากคลาส DemoPage และ Demo2Page
