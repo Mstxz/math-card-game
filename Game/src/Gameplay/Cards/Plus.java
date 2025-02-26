@@ -17,7 +17,7 @@ public class Plus extends Card {
     @Override
     public void action(Player self,Player enemy){
         self.setMana(self.getMana()-this.getManaUsed());
-        Player receiver = this.getReciever(self,enemy);
+        Player receiver = this.getReceiver(self,enemy);
         receiver.setHp(receiver.getHp().add(new Constant(this.number)));
     }
 }

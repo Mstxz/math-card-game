@@ -1,7 +1,6 @@
 package Gameplay;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Bot extends Player{
     public Bot(){
@@ -33,7 +32,7 @@ public class Bot extends Player{
             index = playable.get(((int)(Math.random() * playable.size())));
             Card c = this.getHand().remove(index);
             c.action(self,enemy);
-            System.out.println(this.getName()+" play "+c.getName()+" to "+c.getReciever(self,enemy).getName());
+            System.out.println(this.getName()+" play "+c.getName()+" to "+c.getReceiver(self,enemy).getName());
             this.getDeck().addDispose(c);
             Player.log(self,enemy);
             playable = self.showCard(self,enemy);

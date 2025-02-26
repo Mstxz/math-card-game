@@ -1,7 +1,6 @@
 package Gameplay.Cards;
 
 import Gameplay.*;
-import Gameplay.Number;
 import Gameplay.Numbers.Constant;
 
 public class Sqrt extends Card implements HaveCondition {
@@ -12,7 +11,7 @@ public class Sqrt extends Card implements HaveCondition {
 
     @Override
     public void action(Player self, Player enemy) {
-        Player receiver = this.getReciever(self,enemy);
+        Player receiver = this.getReceiver(self,enemy);
         self.setMana(self.getMana()-this.manaUsed);
         receiver.setHp(new Constant((int)(Math.sqrt(((Constant)(receiver.getHp())).getNumber()))));
     }

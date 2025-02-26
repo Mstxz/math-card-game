@@ -2,6 +2,7 @@ package Gameplay;
 
 import Gameplay.Cards.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 public abstract class Card {
@@ -42,23 +43,31 @@ public abstract class Card {
         return null;
     }
     public static Card createCard(String name){
-        switch (name){
-            case "Absolute":
-                return new Absolute();
-            case "CatNap":
-                return new CatNap();
-            case "CatTreat":
-                return new CatTreat();
-            case "FlipSigned":
-                return new FlipSigned();
-            case "Sqrt":
-                return new Sqrt();
-            case "Copycat":
-                return new Copycat();
-            case "Digitalize":
-                return new Digitalize();
+        try {
+            Class<?> cclass = Class.forName("Gameplay.Cards."+name);
+            return (Card) cclass.newInstance();
+        }
+        catch (ClassNotFoundException | IllegalAccessException | InstantiationException e){
+            e.printStackTrace();
         }
         return null;
+//        switch (name){
+//            case "Absolute":
+//                return new Absolute();
+//            case "CatNap":
+//                return new CatNap();
+//            case "CatTreat":
+//                return new CatTreat();
+//            case "FlipSigned":
+//                return new FlipSigned();
+//            case "Sqrt":
+//                return new Sqrt();
+//            case "Copycat":
+//                return new Copycat();
+//            case "Digitalize":
+//                return new Digitalize();
+//        }
+//        return null;
     }
 
     public void setName(String name) {
@@ -97,7 +106,7 @@ public abstract class Card {
         this.type = type;
     }
 
-    public Player getReciever(Player self,Player enemy){
+    public Player getReceiver(Player self, Player enemy){
         if (this.type == CardType.RED){
             return enemy;
         }
