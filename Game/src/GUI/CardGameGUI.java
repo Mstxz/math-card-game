@@ -28,7 +28,8 @@ public class CardGameGUI extends JFrame {
         add(handPanel, BorderLayout.SOUTH);
 
         // List to store card names (you can replace this with actual Card objects)
-        this.hand = hand;
+
+        //this.hand = hand;
 
         // Button to draw a card
         JButton drawButton = new JButton("Draw Card");

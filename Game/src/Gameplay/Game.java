@@ -13,7 +13,7 @@ public class Game {
         players[index] = a;
 
         a.setPlayerNumber(index);
-        cardGui = new CardGameGUI(a.getHand(),a,b);
+        //cardGui = new CardGameGUI(a.getHand(),a,b);
         if (index == 0) {
             players[1] = b;
             b.setPlayerNumber(1);
@@ -36,9 +36,15 @@ public class Game {
         Player b = players[1];
         b.setHp(new Constant(100));
         a.setHp(new Constant(100));
+
+        a.setMaxMana(10);
+        b.setMaxMana(10);
+        a.setMana(10);
+        b.setMana(10);
+
         System.out.println("Welcome to the game!");
         try {
-            a.setDeck(Deck.LoadDeck("a"));
+            a.setDeck(Deck.LoadDeck("20Minus"));
             b.setDeck(Deck.LoadDeck("a"));
         }
         catch (FileNotFoundException e){

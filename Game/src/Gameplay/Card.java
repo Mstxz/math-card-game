@@ -53,6 +53,10 @@ public abstract class Card {
                 return new FlipSigned();
             case "Sqrt":
                 return new Sqrt();
+            case "Copycat":
+                return new Copycat();
+            case "Digitalize":
+                return new Digitalize();
         }
         return null;
     }

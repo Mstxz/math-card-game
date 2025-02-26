@@ -89,7 +89,7 @@ public class Player {
 
     public void draw(){
         hand.add(deck.getCards().removeLast());
-        Game.cardGui.updateHand();
+        //Game.cardGui.updateHand();
 
     }
     public static ArrayList<Integer> listPlayableCard(Player self, Player enemy){
@@ -125,37 +125,37 @@ public class Player {
     }
     public void play(Player self,Player enemy){
         self.draw();
-//        Player.log(self,enemy);
-//        ArrayList<Integer> playable = self.showCard(self,enemy);
-//        while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
-//            Scanner sc = new Scanner(System.in);
-//            int index;
-//            do {
-//                System.out.print("Input the number of card: ");
-//                //index = sc.nextInt();
-//                //if (!playable.contains(index)){
-//                //    System.out.println("It's not playable! Choose the white color text (Start from 0)");
-//                //    self.showCard(self,enemy);
-//                //}
-//            }
-//            while (!playable.contains(index));
-            //Card c = hand.remove(index);
-            //c.action(self,enemy);
-            //deck.addDispose(c);
-            //Player.log(self,enemy);
-            //playable = self.showCard(self,enemy);
-//            if (!playable.isEmpty()){
-//                System.out.print("Do you want to end turn (Y/N) : ");
-//                sc.nextLine();
-//                char a = sc.nextLine().charAt(0);
-//                //System.out.println(b);
-//                if (a == 'Y' || a == 'y'){
-//                    break;
-//                }
-//
-//            }
-//        }
-//        System.out.println();
+        Player.log(self,enemy);
+        ArrayList<Integer> playable = self.showCard(self,enemy);
+        while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
+            Scanner sc = new Scanner(System.in);
+            int index;
+            do {
+                System.out.print("Input the number of card: ");
+                index = sc.nextInt();
+                if (!playable.contains(index)){
+                    System.out.println("It's not playable! Choose the white color text (Start from 0)");
+                    self.showCard(self,enemy);
+                }
+            }
+            while (!playable.contains(index));
+            Card c = hand.remove(index);
+            c.action(self,enemy);
+            deck.addDispose(c);
+            Player.log(self,enemy);
+            playable = self.showCard(self,enemy);
+            if (!playable.isEmpty()){
+                System.out.print("Do you want to end turn (Y/N) : ");
+                sc.nextLine();
+                char a = sc.nextLine().charAt(0);
+                //System.out.println(b);
+                if (a == 'Y' || a == 'y'){
+                    break;
+                }
+
+            }
+        }
+        System.out.println();
         if (maxMana<10){
             maxMana+=1;
         }
