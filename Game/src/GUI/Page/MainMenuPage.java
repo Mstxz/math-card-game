@@ -5,8 +5,10 @@ import GUI.Router;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MainMenuPage extends Page{
+public class MainMenuPage extends Page implements ActionListener {
     private JPanel ButtonZone;
     private JPanel TitlePanel;
     private JButton playButton = new JButton("Play");
@@ -94,6 +96,16 @@ public class MainMenuPage extends Page{
         button.setFont(new Font("Arial", Font.BOLD, 24));
         button.setForeground(Color.WHITE);
         button.setPreferredSize(new Dimension(300, 100));
+        button.addActionListener(this);
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(playButton)){
+            Router.setRoute("Avenger",null);
+        }
+        else if (e.getSource().equals(exitButton)){
+            System.exit(0);
+        }
     }
 }

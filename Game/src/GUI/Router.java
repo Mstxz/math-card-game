@@ -10,7 +10,7 @@ public class Router {
 
     public Router() {
         mainFrame = new JFrame();
-        Router.setRoute("Avenger",null);
+        Router.setRoute("MainMenu",null);
     }
 
     public static void main(String[] args) {
