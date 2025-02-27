@@ -8,8 +8,8 @@ public abstract class Page {
     protected String title;
     protected JPanel mainPanel;
     protected JFrame mainFrame;
-    protected Page(String title){
-        this.title = title;
+    protected Page(){
+        this.title = "Math Card Game";
         this.mainPanel = new JPanel();
         mainFrame = Router.getMainFrame();
     }

@@ -1,3 +1,4 @@
+package GUI.Page;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class AvengerAssembleGUI implements ActionListener{
+import GUI.Router;
+
+public class AvengerAssembleGUI extends Page implements ActionListener{
 	private static final Dimension	OpponentSize = new Dimension(165, 225);
 	private static final Dimension	HandSize = new Dimension(247, 337);
 	public JFrame					Frame;
@@ -33,6 +36,7 @@ public class AvengerAssembleGUI implements ActionListener{
 
 	public AvengerAssembleGUI()
 	{
+		super();
 		Frame = new JFrame("MATH CARD GAME");
 		OpponentPanel = new JPanel();
 		OpponentMainPanel = new JPanel();
@@ -120,7 +124,7 @@ public class AvengerAssembleGUI implements ActionListener{
 		res.setPreferredSize(dimension);
 		try
 		{
-			img = new ImageIcon(getClass().getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
+			img = new ImageIcon(Router.class.getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
 			res.setIcon(new ImageIcon(img));
 		}
 		catch (Exception e)

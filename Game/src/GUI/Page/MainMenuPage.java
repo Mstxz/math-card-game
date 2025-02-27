@@ -19,7 +19,7 @@ public class MainMenuPage extends Page{
     private Image bg;
 
     public MainMenuPage() {
-        super("Math Card Game");
+        super();
         // Ensure the background image exists
         try {
             bg = new ImageIcon(Router.class.getResource("Bg.jpg")).getImage();

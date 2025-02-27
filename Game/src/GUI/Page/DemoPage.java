@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class DemoPage extends Page implements ActionListener {
     public DemoPage() {
-        super("Demo");
+        super();
         JButton button = new JButton("Yah uh");
         button.addActionListener(this);
         this.mainPanel.add(button);
