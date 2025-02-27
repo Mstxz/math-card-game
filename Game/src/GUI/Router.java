@@ -1,9 +1,6 @@
 package GUI;
 
-import GUI.Page.Demo2Page;
-import GUI.Page.DemoPage;
-import GUI.Page.MainMenuPage;
-import GUI.Page.Page;
+import GUI.Page.*;
 
 import javax.swing.*;
 
@@ -13,7 +10,7 @@ public class Router {
 
     public Router() {
         mainFrame = new JFrame();
-        Router.setRoute("MainMenu",null);
+        Router.setRoute("Avenger",null);
     }
 
     public static void main(String[] args) {
@@ -25,6 +22,7 @@ public class Router {
             case "Demo" -> new DemoPage();
             case "Demo2" -> new Demo2Page();
             case "MainMenu" -> new MainMenuPage();
+            case  "Avenger" -> new AvengerAssembleGUI();
             default -> null;
         };
         mainFrame.getContentPane().removeAll();

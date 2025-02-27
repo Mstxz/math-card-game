@@ -12,6 +12,7 @@ public abstract class Page {
         this.title = "Math Card Game";
         this.mainPanel = new JPanel();
         mainFrame = Router.getMainFrame();
+        mainFrame.setSize(1920,1080);
     }
 
     public String getTitle() {

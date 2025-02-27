@@ -18,7 +18,6 @@ import Gameplay.Player;
 public class AvengerAssembleGUI extends Page implements ActionListener{
 	private static final Dimension	OpponentSize = new Dimension(165, 225);
 	private static final Dimension	HandSize = new Dimension(247, 337);
-	private JFrame	Frame;
 	private JPanel	OpponentPanel;
 	private JPanel	MiddlePanel;
 	private JPanel	UserPanel;
@@ -49,7 +48,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 			throw new RuntimeException(e);
 		}
 		player.getDeck().shuffle();
-		Frame = new JFrame("MATH CARD GAME");
 		OpponentPanel = new JPanel();
 		OpponentMainPanel = new JPanel();
 		PlayerMainPanel = new JPanel();
@@ -92,10 +90,9 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerInfo.setLayout(new BorderLayout());
 		PlayerStatus.setLayout(new BorderLayout());
 
-		Frame.setLayout(new BorderLayout());
-		Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Frame.add(OpponentMainPanel, BorderLayout.NORTH);
-		Frame.add(PlayerMainPanel, BorderLayout.SOUTH);
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(OpponentMainPanel, BorderLayout.NORTH);
+		mainPanel.add(PlayerMainPanel, BorderLayout.SOUTH);
 		
 		OpponentMainPanel.add(OpponentPanel, BorderLayout.CENTER);
 		OpponentMainPanel.add(OpponentInfo, BorderLayout.WEST);
@@ -111,8 +108,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerInfo.add(PlayerName, BorderLayout.NORTH);
 		PlayerInfo.add(PlayerProfile, BorderLayout.CENTER);
 
-		Frame.setSize(1920, 1080);
-		Frame.setVisible(true);
+		//Frame.setSize(1920, 1080);
+		mainPanel.setVisible(true);
 	}
 
 	public void updateHand() {
@@ -144,6 +141,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 //			newCardBtn(UserPanel, UserHand,"assets/Yellow_BetaCatNap.png", HandSize);
 		for (int i = 0; i < 5; i++) {
 			player.draw();
+			newCardBtn(UserPanel, UserHand,"assets/Yellow_BetaCatNap.png", HandSize);
 		}
 		updateHand();
 	}
@@ -158,7 +156,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		res.setPreferredSize(dimension);
 		try
 		{
-			img = new ImageIcon(getClass().getClassLoader().getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
+			img = new ImageIcon(Router.class.getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
 			res.setIcon(new ImageIcon(img));
 		}
 		catch (Exception e)
@@ -169,7 +167,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		res.addActionListener(this);
 		hand.add(res);
 		panel.add(res);
-		Frame.setVisible(true);
+		mainPanel.setVisible(true);
 	}
 	
 	@Override
