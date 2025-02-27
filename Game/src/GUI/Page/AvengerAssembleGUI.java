@@ -48,7 +48,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-
+		player.getDeck().shuffle();
 		Frame = new JFrame("MATH CARD GAME");
 		OpponentPanel = new JPanel();
 		OpponentMainPanel = new JPanel();
@@ -142,7 +142,9 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 //		for (int i = 0; i < 5; i++)
 //		// UserPanel.add(this.newCardBtn("assets/Yellow_BetaCatNap.png", HandSize));
 //			newCardBtn(UserPanel, UserHand,"assets/Yellow_BetaCatNap.png", HandSize);
-		for (int i = 0; i < 5; i++) player.draw();
+		for (int i = 0; i < 5; i++) {
+			player.draw();
+		}
 		updateHand();
 	}
 	
