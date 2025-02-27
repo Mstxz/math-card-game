@@ -2,12 +2,11 @@ package GUI;
 
 import Gameplay.Card;
 import Gameplay.Player;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class CardGameGUI extends JFrame {
     private JPanel handPanel;
