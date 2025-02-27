@@ -3,40 +3,52 @@ package GUI.Page;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import GUI.Router;
+import Gameplay.Card;
+import Gameplay.Deck;
+import Gameplay.Numbers.Constant;
+import Gameplay.Player;
 
 public class AvengerAssembleGUI extends Page implements ActionListener{
 	private static final Dimension	OpponentSize = new Dimension(165, 225);
 	private static final Dimension	HandSize = new Dimension(247, 337);
-	public JFrame					Frame;
-	private JPanel					OpponentPanel;
-	private JPanel					MiddlePanel;
-	private JPanel					UserPanel;
-	private JPanel					OpponentInfo;
-	private JPanel					OpponentStatus;
-	private JPanel					OpponentMainPanel;
-	private JPanel					PlayerMainPanel;
-	private ArrayList<JButton>		OpponentHand;
-	private ArrayList<JButton>		UserHand;
-	private JLabel					OpponentName;
-	private JLabel					OpponentProfile;
-	private JLabel					OpponentMana;
-	private JPanel					PlayerInfo;
-	private JPanel					PlayerStatus;
-	private JLabel					PlayerName;
-	private JLabel					PlayerProfile;
-	private JLabel					PlayerMana;
-
+	private JFrame	Frame;
+	private JPanel	OpponentPanel;
+	private JPanel	MiddlePanel;
+	private JPanel	UserPanel;
+	private JPanel	OpponentInfo;
+	private JPanel	OpponentStatus;
+	private JPanel	OpponentMainPanel;
+	private JPanel	PlayerMainPanel;
+	private ArrayList<JButton>	OpponentHand;
+	private ArrayList<JButton>	UserHand;
+	private JLabel	OpponentName;
+	private JLabel	OpponentProfile;
+	private JLabel	OpponentMana;
+	private JPanel	PlayerInfo;
+	private JPanel	PlayerStatus;
+	private JLabel	PlayerName;
+	private JLabel	PlayerProfile;
+	private JLabel	PlayerMana;
+	private Player player;
+	private Player enemy;
 	public AvengerAssembleGUI()
 	{
 		super();
+		player = new Player("Arktik");
+		player.setHp(new Constant(100));
+		try {
+			player.setDeck(Deck.LoadDeck("a"));
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+
 		Frame = new JFrame("MATH CARD GAME");
 		OpponentPanel = new JPanel();
 		OpponentMainPanel = new JPanel();
@@ -102,16 +114,36 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		Frame.setSize(1920, 1080);
 		Frame.setVisible(true);
 	}
-	
+
+	public void updateHand() {
+		UserPanel.removeAll();// Clear old cards
+		//ArrayList<Integer> playable = Player.listPlayableCard(this.player,this.enemy);
+		for (int i = 0; i < player.getHand().size(); i++) {
+			Card card = player.getHand().get(i);
+			System.out.println(card.getPicture());
+			newCardBtn(UserPanel, UserHand,card.getPicture(), HandSize);
+//			if (playable.contains(i)) {
+//
+//			}
+//			else{
+//				cardLabel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+//			}
+		}
+		UserPanel.revalidate();
+		UserPanel.repaint();
+	}
 	
 	public void	initCard()
 	{
 		for (int i = 0; i < 5; i++)
 		// OpponentPanel.add(this.newCardBtn("assets/BackSideCard.png", OpponentSize));
 			newCardBtn(OpponentPanel, OpponentHand,"assets/BackSideCard.png", OpponentSize);
-		for (int i = 0; i < 5; i++)
-		// UserPanel.add(this.newCardBtn("assets/Yellow_BetaCatNap.png", HandSize));
-			newCardBtn(UserPanel, UserHand,"assets/Yellow_BetaCatNap.png", HandSize);
+
+//		for (int i = 0; i < 5; i++)
+//		// UserPanel.add(this.newCardBtn("assets/Yellow_BetaCatNap.png", HandSize));
+//			newCardBtn(UserPanel, UserHand,"assets/Yellow_BetaCatNap.png", HandSize);
+		for (int i = 0; i < 5; i++) player.draw();
+		updateHand();
 	}
 	
 	public void newCardBtn(JPanel panel, ArrayList<JButton> hand, String path, Dimension dimension)
@@ -124,7 +156,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		res.setPreferredSize(dimension);
 		try
 		{
-			img = new ImageIcon(Router.class.getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
+			img = new ImageIcon(getClass().getClassLoader().getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
 			res.setIcon(new ImageIcon(img));
 		}
 		catch (Exception e)
