@@ -107,6 +107,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerStatus.add(PlayerMana, BorderLayout.SOUTH);
 		PlayerInfo.add(PlayerName, BorderLayout.NORTH);
 		PlayerInfo.add(PlayerProfile, BorderLayout.CENTER);
+		this.initCard();
 
 		//Frame.setSize(1920, 1080);
 		mainPanel.setVisible(true);
@@ -117,7 +118,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		//ArrayList<Integer> playable = Player.listPlayableCard(this.player,this.enemy);
 		for (int i = 0; i < player.getHand().size(); i++) {
 			Card card = player.getHand().get(i);
-			System.out.println(card.getPicture());
 			newCardBtn(UserPanel, UserHand,card.getPicture(), HandSize);
 //			if (playable.contains(i)) {
 //
@@ -133,15 +133,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 	public void	initCard()
 	{
 		for (int i = 0; i < 5; i++)
-		// OpponentPanel.add(this.newCardBtn("assets/BackSideCard.png", OpponentSize));
 			newCardBtn(OpponentPanel, OpponentHand,"assets/BackSideCard.png", OpponentSize);
 
-//		for (int i = 0; i < 5; i++)
-//		// UserPanel.add(this.newCardBtn("assets/Yellow_BetaCatNap.png", HandSize));
-//			newCardBtn(UserPanel, UserHand,"assets/Yellow_BetaCatNap.png", HandSize);
 		for (int i = 0; i < 5; i++) {
 			player.draw();
-			newCardBtn(UserPanel, UserHand,"assets/Yellow_BetaCatNap.png", HandSize);
 		}
 		updateHand();
 	}
@@ -156,7 +151,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		res.setPreferredSize(dimension);
 		try
 		{
-			img = new ImageIcon(Router.class.getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
+			img = new ImageIcon(getClass().getClassLoader().getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
 			res.setIcon(new ImageIcon(img));
 		}
 		catch (Exception e)

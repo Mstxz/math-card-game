@@ -24,7 +24,7 @@ public class MainMenuPage extends Page implements ActionListener {
         super();
         // Ensure the background image exists
         try {
-            bg = new ImageIcon(Router.class.getResource("Bg.jpg")).getImage();
+            bg = new ImageIcon(getClass().getClassLoader().getResource("assets/Bg.jpg")).getImage();
         } catch (Exception e) {
             System.out.println("Error loading background image: " + e.getMessage());
             // You can use a default image or just a solid color as a fallback
@@ -32,7 +32,7 @@ public class MainMenuPage extends Page implements ActionListener {
         }
         initComponents();
         try {
-            ImageIcon icon = new ImageIcon(Router.class.getResource("icon.png"));
+            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
             mainFrame.setIconImage(icon.getImage());
         } catch (Exception e) {
             System.out.println("Error loading icon: " + e.getMessage());
