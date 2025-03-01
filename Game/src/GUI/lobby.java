@@ -1,7 +1,7 @@
 
 import java.awt.*;
 import javax.swing.*;
-
+//lobby gui
 public class Lobby{
     private JFrame frame;
     private JButton leave, ruleSetting, selectDeck, readyUp;
