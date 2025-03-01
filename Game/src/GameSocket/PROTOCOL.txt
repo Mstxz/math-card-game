@@ -1,0 +1,34 @@
+Client
+----- First time in lobby -----
+USER <NAME>
+
+READY
+----- Upload Deck to Server -----
+DECK
+file data
+    .
+    .
+    .
+END OF DECK
+
+----- In Game -----
+DRAW
+PLAY <CardIndex> <TargetIndex>
+
+
+
+Server
+----- Lobby -----
+GETDECK
+
+----- In Game -----
+SETUP
+Game state object
+    .
+    .
+    .
+ID <This Player index>
+
+SETHAND
+you hand object
+
