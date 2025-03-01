@@ -90,7 +90,7 @@ public class PlayerController extends Player{
 
     public void draw(){
         hand.add(deck.getCards().removeLast());
-        Game.cardGui.updateHand();
+        //Game.cardGui.updateHand();
 
     }
     public static ArrayList<Integer> listPlayableCard(PlayerController self, PlayerController enemy){

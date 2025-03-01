@@ -24,7 +24,7 @@ public class NIOClient {
     public NIOClient(int roomCapacity){
         this.events = new Vector<String>();
         this.currentState = ClientState.IDLE;
-        this.players.ensureCapacity(roomCapacity);
+        this.players = new ArrayList<PlayerResource>(roomCapacity);
         try {
             SocketAddress address = new InetSocketAddress("localhost", 5000);
             channel = SocketChannel.open(address);

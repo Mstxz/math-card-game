@@ -1,13 +1,11 @@
 package Gameplay;
 
-import GUI.CardGameGUI;
 import Gameplay.Numbers.Constant;
 
 import java.io.FileNotFoundException;
 
 public class Game {
     public static Player[] players = new Player[2];
-    public static  CardGameGUI cardGui;
     public Game(Player a,Player b){
         int index = ((int)(Math.random()*2));
         players[index] = a;
