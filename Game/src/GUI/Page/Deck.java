@@ -5,130 +5,143 @@ import javax.swing.*;
 
 public class Deck {
     private JFrame fr;
-    private JPanel paLeft;
-    private JPanel paRight;
-    private JTextField t1;
-    private JTextField t2;
-    private JTextField t3;
-    private JButton B1;
-    private JButton B2;
-    private JButton B3;
-    private JButton B4;
-    private JButton B5;
-    private JButton B6;
-    private JButton b1;
-    private JButton b2;
-    private JButton b3;
-    private JButton b4;
-    private JButton b5;
-    private JButton b6;
-    private JButton b7;
-    private JButton b8;
-    private JButton b9;
-    private JButton b10;
-    private JButton b11;
-    private JButton b12;
-    private JButton b13;
-    private JButton b14;
-    private JButton b15;
-    private JButton b16;
+    private JPanel paLeft, paRight;
+    private JLabel title;
 
     public Deck() {
-        fr = new JFrame();
-        paLeft = new JPanel();
-        paRight = new JPanel();
-
-        // Initialize text fields
-        t1 = new JTextField("Test");
-        t2 = new JTextField();
-        t3 = new JTextField();
-
-        // Initialize buttons
-        B1 = new JButton("Button 1");
-        B2 = new JButton("Button 2");
-        B3 = new JButton("Button 3");
-        B4 = new JButton("Button 4");
-        B5 = new JButton("Button 5");
-        B6 = new JButton("Button 6");
-        b1 = new JButton("Button R1");
-        b2 = new JButton("Button R2");
-        b3 = new JButton("Button R3");
-        b4 = new JButton("Button R4");
-        b5 = new JButton("Button R5");
-        b6 = new JButton("Button R6");
-        b7 = new JButton("Button R7");
-        b8 = new JButton("Button R8");
-        b9 = new JButton("Button R9");
-        b10 = new JButton("Button R10");
-        b11 = new JButton("Button R11");
-        b12 = new JButton("Button R12");
-        b13 = new JButton("Button R13");
-        b14 = new JButton("Button R14");
-        b15 = new JButton("Button R15");
-        b16 = new JButton("Button R16");
-
-        // Set up left panel layout and add buttons
-        paLeft.setLayout(new GridLayout(3, 2));
-        paLeft.add(B1);
-        paLeft.add(B2);
-        paLeft.add(B3);
-        paLeft.add(B4);
-        paLeft.add(B5);
-        paLeft.add(B6);
-
-        // Set up right panel layout and add buttons
-        paRight.setLayout(new GridLayout(4, 4));
-        paRight.add(b1);
-        paRight.add(b2);
-        paRight.add(b3);
-        paRight.add(b4);
-        paRight.add(b5);
-        paRight.add(b6);
-        paRight.add(b7);
-        paRight.add(b8);
-        paRight.add(b9);
-        paRight.add(b10);
-        paRight.add(b11);
-        paRight.add(b12);
-        paRight.add(b13);
-        paRight.add(b14);
-        paRight.add(b15);
-        paRight.add(b16);
-
-        // Set up frame layout using GridBagLayout
-        fr.setTitle("Deck-Test");
+        fr = new JFrame("Your Deck");
         fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fr.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Add left panel (30% width) and make buttons expand
+        // Title Label
+        title = new JLabel("Your Deck");
+        title.setFont(new Font("Arial", Font.BOLD, 18));
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        fr.add(title, gbc);
+
+        // Load and scale images
+        ImageIcon icon = new ImageIcon("./Game/Src/assets/catmemetest.jpg"); // Change to your image path
+        Image img = icon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(img);
+
+        // Left Panel (3x2 grid with images)
+        paLeft = new JPanel(new GridLayout(3, 2, 10, 10));
+        for (int i = 1; i <= 6; i++) {
+            paLeft.add(new JButton(scaledIcon));
+        }
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
         gbc.weightx = 0.3;
-        gbc.weighty = 1.0; // Make the left panel expand vertically as well
-        gbc.fill = GridBagConstraints.BOTH; // Allow the buttons to expand fully
-        gbc.insets = new Insets(10, 10, 10, 10); // 10px padding on all sides
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 10, 10, 10);
         fr.add(paLeft, gbc);
 
-        // Add right panel (70% width) and make buttons expand
+        // Right Panel (4x3 grid with images)
+        paRight = new JPanel(new GridLayout(4, 4, 10, 10));
+        for (int i = 1; i <= 16; i++) {
+            paRight.add(new JButton(scaledIcon));
+        }
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.weightx = 0.7;
-        gbc.weighty = 1.0; // Make the right panel expand vertically as well
-        gbc.fill = GridBagConstraints.BOTH; // Allow the buttons to expand fully
-        gbc.insets = new Insets(10, 30, 10, 10); // Double the left padding (30px) between paLeft and paRight
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 10, 10, 10);
         fr.add(paRight, gbc);
 
-        // Set frame size and visibility
+        // Frame Settings
         fr.setSize(1920, 1080);
         fr.setVisible(true);
-    }
-
-    private static int getCols() {
-        return 3;
     }
 
     public static void main(String[] args) {
         new Deck();
     }
 }
+
+/* if We have image per button, use this code
+package GUI.Page;
+
+import java.awt.*;
+import javax.swing.*;
+
+public class Deck {
+    private JFrame fr;
+    private JPanel paLeft, paRight;
+    private JLabel title;
+
+    public Deck() {
+        fr = new JFrame("Your Deck");
+        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fr.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Title Label
+        title = new JLabel("Your Deck");
+        title.setFont(new Font("Arial", Font.BOLD, 18));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        fr.add(title, gbc);
+
+        // Custom image names for buttons (replace with your actual names)
+        String[] imageNames = {
+            "cat.jpg", "dog.jpg", "bird.jpg", "fish.jpg", "rabbit.jpg", "hamster.jpg",
+            "tiger.jpg", "lion.jpg", "elephant.jpg", "giraffe.jpg", "zebra.jpg", "monkey.jpg",
+            "panda.jpg", "koala.jpg", "kangaroo.jpg", "wolf.jpg", "bear.jpg", "fox.jpg", "deer.jpg", "owl.jpg", "duck.jpg", "goose.jpg"
+        };
+
+        // Left Panel (3x2 grid with images)
+        paLeft = new JPanel(new GridLayout(3, 2, 10, 10));
+        for (int i = 0; i < 6; i++) {
+            // Load a different image for each button from the imageNames array
+            ImageIcon icon = new ImageIcon("./Game/Src/assets/" + imageNames[i]); // Update with custom image names
+            Image img = icon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(img);
+            paLeft.add(new JButton(scaledIcon));
+        }
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0.3;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        fr.add(paLeft, gbc);
+
+        // Right Panel (4x4 grid with images)
+        paRight = new JPanel(new GridLayout(4, 4, 10, 10));
+        for (int i = 6; i < 22; i++) {
+            // Load a different image for each button from the imageNames array
+            ImageIcon icon = new ImageIcon("./Game/Src/assets/" + imageNames[i]); // Update with custom image names
+            Image img = icon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(img);
+            paRight.add(new JButton(scaledIcon));
+        }
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 0.7;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        fr.add(paRight, gbc);
+
+        // Frame Settings
+        fr.setSize(1920, 1080);
+        fr.setLocationRelativeTo(null); // Center the window on the screen
+        fr.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Deck();
+    }
+}
+
+ */
