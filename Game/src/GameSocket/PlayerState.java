@@ -1,10 +1,14 @@
 package GameSocket;
 
+import java.util.Queue;
+
 public class PlayerState {
     private boolean ready;
     private int playerID;
     private boolean started;
     private String deckPath;
+    private Queue<String> ResponseQueue;
+
     public PlayerState(int id){
         setPlayerID(id);
     }
@@ -42,5 +46,9 @@ public class PlayerState {
 
     public void setDeckPath(String deckPath) {
         this.deckPath = deckPath;
+    }
+
+    public Queue<String> getResponseQueue() {
+        return ResponseQueue;
     }
 }

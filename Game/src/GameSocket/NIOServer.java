@@ -44,99 +44,10 @@ public class NIOServer {
                 for (Iterator<SelectionKey> it = keys.iterator(); it.hasNext(); ) {
                     SelectionKey k = it.next();
                     if (k.isAcceptable()) {
-                        if (k.channel() instanceof ServerSocketChannel serverChannel) {
-                            SocketChannel clientChannel = serverChannel.accept();
-                            clientChannel.configureBlocking(false);
-                            clientChannel.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
-                            System.out.println("CONNECTED: " + clientChannel.socket().getInetAddress().getHostAddress());
-                            for (int i=0;i<4;i++){
-                                if (!registeredID.values().contains(i)){
-                                    registeredID.put(clientChannel,i);
-                                    playerState[i] =new PlayerState(i);
-                                    break;
-                                }
-                            }
-
-                        } else {
-                            throw new RuntimeException("Unknown Channel");
-                        }
+                        handleAcception(selector,k);
                     }
-
                     else if (k.isWritable() && k.isReadable()) {
-                        if (k.channel() instanceof SocketChannel client) {
-                            int bytesRead = 0;
-                            try {
-                                bytesRead = client.read(buffer);
-                            } catch (IOException e) {
-                                Socket socket = client.socket();
-                                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-                                registeredID.remove(client);
-                                client.close();
-                            }
-                            if (bytesRead == -1) {
-                                Socket socket = client.socket();
-                                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-                                registeredID.remove(client);
-                                client.close();
-                            }
-                            else if (bytesRead > 0){
-                                buffer.flip();
-                                String data = new String(buffer.array(), buffer.position(), bytesRead);
-                                buffer.clear();
-                                String[] request = data.split(" ");
-                                switch (request[0]){
-                                    case "USER":
-                                        System.out.println("Player "+request[1]+" has joined the game.");
-                                        buffer.put("ACK".getBytes());
-                                        buffer.flip();
-                                        while (buffer.hasRemaining()) {
-                                            client.write(buffer);
-                                        }
-                                        break;
-                                    case "READY":
-                                        playerState[registeredID.get(client)].toggleReady();
-                                        int countReady = 0;
-                                        boolean started = false;
-                                        for(int i: registeredID.values()){
-                                            if(playerState[i].isReady()) countReady++;
-                                            if(playerState[i].isStarted()) started=true;
-                                        }
-                                        if (countReady == registeredID.size()){
-                                            gameStarting = Instant.now().getEpochSecond() + 10;
-                                        }
-                                        else if (!started){
-                                            gameStarting = -1;
-                                        }
-                                        break;
-                                    case "DECK":
-                                        DataOutputStream out = new DataOutputStream(new FileOutputStream("temp/"+registeredID.get(client)+".dat"));
-                                        playerState[registeredID.get(client)].setDeckPath("temp/"+registeredID.get(client)+".dat");
-                                        bytesRead = client.read(buffer);
-                                        while (true){
-                                            if (bytesRead == -1){
-                                                Socket socket = client.socket();
-                                                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-                                                registeredID.remove(client);
-                                                client.close();
-                                                break;
-                                            }
-                                            else if (bytesRead > 0){
-                                                buffer.flip();
-                                                data = new String(buffer.array(), buffer.position(), bytesRead);
-                                                if (data.equals("END OF DECK")){
-                                                    //System.out.println("End");
-                                                    break;
-                                                }
-                                                out.writeBytes(data);
-                                            }
-                                            bytesRead = client.read(buffer);
-                                        }
-                                        break;
-                                }
-                            }
-                        } else {
-                            throw new RuntimeException("Unknown Channel");
-                        }
+                        handleRequest(selector,k);
                     }
                     else if(!k.isAcceptable() && k.isWritable()){
                         SocketChannel client = (SocketChannel) k.channel();
@@ -174,6 +85,114 @@ public class NIOServer {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+    public void handleAcception(Selector selector,SelectionKey k) throws RuntimeException,IOException{
+        if (k.channel() instanceof ServerSocketChannel serverChannel) {
+            SocketChannel clientChannel = serverChannel.accept();
+            clientChannel.configureBlocking(false);
+            clientChannel.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
+            System.out.println("CONNECTED: " + clientChannel.socket().getInetAddress().getHostAddress());
+            for (int i=0;i<4;i++){
+                if (!registeredID.values().contains(i)){
+                    registeredID.put(clientChannel,i);
+                    playerState[i] =new PlayerState(i);
+                    break;
+                }
+            }
+
+        } else {
+            throw new RuntimeException("Unknown Channel");
+        }
+    }
+    public void handleRequest(Selector selector,SelectionKey k) throws RuntimeException,IOException{
+        if (k.channel() instanceof SocketChannel client) {
+            int bytesRead = 0;
+            try {
+                bytesRead = client.read(buffer);
+            } catch (IOException e) {
+                Socket socket = client.socket();
+                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
+                registeredID.remove(client);
+                client.close();
+            }
+            if (bytesRead == -1) {
+                Socket socket = client.socket();
+                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
+                registeredID.remove(client);
+                client.close();
+            }
+            else if (bytesRead > 0){
+                buffer.flip();
+                String data = new String(buffer.array(), buffer.position(), bytesRead);
+                buffer.clear();
+                String[] request = data.split(" ");
+                switch (request[0]){
+                    case "USER":
+                        System.out.println("Player "+request[1]+" has joined the game.");
+                        buffer.put("ACK".getBytes());
+                        buffer.flip();
+                        while (buffer.hasRemaining()) {
+                            client.write(buffer);
+                        }
+                        break;
+                    case "READY":
+                        playerState[registeredID.get(client)].toggleReady();
+                        int countReady = 0;
+                        boolean started = false;
+                        for(int i: registeredID.values()){
+                            if(playerState[i].isReady()) countReady++;
+                            if(playerState[i].isStarted()) started=true;
+                        }
+                        if (countReady == registeredID.size()){
+                            gameStarting = Instant.now().getEpochSecond() + 10;
+                        }
+                        else if (!started){
+                            gameStarting = -1;
+                        }
+                        break;
+                    case "DECK":
+                        DataOutputStream out = new DataOutputStream(new FileOutputStream("temp/"+registeredID.get(client)+".dat"));
+                        playerState[registeredID.get(client)].setDeckPath("temp/"+registeredID.get(client)+".dat");
+                        bytesRead = client.read(buffer);
+                        while (true){
+                            if (bytesRead == -1){
+                                Socket socket = client.socket();
+                                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
+                                registeredID.remove(client);
+                                client.close();
+                                break;
+                            }
+                            else if (bytesRead > 0){
+                                buffer.flip();
+                                data = new String(buffer.array(), buffer.position(), bytesRead);
+                                if (data.equals("END OF DECK")){
+                                    //System.out.println("End");
+                                    break;
+                                }
+                                out.writeBytes(data);
+                            }
+                            bytesRead = client.read(buffer);
+                        }
+                        break;
+                    case "PLAY":
+                        pushUpdate("PLAY ",registeredID.get(k));
+                }
+            }
+        } else {
+            throw new RuntimeException("Unknown Channel");
+        }
+    }
+    public void pushUpdate(String event){
+        for(PlayerState ps:playerState){
+            ps.getResponseQueue().add(event);
+        }
+    }
+    public void pushUpdate(String event,int exclude){
+        for(PlayerState ps:playerState){
+            if (ps.getPlayerID() != exclude){
+                ps.getResponseQueue().add(event);
+            }
         }
     }
 }

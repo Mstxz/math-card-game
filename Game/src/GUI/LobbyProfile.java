@@ -1,4 +1,4 @@
-
+package GUI;
 //pfp's lobby
 public class LobbyProfile{
     private String PFP, plrName, status;

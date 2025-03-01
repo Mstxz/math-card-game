@@ -1,16 +1,16 @@
-
+package GUI;
+import GUI.Page.Page;
+import GUI.LobbyProfile;
 import java.awt.*;
 import javax.swing.*;
 //lobby gui
-public class Lobby{
-    private JFrame frame;
+public class Lobby extends Page {
     private JButton leave, ruleSetting, selectDeck, readyUp;
     private JLabel lobby, fourPlayer;
     private JPanel panel1, panel2, panel3, titlePanel;
 
     public Lobby(){
         //JFrame + Button
-        frame = new JFrame("LOBBY");
         leave = new JButton("< Leave Lobby");
         ruleSetting = new JButton("Rule Setting");
         selectDeck = new JButton("Select Deck");
@@ -69,10 +69,10 @@ public class Lobby{
         }
 
 
-        frame.setLayout(new GridLayout(3,1));
-        frame.add(panel1, BorderLayout.NORTH);
-        frame.add(panel2, BorderLayout.CENTER);
-        frame.add(panel3, BorderLayout.SOUTH);
+        mainPanel.setLayout(new GridLayout(3,1));
+        mainPanel.add(panel1, BorderLayout.NORTH);
+        mainPanel.add(panel2, BorderLayout.CENTER);
+        mainPanel.add(panel3, BorderLayout.SOUTH);
         
         //panel 1
         panel1.setLayout(new GridLayout(1,3));
@@ -97,21 +97,7 @@ public class Lobby{
         titlePanel.add(fourPlayer);
         
 
-
-
-
-
-
-
-
-
-
-
-        
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1920, 1080);
-        frame.setVisible(true);
+        mainPanel.setVisible(true);
 
     }
     
