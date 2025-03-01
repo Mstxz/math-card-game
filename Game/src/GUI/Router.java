@@ -3,6 +3,7 @@ package GUI;
 import GUI.Page.*;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Router {
     private static Page currentPage;
@@ -10,7 +11,7 @@ public class Router {
 
     public Router() {
         mainFrame = new JFrame();
-        Router.setRoute("Lobby",null);
+        Router.setRoute("Lobby2",null);
     }
 
     public static void main(String[] args) {
@@ -23,7 +24,7 @@ public class Router {
             case "Demo2" -> new Demo2Page();
             case "MainMenu" -> new MainMenuPage();
             case  "Avenger" -> new AvengerAssembleGUI();
-            case  "Lobby" -> new Lobby();
+            case  "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
             default -> null;
         };
         mainFrame.getContentPane().removeAll();
