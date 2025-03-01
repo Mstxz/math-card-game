@@ -2,13 +2,12 @@ package GameSocket;
 
 import Gameplay.Player;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -20,17 +19,17 @@ public class NIOClient {
     private ClientState currentState;
     private String deckPath;
     private Vector<String> events;
-    private ArrayList<PlayerResource> players;
+    private ArrayList<PlayerInfo> players;
     public NIOClient(int roomCapacity){
         this.events = new Vector<String>();
         this.currentState = ClientState.IDLE;
-        this.players = new ArrayList<PlayerResource>(roomCapacity);
+        this.players = new ArrayList<PlayerInfo>(roomCapacity);
         try {
             SocketAddress address = new InetSocketAddress("localhost", 5000);
             channel = SocketChannel.open(address);
             channel.configureBlocking(true);
             buffer.clear();
-            buffer.put("USER Arktik".getBytes());
+            buffer.put("USER Arktik assets/icon.png 100".getBytes());
             buffer.flip();
             while (buffer.hasRemaining()){
                 channel.write(buffer);
@@ -49,6 +48,7 @@ public class NIOClient {
             throw new RuntimeException(e);
         }
     }
+
     private int readIntoBuffer() throws RuntimeException,IOException{
         buffer.clear();
         try{
@@ -69,7 +69,8 @@ public class NIOClient {
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
                     String data = new String(buffer.array(),buffer.position(),byteRead);
-                    switch (data){
+                    String[] args = data.split(" ");
+                    switch (args[0]){
                         case "SETUP":
                             currentState = ClientState.LOADING;
                             buffer.clear().put("DECK".getBytes()).flip();
@@ -77,9 +78,13 @@ public class NIOClient {
                                 channel.write(buffer);
                             }
                             buffer.clear();
-                            BufferedReader fr = new BufferedReader(new FileReader(deckPath));
+                            BufferedInputStream f = (BufferedInputStream) getClass().getClassLoader().getResourceAsStream(deckPath);
+                            //BufferedReader fr = new BufferedReader(new FileReader(deckPath));
+                            InputStreamReader fr = new InputStreamReader(f);
+                            BufferedReader br = new BufferedReader(fr);
                             String line;
-                            while ((line = fr.readLine()) != null){
+
+                            while ((line = br.readLine()) != null){
                                 buffer.put(line.getBytes());
                                 buffer.put("\r\n".getBytes());
                             }
@@ -100,8 +105,22 @@ public class NIOClient {
                                 data = new String(buffer.array(),buffer.position(),byteRead);
                             }
 
-                            players.set(0,new PlayerResource("",2,0));
+                            //players.set(0,new PlayerInfo("",2,0));
                             break;
+                        case "LOBBY":
+                            while ((byteRead = readIntoBuffer()) != -1){
+                                if (byteRead > 1){
+                                    if (byteRead != "END".getBytes().length){
+                                        data = new String(buffer.array(),buffer.position(),byteRead);
+                                        PlayerInfo playerInfo = PlayerInfo.decodeBytes(buffer.array());
+                                        players.set(playerInfo.getPlayerID(),playerInfo);
+                                    }
+                                    else{
+                                        break;
+                                    }
+                                }
+                            }
+
                         default:
                             System.out.println(buffer.asLongBuffer().get());
                     }

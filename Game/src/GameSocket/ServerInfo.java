@@ -28,6 +28,7 @@ public class ServerInfo {
                 if (p.isStarted()) {
                     loaded++;
                 }
+                totalPlayer++;
             }
         }
         if (totalPlayer == loaded){

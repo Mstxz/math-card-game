@@ -1,17 +1,21 @@
 package GameSocket;
 
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class PlayerState {
     private boolean ready;
-    private int playerID;
+    private PlayerInfo playerInfo;
     private boolean started;
     private String deckPath;
-    private Queue<String> ResponseQueue;
+    private ArrayDeque<byte[]> dataOutQueue;
 
     public PlayerState(int id){
-        setPlayerID(id);
+        dataOutQueue = new ArrayDeque<byte[]>();
+        setPlayerInfo(new PlayerInfo());
+        playerInfo.setPlayerID(id);
     }
+
     public boolean isReady() {
         return ready;
     }
@@ -22,14 +26,6 @@ public class PlayerState {
 
     public void toggleReady() {
         ready = !ready;
-    }
-
-    public int getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
     }
 
     public boolean isStarted() {
@@ -48,7 +44,15 @@ public class PlayerState {
         this.deckPath = deckPath;
     }
 
-    public Queue<String> getResponseQueue() {
-        return ResponseQueue;
+    public PlayerInfo getPlayerInfo() {
+        return playerInfo;
+    }
+
+    public void setPlayerInfo(PlayerInfo playerInfo) {
+        this.playerInfo = playerInfo;
+    }
+
+    public ArrayDeque<byte[]> getDataOutQueue() {
+        return dataOutQueue;
     }
 }

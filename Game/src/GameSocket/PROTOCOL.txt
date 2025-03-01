@@ -1,6 +1,6 @@
 Client
 ----- First time in lobby -----
-USER <NAME>
+USER <NAME> <Profile Picture> <startHp>
 
 READY
 ----- Upload Deck to Server -----
@@ -10,6 +10,11 @@ file data
     .
     .
 END OF DECK
+
+----- Setup Board -----
+LOBBY
+<PlayerID> <PLAYERNAME> <PlayerProfileURL>
+END
 
 ----- In Game -----
 DRAW
