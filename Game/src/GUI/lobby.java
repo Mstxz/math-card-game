@@ -2,13 +2,13 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class lobby{
+public class Lobby{
     private JFrame frame;
     private JButton leave, ruleSetting, selectDeck, readyUp;
     private JLabel lobby, fourPlayer;
     private JPanel panel1, panel2, panel3, titlePanel;
 
-    public lobby(){
+    public Lobby(){
         //JFrame + Button
         frame = new JFrame("LOBBY");
         leave = new JButton("< Leave Lobby");
@@ -39,7 +39,7 @@ public class lobby{
         
         //create profile
         for (int i=0; i<4; i++){
-            lobbyProfile profile = new lobbyProfile();
+            LobbyProfile profile = new LobbyProfile();
             //lobbyProfile profile = new lobbyProfile("PFPLink", "Name", "Ready");
             JPanel pfpPanel, thePanel;
             JLabel pfp, name, status;
@@ -114,9 +114,9 @@ public class lobby{
         frame.setVisible(true);
 
     }
-
+    
     public static void main(String[] args) {
-        new lobby();
+        new Lobby();
     }
 
 }

@@ -1,15 +1,15 @@
 
 
-public class lobbyProfile{
+public class LobbyProfile{
     private String PFP, plrName, status;
 
-    public lobbyProfile(){
+    public LobbyProfile(){
         this.PFP = "Dragon of Dojima";
         this.plrName = "Kiryu Kazuma";
         this.status = "Not Ready";
     }
     
-    public lobbyProfile(String PFP, String plrName, String status){
+    public LobbyProfile(String PFP, String plrName, String status){
         this.PFP = PFP;
         this.plrName = plrName;
         this.status = status;
