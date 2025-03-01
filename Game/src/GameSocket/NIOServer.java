@@ -20,12 +20,14 @@ public class NIOServer {
     private PlayerState[] playerState;
     private ByteBuffer buffer;
     private long gameStarting;
+    private ServerInfo info;
 
     public NIOServer() {
         registeredID = new HashMap<SocketChannel,Integer>();
         playerState = new PlayerState[4];
         buffer = ByteBuffer.allocate(1024);
         gameStarting = -1;
+        info = new ServerInfo();
     }
 
     public void start() {
@@ -47,7 +49,7 @@ public class NIOServer {
                         handleAcception(selector,k);
                     }
                     else if (k.isWritable() && k.isReadable()) {
-                        handleRequest(selector,k);
+                        handleRequest(k);
                     }
                     else if(!k.isAcceptable() && k.isWritable()){
                         SocketChannel client = (SocketChannel) k.channel();
@@ -70,11 +72,9 @@ public class NIOServer {
                                 }
                                 playerState[registeredID.get(client)].setStarted(true);
                             }
-                            int countStarted = 0;
-                            for(int i: registeredID.values()){
-                                if(playerState[i].isStarted()) countStarted++;
-                            }
-                            if (countStarted == registeredID.size()){
+
+                            info.updateGameStarted(playerState);
+                            if (info.isGameStarted()){
                                 gameStarting = -1;
                             }
                         }
@@ -105,7 +105,7 @@ public class NIOServer {
             throw new RuntimeException("Unknown Channel");
         }
     }
-    public void handleRequest(Selector selector,SelectionKey k) throws RuntimeException,IOException{
+    public void handleRequest(SelectionKey k) throws RuntimeException,IOException{
         if (k.channel() instanceof SocketChannel client) {
             int bytesRead = 0;
             try {
@@ -152,27 +152,31 @@ public class NIOServer {
                         }
                         break;
                     case "DECK":
-                        DataOutputStream out = new DataOutputStream(new FileOutputStream("temp/"+registeredID.get(client)+".dat"));
-                        playerState[registeredID.get(client)].setDeckPath("temp/"+registeredID.get(client)+".dat");
-                        bytesRead = client.read(buffer);
-                        while (true){
-                            if (bytesRead == -1){
-                                Socket socket = client.socket();
-                                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-                                registeredID.remove(client);
-                                client.close();
-                                break;
-                            }
-                            else if (bytesRead > 0){
-                                buffer.flip();
-                                data = new String(buffer.array(), buffer.position(), bytesRead);
-                                if (data.equals("END OF DECK")){
-                                    //System.out.println("End");
+                        try (
+                                FileOutputStream fo = new FileOutputStream("temp/"+registeredID.get(client)+".dat");
+                                DataOutputStream out = new DataOutputStream(fo)
+                        ){
+                            bytesRead = client.read(buffer);
+                            while (true){
+                                if (bytesRead == -1){
+                                    Socket socket = client.socket();
+                                    System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
+                                    registeredID.remove(client);
+                                    client.close();
                                     break;
                                 }
-                                out.writeBytes(data);
+                                else if (bytesRead > 0){
+                                    buffer.flip();
+                                    data = new String(buffer.array(), buffer.position(), bytesRead);
+                                    if (data.equals("END OF DECK")){
+                                        //System.out.println("End");
+                                        break;
+                                    }
+                                    out.writeBytes(data);
+                                }
+                                bytesRead = client.read(buffer);
                             }
-                            bytesRead = client.read(buffer);
+                            playerState[registeredID.get(client)].setDeckPath("temp/"+registeredID.get(client)+".dat");
                         }
                         break;
                     case "PLAY":
