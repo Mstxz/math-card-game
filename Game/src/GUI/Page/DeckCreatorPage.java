@@ -4,8 +4,12 @@ import GUI.Component.CardButton;
 import GUI.Component.TempDeckZone;
 
 import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import utils.ResourceLoader;
 
 public class DeckCreatorPage extends Page{
     private TempDeckZone paLeft;
@@ -31,14 +35,19 @@ public class DeckCreatorPage extends Page{
 
         // Right Panel (4x3 grid with images)
         paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
-        for (int i = 1; i <= 12; i++) {
-            paRight.add(new CardButton("Klong",paLeft));
-        }
+        loadButton();
 
         mainPanel.add(paRight, BorderLayout.CENTER);
 
         // Frame Settings
 
+    }
+
+    private void loadButton(){
+        ArrayList<String> fileString = ResourceLoader.readFile("Gameplay/Cards/CardList.txt");
+        for (int i = 0;i<fileString.size();i++){
+            paRight.add(new CardButton(fileString.get(i),paLeft));
+        }
     }
 
     public static void main(String[] args) {

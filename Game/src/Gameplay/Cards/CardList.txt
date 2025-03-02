@@ -1,0 +1,31 @@
+Plus 1
+Plus 2
+Plus 3
+Plus 4
+Plus 5
+Plus 6
+Plus 7
+Plus 8
+Plus 9
+Plus 10
+Plus 15
+Plus 20
+Plus 25
+AbsoluteHp
+FlipSigned
+Minus 1
+Minus 2
+Minus 3
+Minus 4
+Minus 5
+Minus 6
+Minus 7
+Minus 8
+Minus 9
+Minus 10
+Minus 15
+Minus 20
+Minus 25
+TimeSquare
+CatTreat
+CatNap

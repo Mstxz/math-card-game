@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Gameplay.Card;
 import utils.ResourceLoader;
 
 public class CardButton extends JPanel implements ActionListener {
@@ -28,7 +30,16 @@ public class CardButton extends JPanel implements ActionListener {
 
         addButton = new JButton("+");
         nameButton = new JLabel();
-        nameButton.setIcon(ResourceLoader.loadPicture("testLobby/Cat3.jpg",200,200));
+        String[] temp = name.split(" ");
+        Card tempCard;
+        if (temp.length == 2){
+            System.out.println(temp[0]+"/"+temp[1]);
+            tempCard = Card.createCard(temp[0],Integer.valueOf(temp[1]));
+        }
+        else {
+            tempCard = Card.createCard(temp[0]);
+        }
+        nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,200));
         removeButton = new JButton("-");
 
         panel1 = new JPanel();

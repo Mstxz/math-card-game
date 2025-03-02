@@ -6,8 +6,8 @@ import Gameplay.Difficulty;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
 
-public class Absolute extends Card {
-    public Absolute(){
+public class AbsoluteHp extends Card {
+    public AbsoluteHp(){
         super("Absolute HP","Absolute user hp",2, Difficulty.MEDIUM, CardType.BLUE);
         this.picture = "assets/Blue_BetaAbsoluteHP.png";
     }
