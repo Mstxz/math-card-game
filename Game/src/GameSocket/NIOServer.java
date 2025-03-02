@@ -46,7 +46,7 @@ public class NIOServer {
                 Set<SelectionKey> keys = selector.selectedKeys();
                 for (Iterator<SelectionKey> it = keys.iterator(); it.hasNext(); ) {
                     SelectionKey k = it.next();
-
+                    System.out.println();
                     if (k.isAcceptable()) {
                         handleAcception(selector,k);
                     }
@@ -57,7 +57,7 @@ public class NIOServer {
                         SocketChannel client = (SocketChannel) k.channel();
                         if(gameStarting != -1){
                             long epochSecond = Instant.now().getEpochSecond();
-                            if(epochSecond <= gameStarting){
+                            if(epochSecond < gameStarting){
                                 buffer.clear();
                                 buffer.putLong(gameStarting-epochSecond);
                                 buffer.flip();
@@ -66,6 +66,13 @@ public class NIOServer {
                                 }
                             }
                             else if(!playerState[registeredID.get(client)].isStarted()){
+                                buffer.clear();
+                                buffer.putLong(gameStarting-epochSecond);
+                                buffer.flip();
+                                while (buffer.hasRemaining()) {
+                                    client.write(buffer);
+                                }
+
                                 buffer.clear();
                                 buffer.put("SETUP".getBytes(StandardCharsets.UTF_8));
                                 buffer.flip();
@@ -82,6 +89,7 @@ public class NIOServer {
                         }
                         byte[] bytesOut = playerState[registeredID.get(client)].getDataOutQueue().poll();
                         if (bytesOut != null){
+                            System.out.println(bytesOut.length);
                             buffer.clear();
                             buffer.put(bytesOut);
                             buffer.flip();
@@ -150,6 +158,7 @@ public class NIOServer {
                         while (buffer.hasRemaining()) {
                             client.write(buffer);
                         }
+                        lobbyUpdate();
                         break;
                     case "READY":
                         playerState[registeredID.get(client)].toggleReady();
@@ -207,20 +216,7 @@ public class NIOServer {
 //                            System.out.println(f.getAbsolutePath());
                             info.updateDeckLoaded(playerState);
                             if (info.isDeckLoaded()){
-                                pushUpdate("LOBBY");
-                                ByteBuffer bf = ByteBuffer.allocate(1024);
-                                for(PlayerState to:playerState){
-                                    if(to!= null) {
-                                        for (PlayerState from : playerState) {
-                                            if (from != null) {
-                                                bf.put(from.getPlayerInfo().encodeBytes());
-                                            }
-                                        }
-                                        to.getDataOutQueue().add(bf.array());
-                                    }
-
-                                }
-                                pushUpdate("END");
+                                lobbyUpdate();
                             }
                         }
                         break;
@@ -231,6 +227,21 @@ public class NIOServer {
         } else {
             throw new RuntimeException("Unknown Channel");
         }
+    }
+    private void lobbyUpdate(){
+        pushUpdate("LOBBY");
+        ByteBuffer bf = ByteBuffer.allocate(1024);
+        for(PlayerState to:playerState){
+            if(to!= null) {
+                for (PlayerState from : playerState) {
+                    if (from != null) {
+                        bf.put(from.getPlayerInfo().encodeBytes());
+                    }
+                }
+                to.getDataOutQueue().add(bf.array());
+            }
+        }
+        pushUpdate("END");
     }
     public void pushUpdate(String str){
         for(PlayerState ps:playerState){

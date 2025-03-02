@@ -5,57 +5,44 @@ import GUI.Component.TempDeckZone;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-public class Deck extends Page{
+public class DeckCreatorPage extends Page{
     private TempDeckZone paLeft;
     private JPanel paRight;
     private JLabel title;
 
-    public Deck() {
-        mainPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
+    public DeckCreatorPage() {
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setBorder(new EmptyBorder(10,80,10,80));
         // Title Label
         title = new JLabel("Your Deck");
-        title.setFont(new Font("Arial", Font.BOLD, 18));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        mainPanel.add(title, gbc);
+        title.setFont(new Font("Arial", Font.BOLD, 26));
+        title.setHorizontalAlignment(SwingConstants.LEFT);
+        title.setPreferredSize(new Dimension(title.getWidth(),100));
+        mainPanel.add(title, BorderLayout.NORTH);
 
         // Left Panel (3x2 grid with images)
         paLeft = new TempDeckZone();
         paLeft.setLayout(new GridLayout(3, 2, 10, 10));
+        paLeft.setPreferredSize(new Dimension(500,1080));
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.weightx = 0.3;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        mainPanel.add(paLeft, gbc);
+        mainPanel.add(paLeft, BorderLayout.WEST);
 
         // Right Panel (4x3 grid with images)
         paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 12; i++) {
             paRight.add(new CardButton("Klong",paLeft));
         }
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.weightx = 0.7;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        mainPanel.add(paRight, gbc);
+
+        mainPanel.add(paRight, BorderLayout.CENTER);
 
         // Frame Settings
 
     }
 
     public static void main(String[] args) {
-        new Deck();
+        new DeckCreatorPage();
     }
 }
 

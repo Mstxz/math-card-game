@@ -2,19 +2,24 @@ package GUI.Component;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 public class TempDeckZone extends JPanel {
-    private ArrayList<CardLabel> allCardLabel = new ArrayList<CardLabel>();
-
+    private HashSet<CardLabel> allCardLabel = new HashSet<CardLabel>();
     public TempDeckZone(){
         super();
     }
-
-    public ArrayList<CardLabel> getAllCardLabel() {
+    public void removeCard(CardLabel c){
+        this.remove(c);
+        this.allCardLabel.remove(c);
+    }
+    public HashSet<CardLabel> getAllCardLabel() {
         return allCardLabel;
     }
 
-    public void setAllCardLabel(ArrayList<CardLabel> allCardLabel) {
+    public void setAllCardLabel(HashSet<CardLabel> allCardLabel) {
         this.allCardLabel = allCardLabel;
     }
 }

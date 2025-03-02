@@ -91,8 +91,7 @@ public class CardButton extends JPanel implements ActionListener {
             amount-=1;
             System.out.println(amount);
             if (amount==0){
-                deckZonePanel.remove(cardLabel);
-                deckZonePanel.getAllCardLabel().remove(index);
+                deckZonePanel.removeCard(cardLabel);
                 deckZonePanel.revalidate();
                 deckZonePanel.repaint();
 //                for (int i = 0;i<DeckCreater.p1CardLabel.size();i++){

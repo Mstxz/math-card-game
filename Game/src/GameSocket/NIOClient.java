@@ -1,6 +1,7 @@
 package GameSocket;
 
 import Gameplay.Player;
+import utils.ResourceLoader;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -63,6 +64,7 @@ public class NIOClient {
         }
         return 0;
     }
+
     public void lobby() throws RuntimeException{
         try {
             while (currentState == ClientState.IDLE || currentState == ClientState.READY) {
@@ -70,6 +72,7 @@ public class NIOClient {
                 if (byteRead > 0){
                     String data = new String(buffer.array(),buffer.position(),byteRead);
                     String[] args = data.split(" ");
+                    System.out.println(new String(buffer.array(),0,5));
                     switch (args[0]){
                         case "SETUP":
                             currentState = ClientState.LOADING;
@@ -78,24 +81,22 @@ public class NIOClient {
                                 channel.write(buffer);
                             }
                             buffer.clear();
-                            BufferedInputStream f = (BufferedInputStream) getClass().getClassLoader().getResourceAsStream(deckPath);
-                            //BufferedReader fr = new BufferedReader(new FileReader(deckPath));
-                            InputStreamReader fr = new InputStreamReader(f);
-                            BufferedReader br = new BufferedReader(fr);
-                            String line;
-
-                            while ((line = br.readLine()) != null){
-                                buffer.put(line.getBytes());
-                                buffer.put("\r\n".getBytes());
+                            try (BufferedInputStream f = ResourceLoader.loadFileAsStream(deckPath);
+                                 InputStreamReader fr = new InputStreamReader(f);
+                                 BufferedReader br = new BufferedReader(fr)
+                            ){
+                                String line;
+                                while ((line = br.readLine()) != null){
+                                    buffer.put(line.getBytes());
+                                    buffer.put("\r\n".getBytes());
+                                }
+                                buffer.flip();
+                                while (buffer.hasRemaining()){
+                                    channel.write(buffer);
+                                }
                             }
 
-                            buffer.flip();
-                            while (buffer.hasRemaining()){
-                                channel.write(buffer);
-                            }
-                            buffer.clear();
-
-                            buffer.put("END OF DECK".getBytes()).flip();
+                            buffer.clear().put("END OF DECK".getBytes()).flip();
                             while (buffer.hasRemaining()){
                                 channel.write(buffer);
                             }
@@ -108,12 +109,14 @@ public class NIOClient {
                             //players.set(0,new PlayerInfo("",2,0));
                             break;
                         case "LOBBY":
+                            System.out.println("BRUH");
                             while ((byteRead = readIntoBuffer()) != -1){
                                 if (byteRead > 1){
                                     if (byteRead != "END".getBytes().length){
                                         data = new String(buffer.array(),buffer.position(),byteRead);
                                         PlayerInfo playerInfo = PlayerInfo.decodeBytes(buffer.array());
                                         players.set(playerInfo.getPlayerID(),playerInfo);
+                                        System.out.println(playerInfo);
                                     }
                                     else{
                                         break;
