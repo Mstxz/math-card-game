@@ -1,32 +1,38 @@
 package GameSocket;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class Request {
-    private ClientOperation Operation;
+    private ProtocolOperation operation;
     private int bytesLength;
     private byte[] data;
 
-    public Request(ClientOperation operation) {
-        Operation = operation;
+    public Request(ProtocolOperation operation) {
+        this.operation = operation;
+        this.data = new byte[0];
     }
 
-    public Request(ClientOperation operation, byte[] data) {
-        Operation = operation;
+    public Request(ProtocolOperation operation, byte[] data) {
+        this.operation = operation;
         this.setData(data);
     }
 
-    public Request(ClientOperation operation, String data) {
-        Operation = operation;
+    public Request(ProtocolOperation operation, String data) {
+        this.operation = operation;
         this.setData(data);
     }
 
-    public ClientOperation getOperation() {
-        return Operation;
+    public ProtocolOperation getOperation() {
+        return operation;
     }
 
-    public void setOperation(ClientOperation operation) {
-        Operation = operation;
+    public void setOperation(ProtocolOperation operation) {
+        this.operation = operation;
     }
 
     public int getBytesLength() {
@@ -43,6 +49,7 @@ public class Request {
 
     public void setData(byte[] data) {
         this.data = data;
+        this.bytesLength = this.data.length;
     }
 
     public void setData(String data) {
@@ -50,7 +57,51 @@ public class Request {
         this.bytesLength = this.data.length;
     }
 
-    public byte[] encode(){
-        return data;
+    public Request appendData(byte[] data) {
+        ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + data.length);
+        bf.clear().put(this.data).put(data).flip();
+        this.data = bf.array();
+        this.bytesLength = this.data.length;
+        return this;
+    }
+
+    public Request appendData(String data) {
+        byte[] newBytes = data.getBytes(StandardCharsets.UTF_8);
+        ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + newBytes.length);
+        bf.clear().put(this.data).put(newBytes).flip();
+        this.data = bf.array();
+        this.bytesLength = this.data.length;
+        return this;
+    }
+
+    public byte[] encodeBytes(){
+        ByteBuffer bf = ByteBuffer.allocate(8 + bytesLength);
+        bf.putInt(operation.ordinal());
+        bf.putInt(bytesLength);
+        bf.put(data);
+        return bf.array();
+    }
+
+    public static Request decodeBytes(byte[] bytes){
+        DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+        try {
+            ProtocolOperation operation = ProtocolOperation.values()[in.readInt()];
+            int dataBytes = in.readInt();
+            byte[] dataGet = in.readNBytes(dataBytes);
+            return new Request(operation,dataGet);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return new Request(ProtocolOperation.ACKN);
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "operation=" + operation +
+                ", bytesLength=" + bytesLength +
+                ", data=" + Arrays.toString(data) +
+                '}';
     }
 }

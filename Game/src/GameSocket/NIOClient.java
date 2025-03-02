@@ -6,6 +6,7 @@ import utils.ResourceLoader;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
@@ -29,8 +30,10 @@ public class NIOClient {
             SocketAddress address = new InetSocketAddress("localhost", 5000);
             channel = SocketChannel.open(address);
             channel.configureBlocking(true);
+            Request req = new Request(ProtocolOperation.USER,"Arktik assets/icon.png 100");
+            System.out.println(new String(req.getData(), 0, req.getBytesLength(),StandardCharsets.UTF_8));
             buffer.clear();
-            buffer.put("USER Arktik assets/icon.png 100".getBytes());
+            buffer.put(req.encodeBytes());
             buffer.flip();
             while (buffer.hasRemaining()){
                 channel.write(buffer);
@@ -39,8 +42,12 @@ public class NIOClient {
             int byteRead = channel.read(buffer);
             if (byteRead > 0){
                 buffer.flip();
-                String data = new String(buffer.array(),buffer.position(),byteRead);
-                System.out.println("Acknowledged");
+                Request serverRes = Request.decodeBytes(buffer.array());
+
+                //String data = new String(buffer.array(),buffer.position(),byteRead);
+                if(serverRes.getOperation() == ProtocolOperation.ACKN){
+                    System.out.println("Acknowledged");
+                }
             }
             buffer.clear();
             System.out.println("Successfully Connected");
@@ -59,7 +66,10 @@ public class NIOClient {
             }
             buffer.flip();
             return byteRead;
-        } catch (IOException ex) {
+        } catch (SocketException ex) {
+            throw new RuntimeException("Connection Loss");
+        }
+        catch (IOException ex) {
             ex.printStackTrace();
         }
         return 0;
@@ -70,24 +80,29 @@ public class NIOClient {
             while (currentState == ClientState.IDLE || currentState == ClientState.READY) {
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
-                    String data = new String(buffer.array(),buffer.position(),byteRead);
-                    String[] args = data.split(" ");
-                    System.out.println(new String(buffer.array(),0,5));
-                    switch (args[0]){
-                        case "SETUP":
+                    Request serverReq = Request.decodeBytes(buffer.array());
+//                    String data = new String(buffer.array(),buffer.position(),byteRead);
+//                    String[] args = data.split(" ");
+
+                    switch (serverReq.getOperation()){
+                        case ProtocolOperation.DECK:
                             currentState = ClientState.LOADING;
-                            buffer.clear().put("DECK".getBytes());
+                            Request request = new Request(ProtocolOperation.DECK);
+                            //ByteBuffer bf = ByteBuffer.allocate(2048);
+                            //buffer.clear().put("DECK".getBytes());
                             try (BufferedInputStream f = ResourceLoader.loadFileAsStream(deckPath);
                                  InputStreamReader fr = new InputStreamReader(f);
                                  BufferedReader br = new BufferedReader(fr)
                             ){
                                 String line;
                                 while ((line = br.readLine()) != null){
-                                    buffer.put("\r\n".getBytes());
-                                    buffer.put(line.getBytes());
+                                    request.appendData(line).appendData("\r\n");
+                                    //buffer.put("\r\n".getBytes());
+                                    //buffer.put(line.getBytes());
                                 }
                             }
-                            buffer.put("\r\nEND".getBytes()).flip();
+                            //buffer.put("\r\nEND".getBytes()).flip();
+                            buffer.clear().put(request.encodeBytes()).flip();
                             while (buffer.hasRemaining()){
                                 channel.write(buffer);
                             }
@@ -120,21 +135,21 @@ public class NIOClient {
 
                             //players.set(0,new PlayerInfo("",2,0));
                             break;
-                        case "LOBBY":
-                            System.out.println("BRUH");
-                            while ((byteRead = readIntoBuffer()) != -1){
-                                if (byteRead > 1){
-                                    if (byteRead != "END".getBytes().length){
-                                        data = new String(buffer.array(),buffer.position(),byteRead);
-                                        PlayerInfo playerInfo = PlayerInfo.decodeBytes(buffer.array());
-                                        players.set(playerInfo.getPlayerID(),playerInfo);
-                                        System.out.println(playerInfo);
-                                    }
-                                    else{
-                                        break;
-                                    }
-                                }
-                            }
+                        case LOBBY:
+                            //System.out.println("BRUH");
+//                            while ((byteRead = readIntoBuffer()) != -1){
+//                                if (byteRead > 1){
+//                                    if (byteRead != "END".getBytes().length){
+//                                        data = new String(buffer.array(),buffer.position(),byteRead);
+//                                        PlayerInfo playerInfo = PlayerInfo.decodeBytes(buffer.array());
+//                                        players.set(playerInfo.getPlayerID(),playerInfo);
+//                                        System.out.println(playerInfo);
+//                                    }
+//                                    else{
+//                                        break;
+//                                    }
+//                                }
+//                            }
 
                         default:
                             System.out.println(buffer.asLongBuffer().get());
@@ -146,7 +161,8 @@ public class NIOClient {
                     String[] arg = e.split(" ");
                     switch (arg[0]){
                         case "ready":
-                            buffer.clear().put("READY".getBytes()).flip();
+                            Request clientRequest = new Request(ProtocolOperation.READY);
+                            buffer.clear().put(clientRequest.encodeBytes()).flip();
                             while (buffer.hasRemaining()){
                                 channel.write(buffer);
                             }

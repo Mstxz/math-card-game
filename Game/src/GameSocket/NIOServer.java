@@ -46,7 +46,6 @@ public class NIOServer {
                 Set<SelectionKey> keys = selector.selectedKeys();
                 for (Iterator<SelectionKey> it = keys.iterator(); it.hasNext(); ) {
                     SelectionKey k = it.next();
-                    System.out.println();
                     if (k.isAcceptable()) {
                         handleAcception(selector,k);
                     }
@@ -143,24 +142,30 @@ public class NIOServer {
             }
             else if (bytesRead > 0){
                 buffer.flip();
+                Request clientReq = Request.decodeBytes(buffer.array());
+                System.out.println(clientReq);
                 String data = new String(buffer.array(), buffer.position(), bytesRead,StandardCharsets.UTF_8);
-                buffer.clear();
+                //buffer.clear();
                 String[] request = data.split(" ");
-                switch (request[0]){
-                    case "USER":
-                        System.out.println("Player "+request[1]+" has joined the game.");
-                        playerState[this.registeredID.get(client)].getPlayerInfo().setName(request[1]);
-                        playerState[this.registeredID.get(client)].getPlayerInfo().setProfilePicture(request[2]);
-                        playerState[this.registeredID.get(client)].getPlayerInfo().setHp(new Constant(Integer.parseInt(request[3])));
+                switch (clientReq.getOperation()){
+                    case ProtocolOperation.USER:
+                        String userData = new String(clientReq.getData(), 0, clientReq.getBytesLength(),StandardCharsets.UTF_8);
+                        System.out.println(userData);
+                        request = userData.split(" ");
+                        System.out.println("Player "+request[0]+" has joined the game.");
+                        playerState[this.registeredID.get(client)].getPlayerInfo().setName(request[0]);
+                        playerState[this.registeredID.get(client)].getPlayerInfo().setProfilePicture(request[1]);
+                        playerState[this.registeredID.get(client)].getPlayerInfo().setHp(new Constant(Integer.parseInt(request[2])));
                         System.out.println(playerState[this.registeredID.get(client)].getPlayerInfo());
-                        buffer.put("ACK".getBytes(StandardCharsets.UTF_8));
+                        Request serverRes = new Request(ProtocolOperation.ACKN);
+                        buffer.clear().put(serverRes.encodeBytes());
                         buffer.flip();
                         while (buffer.hasRemaining()) {
                             client.write(buffer);
                         }
-                        lobbyUpdate();
+                        //lobbyUpdate();
                         break;
-                    case "READY":
+                    case READY:
                         playerState[registeredID.get(client)].toggleReady();
                         int countReady = 0;
                         boolean started = false;
@@ -175,33 +180,35 @@ public class NIOServer {
                             gameStarting = -1;
                         }
                         break;
-                    case "DECK":
+                    case DECK:
                         File f = File.createTempFile("temp",".dat");
                         f.deleteOnExit();
                         try (
                                 FileOutputStream fo = new FileOutputStream(f);
                                 DataOutputStream out = new DataOutputStream(fo)
                         ){
-                            bytesRead = client.read(buffer);
-                            while (true){
-                                if (bytesRead == -1){
-                                    Socket socket = client.socket();
-                                    System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-                                    registeredID.remove(client);
-                                    client.close();
-                                    break;
-                                }
-                                else if (bytesRead > 0){
-                                    buffer.flip();
-                                    data = new String(buffer.array(), buffer.position(), bytesRead,StandardCharsets.UTF_8);
-                                    if (data.equals("END")){
-                                        //System.out.println("End");
-                                        break;
-                                    }
-                                    out.writeBytes(data);
-                                }
-                                bytesRead = client.read(buffer);
-                            }
+                            data = new String(clientReq.getData(),0,clientReq.getBytesLength(),StandardCharsets.UTF_8);
+                            out.writeBytes(data);
+
+//                            while (true){
+//                                if (bytesRead == -1){
+//                                    Socket socket = client.socket();
+//                                    System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
+//                                    registeredID.remove(client);
+//                                    client.close();
+//                                    break;
+//                                }
+//                                else if (bytesRead > 0){
+//                                    buffer.flip();
+//                                    data = new String(buffer.array(), buffer.position(), bytesRead,StandardCharsets.UTF_8);
+//                                    if (data.equals("END")){
+//                                        //System.out.println("End");
+//                                        break;
+//                                    }
+//                                    out.writeBytes(data);
+//                                }
+//                                bytesRead = client.read(buffer);
+//                            }
                             playerState[registeredID.get(client)].setDeckPath(f.getAbsolutePath());
 //                            try(BufferedReader frr = new BufferedReader(new FileReader(f.getAbsolutePath()));){
 //                                String line;
@@ -220,8 +227,8 @@ public class NIOServer {
                             }
                         }
                         break;
-                    case "PLAY":
-                        pushUpdate("PLAY ",registeredID.get(k));
+//                    case "PLAY":
+//                        pushUpdate("PLAY ",registeredID.get(k));
                 }
             }
         } else {
