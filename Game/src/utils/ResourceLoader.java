@@ -44,10 +44,6 @@ public class ResourceLoader {
                 currentS = "";
                 current = f.read();
             }
-            for (int i =0;i<stringArrayList.size();i++){
-                //System.out.println(stringArrayList.get(i).length());
-                System.out.println((int) (stringArrayList.get(i).charAt(stringArrayList.get(i).length()-1)));
-            }
             return stringArrayList;
         }
         catch (IOException e){
