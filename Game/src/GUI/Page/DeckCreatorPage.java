@@ -15,9 +15,11 @@ public class DeckCreatorPage extends Page{
     private TempDeckZone paLeft;
     private JPanel paRight;
     private JLabel title;
-
+    private JPanel deckShow;
+    private JButton saveButton;
+    private JTextField deckNameField;
     public DeckCreatorPage() {
-        mainPanel.setLayout(new BorderLayout());
+        mainPanel.setLayout(new BorderLayout(20,0));
         mainPanel.setBorder(new EmptyBorder(10,80,10,80));
         // Title Label
         title = new JLabel("Your Deck");
@@ -31,13 +33,31 @@ public class DeckCreatorPage extends Page{
         paLeft.setLayout(new GridLayout(3, 2, 10, 10));
         paLeft.setPreferredSize(new Dimension(500,1080));
 
-        mainPanel.add(paLeft, BorderLayout.WEST);
+        saveButton = new JButton("Save");
+
+        deckNameField = new JTextField();
+
+        deckShow = new JPanel();
+        deckShow.setLayout(new BorderLayout(0,10));
+        deckShow.setPreferredSize(new Dimension(500,1080));
+        deckShow.add(paLeft,BorderLayout.CENTER);
+        deckShow.add(saveButton,BorderLayout.SOUTH);
+        deckShow.add(deckNameField,BorderLayout.NORTH);
+
+        mainPanel.add(deckShow, BorderLayout.WEST);
 
         // Right Panel (4x3 grid with images)
         paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
         loadButton();
+        paRight.setPreferredSize(new Dimension(300,3000));
+        JScrollPane scrollPane = new JScrollPane(paRight);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(1000,900));
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        mainPanel.add(paRight, BorderLayout.CENTER);
+
+
 
         // Frame Settings
 

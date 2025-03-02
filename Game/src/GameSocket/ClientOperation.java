@@ -1,5 +1,10 @@
 package GameSocket;
 
 public enum ClientOperation {
-    SETUP
+    READY,
+    LOBBY,
+    DECK,
+    CARD,
+    DRAW,
+    ACKN,
 }

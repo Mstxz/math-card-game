@@ -1,0 +1,11 @@
+paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
+        final int numberOfCard = 40;
+        for (int i = 1; i <= numberOfCard; i++) {
+            paRight.add(new CardButton("Klong",paLeft));
+        }
+        paRight.setPreferredSize(new Dimension(1000,numberOfCard/()));
+        JScrollPane scrollPane = new JScrollPane(paRight);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(1000,900));
+        mainPanel.add(scrollPane, BorderLayout.CENTER);

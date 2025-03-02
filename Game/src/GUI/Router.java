@@ -4,6 +4,7 @@ import GUI.Component.LobbyProfile;
 import GUI.Page.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Router {
@@ -12,6 +13,8 @@ public class Router {
 
     public Router() {
         mainFrame = new JFrame();
+        mainFrame.setPreferredSize(new Dimension(1920,1080));
+        mainFrame.setMaximumSize(new Dimension(1920,1080));
         Router.setRoute("DeckCreator",null);
     }
 

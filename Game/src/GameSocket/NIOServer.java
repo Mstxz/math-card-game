@@ -194,7 +194,7 @@ public class NIOServer {
                                 else if (bytesRead > 0){
                                     buffer.flip();
                                     data = new String(buffer.array(), buffer.position(), bytesRead,StandardCharsets.UTF_8);
-                                    if (data.equals("END OF DECK")){
+                                    if (data.equals("END")){
                                         //System.out.println("End");
                                         break;
                                     }

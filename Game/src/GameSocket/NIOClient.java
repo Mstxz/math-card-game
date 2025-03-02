@@ -76,35 +76,47 @@ public class NIOClient {
                     switch (args[0]){
                         case "SETUP":
                             currentState = ClientState.LOADING;
-                            buffer.clear().put("DECK".getBytes()).flip();
-                            while (buffer.hasRemaining()){
-                                channel.write(buffer);
-                            }
-                            buffer.clear();
+                            buffer.clear().put("DECK".getBytes());
                             try (BufferedInputStream f = ResourceLoader.loadFileAsStream(deckPath);
                                  InputStreamReader fr = new InputStreamReader(f);
                                  BufferedReader br = new BufferedReader(fr)
                             ){
                                 String line;
                                 while ((line = br.readLine()) != null){
-                                    buffer.put(line.getBytes());
                                     buffer.put("\r\n".getBytes());
-                                }
-                                buffer.flip();
-                                while (buffer.hasRemaining()){
-                                    channel.write(buffer);
+                                    buffer.put(line.getBytes());
                                 }
                             }
-
-                            buffer.clear().put("END OF DECK".getBytes()).flip();
+                            buffer.put("\r\nEND".getBytes()).flip();
                             while (buffer.hasRemaining()){
                                 channel.write(buffer);
                             }
+                            buffer.clear();
+//                            buffer.clear();
+//                            try (BufferedInputStream f = ResourceLoader.loadFileAsStream(deckPath);
+//                                 InputStreamReader fr = new InputStreamReader(f);
+//                                 BufferedReader br = new BufferedReader(fr)
+//                            ){
+//                                String line;
+//                                while ((line = br.readLine()) != null){
+//                                    buffer.put(line.getBytes());
+//                                    buffer.put("\r\n".getBytes());
+//                                }
+//                                buffer.flip();
+//                                while (buffer.hasRemaining()){
+//                                    channel.write(buffer);
+//                                }
+//                            }
+//
+//                            buffer.clear().put("END OF DECK".getBytes()).flip();
+//                            while (buffer.hasRemaining()){
+//                                channel.write(buffer);
+//                            }
 
-                            byteRead = readIntoBuffer();
-                            if (byteRead > 0){
-                                data = new String(buffer.array(),buffer.position(),byteRead);
-                            }
+//                            byteRead = readIntoBuffer();
+//                            if (byteRead > 0){
+//                                data = new String(buffer.array(),buffer.position(),byteRead);
+//                            }
 
                             //players.set(0,new PlayerInfo("",2,0));
                             break;
