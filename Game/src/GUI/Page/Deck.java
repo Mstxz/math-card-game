@@ -1,17 +1,18 @@
 package GUI.Page;
 
+import GUI.Component.CardButton;
+import GUI.Component.TempDeckZone;
+
 import java.awt.*;
 import javax.swing.*;
 
-public class Deck {
-    private JFrame fr;
-    private JPanel paLeft, paRight;
+public class Deck extends Page{
+    private TempDeckZone paLeft;
+    private JPanel paRight;
     private JLabel title;
 
     public Deck() {
-        fr = new JFrame("Your Deck");
-        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fr.setLayout(new GridBagLayout());
+        mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         // Title Label
@@ -22,18 +23,12 @@ public class Deck {
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(10, 10, 10, 10);
-        fr.add(title, gbc);
-
-        // Load and scale images
-        ImageIcon icon = new ImageIcon("./Game/Src/assets/catmemetest.jpg"); // Change to your image path
-        Image img = icon.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(img);
+        mainPanel.add(title, gbc);
 
         // Left Panel (3x2 grid with images)
-        paLeft = new JPanel(new GridLayout(3, 2, 10, 10));
-        for (int i = 1; i <= 6; i++) {
-            paLeft.add(new JButton(scaledIcon));
-        }
+        paLeft = new TempDeckZone();
+        paLeft.setLayout(new GridLayout(3, 2, 10, 10));
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -41,23 +36,22 @@ public class Deck {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(10, 10, 10, 10);
-        fr.add(paLeft, gbc);
+        mainPanel.add(paLeft, gbc);
 
         // Right Panel (4x3 grid with images)
-        paRight = new JPanel(new GridLayout(4, 4, 10, 10));
-        for (int i = 1; i <= 16; i++) {
-            paRight.add(new JButton(scaledIcon));
+        paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
+        for (int i = 1; i <= 5; i++) {
+            paRight.add(new CardButton("Klong",paLeft));
         }
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.weightx = 0.7;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(10, 10, 10, 10);
-        fr.add(paRight, gbc);
+        mainPanel.add(paRight, gbc);
 
         // Frame Settings
-        fr.setSize(1920, 1080);
-        fr.setVisible(true);
+
     }
 
     public static void main(String[] args) {

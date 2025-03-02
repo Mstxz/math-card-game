@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.Component.LobbyProfile;
 import GUI.Page.Page;
 
 import javax.swing.*;

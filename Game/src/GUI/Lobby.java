@@ -1,6 +1,6 @@
 //package GUI;
 //import GUI.Page.Page;
-//import GUI.LobbyProfile;
+//import GUI.Component.LobbyProfile;
 //import java.awt.*;
 //import javax.swing.*;
 ////lobby gui

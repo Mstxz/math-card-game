@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.Component.LobbyProfile;
 import GUI.Page.*;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ public class Router {
 
     public Router() {
         mainFrame = new JFrame();
-        Router.setRoute("Lobby2",null);
+        Router.setRoute("DeckCreater",null);
     }
 
     public static void main(String[] args) {
@@ -25,6 +26,7 @@ public class Router {
             case "MainMenu" -> new MainMenuPage();
             case  "Avenger" -> new AvengerAssembleGUI();
             case  "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
+            case "DeckCreater" -> new Deck();
             default -> null;
         };
         mainFrame.getContentPane().removeAll();
