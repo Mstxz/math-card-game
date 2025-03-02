@@ -33,7 +33,7 @@ public class CardButton extends JPanel implements ActionListener {
         String[] temp = name.split(" ");
         Card tempCard;
         if (temp.length == 2){
-            System.out.println(temp[0]+"/"+temp[1]);
+            //System.out.println(temp[0]+"/"+temp[1]);
             tempCard = Card.createCard(temp[0],Integer.valueOf(temp[1]));
         }
         else {
