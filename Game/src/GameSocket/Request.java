@@ -47,6 +47,10 @@ public class Request {
         return data;
     }
 
+    public String getDataUTF() {
+        return new String(data,0,bytesLength,StandardCharsets.UTF_8);
+    }
+
     public void setData(byte[] data) {
         this.data = data;
         this.bytesLength = this.data.length;
@@ -85,7 +89,9 @@ public class Request {
     public static Request decodeBytes(byte[] bytes){
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
         try {
-            ProtocolOperation operation = ProtocolOperation.values()[in.readInt()];
+            int opCode = in.readInt();
+            System.out.println(opCode);
+            ProtocolOperation operation = ProtocolOperation.values()[opCode];
             int dataBytes = in.readInt();
             byte[] dataGet = in.readNBytes(dataBytes);
             return new Request(operation,dataGet);

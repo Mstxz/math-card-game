@@ -150,7 +150,10 @@ public class NIOClient {
 //                                    }
 //                                }
 //                            }
-
+                            break;
+                        case COUNT:
+                            System.out.println(serverReq.getDataUTF());
+                            break;
                         default:
                             System.out.println(buffer.asLongBuffer().get());
                     }

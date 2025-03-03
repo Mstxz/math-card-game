@@ -8,10 +8,12 @@ public class PlayerState {
     private PlayerInfo playerInfo;
     private boolean started;
     private String deckPath;
-    private ArrayDeque<byte[]> dataOutQueue;
+    private int countDown;
+    private ArrayDeque<Request> requestQueue;
 
     public PlayerState(int id){
-        dataOutQueue = new ArrayDeque<byte[]>();
+        requestQueue = new ArrayDeque<Request>();
+        countDown = 11;
         setPlayerInfo(new PlayerInfo());
         playerInfo.setPlayerID(id);
     }
@@ -36,6 +38,14 @@ public class PlayerState {
         this.started = started;
     }
 
+    public int getCountDown() {
+        return countDown;
+    }
+
+    public void setCountDown(int countDown) {
+        this.countDown = countDown;
+    }
+
     public String getDeckPath() {
         return deckPath;
     }
@@ -52,7 +62,7 @@ public class PlayerState {
         this.playerInfo = playerInfo;
     }
 
-    public ArrayDeque<byte[]> getDataOutQueue() {
-        return dataOutQueue;
+    public ArrayDeque<Request> getDataOutQueue() {
+        return requestQueue;
     }
 }
