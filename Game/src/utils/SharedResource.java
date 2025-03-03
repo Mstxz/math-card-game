@@ -1,5 +1,6 @@
 package utils;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -25,5 +26,15 @@ public class SharedResource {
 
     public static Font getFont48(){
         return new Font("Madimi One Regular",Font.PLAIN,48);
+    }
+
+    public static Font getCustomSizeFont(int size){
+        return new Font("Madimi One Regular",Font.PLAIN,size);
+    }
+
+    public static void setAllFont(){
+        UIDefaults u = UIManager.getDefaults();
+        u.put("Button.font",new Font("Madimi One Regular",Font.PLAIN,24));
+        u.put("Label.font",new Font("Madimi One Regular",Font.PLAIN,24));
     }
 }

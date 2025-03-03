@@ -14,10 +14,11 @@ public class Router {
 
     public Router() {
         SharedResource.loadFont();
+        SharedResource.setAllFont();
         mainFrame = new JFrame();
         mainFrame.setPreferredSize(new Dimension(1920,1080));
         mainFrame.setMaximumSize(new Dimension(1920,1080));
-        Router.setRoute("DeckCreator",null);
+        Router.setRoute("MainMenu",null);
     }
 
     public static void main(String[] args) {

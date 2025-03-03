@@ -1,6 +1,7 @@
 package GUI.Page;
 
 import GUI.Router;
+import utils.SharedResource;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -58,7 +59,7 @@ public class MainMenuPage extends Page implements ActionListener {
         TitlePanel.setBackground(new Color(255, 255, 255, 0));
         TitlePanel.add(Title = new JLabel("Math Card Game"));
         Title.setForeground(Color.WHITE);
-        Title.setFont(new Font("Arial", Font.BOLD, 72));
+        Title.setFont(SharedResource.getCustomSizeFont(70));
         Title.setBorder(new EmptyBorder(50,50,0,0));
 
         ButtonZone = new JPanel();
@@ -93,7 +94,7 @@ public class MainMenuPage extends Page implements ActionListener {
         button.setBackground(new Color(255, 255, 255, 0));
         button.setBorder(new EmptyBorder(5,50,0,0));
         button.setFocusPainted(false);
-        button.setFont(new Font("Arial", Font.BOLD, 24));
+        button.setFont(SharedResource.getCustomSizeFont(30));
         button.setForeground(Color.WHITE);
         button.setPreferredSize(new Dimension(300, 100));
         button.addActionListener(this);
@@ -106,6 +107,9 @@ public class MainMenuPage extends Page implements ActionListener {
         }
         else if (e.getSource().equals(exitButton)){
             System.exit(0);
+        }
+        else if (e.getSource().equals(yourDecksButton)){
+            Router.setRoute("DeckCreator",null);
         }
     }
 }
