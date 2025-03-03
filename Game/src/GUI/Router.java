@@ -2,6 +2,7 @@ package GUI;
 
 import GUI.Component.LobbyProfile;
 import GUI.Page.*;
+import utils.SharedResource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class Router {
     private static JFrame mainFrame;
 
     public Router() {
+        SharedResource.loadFont();
         mainFrame = new JFrame();
         mainFrame.setPreferredSize(new Dimension(1920,1080));
         mainFrame.setMaximumSize(new Dimension(1920,1080));

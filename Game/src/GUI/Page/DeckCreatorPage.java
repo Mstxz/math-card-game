@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import Gameplay.Card;
 import utils.ResourceLoader;
+import utils.SharedResource;
 
 public class DeckCreatorPage extends Page implements ActionListener {
     private TempDeckZone paLeft;
@@ -29,7 +30,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
         mainPanel.setBorder(new EmptyBorder(10,80,10,80));
         // Title Label
         title = new JLabel("Your Deck");
-        title.setFont(new Font("Arial", Font.BOLD, 26));
+        title.setFont(SharedResource.getFont48());
+        title.setForeground(SharedResource.SIAMESE_DARK);
         title.setHorizontalAlignment(SwingConstants.LEFT);
         title.setPreferredSize(new Dimension(title.getWidth(),100));
         mainPanel.add(title, BorderLayout.NORTH);
