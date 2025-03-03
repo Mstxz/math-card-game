@@ -161,6 +161,7 @@ public class Player {
         }
 
     }
+
     public static void log(Player self,Player enemy){
         System.out.println(self.getName()+"'s hp ("+self.getPlayerNumber()+") : "+self.getHp());
         System.out.println(self.getName()+"'s mana ("+self.getPlayerNumber()+") : "+self.getMana());
@@ -191,5 +192,28 @@ public class Player {
 
     public static boolean checkWinNonPrint(Player a,Player b){
         return ((Constant) (a.getHp())).getNumber() == 0 || a.getDeck().getCards().isEmpty() || ((Constant) (b.getHp())).getNumber() == 0 || b.getDeck().getCards().isEmpty();
+    }
+
+    public void playCard(Player self,Player enemy,int index){
+        ArrayList<Integer> playable = self.showCard(self,enemy);
+        if (!playable.contains(index)) {
+            System.out.println("It's not playable! Choose the white color text (Start from 0)");
+            return;
+        }
+        Card c = hand.remove(index);
+        c.action(self,enemy);
+        deck.addDispose(c);
+
+    }
+
+    public void startTurn(){
+        this.mana = maxMana;
+        this.draw();
+    }
+
+    public void endTurn(){
+        if (maxMana<10){
+            maxMana+=1;
+        }
     }
 }
