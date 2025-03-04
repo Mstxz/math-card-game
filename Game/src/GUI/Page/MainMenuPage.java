@@ -25,7 +25,7 @@ public class MainMenuPage extends Page implements ActionListener {
         super();
         // Ensure the background image exists
         try {
-            bg = new ImageIcon(getClass().getClassLoader().getResource("assets/Bg.jpg")).getImage();
+            bg = new ImageIcon(getClass().getClassLoader().getResource("assets/blankBG.jpg")).getImage();
         } catch (Exception e) {
             System.out.println("Error loading background image: " + e.getMessage());
             // You can use a default image or just a solid color as a fallback
@@ -58,14 +58,15 @@ public class MainMenuPage extends Page implements ActionListener {
         TitlePanel = new JPanel(new BorderLayout());
         TitlePanel.setBackground(new Color(255, 255, 255, 0));
         TitlePanel.add(Title = new JLabel("Math Card Game"));
-        Title.setForeground(Color.WHITE);
+        Title.setForeground(new Color(100, 90, 82));
         Title.setFont(SharedResource.getCustomSizeFont(70));
         Title.setBorder(new EmptyBorder(50,50,0,0));
 
         ButtonZone = new JPanel();
         ButtonZone.setLayout(new BoxLayout(ButtonZone, BoxLayout.Y_AXIS));
+        ButtonZone.setPreferredSize(new Dimension(400, 800));
         ButtonZone.setBackground(new Color(255, 255, 255, 0));
-        ButtonZone.setBorder(new EmptyBorder(50,50,0,0));
+        ButtonZone.setBorder(new EmptyBorder(50,50,0,50));
         ButtonZone.setOpaque(false);
         ButtonZone.add(playButton);
         setButton(playButton);
@@ -80,6 +81,8 @@ public class MainMenuPage extends Page implements ActionListener {
         ButtonZone.add(exitButton);
         setButton(exitButton);
 
+
+
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.CENTER);
     }
@@ -92,11 +95,23 @@ public class MainMenuPage extends Page implements ActionListener {
     public void setButton(JButton button) {
         button.setOpaque(false);
         button.setBackground(new Color(255, 255, 255, 0));
-        button.setBorder(new EmptyBorder(5,50,0,0));
+        button.setBorder(new EmptyBorder(5, 50, 0, 0));
         button.setFocusPainted(false);
-        button.setFont(SharedResource.getCustomSizeFont(30));
-        button.setForeground(Color.WHITE);
-        button.setPreferredSize(new Dimension(300, 100));
+        button.setForeground(new Color(100, 90, 62));
+
+        // Default size and font for other buttons
+        Dimension defaultSize = new Dimension(300, 150);
+        Font defaultFont = SharedResource.getCustomSizeFont(28);
+
+        // Increase Play button size and font
+        if (button == playButton) {
+            button.setPreferredSize(new Dimension(350, 150)); // Bigger button
+            button.setFont(SharedResource.getCustomSizeFont(50)); // Bigger text
+        } else {
+            button.setPreferredSize(defaultSize);
+            button.setFont(defaultFont);
+        }
+
         button.addActionListener(this);
     }
 
