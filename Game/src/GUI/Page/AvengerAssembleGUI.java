@@ -14,6 +14,7 @@ import Gameplay.Card;
 import Gameplay.Deck;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
+import utils.SharedResource;
 
 public class AvengerAssembleGUI extends Page implements ActionListener{
 	private static final Dimension	OpponentSize = new Dimension(165, 225);
@@ -40,6 +41,9 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 	public AvengerAssembleGUI()
 	{
 		super();
+		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
+
+
 		player = new Player("Arktik");
 		player.setHp(new Constant(100));
 		try {
@@ -59,6 +63,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		MiddlePanel = new JPanel();
 		OpponentHand = new ArrayList<JButton>();
 		UserHand = new ArrayList<JButton>();
+
 		OpponentName = new JLabel("OPPONENT's NAME");
 		OpponentProfile = new JLabel("PFP");
 		OpponentMana = new JLabel("MANA: 66 / 100");
@@ -66,21 +71,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerProfile = new JLabel("PFP");
 		PlayerMana = new JLabel("MANA: 12 / 100");
 
-		OpponentName.setFont(new Font("Arial", Font.BOLD, 40));
-		OpponentProfile.setFont(new Font("Arial", Font.BOLD, 50));
-		OpponentMana.setFont(new Font("Arial", Font.BOLD, 40));
-
-		PlayerName.setFont(new Font("Arial", Font.BOLD, 40));
-		PlayerProfile.setFont(new Font("Arial", Font.BOLD, 50));
-		PlayerMana.setFont(new Font("Arial", Font.BOLD, 40));
 
 		OpponentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
-		OpponentPanel.setBackground(new Color(0xFF0000));
+		//OpponentPanel.setBackground(new Color(0xFF0000));
 
 		MiddlePanel.setLayout(new GridLayout(2,2));
 
 		UserPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
-		UserPanel.setBackground(new Color(0x00FFFF));
+		//UserPanel.setBackground(new Color(0x00FFFF));
 
 		OpponentMainPanel.setLayout(new BorderLayout());
 		OpponentInfo.setLayout(new BorderLayout());
@@ -109,6 +107,15 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerInfo.add(PlayerProfile, BorderLayout.CENTER);
 		this.initCard();
 
+		OpponentMainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+		OpponentInfo.setBackground(SharedResource.SIAMESE_BRIGHT);
+		OpponentStatus.setBackground(SharedResource.SIAMESE_BRIGHT);
+		OpponentPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+		PlayerMainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+		PlayerInfo.setBackground(SharedResource.SIAMESE_BRIGHT);
+		PlayerStatus.setBackground(SharedResource.SIAMESE_BRIGHT);
+		UserPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		//Frame.setSize(1920, 1080);
 		mainPanel.setVisible(true);
 	}
