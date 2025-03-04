@@ -10,34 +10,36 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import GUI.Router;
+import GUI.Component.HandDeck;
 import Gameplay.Card;
 import Gameplay.Deck;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
 import utils.SharedResource;
 
+/**
+ * <h1>Wanna create a doc??</h1>
+ * <img src="https://iopwiki.com/images/8/8c/GFL2_Centaureissi_Story_7.png">
+ */
 public class AvengerAssembleGUI extends Page implements ActionListener{
-	private static final Dimension	OpponentSize = new Dimension(165, 225);
-	private static final Dimension	HandSize = new Dimension(247, 337);
-	private JPanel	OpponentPanel;
-	private JPanel	MiddlePanel;
-	private JPanel	UserPanel;
-	private JPanel	OpponentInfo;
-	private JPanel	OpponentStatus;
-	private JPanel	OpponentMainPanel;
-	private JPanel	PlayerMainPanel;
-	private ArrayList<JButton>	OpponentHand;
-	private ArrayList<JButton>	UserHand;
-	private JLabel	OpponentName;
-	private JLabel	OpponentProfile;
-	private JLabel	OpponentMana;
-	private JPanel	PlayerInfo;
-	private JPanel	PlayerStatus;
-	private JLabel	PlayerName;
-	private JLabel	PlayerProfile;
-	private JLabel	PlayerMana;
-	private Player player;
-	private Player enemy;
+	private	HandDeck	OpponentPanel;
+	private JPanel		MiddlePanel;
+	private	HandDeck	UserPanel;
+	private JPanel		OpponentInfo;
+	private JPanel		OpponentStatus;
+	private JPanel		OpponentMainPanel;
+	private JPanel		PlayerMainPanel;
+	private JLabel		OpponentName;
+	private JLabel		OpponentProfile;
+	private JLabel		OpponentMana;
+	private JPanel		PlayerInfo;
+	private JPanel		PlayerStatus;
+	private JLabel		PlayerName;
+	private JLabel		PlayerProfile;
+	private JLabel		PlayerMana;
+	private Player		player;
+	private Player		enemy;
+
 	public AvengerAssembleGUI()
 	{
 		super();
@@ -52,17 +54,16 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 			throw new RuntimeException(e);
 		}
 		player.getDeck().shuffle();
-		OpponentPanel = new JPanel();
+		UserPanel = new HandDeck(player, false);
+		OpponentPanel = new HandDeck(player, true);
 		OpponentMainPanel = new JPanel();
 		PlayerMainPanel = new JPanel();
-		UserPanel = new JPanel();
+		UserPanel = new HandDeck(player, false);
 		OpponentInfo = new JPanel();
 		OpponentStatus = new JPanel();
 		PlayerInfo = new JPanel();
 		PlayerStatus = new JPanel();
 		MiddlePanel = new JPanel();
-		OpponentHand = new ArrayList<JButton>();
-		UserHand = new ArrayList<JButton>();
 
 		OpponentName = new JLabel("OPPONENT's NAME");
 		OpponentProfile = new JLabel("PFP");
@@ -71,14 +72,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerProfile = new JLabel("PFP");
 		PlayerMana = new JLabel("MANA: 12 / 100");
 
-
-		OpponentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
-		//OpponentPanel.setBackground(new Color(0xFF0000));
-
 		MiddlePanel.setLayout(new GridLayout(2,2));
-
-		UserPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
-		//UserPanel.setBackground(new Color(0x00FFFF));
 
 		OpponentMainPanel.setLayout(new BorderLayout());
 		OpponentInfo.setLayout(new BorderLayout());
@@ -119,57 +113,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		//Frame.setSize(1920, 1080);
 		mainPanel.setVisible(true);
 	}
-
-	public void updateHand() {
-		UserPanel.removeAll();// Clear old cards
-		//ArrayList<Integer> playable = Player.listPlayableCard(this.player,this.enemy);
-		for (int i = 0; i < player.getHand().size(); i++) {
-			Card card = player.getHand().get(i);
-			newCardBtn(UserPanel, UserHand,card.getPicture(), HandSize);
-//			if (playable.contains(i)) {
-//
-//			}
-//			else{
-//				cardLabel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-//			}
-		}
-		UserPanel.revalidate();
-		UserPanel.repaint();
-	}
 	
 	public void	initCard()
 	{
-		for (int i = 0; i < 5; i++)
-			newCardBtn(OpponentPanel, OpponentHand,"assets/BackSideCard.png", OpponentSize);
-
 		for (int i = 0; i < 5; i++) {
 			player.draw();
 		}
-		updateHand();
-	}
-	
-	public void newCardBtn(JPanel panel, ArrayList<JButton> hand, String path, Dimension dimension)
-	{
-		JButton	res;
-		Image	img;
-		
-		res = new JButton();
-		res.setSize(dimension);
-		res.setPreferredSize(dimension);
-		try
-		{
-			img = new ImageIcon(getClass().getClassLoader().getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
-			res.setIcon(new ImageIcon(img));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return ;
-		}
-		res.addActionListener(this);
-		hand.add(res);
-		panel.add(res);
-		mainPanel.setVisible(true);
+		OpponentPanel.RenderHand();
+		UserPanel.RenderHand();
 	}
 	
 	@Override
