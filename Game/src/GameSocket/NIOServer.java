@@ -92,7 +92,7 @@ public class NIOServer {
                         Request bytesOut = playerState[registeredID.get(client)].getDataOutQueue().poll();
                         if (bytesOut != null){
                             //System.out.println(bytesOut.length);
-                            System.out.println(bytesOut);
+
                             buffer.clear();
                             buffer.put(bytesOut.encodeBytes());
                             buffer.flip();
@@ -248,6 +248,7 @@ public class NIOServer {
                 for (PlayerState from : playerState) {
                     if (from != null) {
                         serverReq.appendData(from.getPlayerInfo().encodeBytes());
+                        System.out.println(serverReq);
                         //bf.put(from.getPlayerInfo().encodeBytes());
                     }
                 }

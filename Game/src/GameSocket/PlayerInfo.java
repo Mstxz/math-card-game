@@ -14,7 +14,7 @@ public class PlayerInfo {
     private String name;
     private String profilePicture;
     private int mana;
-    private ArrayList<Card> hand;
+    private int cardsInHand;
     private Number hp;
     private NumberType numberType;
     private int maxMana;
@@ -28,7 +28,7 @@ public class PlayerInfo {
         this.name = name;
         this.profilePicture = profilePicture;
         this.mana = 1;
-        this.hand = new ArrayList<Card>();
+        this.cardsInHand = 0;
         this.hp = new Constant(hp);
         this.numberType = NumberType.CONSTANT;
         this.maxMana = 1;
@@ -36,7 +36,7 @@ public class PlayerInfo {
     }
 
     public byte[] encodeBytes(){
-        ByteBuffer bf = ByteBuffer.allocate(1024);
+        ByteBuffer bf = ByteBuffer.allocate(16+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length);
         bf.putInt(playerNumber);
         bf.putInt(100);
         bf.putInt(name.getBytes(StandardCharsets.UTF_8).length);
@@ -87,12 +87,12 @@ public class PlayerInfo {
         this.mana = mana;
     }
 
-    public ArrayList<Card> getHand() {
-        return hand;
+    public int getCardsInHand() {
+        return cardsInHand;
     }
 
-    public void setHand(ArrayList<Card> hand) {
-        this.hand = hand;
+    public void setCardsInHand(int cardsInHand) {
+        this.cardsInHand = cardsInHand;
     }
 
     public Number getHp() {
@@ -133,7 +133,7 @@ public class PlayerInfo {
                 "name='" + name + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
                 ", mana=" + mana +
-                ", hand=" + hand +
+                ", cardsInHand=" + cardsInHand +
                 ", hp=" + hp +
                 ", numberType=" + numberType +
                 ", maxMana=" + maxMana +
