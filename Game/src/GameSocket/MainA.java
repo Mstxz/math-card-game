@@ -12,6 +12,7 @@ public class MainA {
             c.pressedReady("assets/a.txt");
             c.lobby();
         } catch (RuntimeException e) {
+            e.printStackTrace();
             System.out.println("Connection Out");
         }
 //        //c1.lobby();

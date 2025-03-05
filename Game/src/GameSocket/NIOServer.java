@@ -56,28 +56,31 @@ public class NIOServer {
                         SocketChannel client = (SocketChannel) k.channel();
                         if(gameStarting != -1){
                             long epochSecond = Instant.now().getEpochSecond();
+
                             if(epochSecond < gameStarting){
-                                buffer.clear();
-                                buffer.putLong(gameStarting-epochSecond);
-                                buffer.flip();
-                                while (buffer.hasRemaining()) {
-                                    client.write(buffer);
+                                if (playerState[registeredID.get(client)].getCountDown() > gameStarting-epochSecond){
+                                    playerState[registeredID.get(client)].setCountDown(playerState[registeredID.get(client)].getCountDown() - 1);
+                                    System.out.println(gameStarting-epochSecond);
+                                    Request serverReq = new Request(ProtocolOperation.COUNT);
+                                    serverReq.setData(String.valueOf(gameStarting-epochSecond));
+                                    buffer.clear();
+                                    buffer.put(serverReq.encodeBytes());
+                                    buffer.flip();
+                                    while (buffer.hasRemaining()) {
+                                        client.write(buffer);
+                                    }
+                                    buffer.clear();
                                 }
                             }
                             else if(!playerState[registeredID.get(client)].isStarted()){
+                                Request serverReq = new Request(ProtocolOperation.DECK);
                                 buffer.clear();
-                                buffer.putLong(gameStarting-epochSecond);
+                                buffer.put(serverReq.encodeBytes());
                                 buffer.flip();
                                 while (buffer.hasRemaining()) {
                                     client.write(buffer);
                                 }
-
                                 buffer.clear();
-                                buffer.put("SETUP".getBytes(StandardCharsets.UTF_8));
-                                buffer.flip();
-                                while (buffer.hasRemaining()) {
-                                    client.write(buffer);
-                                }
                                 playerState[registeredID.get(client)].setStarted(true);
                             }
 
@@ -86,11 +89,12 @@ public class NIOServer {
                                 gameStarting = -1;
                             }
                         }
-                        byte[] bytesOut = playerState[registeredID.get(client)].getDataOutQueue().poll();
+                        Request bytesOut = playerState[registeredID.get(client)].getDataOutQueue().poll();
                         if (bytesOut != null){
-                            System.out.println(bytesOut.length);
+                            //System.out.println(bytesOut.length);
+
                             buffer.clear();
-                            buffer.put(bytesOut);
+                            buffer.put(bytesOut.encodeBytes());
                             buffer.flip();
                             while (buffer.hasRemaining()) {
                                 client.write(buffer);
@@ -236,39 +240,33 @@ public class NIOServer {
         }
     }
     private void lobbyUpdate(){
-        pushUpdate("LOBBY");
-        ByteBuffer bf = ByteBuffer.allocate(1024);
+        Request serverReq = new Request(ProtocolOperation.LOBBY);
+//        pushUpdate("LOBBY");
+//        ByteBuffer bf = ByteBuffer.allocate(1024);
         for(PlayerState to:playerState){
             if(to!= null) {
                 for (PlayerState from : playerState) {
                     if (from != null) {
-                        bf.put(from.getPlayerInfo().encodeBytes());
+                        serverReq.appendData(from.getPlayerInfo().encodeBytes());
+                        System.out.println(serverReq);
+                        //bf.put(from.getPlayerInfo().encodeBytes());
                     }
                 }
-                to.getDataOutQueue().add(bf.array());
+                to.getDataOutQueue().add(serverReq);
             }
         }
-        pushUpdate("END");
     }
-    public void pushUpdate(String str){
+    public void pushUpdate(Request req){
         for(PlayerState ps:playerState){
             if (ps !=null){
-                ps.getDataOutQueue().add(str.getBytes(StandardCharsets.UTF_8));
+                ps.getDataOutQueue().add(req);
             }
         }
     }
-    public void pushUpdate(byte[] bytes){
-        for(PlayerState ps:playerState){
-            if (ps !=null){
-                ps.getDataOutQueue().add(bytes);
-            }
-
-        }
-    }
-    public void pushUpdate(String str,int exclude){
+    public void pushUpdate(Request req,int exclude){
         for(PlayerState ps:playerState){
             if (ps !=null && ps.getPlayerInfo().getPlayerID() != exclude){
-                ps.getDataOutQueue().add(str.getBytes(StandardCharsets.UTF_8));
+                ps.getDataOutQueue().add(req);
             }
         }
     }

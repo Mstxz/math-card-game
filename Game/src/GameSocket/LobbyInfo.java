@@ -3,5 +3,6 @@ package GameSocket;
 import java.util.ArrayList;
 
 public class LobbyInfo {
-    ArrayList<PlayerInfo> players;
+    private ArrayList<PlayerInfo> players;
+    private int turn;
 }

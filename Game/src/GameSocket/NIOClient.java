@@ -31,7 +31,6 @@ public class NIOClient {
             channel = SocketChannel.open(address);
             channel.configureBlocking(true);
             Request req = new Request(ProtocolOperation.USER,"Arktik assets/icon.png 100");
-            System.out.println(new String(req.getData(), 0, req.getBytesLength(),StandardCharsets.UTF_8));
             buffer.clear();
             buffer.put(req.encodeBytes());
             buffer.flip();
@@ -77,7 +76,7 @@ public class NIOClient {
 
     public void lobby() throws RuntimeException{
         try {
-            while (currentState == ClientState.IDLE || currentState == ClientState.READY) {
+            while (currentState == ClientState.IDLE || currentState == ClientState.READY || currentState == ClientState.LOADING) {
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
                     Request serverReq = Request.decodeBytes(buffer.array());
@@ -136,7 +135,7 @@ public class NIOClient {
                             //players.set(0,new PlayerInfo("",2,0));
                             break;
                         case LOBBY:
-                            //System.out.println("BRUH");
+                            System.out.println("BRUH");
 //                            while ((byteRead = readIntoBuffer()) != -1){
 //                                if (byteRead > 1){
 //                                    if (byteRead != "END".getBytes().length){
@@ -150,9 +149,12 @@ public class NIOClient {
 //                                    }
 //                                }
 //                            }
-
+                            break;
+                        case COUNT:
+                            System.out.println(serverReq.getDataUTF());
+                            break;
                         default:
-                            System.out.println(buffer.asLongBuffer().get());
+                            //System.out.println(buffer.asLongBuffer().get());
                     }
                     buffer.clear();
                 }

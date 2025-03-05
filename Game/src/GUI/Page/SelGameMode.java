@@ -9,19 +9,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenuPage extends Page implements ActionListener {
+public class SelGameMode extends Page implements ActionListener {
     private JPanel ButtonZone;
     private JPanel TitlePanel;
-    private JButton playButton = new JButton("PLAY");
-    private JButton yourDecksButton = new JButton("Your Decks");
-    private JButton tutorialButton = new JButton("Tutorial");
-    private JButton settingsButton = new JButton("Settings");
-    private JButton creditButton = new JButton("Credits");
-    private JButton exitButton = new JButton("Exit");
     private JLabel Title;
+    private JButton playerButton = new JButton("Player vs Player");
+    private JButton botButton = new JButton("Player vs Bot");
+    private JButton exitButton = new JButton("exit");
+    private JButton backButton = new JButton("Back");
     private Image bg;
 
-    public MainMenuPage() {
+    public SelGameMode() {
         super();
         // Ensure the background image exists
         try {
@@ -68,20 +66,14 @@ public class MainMenuPage extends Page implements ActionListener {
         ButtonZone.setBackground(new Color(255, 255, 255, 0));
         ButtonZone.setBorder(new EmptyBorder(50,50,0,50));
         ButtonZone.setOpaque(false);
-        ButtonZone.add(playButton);
-        setButton(playButton);
-        ButtonZone.add(yourDecksButton);
-        setButton(yourDecksButton);
-        ButtonZone.add(tutorialButton);
-        setButton(tutorialButton);
-        ButtonZone.add(settingsButton);
-        setButton(settingsButton);
-        ButtonZone.add(creditButton);
-        setButton(creditButton);
-        ButtonZone.add(exitButton);
-        setButton(exitButton);
-
-
+        ButtonZone.add(playerButton);
+        setButton(playerButton);
+        ButtonZone.add(botButton);
+        setButton(botButton);
+        ButtonZone.add(backButton);
+        setButton(backButton);
+//        ButtonZone.add(exitButton);
+//        setButton(exitButton);
 
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.CENTER);
@@ -100,31 +92,26 @@ public class MainMenuPage extends Page implements ActionListener {
         button.setForeground(new Color(100, 90, 62));
 
         // Default size and font for other buttons
-        Dimension defaultSize = new Dimension(300, 200);
+        Dimension defaultSize = new Dimension(300, 100);
         Font defaultFont = SharedResource.getCustomSizeFont(28);
+        //button.setPreferredSize(defaultSize);
+        button.setFont(defaultFont);
 
         // Increase Play button size and font
-        if (button == playButton) {
-            button.setPreferredSize(new Dimension(350, 200)); // Bigger button
-            button.setFont(SharedResource.getCustomSizeFont(50)); // Bigger text
-        } else {
-            button.setPreferredSize(defaultSize);
-            button.setFont(defaultFont);
-        }
 
         button.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(playButton)){
-            Router.setRoute("SelMode",null);
+        if (e.getSource().equals(botButton)){
+            Router.setRoute("Avenger",null);
         }
-        else if (e.getSource().equals(exitButton)){
-            System.exit(0);
-        }
-        else if (e.getSource().equals(yourDecksButton)){
-            Router.setRoute("DeckCreator",null);
+//        else if (e.getSource().equals(playerButton)){
+//            Router.setRoute("Avenger",null);
+//        }
+        else if (e.getSource().equals(backButton)){
+            Router.setRoute("MainMenu",null);
         }
     }
 }

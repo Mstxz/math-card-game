@@ -7,6 +7,8 @@ import java.io.IOException;
 
 public class SharedResource {
     private static GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    public static final int CARD_WIDTH = 165;
+    public static final int CARD_HEIGHT = 225;
     public static final Color SIAMESE_BRIGHT = new Color(221, 218, 210);
     public static final Color SIAMESE_LIGHT = new Color(191, 180, 168);
     public static final Color SIAMESE_BASE = new Color(100, 90, 98);

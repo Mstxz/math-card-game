@@ -7,5 +7,6 @@ public abstract class Number {
     public abstract Number subtract(Number a);
     public abstract Number multiply(Number a);
     public abstract Number divided(Number a);
-
+    @Override
+    public abstract String toString();
 }

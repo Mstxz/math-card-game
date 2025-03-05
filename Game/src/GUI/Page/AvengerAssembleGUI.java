@@ -1,15 +1,11 @@
 package GUI.Page;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import javax.swing.*;
 
 import GUI.Router;
+import GUI.Component.HandDeck;
 import Gameplay.Card;
 import Gameplay.Cards.Minus;
 import Gameplay.Deck;
@@ -40,13 +36,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 	private JLabel	PlayerMana;
 	private Player player;
 	private Player enemy;
-
-	private JButton endTurnButton;
 	public AvengerAssembleGUI()
 	{
 		super();
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
-
 
 		player = new Player("Arktik");
 		player.setHp(new Constant(100));
@@ -56,17 +49,16 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 			throw new RuntimeException(e);
 		}
 		player.getDeck().shuffle();
-		OpponentPanel = new JPanel();
+		UserPanel = new HandDeck(player, false);
+		OpponentPanel = new HandDeck(player, true);
 		OpponentMainPanel = new JPanel();
 		PlayerMainPanel = new JPanel();
-		UserPanel = new JPanel();
+		UserPanel = new HandDeck(player, false);
 		OpponentInfo = new JPanel();
 		OpponentStatus = new JPanel();
 		PlayerInfo = new JPanel();
 		PlayerStatus = new JPanel();
 		MiddlePanel = new JPanel();
-		OpponentHand = new ArrayList<JButton>();
-		UserHand = new ArrayList<JButton>();
 
 		OpponentName = new JLabel("OPPONENT's NAME");
 		OpponentProfile = new JLabel("PFP");
@@ -79,10 +71,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		OpponentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
 		//OpponentPanel.setBackground(new Color(0xFF0000));
 
-		MiddlePanel.setLayout(new BorderLayout());
-
-		UserPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
-		//UserPanel.setBackground(new Color(0x00FFFF));
+		MiddlePanel.setLayout(new GridLayout(2,2));
 
 		OpponentMainPanel.setLayout(new BorderLayout());
 		OpponentInfo.setLayout(new BorderLayout());
@@ -142,64 +131,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 
 		mainPanel.setVisible(true);
 	}
-
-	public void updateHand() {
-		UserPanel.removeAll();// Clear old cards
-		//ArrayList<Integer> playable = Player.listPlayableCard(this.player,this.enemy);
-		for (int i = 0; i < player.getHand().size(); i++) {
-			Card card = player.getHand().get(i);
-			newCardBtn(UserPanel, UserHand,card.getPicture(), HandSize);
-//			if (playable.contains(i)) {
-//
-//			}
-//			else{
-//				cardLabel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-//			}
-		}
-		UserPanel.revalidate();
-		UserPanel.repaint();
-	}
 	
 	public void	initCard()
 	{
-		for (int i = 0; i < 5; i++)
-			newCardBtn(OpponentPanel, OpponentHand,"assets/BackSideCard.png", OpponentSize);
-
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 15; i++) {
 			player.draw();
 		}
-		updateHand();
-	}
-	
-	public void newCardBtn(JPanel panel, ArrayList<JButton> hand, String path, Dimension dimension)
-	{
-		JButton	res;
-		Image	img;
-		
-		res = new JButton();
-		res.setSize(dimension);
-		res.setPreferredSize(dimension);
-		try
-		{
-			img = new ImageIcon(getClass().getClassLoader().getResource(path)).getImage().getScaledInstance(res.getWidth(), res.getHeight(), Image.SCALE_DEFAULT);
-			res.setIcon(new ImageIcon(img));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return ;
-		}
-		res.addActionListener(this);
-		hand.add(res);
-		panel.add(res);
-		mainPanel.setVisible(true);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof JButton) {
-			System.out.println("Click");
-		}
+		OpponentPanel.RenderHand();
+		UserPanel.RenderHand();
 	}
 
 	public static void main(String[] args) {
