@@ -12,11 +12,11 @@ import java.awt.event.ActionListener;
 public class MainMenuPage extends Page implements ActionListener {
     private JPanel ButtonZone;
     private JPanel TitlePanel;
-    private JButton playButton = new JButton("Play");
+    private JButton playButton = new JButton("PLAY");
     private JButton yourDecksButton = new JButton("Your Decks");
     private JButton tutorialButton = new JButton("Tutorial");
     private JButton settingsButton = new JButton("Settings");
-    private JButton creditButton = new JButton("Credit");
+    private JButton creditButton = new JButton("Credits");
     private JButton exitButton = new JButton("Exit");
     private JLabel Title;
     private Image bg;
@@ -57,7 +57,7 @@ public class MainMenuPage extends Page implements ActionListener {
 
         TitlePanel = new JPanel(new BorderLayout());
         TitlePanel.setBackground(new Color(255, 255, 255, 0));
-        TitlePanel.add(Title = new JLabel("Math Card Game"));
+        TitlePanel.add(Title = new JLabel("Meaothematicians"));
         Title.setForeground(new Color(100, 90, 82));
         Title.setFont(SharedResource.getCustomSizeFont(70));
         Title.setBorder(new EmptyBorder(50,50,0,0));
@@ -100,12 +100,12 @@ public class MainMenuPage extends Page implements ActionListener {
         button.setForeground(new Color(100, 90, 62));
 
         // Default size and font for other buttons
-        Dimension defaultSize = new Dimension(300, 150);
+        Dimension defaultSize = new Dimension(300, 200);
         Font defaultFont = SharedResource.getCustomSizeFont(28);
 
         // Increase Play button size and font
         if (button == playButton) {
-            button.setPreferredSize(new Dimension(350, 150)); // Bigger button
+            button.setPreferredSize(new Dimension(350, 200)); // Bigger button
             button.setFont(SharedResource.getCustomSizeFont(50)); // Bigger text
         } else {
             button.setPreferredSize(defaultSize);

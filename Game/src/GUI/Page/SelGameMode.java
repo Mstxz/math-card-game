@@ -13,8 +13,8 @@ public class SelGameMode extends Page implements ActionListener {
     private JPanel ButtonZone;
     private JPanel TitlePanel;
     private JLabel Title;
-    private JButton botButton = new JButton("Play with Bot");
-    private JButton playerButton = new JButton("Play with Player");
+    private JButton playerButton = new JButton("Player vs Player");
+    private JButton botButton = new JButton("Player vs Bot");
     private JButton exitButton = new JButton("exit");
     private JButton backButton = new JButton("Back");
     private Image bg;
@@ -55,7 +55,7 @@ public class SelGameMode extends Page implements ActionListener {
 
         TitlePanel = new JPanel(new BorderLayout());
         TitlePanel.setBackground(new Color(255, 255, 255, 0));
-        TitlePanel.add(Title = new JLabel("Select Game Mode"));
+        TitlePanel.add(Title = new JLabel("Meaothematicians"));
         Title.setForeground(new Color(100, 90, 82));
         Title.setFont(SharedResource.getCustomSizeFont(70));
         Title.setBorder(new EmptyBorder(50,50,0,0));
@@ -66,14 +66,14 @@ public class SelGameMode extends Page implements ActionListener {
         ButtonZone.setBackground(new Color(255, 255, 255, 0));
         ButtonZone.setBorder(new EmptyBorder(50,50,0,50));
         ButtonZone.setOpaque(false);
-        ButtonZone.add(botButton);
-        setButton(botButton);
         ButtonZone.add(playerButton);
         setButton(playerButton);
+        ButtonZone.add(botButton);
+        setButton(botButton);
         ButtonZone.add(backButton);
         setButton(backButton);
-        ButtonZone.add(exitButton);
-        setButton(exitButton);
+//        ButtonZone.add(exitButton);
+//        setButton(exitButton);
 
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.CENTER);
@@ -92,8 +92,10 @@ public class SelGameMode extends Page implements ActionListener {
         button.setForeground(new Color(100, 90, 62));
 
         // Default size and font for other buttons
-        Dimension defaultSize = new Dimension(300, 150);
+        Dimension defaultSize = new Dimension(300, 100);
         Font defaultFont = SharedResource.getCustomSizeFont(28);
+        //button.setPreferredSize(defaultSize);
+        button.setFont(defaultFont);
 
         // Increase Play button size and font
 
@@ -105,12 +107,11 @@ public class SelGameMode extends Page implements ActionListener {
         if (e.getSource().equals(botButton)){
             Router.setRoute("Avenger",null);
         }
-        else if (e.getSource().equals(exitButton)){
-            System.exit(0);
-        }
+//        else if (e.getSource().equals(playerButton)){
+//            Router.setRoute("Avenger",null);
+//        }
         else if (e.getSource().equals(backButton)){
             Router.setRoute("MainMenu",null);
         }
     }
 }
-
