@@ -17,18 +17,23 @@ public class PlayerProfile extends JPanel {
         super();
         this.username = username;
         this.profilePicture = profilePicture;
+
         nameLabel = new JLabel(username);
         nameLabel.setFont(SharedResource.getFont48());
         nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
         pictureHolder = new JLabel();
         pictureHolder.setBackground(SharedResource.SIAMESE_DARK);
         pictureHolder.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,10));
         pictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
+
         ImageIcon ic = ResourceLoader.loadPicture(profilePicture,220,220);
         pictureHolder.setIcon(ic);
         this.setLayout(new BorderLayout(0,15));
         this.add(nameLabel,BorderLayout.SOUTH);
         this.add(pictureHolder,BorderLayout.CENTER);
+        this.setBackground(SharedResource.SIAMESE_BRIGHT);
+
     }
 
     public String getUsername() {

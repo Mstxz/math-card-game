@@ -1,6 +1,7 @@
 package GUI.Page;
 
 import GUI.Router;
+import utils.ResourceLoader;
 import utils.SharedResource;
 
 import javax.swing.*;
@@ -32,18 +33,16 @@ public class SelGameMode extends Page implements ActionListener {
         initComponents();
         try {
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
-            mainFrame.setIconImage(icon.getImage());
+            //mainFrame.setIconImage(icon.getImage());
         } catch (Exception e) {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
-        mainFrame.setResizable(false);
-        mainFrame.setSize(1920, 1080);
     }
 
     private void initComponents() {
         // MainPanel: Use GridBagLayout instead of GridLayout for flexible positioning
-        mainPanel = new JPanel(new GridLayout(3,1)) {
+        mainPanel = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g); // Ensures the panel is painted first
@@ -55,17 +54,18 @@ public class SelGameMode extends Page implements ActionListener {
 
         TitlePanel = new JPanel(new BorderLayout());
         TitlePanel.setBackground(new Color(255, 255, 255, 0));
-        TitlePanel.add(Title = new JLabel("Meaothematicians"));
-        Title.setForeground(new Color(100, 90, 82));
-        Title.setFont(SharedResource.getCustomSizeFont(70));
-        Title.setBorder(new EmptyBorder(50,50,0,0));
+        TitlePanel.add(Title = new JLabel("Meowthematicians"));
+        Title.setForeground(SharedResource.SIAMESE_BASE);
+        Title.setFont(SharedResource.getCustomSizeFont(100));
+        Title.setBorder(new EmptyBorder(150,150,0,0));
 
         ButtonZone = new JPanel();
         ButtonZone.setLayout(new BoxLayout(ButtonZone, BoxLayout.Y_AXIS));
         ButtonZone.setPreferredSize(new Dimension(400, 800));
         ButtonZone.setBackground(new Color(255, 255, 255, 0));
-        ButtonZone.setBorder(new EmptyBorder(50,50,0,50));
+        ButtonZone.setBorder(new EmptyBorder(50,100,0,50));
         ButtonZone.setOpaque(false);
+
         ButtonZone.add(playerButton);
         setButton(playerButton);
         ButtonZone.add(botButton);
@@ -89,11 +89,13 @@ public class SelGameMode extends Page implements ActionListener {
         button.setBackground(new Color(255, 255, 255, 0));
         button.setBorder(new EmptyBorder(5, 50, 0, 0));
         button.setFocusPainted(false);
-        button.setForeground(new Color(100, 90, 62));
+        button.setForeground(SharedResource.SIAMESE_DARK);
+        button.setIcon(ResourceLoader.loadPicture("assets/catpaw_icon.png", 30, 30));
+        button.setHorizontalTextPosition(SwingConstants.RIGHT);
+        button.setIconTextGap(10);
+        Dimension defaultSize = new Dimension(300, 50);
+        Font defaultFont = SharedResource.getCustomSizeFont(36);
 
-        // Default size and font for other buttons
-        Dimension defaultSize = new Dimension(300, 100);
-        Font defaultFont = SharedResource.getCustomSizeFont(28);
         //button.setPreferredSize(defaultSize);
         button.setFont(defaultFont);
 

@@ -13,10 +13,17 @@ public class Player {
     private Number hp = new Constant(100);
     private NumberType numberType = NumberType.CONSTANT;
     private int maxMana = 1;
+    private String profilePicture;
     private int playerNumber;
 
     public Player(String name){
         this.name = name;
+
+    }
+
+    public Player(String name,String profilePicture){
+        this.name = name;
+        this.profilePicture = profilePicture;
 
     }
 
@@ -77,6 +84,22 @@ public class Player {
 
     public void setHp(Number hp) {
         this.hp = hp;
+    }
+
+    public NumberType getNumberType() {
+        return numberType;
+    }
+
+    public void setNumberType(NumberType numberType) {
+        this.numberType = numberType;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public int getPlayerNumber() {
