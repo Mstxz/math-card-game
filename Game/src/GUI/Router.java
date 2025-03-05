@@ -18,7 +18,7 @@ public class Router {
         mainFrame = new JFrame();
         mainFrame.setPreferredSize(new Dimension(1920,1080));
         mainFrame.setMaximumSize(new Dimension(1920,1080));
-        Router.setRoute("Avenger",null);
+        Router.setRoute("SelMode",null);
     }
 
     public static void main(String[] args) {
@@ -30,9 +30,10 @@ public class Router {
             case "Demo" -> new DemoPage();
             case "Demo2" -> new Demo2Page();
             case "MainMenu" -> new MainMenuPage();
-            case "Avenger" -> new AvengerAssembleGUI();
+            case "Avenger" -> new AvengerAssembleGUI(); //game page
             case "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
             case "DeckCreator" -> new DeckCreatorPage();
+            case "SelMode" -> new SelGameMode();
             default -> null;
         };
         mainFrame.getContentPane().removeAll();
