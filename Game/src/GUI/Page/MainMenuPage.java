@@ -1,13 +1,15 @@
 package GUI.Page;
 
 import GUI.Router;
-import utils.SharedResource;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import utils.SharedResource;
 
 public class MainMenuPage extends Page implements ActionListener {
     private JPanel ButtonZone;
@@ -29,7 +31,6 @@ public class MainMenuPage extends Page implements ActionListener {
         } catch (Exception e) {
             System.out.println("Error loading background image: " + e.getMessage());
             // You can use a default image or just a solid color as a fallback
-            //bg = new Color(0, 0, 0); // Solid black as fallback
         }
         initComponents();
         try {
@@ -44,13 +45,12 @@ public class MainMenuPage extends Page implements ActionListener {
     }
 
     private void initComponents() {
-        // MainPanel: Use GridBagLayout instead of GridLayout for flexible positioning
         mainPanel = new JPanel(new GridLayout(3,1)) {
             @Override
             protected void paintComponent(Graphics g) {
-                super.paintComponent(g); // Ensures the panel is painted first
+                super.paintComponent(g); 
                 if (bg != null) {
-                    g.drawImage(bg, 0, 0, getWidth(), getHeight(), this); // Draw the background image
+                    g.drawImage(bg, 0, 0, getWidth(), getHeight(), this); 
                 }
             }
         };
@@ -66,27 +66,44 @@ public class MainMenuPage extends Page implements ActionListener {
         ButtonZone.setLayout(new BoxLayout(ButtonZone, BoxLayout.Y_AXIS));
         ButtonZone.setPreferredSize(new Dimension(400, 800));
         ButtonZone.setBackground(new Color(255, 255, 255, 0));
-        ButtonZone.setBorder(new EmptyBorder(50,50,0,50));
+        ButtonZone.setBorder(new EmptyBorder(25,50,0,50));
         ButtonZone.setOpaque(false);
+
         ButtonZone.add(playButton);
+        playButton.setHorizontalTextPosition(SwingConstants.RIGHT);
+        playButton.setIcon(getScaledIcon("assets/catpaw_icon.png", 20, 20));
         setButton(playButton);
+
         ButtonZone.add(yourDecksButton);
+        yourDecksButton.setIcon(getScaledIcon("assets/catpaw_icon.png", 20, 20));
+        yourDecksButton.setHorizontalTextPosition(SwingConstants.RIGHT);
         setButton(yourDecksButton);
+
         ButtonZone.add(tutorialButton);
+        tutorialButton.setIcon(getScaledIcon("assets/catpaw_icon.png", 20, 20));
+        tutorialButton.setHorizontalTextPosition(SwingConstants.RIGHT);
         setButton(tutorialButton);
+
         ButtonZone.add(settingsButton);
+        settingsButton.setIcon(getScaledIcon("assets/catpaw_icon.png", 20, 20));
+        settingsButton.setHorizontalTextPosition(SwingConstants.RIGHT);
         setButton(settingsButton);
+
         ButtonZone.add(creditButton);
+        creditButton.setIcon(getScaledIcon("assets/catpaw_icon.png", 20, 20));
+        creditButton.setHorizontalTextPosition(SwingConstants.RIGHT);
         setButton(creditButton);
+
         ButtonZone.add(exitButton);
+        exitButton.setIcon(getScaledIcon("assets/catpaw_icon.png", 20, 20));
+        exitButton.setHorizontalTextPosition(SwingConstants.RIGHT);
         setButton(exitButton);
-
-
 
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.CENTER);
     }
 
+    @Override
     public JPanel getMainPanel() {
         return mainPanel;
     }
@@ -99,20 +116,58 @@ public class MainMenuPage extends Page implements ActionListener {
         button.setFocusPainted(false);
         button.setForeground(new Color(100, 90, 62));
 
-        // Default size and font for other buttons
         Dimension defaultSize = new Dimension(300, 200);
-        Font defaultFont = SharedResource.getCustomSizeFont(28);
+        Font defaultFont = SharedResource.getCustomSizeFont(25);
 
-        // Increase Play button size and font
         if (button == playButton) {
-            button.setPreferredSize(new Dimension(350, 200)); // Bigger button
-            button.setFont(SharedResource.getCustomSizeFont(50)); // Bigger text
+            button.setPreferredSize(new Dimension(350, 200)); 
+            button.setFont(SharedResource.getCustomSizeFont(45)); 
         } else {
             button.setPreferredSize(defaultSize);
             button.setFont(defaultFont);
         }
 
+    // originalIcon
+    ImageIcon originalIcon = (ImageIcon) button.getIcon();
+
+    // MouseListener 
+    button.addMouseListener(new MouseAdapter() {
+        // mouseExited setIcon rotatedIcon
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon rotatedIcon = rotateIcon(originalIcon, +90);
+            button.setIcon(rotatedIcon);
+        }
+        // mouseExited setIcon originalIcon
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setIcon(originalIcon);
+        }
+        });
         button.addActionListener(this);
+    }
+
+    private ImageIcon rotateIcon(ImageIcon icon, double angle) {
+        Image image = icon.getImage();
+        int w = image.getWidth(null);
+        int h = image.getHeight(null);
+
+        Image rotatedImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = (Graphics2D) rotatedImage.getGraphics();
+        
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.rotate(Math.toRadians(angle), w / 2, h / 2); // Rotate around the center
+        g2d.drawImage(image, 0, 0, null);
+        g2d.dispose();
+        
+        return new ImageIcon(rotatedImage);
+    }
+
+    // Set ScaledIcon
+    private ImageIcon getScaledIcon(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource(path));
+        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaledImage);
     }
 
     @Override
