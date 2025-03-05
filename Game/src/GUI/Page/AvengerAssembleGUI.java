@@ -9,6 +9,7 @@ import GUI.Component.PlayerInfo;
 import GUI.Component.PlayerProfile;
 import GUI.Component.HandDeck;
 import Gameplay.Deck;
+import Gameplay.GameForGUI;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
 import utils.SharedResource;
@@ -36,6 +37,8 @@ public class AvengerAssembleGUI extends Page{
 	private PlayerInfo enemyInfo;
 
 	private JButton endTurnButton;
+
+	private GameForGUI game;
 	public AvengerAssembleGUI()
 	{
 		super();
