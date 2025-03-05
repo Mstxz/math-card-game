@@ -11,9 +11,11 @@ import javax.swing.*;
 
 import GUI.Router;
 import Gameplay.Card;
+import Gameplay.Cards.Minus;
 import Gameplay.Deck;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
+import utils.ResourceLoader;
 import utils.SharedResource;
 
 public class AvengerAssembleGUI extends Page implements ActionListener{
@@ -38,6 +40,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 	private JLabel	PlayerMana;
 	private Player player;
 	private Player enemy;
+
+	private JButton endTurnButton;
 	public AvengerAssembleGUI()
 	{
 		super();
@@ -75,7 +79,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		OpponentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
 		//OpponentPanel.setBackground(new Color(0xFF0000));
 
-		MiddlePanel.setLayout(new GridLayout(2,2));
+		MiddlePanel.setLayout(new BorderLayout());
 
 		UserPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
 		//UserPanel.setBackground(new Color(0x00FFFF));
@@ -116,7 +120,26 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerInfo.setBackground(SharedResource.SIAMESE_BRIGHT);
 		PlayerStatus.setBackground(SharedResource.SIAMESE_BRIGHT);
 		UserPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+		MiddlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		//Frame.setSize(1920, 1080);
+
+		endTurnButton = new JButton(ResourceLoader.loadPicture("assets/Component/EndTurn.png",150,150));
+		//endTurnButton.setSize(150,150);
+		JPanel panel = new JPanel();
+		//panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		//panel.setLayout(null);
+		panel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+		endTurnButton.setPreferredSize(new Dimension(150,150));
+		endTurnButton.setBorderPainted(false);
+		//endTurnButton.setBounds(0,20,150,150);
+		endTurnButton.setLocation(0,150);
+		panel.setLocation(endTurnButton.getLocation());
+		panel.add(endTurnButton);
+		MiddlePanel.add(panel,BorderLayout.EAST);
+		mainPanel.add(MiddlePanel);
+
 		mainPanel.setVisible(true);
 	}
 
