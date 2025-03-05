@@ -1,5 +1,6 @@
 package Gameplay;
 
+import GUI.Page.AvengerAssembleGUI;
 import Gameplay.Numbers.Constant;
 
 import java.io.FileNotFoundException;
@@ -10,7 +11,8 @@ public class GameForGUI {
     private int selfNumber;
     private Player[] sequencePlayer = new Player[2];
     private int count = 0;
-
+    private boolean isBotTurn = false;
+    private AvengerAssembleGUI gui;
     public GameForGUI(Player self){
         int index = ((int)(Math.random()*2));
         sequencePlayer[index] = self;
@@ -24,7 +26,7 @@ public class GameForGUI {
         }
     }
 
-    public play(){
+    public void play(){
         Player a = sequencePlayer[0];
         Player b = sequencePlayer[1];
         b.setHp(new Constant(100));
@@ -51,12 +53,16 @@ public class GameForGUI {
         }
         b.draw();
         while (!Player.checkWin(self,enemy)){
-
+            if (!gui.isPlayerTurn()){
+                enemy.play(enemy,self);
+                gui.setPlayerTurn(true);
+                this.count += 1;
+            }
         }
     }
 
-    public boolean yourTurn(boolean b){
-        return b;
+    public boolean isBotTurn(){
+        return isBotTurn;
     }
 
     public void setCount(int count){

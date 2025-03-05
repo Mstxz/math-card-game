@@ -37,7 +37,7 @@ public class AvengerAssembleGUI extends Page{
 	private PlayerInfo enemyInfo;
 
 	private JButton endTurnButton;
-
+	private boolean isPlayerTurn;
 	private GameForGUI game;
 	public AvengerAssembleGUI()
 	{
@@ -146,6 +146,13 @@ public class AvengerAssembleGUI extends Page{
 		}
 		OpponentPanel.RenderHand();
 		UserPanel.RenderHand();
+	}
+	public boolean isPlayerTurn(){
+		return isPlayerTurn;
+	}
+
+	public void setPlayerTurn(boolean playerTurn) {
+		isPlayerTurn = playerTurn;
 	}
 
 	public static void main(String[] args) {
