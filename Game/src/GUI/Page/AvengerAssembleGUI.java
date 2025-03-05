@@ -7,35 +7,34 @@ import javax.swing.*;
 import GUI.Router;
 import GUI.Component.HandDeck;
 import Gameplay.Card;
-import Gameplay.Cards.Minus;
 import Gameplay.Deck;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
-import utils.ResourceLoader;
 import utils.SharedResource;
 
-public class AvengerAssembleGUI extends Page implements ActionListener{
-	private static final Dimension	OpponentSize = new Dimension(165, 225);
-	private static final Dimension	HandSize = new Dimension(247, 337);
-	private JPanel	OpponentPanel;
-	private JPanel	MiddlePanel;
-	private JPanel	UserPanel;
-	private JPanel	OpponentInfo;
-	private JPanel	OpponentStatus;
-	private JPanel	OpponentMainPanel;
-	private JPanel	PlayerMainPanel;
-	private ArrayList<JButton>	OpponentHand;
-	private ArrayList<JButton>	UserHand;
-	private JLabel	OpponentName;
-	private JLabel	OpponentProfile;
-	private JLabel	OpponentMana;
-	private JPanel	PlayerInfo;
-	private JPanel	PlayerStatus;
-	private JLabel	PlayerName;
-	private JLabel	PlayerProfile;
-	private JLabel	PlayerMana;
-	private Player player;
-	private Player enemy;
+/**
+ * <h1>Wanna create a doc??</h1>
+ * <img src="https://iopwiki.com/images/8/8c/GFL2_Centaureissi_Story_7.png">
+ */
+public class AvengerAssembleGUI extends Page{
+	private	HandDeck	OpponentPanel;
+	private JPanel		MiddlePanel;
+	private	HandDeck	UserPanel;
+	private JPanel		OpponentInfo;
+	private JPanel		OpponentStatus;
+	private JPanel		OpponentMainPanel;
+	private JPanel		PlayerMainPanel;
+	private JLabel		OpponentName;
+	private JLabel		OpponentProfile;
+	private JLabel		OpponentMana;
+	private JPanel		PlayerInfo;
+	private JPanel		PlayerStatus;
+	private JLabel		PlayerName;
+	private JLabel		PlayerProfile;
+	private JLabel		PlayerMana;
+	private Player		player;
+	private Player		enemy;
+
 	public AvengerAssembleGUI()
 	{
 		super();
@@ -67,10 +66,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerProfile = new JLabel("PFP");
 		PlayerMana = new JLabel("MANA: 12 / 100");
 
-
-		OpponentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, -50, 0));
-		//OpponentPanel.setBackground(new Color(0xFF0000));
-
 		MiddlePanel.setLayout(new GridLayout(2,2));
 
 		OpponentMainPanel.setLayout(new BorderLayout());
@@ -84,7 +79,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(OpponentMainPanel, BorderLayout.NORTH);
 		mainPanel.add(PlayerMainPanel, BorderLayout.SOUTH);
-		
+
 		OpponentMainPanel.add(OpponentPanel, BorderLayout.CENTER);
 		OpponentMainPanel.add(OpponentInfo, BorderLayout.WEST);
 		OpponentMainPanel.add(OpponentStatus, BorderLayout.EAST);
@@ -109,29 +104,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 		PlayerInfo.setBackground(SharedResource.SIAMESE_BRIGHT);
 		PlayerStatus.setBackground(SharedResource.SIAMESE_BRIGHT);
 		UserPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
-
-		MiddlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		//Frame.setSize(1920, 1080);
-
-		endTurnButton = new JButton(ResourceLoader.loadPicture("assets/Component/EndTurn.png",150,150));
-		//endTurnButton.setSize(150,150);
-		JPanel panel = new JPanel();
-		//panel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//panel.setLayout(null);
-		panel.setBackground(SharedResource.SIAMESE_BRIGHT);
-
-		endTurnButton.setPreferredSize(new Dimension(150,150));
-		endTurnButton.setBorderPainted(false);
-		//endTurnButton.setBounds(0,20,150,150);
-		endTurnButton.setLocation(0,150);
-		panel.setLocation(endTurnButton.getLocation());
-		panel.add(endTurnButton);
-		MiddlePanel.add(panel,BorderLayout.EAST);
-		mainPanel.add(MiddlePanel);
-
 		mainPanel.setVisible(true);
 	}
-	
+
 	public void	initCard()
 	{
 		for (int i = 0; i < 15; i++) {
