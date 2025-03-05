@@ -35,6 +35,7 @@ public class AvengerAssembleGUI extends Page{
 	private PlayerProfile enemyProfile;
 	private PlayerInfo enemyInfo;
 
+	private JButton endTurnButton;
 	public AvengerAssembleGUI()
 	{
 		super();
@@ -78,7 +79,7 @@ public class AvengerAssembleGUI extends Page{
 		PlayerStatus.setLayout(new BorderLayout());
 		handPanel.setLayout(new BorderLayout());
 
-		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setLayout(new BorderLayout(10,10));
 		mainPanel.setBorder(new EmptyBorder(20,20,20,20));
 		mainPanel.add(OpponentMainPanel, BorderLayout.NORTH);
 		mainPanel.add(PlayerMainPanel, BorderLayout.SOUTH);
@@ -109,6 +110,24 @@ public class AvengerAssembleGUI extends Page{
 		handPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		UserPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		//Frame.setSize(1920, 1080);
+
+		endTurnButton = new JButton("End Turn");
+		endTurnButton.setPreferredSize(new Dimension(170,170));
+		JPanel p = new JPanel();
+		p.setLayout(new GridLayout(1,6));
+		p.setBackground(SharedResource.SIAMESE_BRIGHT);
+		for (int i = 0;i<5;i++){
+			JPanel tmp = new JPanel();
+			tmp.setBackground(SharedResource.SIAMESE_BRIGHT);
+			p.add(tmp);
+		}
+		JPanel p2 = new JPanel();
+		p2.setBackground(SharedResource.SIAMESE_BRIGHT);
+		p2.add(endTurnButton);
+		p2.setLayout(new FlowLayout());
+		p.add(p2);
+		mainPanel.add(p);
+
 		mainPanel.setVisible(true);
 	}
 	public void updatePlayerHUD(){

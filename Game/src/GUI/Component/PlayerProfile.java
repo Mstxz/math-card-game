@@ -27,7 +27,7 @@ public class PlayerProfile extends JPanel {
         pictureHolder.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,10));
         pictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
 
-        ImageIcon ic = ResourceLoader.loadPicture(profilePicture,220,220);
+        ImageIcon ic = ResourceLoader.loadPicture(profilePicture,170,170);
         pictureHolder.setIcon(ic);
         this.setLayout(new BorderLayout(0,15));
         this.add(nameLabel,BorderLayout.SOUTH);

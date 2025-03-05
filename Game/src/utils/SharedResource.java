@@ -11,7 +11,7 @@ public class SharedResource {
     public static final int CARD_HEIGHT = 225;
     public static final Color SIAMESE_BRIGHT = new Color(221, 218, 210);
     public static final Color SIAMESE_LIGHT = new Color(191, 180, 168);
-    public static final Color SIAMESE_BASE = new Color(100, 90, 98);
+    public static final Color SIAMESE_BASE = new Color(100, 90, 82);
     public static final Color SIAMESE_DARK = new Color(72, 62, 56);
 
     public static void loadFont(){
