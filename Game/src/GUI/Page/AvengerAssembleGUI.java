@@ -1,12 +1,7 @@
 package GUI.Page;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import javax.swing.*;
 
 import GUI.Router;
@@ -21,7 +16,7 @@ import utils.SharedResource;
  * <h1>Wanna create a doc??</h1>
  * <img src="https://iopwiki.com/images/8/8c/GFL2_Centaureissi_Story_7.png">
  */
-public class AvengerAssembleGUI extends Page implements ActionListener{
+public class AvengerAssembleGUI extends Page{
 	private	HandDeck	OpponentPanel;
 	private JPanel		MiddlePanel;
 	private	HandDeck	UserPanel;
@@ -44,7 +39,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 	{
 		super();
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
-
 
 		player = new Player("Arktik");
 		player.setHp(new Constant(100));
@@ -116,18 +110,11 @@ public class AvengerAssembleGUI extends Page implements ActionListener{
 	
 	public void	initCard()
 	{
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 15; i++) {
 			player.draw();
 		}
 		OpponentPanel.RenderHand();
 		UserPanel.RenderHand();
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof JButton) {
-			System.out.println("Click");
-		}
 	}
 
 	public static void main(String[] args) {

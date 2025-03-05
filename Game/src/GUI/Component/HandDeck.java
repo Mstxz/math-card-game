@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Gameplay.Player;
+import Gameplay.Card;
 
 public class HandDeck extends JPanel {
 	private	Player						owner;
@@ -19,7 +20,7 @@ public class HandDeck extends JPanel {
 		this.isEnemy = isEnemy;
 		this.initialize = false;
 		if (isEnemy)
-			this.setLayout(new FlowLayout(FlowLayout.CENTER, -20, 0));
+			this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
 		else
 			this.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.setVisible(true);
@@ -31,9 +32,10 @@ public class HandDeck extends JPanel {
 		
 		if (this.initialize)
 			return ;
-		scale = 1.0 - (0.05 * owner.getHand().size());
-		for (int i = 0; i < owner.getHand().size(); i++) {
-			tmp = new CardPlayable(owner.getHand().get(i), scale, isEnemy);
+		scale = 1.0 - (0.02 * owner.getHand().size());
+		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
+		for (Card c : owner.getHand()) {
+			tmp = new CardPlayable(c, scale, isEnemy);
 			list.add(tmp);
 			this.add(tmp);
 		}
@@ -45,7 +47,9 @@ public class HandDeck extends JPanel {
 	public void	CleanHand()
 	{
 		this.removeAll();
+		list.clear();
 		scale = 1.0;
+		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
 		this.revalidate();
 		this.repaint();
 	}
@@ -56,9 +60,10 @@ public class HandDeck extends JPanel {
 
 		for (CardPlayable c : list)
 			c.rescale(scale);
+		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
 		list.add(tmp);
 		this.add(tmp);
-		scale = 1.0 - (0.05 * list.size());
+		scale = 1.0 - (0.02 * list.size());
 		this.revalidate();
 		this.repaint();
 	}
