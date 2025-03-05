@@ -118,7 +118,7 @@ public class MainMenuPage extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(playButton)){
-            Router.setRoute("Avenger",null);
+            Router.setRoute("SelMode",null);
         }
         else if (e.getSource().equals(exitButton)){
             System.exit(0);
