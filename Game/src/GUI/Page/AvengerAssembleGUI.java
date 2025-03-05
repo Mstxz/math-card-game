@@ -79,7 +79,7 @@ public class AvengerAssembleGUI extends Page{
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(OpponentMainPanel, BorderLayout.NORTH);
 		mainPanel.add(PlayerMainPanel, BorderLayout.SOUTH);
-		
+
 		OpponentMainPanel.add(OpponentPanel, BorderLayout.CENTER);
 		OpponentMainPanel.add(OpponentInfo, BorderLayout.WEST);
 		OpponentMainPanel.add(OpponentStatus, BorderLayout.EAST);
@@ -107,7 +107,7 @@ public class AvengerAssembleGUI extends Page{
 		//Frame.setSize(1920, 1080);
 		mainPanel.setVisible(true);
 	}
-	
+
 	public void	initCard()
 	{
 		for (int i = 0; i < 15; i++) {
