@@ -23,13 +23,15 @@ public class Bot extends Player{
     }
 
     @Override
-    public void play(Player self, Player enemy) {
+    public Card play(Player self, Player enemy) {
         ArrayList<Integer> playable = self.showCard(self,enemy);
         Player.log(self,enemy);
+        Card c;
         int index;
-        while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
+        //Bring this condition to bot while loop
+        if (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
             index = playable.get(((int)(Math.random() * playable.size())));
-            Card c = this.getHand().remove(index);
+            c = this.getHand().remove(index);
             c.action(self,enemy);
             System.out.println(this.getName()+" play "+c.getName()+" to "+c.getReceiver(self,enemy).getName());
             this.getDeck().addDispose(c);
@@ -41,5 +43,6 @@ public class Bot extends Player{
         if (this.getMaxMana()<10){
             this.setMaxMana(this.getMaxMana()+1);
         }
+        return c;
     }
 }
