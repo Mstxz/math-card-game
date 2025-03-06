@@ -1,6 +1,8 @@
 package GUI.Page;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +21,7 @@ import utils.SharedResource;
  * <h1>Wanna create a doc??</h1>
  * <img src="https://iopwiki.com/images/8/8c/GFL2_Centaureissi_Story_7.png">
  */
-public class AvengerAssembleGUI extends Page{
+public class AvengerAssembleGUI extends Page implements ActionListener {
 	private	HandDeck	OpponentPanel;
 	private JPanel		MiddlePanel;
 	private	HandDeck	UserPanel;
@@ -125,7 +127,11 @@ public class AvengerAssembleGUI extends Page{
 		p2.setLayout(new FlowLayout());
 		p.add(p2);
 		mainPanel.add(p);
+
 		mainPanel.setVisible(true);
+
+		endTurnButton.addActionListener(this);
+
 		this.gameLogic();
 	}
 	public void updatePlayerHUD(){
@@ -174,6 +180,15 @@ public class AvengerAssembleGUI extends Page{
 //		}
 	}
 
-
-
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (c && c){
+			endTurnButton.setText("End Turn");
+		}
+		else  if (){
+			endTurnButton.setText("Enemy's Turn");
+			endTurnButton.set(); //TODO: find me method that can change button to unclickable
+		}
+		}
+	}
 }
