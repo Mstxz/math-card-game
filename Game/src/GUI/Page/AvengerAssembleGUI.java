@@ -1,6 +1,8 @@
 package GUI.Page;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +21,7 @@ import utils.SharedResource;
  * <h1>Wanna create a doc??</h1>
  * <img src="https://iopwiki.com/images/8/8c/GFL2_Centaureissi_Story_7.png">
  */
-public class AvengerAssembleGUI extends Page{
+public class AvengerAssembleGUI extends Page implements ActionListener {
 	private	HandDeck	OpponentPanel;
 	private JPanel		MiddlePanel;
 	private	HandDeck	UserPanel;
@@ -174,6 +176,10 @@ public class AvengerAssembleGUI extends Page{
 //		}
 	}
 
-
-
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(endTurnButton)){
+			setPlayerTurn(false);
+		}
+	}
 }
