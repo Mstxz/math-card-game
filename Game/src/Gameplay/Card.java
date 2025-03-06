@@ -1,8 +1,10 @@
 package Gameplay;
 
+import GUI.CardAction;
 import Gameplay.Cards.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public abstract class Card {
@@ -128,7 +130,11 @@ public abstract class Card {
             }
             return null;
         }
+
     }
 
     public abstract void action(Player self,Player enemy);
+    public ArrayList<CardAction> getCardAction(){
+        return null;
+    }
 }

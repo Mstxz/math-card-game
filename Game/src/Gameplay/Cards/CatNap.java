@@ -1,9 +1,13 @@
 package Gameplay.Cards;
 
+import GUI.CardAction;
+import GUI.CardActionType;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
 import Gameplay.Player;
+
+import java.util.ArrayList;
 
 public class CatNap extends Card {
     public CatNap(){
@@ -15,5 +19,13 @@ public class CatNap extends Card {
     public void action(Player self, Player enemy) {
         self.draw();
         self.draw();
+
+    }
+
+    @Override
+    public ArrayList<CardAction> getCardAction(Player self,Player enemy) {
+        ArrayList<CardAction> arr = new ArrayList<CardAction>();
+        arr.add(new CardAction(CardActionType.DRAW,getReceiver(self,enemy)));
+        return arr;
     }
 }
