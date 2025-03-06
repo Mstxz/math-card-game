@@ -182,13 +182,15 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (c && c){
-			endTurnButton.setText("End Turn");
+		if(e.getSource()==endTurnButton){
+			if (isPlayerTurn){
+				endTurnButton.setText("End Turn");
+			}
+			else if (!isPlayerTurn){
+				endTurnButton.setText("Enemy's Turn");
+				endTurnButton.setEnabled(false); //TODO: find me method that can change button to unclickable
+			}
 		}
-		else  if (){
-			endTurnButton.setText("Enemy's Turn");
-			endTurnButton.set(); //TODO: find me method that can change button to unclickable
-		}
-		}
+
 	}
 }
