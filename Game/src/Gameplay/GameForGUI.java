@@ -7,13 +7,14 @@ import java.io.FileNotFoundException;
 
 public class GameForGUI {
     private Player self;
-    private Bot enemy = new Bot();
+    //private Bot enemy = new Bot();
+    private Player enemy;
     private int selfNumber;
     private Player[] sequencePlayer = new Player[2];
     private int count = 0;
     private boolean isBotTurn = false;
     private AvengerAssembleGUI gui;
-    public GameForGUI(Player self){
+    public GameForGUI(Player self,Player enemy){
         int index = ((int)(Math.random()*2));
         sequencePlayer[index] = self;
         selfNumber = index;
@@ -71,5 +72,29 @@ public class GameForGUI {
 
     public int getCount(){
         return this.count;
+    }
+
+    public void setGame(){
+        Player a = sequencePlayer[0];
+        Player b = sequencePlayer[1];
+
+        try {
+            a.setDeck(Deck.LoadDeck("a"));
+            b.setDeck(Deck.LoadDeck("a"));
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        b.setHp(new Constant(100));
+        a.setHp(new Constant(100));
+
+        a.getDeck().shuffle();
+        b.getDeck().shuffle();
+        for(int i=0;i<4;i++){
+            a.draw();
+            b.draw();
+        }
+        b.draw();
     }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Bot extends Player{
     public Bot(){
-        super("Bot1");
+        super("Bot1","assets/icon.png");
     }
 
     @Override

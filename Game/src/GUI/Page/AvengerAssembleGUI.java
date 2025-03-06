@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.PlayerInfo;
 import GUI.Component.PlayerProfile;
 import GUI.Component.HandDeck;
+import Gameplay.Bot;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Numbers.Constant;
@@ -46,7 +47,7 @@ public class AvengerAssembleGUI extends Page{
 
 		player = new Player("Buk George","assets/ProfileCat1.jpg");
 		player.setHp(new Constant(100));
-		enemy = new Player("ThanThai","assets/icon.png");
+		enemy = new Bot();
 		enemy.setHp(new Constant(100));
 		try {
 			player.setDeck(Deck.LoadDeck("a"));
@@ -54,8 +55,9 @@ public class AvengerAssembleGUI extends Page{
 			throw new RuntimeException(e);
 		}
 		player.getDeck().shuffle();
+
 		UserPanel = new HandDeck(player, false);
-		OpponentPanel = new HandDeck(player, true);
+		OpponentPanel = new HandDeck(enemy, true);
 		OpponentMainPanel = new JPanel();
 		handPanel = new JPanel();
 		PlayerMainPanel = new JPanel();
@@ -100,7 +102,7 @@ public class AvengerAssembleGUI extends Page{
 
 		PlayerStatus.add(playerInfo,BorderLayout.SOUTH);
 		PlayerInfo.add(playerProfile);
-		this.initCard();
+		//this.initCard();
 
 		OpponentMainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		OpponentInfo.setBackground(SharedResource.SIAMESE_BRIGHT);
@@ -131,6 +133,8 @@ public class AvengerAssembleGUI extends Page{
 		p.add(p2);
 		mainPanel.add(p);
 
+		this.gameLogic();
+
 		mainPanel.setVisible(true);
 	}
 	public void updatePlayerHUD(){
@@ -139,11 +143,17 @@ public class AvengerAssembleGUI extends Page{
 		enemyInfo.setHp(enemy.getHp());
 		enemyInfo.setMana(enemy.getMana());
 	}
+
+	public void playerRenderHand(){
+		UserPanel.RenderHand();
+	}
+
+	public void enemyRenderHand(){
+		OpponentPanel.RenderHand();
+	}
+
 	public void	initCard()
 	{
-		for (int i = 0; i < 15; i++) {
-			player.draw();
-		}
 		OpponentPanel.RenderHand();
 		UserPanel.RenderHand();
 	}
@@ -155,9 +165,14 @@ public class AvengerAssembleGUI extends Page{
 		isPlayerTurn = playerTurn;
 	}
 
-	public static void main(String[] args) {
-		AvengerAssembleGUI game =  new AvengerAssembleGUI();
-		// game.Frame.setBackground(new Color(0x005F3F));
-		game.initCard();
+	public void gameLogic(){
+		GameForGUI game = new GameForGUI(player,enemy);
+		game.setGame();
+		this.updatePlayerHUD();
+		this.initCard();
+
 	}
+
+
+
 }
