@@ -69,6 +69,7 @@ public class PlayerInfo extends JPanel {
 
     public void setHp(Number hp) {
         this.hp = hp;
+        this.hpField.setText(hp.toString());
     }
 
     public int getMana() {
@@ -77,6 +78,7 @@ public class PlayerInfo extends JPanel {
 
     public void setMana(int mana) {
         this.mana = mana;
+        this.manaLeft.setText(this.mana+"/10");
     }
 
     @Override

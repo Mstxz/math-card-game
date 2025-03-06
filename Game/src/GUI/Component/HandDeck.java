@@ -29,11 +29,11 @@ public class HandDeck extends JPanel {
 	public void	RenderHand()
 	{
 		CardPlayable	tmp;
-		
-		if (this.initialize)
-			return ;
+
+		this.CleanHand();
 		scale = 1.0 - (0.02 * owner.getHand().size());
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
+		System.out.println(owner.getName()+ " : " + owner.getHand().size());
 		for (Card c : owner.getHand()) {
 			tmp = new CardPlayable(c, scale, isEnemy);
 			list.add(tmp);

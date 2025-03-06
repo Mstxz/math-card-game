@@ -49,19 +49,12 @@ public class AvengerAssembleGUI extends Page{
 		player.setHp(new Constant(100));
 		enemy = new Bot();
 		enemy.setHp(new Constant(100));
-		try {
-			player.setDeck(Deck.LoadDeck("a"));
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-		player.getDeck().shuffle();
 
 		UserPanel = new HandDeck(player, false);
 		OpponentPanel = new HandDeck(enemy, true);
 		OpponentMainPanel = new JPanel();
 		handPanel = new JPanel();
 		PlayerMainPanel = new JPanel();
-		UserPanel = new HandDeck(player, false);
 		OpponentInfo = new JPanel();
 		OpponentStatus = new JPanel();
 		PlayerInfo = new JPanel();
@@ -132,10 +125,8 @@ public class AvengerAssembleGUI extends Page{
 		p2.setLayout(new FlowLayout());
 		p.add(p2);
 		mainPanel.add(p);
-
-		this.gameLogic();
-
 		mainPanel.setVisible(true);
+		this.gameLogic();
 	}
 	public void updatePlayerHUD(){
 		playerInfo.setHp(player.getHp());
@@ -154,7 +145,9 @@ public class AvengerAssembleGUI extends Page{
 
 	public void	initCard()
 	{
+
 		OpponentPanel.RenderHand();
+
 		UserPanel.RenderHand();
 	}
 	public boolean isPlayerTurn(){
@@ -166,11 +159,19 @@ public class AvengerAssembleGUI extends Page{
 	}
 
 	public void gameLogic(){
-		GameForGUI game = new GameForGUI(player,enemy);
+		GameForGUI game = new GameForGUI(player,enemy,this);
 		game.setGame();
+		setPlayerTurn(game.getSelfNumber() == 0);
 		this.updatePlayerHUD();
 		this.initCard();
-
+		game.start();
+//		int count;
+//		while (!Player.checkWin(player,enemy)){
+//			if (!isPlayerTurn){
+//				enemy.play(enemy,player);
+//				this.setPlayerTurn(true);
+//			}
+//		}
 	}
 
 

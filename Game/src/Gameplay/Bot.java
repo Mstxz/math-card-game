@@ -24,7 +24,6 @@ public class Bot extends Player{
 
     @Override
     public void play(Player self, Player enemy) {
-        self.draw();
         ArrayList<Integer> playable = self.showCard(self,enemy);
         Player.log(self,enemy);
         int index;

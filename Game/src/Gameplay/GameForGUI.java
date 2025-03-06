@@ -5,7 +5,7 @@ import Gameplay.Numbers.Constant;
 
 import java.io.FileNotFoundException;
 
-public class GameForGUI {
+public class GameForGUI extends Thread {
     private Player self;
     //private Bot enemy = new Bot();
     private Player enemy;
@@ -14,7 +14,7 @@ public class GameForGUI {
     private int count = 0;
     private boolean isBotTurn = false;
     private AvengerAssembleGUI gui;
-    public GameForGUI(Player self,Player enemy){
+    public GameForGUI(Player self,Player enemy,AvengerAssembleGUI gui){
         int index = ((int)(Math.random()*2));
         sequencePlayer[index] = self;
         selfNumber = index;
@@ -25,40 +25,33 @@ public class GameForGUI {
         else {
             sequencePlayer[0] = enemy;
         }
+        this.gui = gui;
     }
 
-    public void play(){
-        Player a = sequencePlayer[0];
-        Player b = sequencePlayer[1];
-        b.setHp(new Constant(100));
-        a.setHp(new Constant(100));
-
-        a.setMaxMana(10);
-        b.setMaxMana(10);
-        a.setMana(10);
-        b.setMana(10);
-
-        System.out.println("Welcome to the game!");
-        try {
-            a.setDeck(Deck.LoadDeck("20Minus"));
-            b.setDeck(Deck.LoadDeck("a"));
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        a.getDeck().shuffle();
-        b.getDeck().shuffle();
-        for(int i=0;i<4;i++){
-            a.draw();
-            b.draw();
-        }
-        b.draw();
-        while (!Player.checkWin(self,enemy)){
-            if (!gui.isPlayerTurn()){
-                enemy.play(enemy,self);
-                gui.setPlayerTurn(true);
-                this.count += 1;
+    @Override
+    public void run(){
+        for (int i = 0 ; i<2*10; i++){
+            Player inPlay = sequencePlayer[i%2];
+            inPlay.draw();
+            System.out.println("Before re-render: "+inPlay.getHand().size());
+            gui.updatePlayerHUD();
+            gui.initCard();
+            System.out.println("After re-render: "+inPlay.getHand().size());
+            if(inPlay instanceof Bot){
+                int targetId = ((int)(Math.random()*2));
+                while (targetId == i % 2){
+                    targetId = ((int)(Math.random()*2));
+                }
+                inPlay.play(inPlay,sequencePlayer[targetId]);
             }
+            else{
+                gui.setPlayerTurn(true);
+                while (gui.isPlayerTurn()){
+                    //System.out.println("Waiting for player input");
+                }
+            }
+            gui.updatePlayerHUD();
+            gui.initCard();
         }
     }
 
@@ -72,6 +65,14 @@ public class GameForGUI {
 
     public int getCount(){
         return this.count;
+    }
+
+    public int getSelfNumber() {
+        return selfNumber;
+    }
+
+    public void setSelfNumber(int selfNumber) {
+        this.selfNumber = selfNumber;
     }
 
     public void setGame(){
