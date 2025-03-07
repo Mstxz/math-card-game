@@ -32,6 +32,7 @@ public class HandDeck extends JPanel implements ActionListener {
 		else
 			this.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.setVisible(true);
+		this.updatePlayable(gui.getEnemy());
 	}
 
 	public void	RenderHand()
@@ -92,7 +93,6 @@ public class HandDeck extends JPanel implements ActionListener {
 					gui.getSelectOpponent().setVisible(true);
 					//gui.addCardPlayed(cardPlayed);
 					cardPlayed.action(owner, gui.getSelectOpponent().getReciever());
-					gui.getSelectOpponent().setVisible(false);
 				}
 				else{
 					cardPlayed.action(owner, gui.getEnemy());

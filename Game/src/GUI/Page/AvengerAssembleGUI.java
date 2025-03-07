@@ -222,4 +222,12 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	public Player getEnemy() {
 		return enemy;
 	}
+
+	public HandDeck getUserPanel() {
+		return UserPanel;
+	}
+
+	public void setUserPanel(HandDeck userPanel) {
+		UserPanel = userPanel;
+	}
 }

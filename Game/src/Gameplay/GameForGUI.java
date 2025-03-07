@@ -19,6 +19,7 @@ public class GameForGUI extends Thread {
         int index = ((int)(Math.random()*2));
         sequencePlayer[index] = self;
         selfNumber = index;
+        self.setPlayerNumber(index);
         //cardGui = new CardGameGUI(a.getHand(),a,b);
         if (index == 0) {
             sequencePlayer[1] = enemy;
@@ -56,6 +57,7 @@ public class GameForGUI extends Thread {
         for (int i = 0 ; i<2*20; i++){
             Player inPlay = sequencePlayer[i%2];
             inPlay.draw();
+            gui.getUserPanel().updatePlayable(gui.getEnemy());
             //System.out.println("Before re-render: "+inPlay.getHand().size());
             gui.updatePlayerHUD();
             gui.initCard();
@@ -76,6 +78,9 @@ public class GameForGUI extends Thread {
                 }
             }
             else{
+                gui.getUserPanel().updatePlayable(gui.getEnemy());
+                gui.updatePlayerHUD();
+                gui.initCard();
                 gui.setPlayerTurn(true);
                 this.waitForGUI();
                 this.checkPause();
@@ -84,10 +89,12 @@ public class GameForGUI extends Thread {
                 inPlay.setMaxMana(inPlay.getMaxMana()+1);
             }
             inPlay.setMana(inPlay.getMaxMana());
+            gui.getUserPanel().updatePlayable(gui.getEnemy());
             gui.updatePlayerHUD();
             gui.initCard();
         }
         System.out.println("Round out");
+        System.out.println("Draw");
     }
 
     public boolean isBotTurn(){

@@ -72,4 +72,8 @@ public class SelectOpponent extends JDialog  implements ActionListener {
     public Player getReciever() {
         return reciever;
     }
+
+    public void setReciever(Player reciever) {
+        this.reciever = reciever;
+    }
 }
