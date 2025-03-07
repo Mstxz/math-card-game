@@ -2,6 +2,7 @@ package GUI.Page;
 
 import GUI.Component.CardButton;
 import GUI.Component.CardLabel;
+import GUI.Component.ColoredComboBoxRenderer;
 import GUI.Component.TempDeckZone;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JLabel title;
     private JPanel deckShow;
     private JButton saveButton;
-    private JTextField deckNameField;
+    private JComboBox deckNameField;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -40,10 +41,16 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paLeft = new TempDeckZone();
         paLeft.setLayout(new GridLayout(3, 2, 10, 10));
         paLeft.setPreferredSize(new Dimension(500,1080));
-
+        paLeft.setBackground(SharedResource.SIAMESE_LIGHT); 
         saveButton = new JButton("Save");
 
-        deckNameField = new JTextField();
+        String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
+        deckNameField = new JComboBox<>(options);
+        deckNameField.setRenderer(new ColoredComboBoxRenderer());
+        deckNameField.setBorder(BorderFactory.createTitledBorder("Your Decks"));
+        deckNameField.setBackground(SharedResource.SIAMESE_BRIGHT);
+        deckNameField.setPreferredSize(new Dimension(100, 40));
+        deckNameField.setBorder(BorderFactory.createLineBorder(SharedResource.SIAMESE_BASE, 1, true));
 
         deckShow = new JPanel();
         deckShow.setLayout(new BorderLayout(0,10));
@@ -58,12 +65,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
         loadButton();
         paRight.setPreferredSize(new Dimension(300,3000));
+        paRight.setBackground(SharedResource.SIAMESE_LIGHT); 
         JScrollPane scrollPane = new JScrollPane(paRight);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(1000,900));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
-
         saveButton.addActionListener(this);
     }
 
