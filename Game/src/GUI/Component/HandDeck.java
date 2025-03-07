@@ -10,6 +10,7 @@ import Gameplay.Card;
 public class HandDeck extends JPanel {
 	private	Player						owner;
 	private	ArrayList<CardPlayable>		list = new ArrayList<CardPlayable>();
+	private ArrayList<Integer>			playableIndex = new ArrayList<Integer>();
 	private	boolean						isEnemy;
 	private	boolean						initialize;
 	private	double						scale = 1.0;
@@ -34,14 +35,19 @@ public class HandDeck extends JPanel {
 		scale = 1.0 - (0.02 * owner.getHand().size());
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
 		System.out.println(owner.getName()+ " : " + owner.getHand().size());
-		for (Card c : owner.getHand()) {
-			tmp = new CardPlayable(c, scale, isEnemy);
+		for (int i = 0;i < owner.getHand().size();i++) {
+			tmp = new CardPlayable(owner.getHand().get(i), scale, isEnemy,playableIndex.contains(i));
+			tmp.setPlayable(playableIndex.contains(i));
 			list.add(tmp);
 			this.add(tmp);
 		}
 		this.initialize = true;
 		this.revalidate();
 		this.repaint();
+	}
+
+	public void updatePlayable(Player enemy){
+		playableIndex = Player.listPlayableCard(owner,enemy);
 	}
 
 	public void	CleanHand()
@@ -56,7 +62,7 @@ public class HandDeck extends JPanel {
 
 	public void	AppendCard()
 	{
-		CardPlayable	tmp = new CardPlayable(owner.getHand().getLast(), scale, isEnemy);
+		CardPlayable	tmp = new CardPlayable(owner.getHand().getLast(), scale, isEnemy,true);
 
 		for (CardPlayable c : list)
 			c.rescale(scale);

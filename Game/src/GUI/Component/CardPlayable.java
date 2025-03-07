@@ -14,11 +14,12 @@ public class CardPlayable extends JButton implements MouseListener {
 	private	boolean	isEnemy;
 	private	int		OLD_WIDTH;
 	private	int		OLD_HEIGHT;
-
-	public CardPlayable(Card card, double scale, boolean isEnemy) {
+	private boolean isPlayable;
+	public CardPlayable(Card card, double scale, boolean isEnemy,boolean isPlayable) {
 		super();
 		this.card = card;
 		this.isEnemy = isEnemy;
+		this.setPlayable(isPlayable);
 		this.setSize((int)(SharedResource.CARD_WIDTH * scale), (int)(SharedResource.CARD_HEIGHT * scale));
 		this.setIcon();
 		this.addMouseListener(this);
@@ -37,6 +38,10 @@ public class CardPlayable extends JButton implements MouseListener {
 			this.setIcon(ResourceLoader.loadPicture(this.card.getPicture(), this.getWidth(), this.getHeight()));
 		else
 			this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
+	}
+
+	public void setPlayable(boolean playable) {
+		this.isPlayable = playable;
 	}
 
 	@Override

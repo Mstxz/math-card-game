@@ -21,38 +21,56 @@ public class GameForGUI extends Thread {
         //cardGui = new CardGameGUI(a.getHand(),a,b);
         if (index == 0) {
             sequencePlayer[1] = enemy;
+            enemy.setPlayerNumber(1);
         }
         else {
             sequencePlayer[0] = enemy;
+            enemy.setPlayerNumber(0);
         }
         this.gui = gui;
     }
 
     @Override
     public void run(){
-        for (int i = 0 ; i<2*10; i++){
+        for (int i = 0 ; i<2*20; i++){
             Player inPlay = sequencePlayer[i%2];
             inPlay.draw();
-            System.out.println("Before re-render: "+inPlay.getHand().size());
+            //System.out.println("Before re-render: "+inPlay.getHand().size());
+            System.out.println("LOOP");
             gui.updatePlayerHUD();
             gui.initCard();
-            System.out.println("After re-render: "+inPlay.getHand().size());
+            //System.out.println("After re-render: "+inPlay.getHand().size());
+            if(Player.checkWin(sequencePlayer[0],sequencePlayer[1])){
+                System.out.println("Win");
+                return;
+            }
             if(inPlay instanceof Bot){
                 int targetId = ((int)(Math.random()*2));
                 while (targetId == i % 2){
                     targetId = ((int)(Math.random()*2));
                 }
-                inPlay.play(inPlay,sequencePlayer[targetId]);
+                Card c;
+                while ((c = inPlay.play(inPlay,sequencePlayer[targetId])) != null){
+                        System.out.println(c);
+                    continue;
+                }
             }
             else{
                 gui.setPlayerTurn(true);
                 while (gui.isPlayerTurn()){
-                    //System.out.println("Waiting for player input");
+                    //continue;
+                    System.out.println("Waiting for player input:"+gui.isPlayerTurn());
                 }
+                System.out.println("End Player Turn");
             }
+            if (inPlay.getMaxMana()<10){
+                inPlay.setMaxMana(inPlay.getMaxMana()+1);
+            }
+            inPlay.setMana(inPlay.getMaxMana());
             gui.updatePlayerHUD();
             gui.initCard();
         }
+        System.out.println("Round out");
     }
 
     public boolean isBotTurn(){

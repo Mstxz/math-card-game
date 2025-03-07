@@ -157,17 +157,29 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		UserPanel.RenderHand();
 	}
 	public boolean isPlayerTurn(){
+		//System.out.println("Called : "+isPlayerTurn);
 		return isPlayerTurn;
 	}
 
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
+		System.out.println(isPlayerTurn);
+		if (isPlayerTurn){
+			endTurnButton.setText("End Turn");
+			endTurnButton.setEnabled(true);
+		}
+		else{
+			endTurnButton.setText("Enemy's Turn");
+			endTurnButton.setEnabled(false);
+		}
+
 	}
 
 	public void gameLogic(){
 		GameForGUI game = new GameForGUI(player,enemy,this);
 		game.setGame();
 		setPlayerTurn(game.getSelfNumber() == 0);
+		this.UserPanel.updatePlayable(enemy);
 		this.updatePlayerHUD();
 		this.initCard();
 		game.start();
@@ -182,14 +194,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==endTurnButton){
-			if (isPlayerTurn){
-				endTurnButton.setText("End Turn");
-			}
-			else if (!isPlayerTurn){
-				endTurnButton.setText("Enemy's Turn");
-				endTurnButton.setEnabled(false); //TODO: find me method that can change button to unclickable
-			}
+		if (e.getSource()==endTurnButton){
+			setPlayerTurn(false);
 		}
 
 	}
