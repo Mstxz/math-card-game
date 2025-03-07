@@ -122,13 +122,14 @@ public abstract class Card {
                 }
                 return enemy;
             }
-            System.out.print("Select Opponent : ");
-            Scanner sc = new Scanner(System.in);
-            int index = sc.nextInt();
-            if (index == 0 || index == 1){
-                return Game.getPlayer(index);
-            }
-            return null;
+            return enemy;
+//            System.out.print("Select Opponent : ");
+//            Scanner sc = new Scanner(System.in);
+//            int index = sc.nextInt();
+//            if (index == 0 || index == 1){
+//                return Game.getPlayer(index);
+//            }
+//            return null;
         }
 
     }

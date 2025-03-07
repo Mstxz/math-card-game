@@ -1,13 +1,19 @@
 package GUI.Component;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import GUI.Page.AvengerAssembleGUI;
+import Gameplay.CardType;
 import Gameplay.Player;
 import Gameplay.Card;
 
-public class HandDeck extends JPanel {
+public class HandDeck extends JPanel implements ActionListener {
+	// We should make GUI static
+	private AvengerAssembleGUI gui;
 	private	Player						owner;
 	private	ArrayList<CardPlayable>		list = new ArrayList<CardPlayable>();
 	private ArrayList<Integer>			playableIndex = new ArrayList<Integer>();
@@ -15,8 +21,9 @@ public class HandDeck extends JPanel {
 	private	boolean						initialize;
 	private	double						scale = 1.0;
 
-	public HandDeck(Player owner, boolean isEnemy)
+	public HandDeck(AvengerAssembleGUI gui,Player owner, boolean isEnemy)
 	{
+		this.gui = gui;
 		this.owner = owner;
 		this.isEnemy = isEnemy;
 		this.initialize = false;
@@ -34,9 +41,8 @@ public class HandDeck extends JPanel {
 		this.CleanHand();
 		scale = 1.0 - (0.02 * owner.getHand().size());
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
-		System.out.println(owner.getName()+ " : " + owner.getHand().size());
 		for (int i = 0;i < owner.getHand().size();i++) {
-			tmp = new CardPlayable(owner.getHand().get(i), scale, isEnemy,playableIndex.contains(i));
+			tmp = new CardPlayable(this,owner.getHand().get(i), scale, isEnemy,playableIndex.contains(i));
 			tmp.setPlayable(playableIndex.contains(i));
 			list.add(tmp);
 			this.add(tmp);
@@ -62,7 +68,7 @@ public class HandDeck extends JPanel {
 
 	public void	AppendCard()
 	{
-		CardPlayable	tmp = new CardPlayable(owner.getHand().getLast(), scale, isEnemy,true);
+		CardPlayable	tmp = new CardPlayable(this,owner.getHand().getLast(), scale, isEnemy,true);
 
 		for (CardPlayable c : list)
 			c.rescale(scale);
@@ -72,5 +78,31 @@ public class HandDeck extends JPanel {
 		scale = 1.0 - (0.02 * list.size());
 		this.revalidate();
 		this.repaint();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() instanceof JButton){
+			CardPlayable c = (CardPlayable) e.getSource();
+			if(c.isPlayable()) {
+				int index = list.indexOf(c);
+				Card cardPlayed = owner.getHand().remove(index);
+				//gui.addCardPlayed(cardPlayed);
+				if (cardPlayed.getType() == CardType.GREEN){
+					gui.getSelectOpponent().setVisible(true);
+					//gui.addCardPlayed(cardPlayed);
+					cardPlayed.action(owner, gui.getSelectOpponent().getReciever());
+					gui.getSelectOpponent().setVisible(false);
+				}
+				else{
+					cardPlayed.action(owner, gui.getEnemy());
+
+				}
+				owner.getDeck().addDispose(cardPlayed);
+				this.updatePlayable(gui.getEnemy());
+				gui.updatePlayerHUD();
+				gui.initCard();
+			}
+		}
 	}
 }

@@ -28,7 +28,6 @@ public class Bot extends Player{
         Player.log(self,enemy);
         Card c = null;
         int index;
-        System.out.println(playable);
         //Bring this condition to bot while loop
         if (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
             index = playable.get(((int)(Math.random() * playable.size())));

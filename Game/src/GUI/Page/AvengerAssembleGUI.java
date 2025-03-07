@@ -4,17 +4,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import GUI.Component.PlayerInfo;
-import GUI.Component.PlayerProfile;
-import GUI.Component.HandDeck;
-import Gameplay.Bot;
-import Gameplay.Deck;
-import Gameplay.GameForGUI;
+import GUI.Component.*;
+import Gameplay.*;
 import Gameplay.Numbers.Constant;
-import Gameplay.Player;
 import utils.SharedResource;
 
 /**
@@ -38,9 +34,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	private PlayerInfo playerInfo;
 	private PlayerProfile enemyProfile;
 	private PlayerInfo enemyInfo;
-
+	private ArrayList<Card> cardPlayed = new ArrayList<Card>();
 	private JButton endTurnButton;
 	private boolean isPlayerTurn;
+	private SelectOpponent selectOpponent;
 	private GameForGUI game;
 	public AvengerAssembleGUI()
 	{
@@ -52,8 +49,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		enemy = new Bot();
 		enemy.setHp(new Constant(100));
 
-		UserPanel = new HandDeck(player, false);
-		OpponentPanel = new HandDeck(enemy, true);
+		selectOpponent = new SelectOpponent(player,enemy);
+
+		UserPanel = new HandDeck(this,player, false);
+		OpponentPanel = new HandDeck(this,enemy, true);
 		OpponentMainPanel = new JPanel();
 		handPanel = new JPanel();
 		PlayerMainPanel = new JPanel();
@@ -163,7 +162,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
-		System.out.println(isPlayerTurn);
 		if (isPlayerTurn){
 			endTurnButton.setText("End Turn");
 			endTurnButton.setEnabled(true);
@@ -175,8 +173,16 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 	}
 
+	public ArrayList<Card> getCardPlayed() {
+		return cardPlayed;
+	}
+
+	public void addCardPlayed(Card cardPlayed) {
+		this.cardPlayed.add(cardPlayed);
+	}
+
 	public void gameLogic(){
-		GameForGUI game = new GameForGUI(player,enemy,this);
+		game = new GameForGUI(player,enemy,this);
 		game.setGame();
 		setPlayerTurn(game.getSelfNumber() == 0);
 		this.UserPanel.updatePlayable(enemy);
@@ -192,11 +198,28 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 //		}
 	}
 
+	public SelectOpponent getSelectOpponent() {
+		return selectOpponent;
+	}
+
+	public void setSelectOpponent(SelectOpponent selectOpponent) {
+		this.selectOpponent = selectOpponent;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==endTurnButton){
 			setPlayerTurn(false);
+			game.resumeGame();
 		}
 
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public Player getEnemy() {
+		return enemy;
 	}
 }

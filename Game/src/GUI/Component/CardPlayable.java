@@ -4,25 +4,29 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import Gameplay.Card;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
 public class CardPlayable extends JButton implements MouseListener {
+	private HandDeck handDeck;
 	private	Card 	card;
 	private	boolean	isEnemy;
 	private	int		OLD_WIDTH;
 	private	int		OLD_HEIGHT;
 	private boolean isPlayable;
-	public CardPlayable(Card card, double scale, boolean isEnemy,boolean isPlayable) {
+	public CardPlayable(HandDeck hand,Card card, double scale, boolean isEnemy,boolean isPlayable) {
 		super();
+		this.handDeck = hand;
 		this.card = card;
 		this.isEnemy = isEnemy;
 		this.setPlayable(isPlayable);
 		this.setSize((int)(SharedResource.CARD_WIDTH * scale), (int)(SharedResource.CARD_HEIGHT * scale));
 		this.setIcon();
 		this.addMouseListener(this);
+		this.addActionListener(handDeck);
 		//System.out.println(card.getName());
 	}
 
@@ -34,10 +38,18 @@ public class CardPlayable extends JButton implements MouseListener {
 
 	public void	setIcon()
 	{
-		if (!isEnemy)
+		if (!isEnemy) {
 			this.setIcon(ResourceLoader.loadPicture(this.card.getPicture(), this.getWidth(), this.getHeight()));
-		else
+			if (!isPlayable) {
+				this.setEnabled(false);
+				//this.setBorder(new LineBorder(Color.RED, 3));
+			}
+		}
+		else {
 			this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
+
+
+		}
 	}
 
 	public void setPlayable(boolean playable) {
@@ -72,20 +84,20 @@ public class CardPlayable extends JButton implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (isEnemy)
-			return ;
-		if (e.getButton() == MouseEvent.BUTTON1)
-		{
-			System.out.println("Play " + card.getName());
-		}
-		if (e.getButton() == MouseEvent.BUTTON2)
-		{
-			System.out.println("Middle Click");
-		}
-		if (e.getButton() == MouseEvent.BUTTON3)
-		{
-			System.out.println(card.getDescription());
-		}		
+//		if (isEnemy || !isPlayable)
+//			return ;
+//		if (e.getButton() == MouseEvent.BUTTON1)
+//		{
+//			System.out.println("Play " + card.getName());
+//		}
+//		if (e.getButton() == MouseEvent.BUTTON2)
+//		{
+//			System.out.println("Middle Click");
+//		}
+//		if (e.getButton() == MouseEvent.BUTTON3)
+//		{
+//			System.out.println(card.getDescription());
+//		}
 	}
 
 	@Override
@@ -95,5 +107,13 @@ public class CardPlayable extends JButton implements MouseListener {
 			return ;
 		this.setSize(OLD_WIDTH, OLD_HEIGHT);
 		this.setIcon();
+	}
+
+	public Card getCard() {
+		return card;
+	}
+
+	public boolean isPlayable() {
+		return isPlayable;
 	}
 }

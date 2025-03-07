@@ -9,6 +9,7 @@ public class GameForGUI extends Thread {
     private Player self;
     //private Bot enemy = new Bot();
     private Player enemy;
+    private boolean paused = false;
     private int selfNumber;
     private Player[] sequencePlayer = new Player[2];
     private int count = 0;
@@ -30,13 +31,32 @@ public class GameForGUI extends Thread {
         this.gui = gui;
     }
 
+    public void waitForGUI(){
+        paused = true;
+    }
+
+    public synchronized void resumeGame(){
+        paused = false;
+        this.notify();
+    }
+
+    public synchronized void checkPause(){
+
+        while(paused){
+            try{
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void run(){
         for (int i = 0 ; i<2*20; i++){
             Player inPlay = sequencePlayer[i%2];
             inPlay.draw();
             //System.out.println("Before re-render: "+inPlay.getHand().size());
-            System.out.println("LOOP");
             gui.updatePlayerHUD();
             gui.initCard();
             //System.out.println("After re-render: "+inPlay.getHand().size());
@@ -57,11 +77,8 @@ public class GameForGUI extends Thread {
             }
             else{
                 gui.setPlayerTurn(true);
-                while (gui.isPlayerTurn()){
-                    //continue;
-                    System.out.println("Waiting for player input:"+gui.isPlayerTurn());
-                }
-                System.out.println("End Player Turn");
+                this.waitForGUI();
+                this.checkPause();
             }
             if (inPlay.getMaxMana()<10){
                 inPlay.setMaxMana(inPlay.getMaxMana()+1);
