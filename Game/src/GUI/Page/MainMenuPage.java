@@ -13,6 +13,8 @@ import javax.swing.border.EmptyBorder;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
+import Audio.AudioPlayer;
+
 public class MainMenuPage extends Page implements ActionListener {
     private JPanel ButtonZone;
     private JPanel TitlePanel;
@@ -41,6 +43,8 @@ public class MainMenuPage extends Page implements ActionListener {
         } catch (Exception e) {
             System.out.println("Error loading icon: " + e.getMessage());
         }
+
+        new AudioPlayer();
 
     }
 

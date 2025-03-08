@@ -24,7 +24,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JLabel title;
     private JPanel deckShow;
     private JButton saveButton;
-    private JComboBox deckNameField;
+    private JTextField deckNameField;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -45,8 +45,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
         saveButton = new JButton("Save");
 
         String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
-        deckNameField = new JComboBox<>(options);
-        deckNameField.setRenderer(new ColoredComboBoxRenderer());
+        //deckNameField = new JComboBox<>(options);
+        //deckNameField.setRenderer(new ColoredComboBoxRenderer());
         deckNameField.setBorder(BorderFactory.createTitledBorder("Your Decks"));
         deckNameField.setBackground(SharedResource.SIAMESE_BRIGHT);
         deckNameField.setPreferredSize(new Dimension(100, 40));
