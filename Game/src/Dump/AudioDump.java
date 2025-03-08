@@ -1,7 +1,7 @@
 package Dump;
 
 import javax.swing.*;
-import Audio.AudioPlayer;
+import Audio.BGMPlayer;
 
 public class AudioDump extends JFrame {
 
@@ -10,7 +10,7 @@ public class AudioDump extends JFrame {
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        new AudioPlayer();
+        new BGMPlayer();
     }
 
     public static void main(String[] args) {

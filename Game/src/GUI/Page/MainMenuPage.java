@@ -13,7 +13,7 @@ import javax.swing.border.EmptyBorder;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
-import Audio.AudioPlayer;
+import Audio.BGMPlayer;
 
 public class MainMenuPage extends Page implements ActionListener {
     private JPanel ButtonZone;
@@ -44,7 +44,7 @@ public class MainMenuPage extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
-        new AudioPlayer();
+        new BGMPlayer();
 
     }
 

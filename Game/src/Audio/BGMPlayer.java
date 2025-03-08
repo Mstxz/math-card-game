@@ -1,14 +1,13 @@
 package Audio;
 
-import javax.swing.*;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
-public class AudioPlayer {
+public class BGMPlayer {
     private Clip bgmClip;
 
-    public AudioPlayer() {
+    public BGMPlayer() {
         playBackgroundMusic("Game/src/assets/Audio/ID20_LoFi.wav", -10.0f);
     }
 
