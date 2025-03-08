@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import GUI.Component.*;
 import Gameplay.*;
@@ -18,27 +19,27 @@ import utils.SharedResource;
  * <img src="https://iopwiki.com/images/8/8c/GFL2_Centaureissi_Story_7.png">
  */
 public class AvengerAssembleGUI extends Page implements ActionListener {
-	private	HandDeck	OpponentPanel;
-	private JPanel		MiddlePanel;
-	private	HandDeck	UserPanel;
-	private JPanel		OpponentInfo;
-	private JPanel		OpponentStatus;
-	private JPanel		OpponentMainPanel;
-	private JPanel		PlayerMainPanel;
-	private JPanel		PlayerInfo;
-	private JPanel		PlayerStatus;
-	private JPanel		handPanel;
-	private Player		player;
-	private Player		enemy;
-	private PlayerProfile playerProfile;
-	private PlayerInfo playerInfo;
-	private PlayerProfile enemyProfile;
-	private PlayerInfo enemyInfo;
+	private	HandDeck		OpponentPanel;
+	private JPanel			MiddlePanel;
+	private	HandDeck		UserPanel;
+	private JPanel			OpponentInfo;
+	private JPanel			OpponentStatus;
+	private JPanel			OpponentMainPanel;
+	private JPanel			PlayerMainPanel;
+	private JPanel			PlayerInfo;
+	private JPanel			PlayerStatus;
+	private JPanel			handPanel;
+	private Player			player;
+	private Player			enemy;
+	private PlayerProfile 	playerProfile;
+	private PlayerInfo 		playerInfo;
+	private PlayerProfile	enemyProfile;
+	private PlayerInfo 		enemyInfo;
 	private ArrayList<Card> cardPlayed = new ArrayList<Card>();
-	private JButton endTurnButton;
-	private boolean isPlayerTurn;
-	private SelectOpponent selectOpponent;
-	private GameForGUI game;
+	private JButton 		endTurnButton;
+	private boolean 		isPlayerTurn;
+	private SelectOpponent 	selectOpponent;
+	private GameForGUI 		game;
 	public AvengerAssembleGUI()
 	{
 		super();
@@ -110,7 +111,11 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		UserPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		//Frame.setSize(1920, 1080);
 
-		endTurnButton = new JButton("End Turn");
+		endTurnButton = new JButton("<html><body>Some text<br>Some more text on next line</body></html>");
+		endTurnButton.setFont(SharedResource.getCustomSizeFont(24));
+		endTurnButton.setBackground(new Color(216, 220, 223, 255));
+		endTurnButton.setForeground(new Color(102, 142, 169, 255));
+		//endTurnButton.set
 		endTurnButton.setPreferredSize(new Dimension(170,170));
 		JPanel p = new JPanel();
 		p.setLayout(new GridLayout(1,6));
