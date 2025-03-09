@@ -23,7 +23,7 @@ public class PlayerVsPlayer extends Page {
 
         head = new JLabel("Nuke Studio");
         head.setHorizontalAlignment(SwingConstants.CENTER);
-        
+
         // Add ButtonPanelComponent
         ButtonPanelComponent buttonPanelComponent = new ButtonPanelComponent();
         JPanel panel = new JPanel(new BorderLayout(20, 0));
