@@ -1,0 +1,105 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "GraphicsDump",
+            "request": "launch",
+            "mainClass": "Dump.GraphicsDump",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "newFknDump",
+            "request": "launch",
+            "mainClass": "Dump.newFknDump",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "LobbyProfile",
+            "request": "launch",
+            "mainClass": "GUI.Component.LobbyProfile",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "PlayerCard",
+            "request": "launch",
+            "mainClass": "GUI.Component.PlayerCard",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "AvengerAssembleGUI",
+            "request": "launch",
+            "mainClass": "GUI.Page.AvengerAssembleGUI",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "DeckCreatorPage",
+            "request": "launch",
+            "mainClass": "GUI.Page.DeckCreatorPage",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "PlayerVsPlayer",
+            "request": "launch",
+            "mainClass": "GUI.Page.PlayerVsPlayer",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "Router",
+            "request": "launch",
+            "mainClass": "GUI.Router",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "GameSocket.Main",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "MainA",
+            "request": "launch",
+            "mainClass": "GameSocket.MainA",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "Read",
+            "request": "launch",
+            "mainClass": "GameSocket.Read",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "Main(1)",
+            "request": "launch",
+            "mainClass": "Gameplay.Main",
+            "projectName": "math-card-game_6b76dac3"
+        },
+        {
+            "type": "java",
+            "name": "Main(2)",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "math-card-game_6b76dac3"
+        }
+    ]
+}

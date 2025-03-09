@@ -1,14 +1,13 @@
 package GUI.Page;
 
 import GUI.Router;
-import utils.ResourceLoader;
-import utils.SharedResource;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import utils.ResourceLoader;
+import utils.SharedResource;
 
 public class SelGameMode extends Page implements ActionListener {
     private JPanel ButtonZone;
@@ -109,9 +108,9 @@ public class SelGameMode extends Page implements ActionListener {
         if (e.getSource().equals(botButton)){
             Router.setRoute("Avenger",null);
         }
-//        else if (e.getSource().equals(playerButton)){
-//            Router.setRoute("Avenger",null);
-//        }
+       else if (e.getSource().equals(playerButton)){
+            Router.setRoute("Player",null);
+        }
         else if (e.getSource().equals(backButton)){
             Router.setRoute("MainMenu",null);
         }

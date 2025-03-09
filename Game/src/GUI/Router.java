@@ -2,11 +2,10 @@ package GUI;
 
 import GUI.Component.LobbyProfile;
 import GUI.Page.*;
-import utils.SharedResource;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.*;
+import utils.SharedResource;
 
 public class Router {
     private static Page currentPage;
@@ -18,7 +17,7 @@ public class Router {
         mainFrame = new JFrame();
         mainFrame.setPreferredSize(new Dimension(1920,1080));
         mainFrame.setMaximumSize(new Dimension(1920,1080));
-        Router.setRoute("Avenger",null);
+        Router.setRoute("MainMenu",null);
     }
 
     public static void main(String[] args) {
@@ -34,6 +33,7 @@ public class Router {
             case "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
             case "DeckCreator" -> new DeckCreatorPage();
             case "SelMode" -> new SelGameMode();
+            case "Player" -> new PlayerVsPlayer();
             default -> null;
         };
         mainFrame.getContentPane().removeAll();
