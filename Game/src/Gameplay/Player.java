@@ -146,10 +146,10 @@ public class Player {
         System.out.println();
         return playable;
     }
-    public void play(Player self,Player enemy){
-        self.draw();
+    public Card play(Player self,Player enemy){
         Player.log(self,enemy);
-        ArrayList<Integer> playable = self.showCard(self,enemy);
+        ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
+        Card c = null;
         while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
             Scanner sc = new Scanner(System.in);
             int index;
@@ -162,7 +162,7 @@ public class Player {
                 }
             }
             while (!playable.contains(index));
-            Card c = hand.remove(index);
+            c = hand.remove(index);
             c.action(self,enemy);
             deck.addDispose(c);
             Player.log(self,enemy);
@@ -182,7 +182,7 @@ public class Player {
         if (maxMana<10){
             maxMana+=1;
         }
-
+        return c;
     }
 
     public static void log(Player self,Player enemy){

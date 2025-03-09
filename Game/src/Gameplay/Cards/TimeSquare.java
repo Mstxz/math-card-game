@@ -1,7 +1,11 @@
 package Gameplay.Cards;
 
+import GUI.CardAction;
+import GUI.CardActionType;
 import Gameplay.*;
 import Gameplay.Numbers.Constant;
+
+import java.util.ArrayList;
 
 public class TimeSquare extends Card implements HaveCondition {
     public TimeSquare(){
@@ -22,5 +26,13 @@ public class TimeSquare extends Card implements HaveCondition {
             return false;
         }
         return true;
+    }
+
+
+    @Override
+    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
+        ArrayList<CardAction> arr = new ArrayList<CardAction>();
+        arr.add(new CardAction(CardActionType.SET_HP,getReceiver(self,enemy).getPlayerNumber()));
+        return arr;
     }
 }

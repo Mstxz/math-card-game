@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Bot extends Player{
     public Bot(){
-        super("Bot1");
+        super("Bot1","assets/icon.png");
     }
 
     @Override
@@ -23,24 +23,26 @@ public class Bot extends Player{
     }
 
     @Override
-    public void play(Player self, Player enemy) {
-        self.draw();
-        ArrayList<Integer> playable = self.showCard(self,enemy);
+    public Card play(Player self, Player enemy) {
+        ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
         Player.log(self,enemy);
+        Card c = null;
         int index;
-        while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
+        //Bring this condition to bot while loop
+        if (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
             index = playable.get(((int)(Math.random() * playable.size())));
-            Card c = this.getHand().remove(index);
+            c = this.getHand().remove(index);
             c.action(self,enemy);
             System.out.println(this.getName()+" play "+c.getName()+" to "+c.getReceiver(self,enemy).getName());
             this.getDeck().addDispose(c);
             Player.log(self,enemy);
-            playable = self.showCard(self,enemy);
+//            playable = self.showCard(self,enemy);
             System.out.println();
         }
+
         System.out.println();
-        if (this.getMaxMana()<10){
-            this.setMaxMana(this.getMaxMana()+1);
-        }
+
+        System.out.println(c);
+        return c;
     }
 }

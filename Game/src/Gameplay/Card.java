@@ -1,8 +1,10 @@
 package Gameplay;
 
+import GUI.CardAction;
 import Gameplay.Cards.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public abstract class Card {
@@ -120,15 +122,20 @@ public abstract class Card {
                 }
                 return enemy;
             }
-            System.out.print("Select Opponent : ");
-            Scanner sc = new Scanner(System.in);
-            int index = sc.nextInt();
-            if (index == 0 || index == 1){
-                return Game.getPlayer(index);
-            }
-            return null;
+            return enemy;
+//            System.out.print("Select Opponent : ");
+//            Scanner sc = new Scanner(System.in);
+//            int index = sc.nextInt();
+//            if (index == 0 || index == 1){
+//                return Game.getPlayer(index);
+//            }
+//            return null;
         }
+
     }
 
     public abstract void action(Player self,Player enemy);
+    public ArrayList<CardAction> getCardAction(Player self,Player enemy){
+        return null;
+    }
 }

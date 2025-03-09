@@ -2,14 +2,19 @@ package GUI.Page;
 
 import GUI.Component.CardButton;
 import GUI.Component.CardLabel;
+import GUI.Component.ColoredComboBoxRenderer;
 import GUI.Component.TempDeckZone;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import Gameplay.Card;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -41,7 +46,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
         deckNameField = new JComboBox<>(options);
-        //deckNameField.setRenderer(new ColoredComboBoxRenderer());
+        deckNameField.setRenderer(new ColoredComboBoxRenderer());
         deckNameField.setBorder(BorderFactory.createTitledBorder("Your Decks"));
         deckNameField.setBackground(SharedResource.SIAMESE_BRIGHT);
         deckNameField.setPreferredSize(new Dimension(100, 40));
