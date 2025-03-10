@@ -16,16 +16,16 @@ import utils.SharedResource;
 import Audio.BGMPlayer;
 
 public class MainMenuPage extends Page implements ActionListener {
-    private JPanel ButtonZone;
-    private JPanel TitlePanel;
+    private JPanel  ButtonZone;
+    private JPanel  TitlePanel;
     private JButton playButton = new JButton("PLAY");
     private JButton yourDecksButton = new JButton("Your Decks");
     private JButton tutorialButton = new JButton("Tutorial");
     private JButton settingsButton = new JButton("Settings");
     private JButton creditButton = new JButton("Credits");
     private JButton exitButton = new JButton("Exit");
-    private JLabel Title;
-    private Image bg;
+    private JLabel  Title;
+    private Image   bg;
 
     public MainMenuPage() {
         super();
