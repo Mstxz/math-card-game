@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.Border;
 
 import GUI.Component.*;
 import Gameplay.*;
@@ -111,10 +112,12 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		UserPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		//Frame.setSize(1920, 1080);
 
-		endTurnButton = new JButton("<html><body>Some text<br>Some more text on next line</body></html>");
-		endTurnButton.setFont(SharedResource.getCustomSizeFont(24));
+		endTurnButton = new JButton("End Turn");
+		endTurnButton.setFont(SharedResource.getCustomSizeFont(36));
+
+		endTurnButton.setBorder(BorderFactory.createLineBorder(new Color(163, 190, 208, 255), 8));
 		endTurnButton.setBackground(new Color(216, 220, 223, 255));
-		endTurnButton.setForeground(new Color(102, 142, 169, 255));
+		endTurnButton.setForeground(new Color(102, 142, 169, 0));
 		//endTurnButton.set
 		endTurnButton.setPreferredSize(new Dimension(170,170));
 		JPanel p = new JPanel();
@@ -168,11 +171,13 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
 		if (isPlayerTurn){
-			endTurnButton.setText("End Turn");
+			endTurnButton.setText("<html><body>End<br>Turn</body></html>");
 			endTurnButton.setEnabled(true);
 		}
 		else{
-			endTurnButton.setText("Enemy's Turn");
+			endTurnButton.setBackground(new Color(216, 220, 223, 255));
+			endTurnButton.setForeground(new Color(102, 142, 169, 0));
+			endTurnButton.setText("<html><body>Enemy's<br>Turn</body></html>");
 			endTurnButton.setEnabled(false);
 		}
 
@@ -196,7 +201,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		game.start();
 //		int count;
 //		while (!Player.checkWin(player,enemy)){
-//			if (!isPlayerTurn){
+//			if (!isPlayerTurn){g
 //				enemy.play(enemy,player);
 //				this.setPlayerTurn(true);
 //			}
