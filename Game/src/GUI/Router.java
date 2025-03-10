@@ -2,11 +2,10 @@ package GUI;
 
 import GUI.Component.LobbyProfile;
 import GUI.Page.*;
-import utils.SharedResource;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.*;
+import utils.SharedResource;
 
 public class Router {
     private static Page currentPage;
@@ -34,6 +33,7 @@ public class Router {
             case "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
             case "DeckCreator" -> new DeckCreatorPage();
             case "SelMode" -> new SelGameMode();
+            case "Player" -> new PlayerVsPlayer();
             default -> null;
         };
         mainFrame.getContentPane().removeAll();

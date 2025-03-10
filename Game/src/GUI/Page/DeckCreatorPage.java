@@ -2,19 +2,15 @@ package GUI.Page;
 
 import GUI.Component.CardButton;
 import GUI.Component.CardLabel;
-import GUI.Component.ColoredComboBoxRenderer;
+import GUI.Component.PopupMenu;
 import GUI.Component.TempDeckZone;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import Gameplay.Card;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -24,7 +20,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JLabel title;
     private JPanel deckShow;
     private JButton saveButton;
-    private JComboBox deckNameField;
+    private JComboBox<String> deckNameField;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -44,13 +40,14 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paLeft.setBackground(SharedResource.SIAMESE_LIGHT); 
         saveButton = new JButton("Save");
 
-        String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
-        deckNameField = new JComboBox<>(options);
-        deckNameField.setRenderer(new ColoredComboBoxRenderer());
-        deckNameField.setBorder(BorderFactory.createTitledBorder("Your Decks"));
-        deckNameField.setBackground(SharedResource.SIAMESE_BRIGHT);
-        deckNameField.setPreferredSize(new Dimension(100, 40));
-        deckNameField.setBorder(BorderFactory.createLineBorder(SharedResource.SIAMESE_BASE, 1, true));
+        PopupMenu deckNameField = new PopupMenu();
+        //String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
+        //deckNameField = new JComboBox<>(options);
+        //deckNameField.setRenderer(new ColoredComboBoxRenderer());
+        //deckNameField.setBorder(BorderFactory.createTitledBorder("Your Decks"));
+        //deckNameField.setBackground(SharedResource.SIAMESE_BRIGHT);
+        //deckNameField.setPreferredSize(new Dimension(100, 40));
+        //deckNameField.setBorder(BorderFactory.createLineBorder(SharedResource.SIAMESE_BASE, 1, true));
 
         deckShow = new JPanel();
         deckShow.setLayout(new BorderLayout(0,10));
@@ -84,7 +81,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)){
-            File f = new File("Assets/"+deckNameField.getText()+".deck");
+            File f = new File("Assets/"+ deckNameField.getSelectedItem().toString() +".deck");
             System.out.println("Have File");
             try {
                 FileOutputStream out = new FileOutputStream(f);
@@ -120,5 +117,3 @@ public class DeckCreatorPage extends Page implements ActionListener {
         new DeckCreatorPage();
     }
 }
-
-

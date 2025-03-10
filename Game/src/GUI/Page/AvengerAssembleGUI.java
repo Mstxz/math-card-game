@@ -46,7 +46,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		super();
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
 
-		player = new Player("Buk George","assets/ProfileCat1.jpg");
+		player = new Player("Soda Mun Za","assets/ProfileCat1.jpg");
 		player.setHp(new Constant(100));
 		enemy = new Bot();
 		enemy.setHp(new Constant(100));
