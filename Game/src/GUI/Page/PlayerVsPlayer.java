@@ -1,7 +1,7 @@
 package GUI.Page;
 
-import GUI.Component.ButtonPanelComponent;
-import GUI.Component.PlayerPanelComponent;
+import GUI.Component.ButtonPanelComponent; 
+import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

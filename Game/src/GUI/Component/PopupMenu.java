@@ -1,73 +1,126 @@
 package GUI.Component;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.*;
 import utils.SharedResource;
 
 public class PopupMenu extends JPanel {
     private JComboBox<String> comboBox;
-    private JButton button1, button2;
+    private JPopupMenu popupMenu;
+    private ArrayList<String> items;
 
     public PopupMenu() {
-        setLayout(new BorderLayout());
+        setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        comboBox = new JComboBox<>(new String[]{"Deck 1", "Deck 2", "Deck 3"});
-        comboBox.setRenderer(new ColoredComboBoxRenderer());
-        comboBox.setBorder(BorderFactory.createTitledBorder("Your Decks"));
+        items = new ArrayList<>();
+        items.add("Deck 1");
+        items.add("Deck 2");
+        items.add("Deck 3");
+
+        comboBox = new JComboBox<>(new String[]{"Select Decks"});
+        comboBox.setPreferredSize(new Dimension(490, 50));
         comboBox.setBackground(SharedResource.SIAMESE_BRIGHT);
-        comboBox.setPreferredSize(new Dimension(500, 40));
-        comboBox.setBorder(BorderFactory.createLineBorder(SharedResource.SIAMESE_BASE, 1, true));
+        comboBox.setEditable(false);
+        comboBox.setFocusable(false);
 
-        button1 = new JButton("Delete");
-        button2 = new JButton("Edit");
+        popupMenu = new JPopupMenu();
+        updatePopupMenu();
 
-        //ActionListener Delete
-        button1.addActionListener(new ActionListener() {
+        comboBox.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedItem = (String) comboBox.getSelectedItem();
-                if (selectedItem != null) {
-                    ((DefaultComboBoxModel<String>) comboBox.getModel()).removeElement(selectedItem);
-                    JOptionPane.showMessageDialog(null, "Deleted: " + selectedItem);
+            public void mousePressed(MouseEvent e) {
+                Component c = (Component) e.getSource();
+                popupMenu.show(c, 0, c.getHeight());
+            }
+        });
+
+        add(comboBox);
+    }
+
+    private void updatePopupMenu() {
+        popupMenu.removeAll();
+        for (int i = 0; i < items.size(); i++) {
+            popupMenu.add(createItemPanel(i, items.get(i)));
+        }
+        popupMenu.revalidate();
+        popupMenu.repaint();
+    }
+
+    private JPanel createItemPanel(int index, String name) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
+        JLabel nameLabel = new JLabel(name);
+        JLabel editIcon = new JLabel("🖊️");
+        JLabel deleteIcon = new JLabel("❌");
+
+        editIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        deleteIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        editIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String newName = JOptionPane.showInputDialog(null, "Edit Name:", name);
+                if (newName != null && !newName.trim().isEmpty()) {
+                    items.set(index, newName);
+                    updatePopupMenu();
+                    updateComboBoxSelection(newName);
                 }
             }
         });
 
-        //ActionListener Edit
-        button2.addActionListener(new ActionListener() {
+        deleteIcon.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedItem = (String) comboBox.getSelectedItem();
-                if (selectedItem != null) {
-                    String newName = JOptionPane.showInputDialog(null, "Edit name for " + selectedItem, selectedItem);
-                    if (newName != null && !newName.trim().isEmpty()) {
-                        int index = comboBox.getSelectedIndex();
-                        comboBox.getModel().setSelectedItem(newName);
-                        ((DefaultComboBoxModel<String>) comboBox.getModel()).insertElementAt(newName, index);
-                        ((DefaultComboBoxModel<String>) comboBox.getModel()).removeElementAt(index + 1);
-                    }
+            public void mouseClicked(MouseEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(null, "Delete " + name + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    items.remove(index);
+                    updatePopupMenu();
+                    updateComboBoxSelection("Select Decks");
                 }
             }
         });
 
-        JPopupMenu popupMenu = new JPopupMenu();
-        popupMenu.add(button1);
-        popupMenu.add(button2);
-
-        comboBox.addActionListener(new ActionListener() {
+        panel.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (comboBox.isPopupVisible()) {
-                    popupMenu.show(comboBox, comboBox.getX(), comboBox.getY() + comboBox.getHeight());
-                }
+            public void mouseClicked(MouseEvent e) {
+                updateComboBoxSelection(name);
+                popupMenu.setVisible(false);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                panel.setBackground(new Color(230, 230, 230));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                panel.setBackground(Color.WHITE);
             }
         });
 
-        JPanel comboPanel = new JPanel();
-        comboPanel.add(comboBox);
+        panel.add(nameLabel);
+        panel.add(editIcon);
+        panel.add(deleteIcon);
+        return panel;
+    }
 
-        add(comboPanel, BorderLayout.NORTH);
+    private void updateComboBoxSelection(String value) {
+        comboBox.removeAllItems();
+        comboBox.addItem(value);
+        comboBox.setSelectedItem(value);
+    }
+
+    public void addItem(String item) {
+        items.add(item);
+        updatePopupMenu();
+    }
+
+    public ArrayList<String> getItems() {
+        return new ArrayList<>(items);
     }
 }

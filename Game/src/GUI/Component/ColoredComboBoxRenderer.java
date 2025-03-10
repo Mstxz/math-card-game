@@ -27,3 +27,4 @@ public class ColoredComboBoxRenderer extends DefaultListCellRenderer {
         return label;
     }
 }
+// เปลี่ยนสี Combobox ของอันเก่า (ตอนนี้ไม่ได้ใช้)
