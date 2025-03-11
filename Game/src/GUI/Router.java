@@ -17,7 +17,7 @@ public class Router {
         mainFrame = new JFrame();
         mainFrame.setPreferredSize(new Dimension(1920,1080));
         mainFrame.setMaximumSize(new Dimension(1920,1080));
-        Router.setRoute("Player",null);
+        Router.setRoute("MainMenu",null);
         //Router.setRoute("MainMenu",null);
     }
 

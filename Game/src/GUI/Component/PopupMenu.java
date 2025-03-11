@@ -33,6 +33,9 @@ public class PopupMenu extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 Component c = (Component) e.getSource();
+                int width = comboBox.getWidth();setBackground(SharedResource.SIAMESE_BRIGHT);
+                popupMenu.setPreferredSize(new Dimension(width, popupMenu.getPreferredSize().height));
+                popupMenu.setPopupSize(new Dimension(width, popupMenu.getPreferredSize().height));
                 popupMenu.show(c, 0, c.getHeight());
             }
         });
@@ -50,14 +53,22 @@ public class PopupMenu extends JPanel {
     }
 
     private JPanel createItemPanel(int index, String name) {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panel.setBackground(Color.WHITE);
+        JPanel panel = new JPanel(new BorderLayout()); 
+        panel.setPreferredSize(new Dimension(480, 40)); 
+        panel.setBackground(SharedResource.SIAMESE_BRIGHT);
         panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        namePanel.setOpaque(false);
         JLabel nameLabel = new JLabel(name);
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); 
+        namePanel.add(nameLabel);
+
+        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5)); 
+        iconPanel.setOpaque(false);
+    
         JLabel editIcon = new JLabel("🖊️");
         JLabel deleteIcon = new JLabel("❌");
-
         editIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         deleteIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -85,6 +96,8 @@ public class PopupMenu extends JPanel {
             }
         });
 
+        iconPanel.add(editIcon);
+        iconPanel.add(deleteIcon);
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -103,9 +116,9 @@ public class PopupMenu extends JPanel {
             }
         });
 
-        panel.add(nameLabel);
-        panel.add(editIcon);
-        panel.add(deleteIcon);
+        panel.add(namePanel, BorderLayout.WEST);
+        panel.add(iconPanel, BorderLayout.EAST);
+
         return panel;
     }
 
