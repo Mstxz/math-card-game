@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class BGMPlayer {
-    private Clip bgmClip;
+    private static Clip bgmClip;
 
     public void playBackgroundMusic(String musicFile, float volume) {
         try {
