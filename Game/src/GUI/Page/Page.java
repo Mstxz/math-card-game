@@ -3,6 +3,7 @@ package GUI.Page;
 import GUI.Router;
 
 import javax.swing.*;
+import java.awt.*;
 
 public abstract class Page {
     protected String title;
@@ -12,7 +13,7 @@ public abstract class Page {
         this.title = "Math Card Game";
         this.mainPanel = new JPanel();
         mainFrame = Router.getMainFrame();
-        mainFrame.setSize(1920,1080);
+        mainFrame.setPreferredSize(new Dimension(1920,1080));
     }
 
     public String getTitle() {

@@ -15,9 +15,9 @@ public class Router {
         SharedResource.loadFont();
         SharedResource.setAllFont();
         mainFrame = new JFrame();
-        mainFrame.setPreferredSize(new Dimension(1920,1080));
-        mainFrame.setMaximumSize(new Dimension(1920,1080));
+        mainFrame.setSize(new Dimension(1920,1080));
         Router.setRoute("MainMenu",null);
+        getMainFrame().setVisible(true);
         //Router.setRoute("MainMenu",null);
     }
 
@@ -40,7 +40,8 @@ public class Router {
         mainFrame.getContentPane().removeAll();
         mainFrame.add(currentPage.getMainPanel());
         mainFrame.setTitle(currentPage.getTitle());
-        mainFrame.setVisible(true);
+        mainFrame.revalidate();
+        mainFrame.repaint();
     }
 
     public static JFrame getMainFrame() {
