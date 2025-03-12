@@ -52,6 +52,7 @@ public class PopupMenu extends JPanel {
         popupMenu.repaint();
     }
 
+    //TODO:Pls Refactor this code to component
     private JPanel createItemPanel(int index, String name) {
         JPanel panel = new JPanel(new BorderLayout()); 
         panel.setPreferredSize(new Dimension(480, 40)); 
