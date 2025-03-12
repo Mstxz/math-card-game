@@ -33,7 +33,7 @@ public class MainMenuPage extends Page implements ActionListener {
             System.out.println("Error loading background image: " + e.getMessage());
         }
         initComponents();
-=======
+
         try {
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
             mainFrame.setIconImage(icon.getImage());

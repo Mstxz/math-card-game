@@ -1,8 +1,7 @@
 package GUI.Component;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import utils.SharedResource;
@@ -29,15 +28,12 @@ public class PopupMenu extends JPanel {
         popupMenu = new JPopupMenu();
         updatePopupMenu();
 
-        comboBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                Component c = (Component) e.getSource();
-                int width = comboBox.getWidth();setBackground(SharedResource.SIAMESE_BRIGHT);
-                popupMenu.setPreferredSize(new Dimension(width, popupMenu.getPreferredSize().height));
-                popupMenu.setPopupSize(new Dimension(width, popupMenu.getPreferredSize().height));
-                popupMenu.show(c, 0, c.getHeight());
-            }
+        comboBox.addActionListener(e -> {
+            Component c = (Component) e.getSource();
+            int width = comboBox.getWidth();
+            popupMenu.setPreferredSize(new Dimension(width, popupMenu.getPreferredSize().height));
+            popupMenu.setPopupSize(new Dimension(width, popupMenu.getPreferredSize().height));
+            popupMenu.show(c, 0, c.getHeight());
         });
 
         add(comboBox);
@@ -52,41 +48,52 @@ public class PopupMenu extends JPanel {
         popupMenu.repaint();
     }
 
-    //TODO:Pls Refactor this code to component
     private JPanel createItemPanel(int index, String name) {
-        JPanel panel = new JPanel(new BorderLayout()); 
-        panel.setPreferredSize(new Dimension(480, 40)); 
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(480, 40));
         panel.setBackground(SharedResource.SIAMESE_BRIGHT);
         panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         namePanel.setOpaque(false);
         JLabel nameLabel = new JLabel(name);
-        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); 
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         namePanel.add(nameLabel);
 
         JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         iconPanel.setOpaque(false);
-    
-        JLabel editIcon = new JLabel("🖊");
-        JLabel deleteIcon = new JLabel("❌");
-        editIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        deleteIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        // น่าจะต้องใส่เป็นรูป 
+        JLabel editIcon = new JLabel("\uD83D\uDD8A"); // 🖊 (ดินสอ) 
+        JLabel deleteIcon = new JLabel("\uD83D\uDDD1"); // 🗑 (ถังขยะ)
 
-        editIcon.addMouseListener(new MouseAdapter() {
+        editIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        deleteIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        editIcon.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String newName = JOptionPane.showInputDialog(null, "Edit Name:", name);
-                System.out.println(newName);
                 if (newName != null && !newName.trim().isEmpty()) {
                     items.set(index, newName);
                     updatePopupMenu();
                     updateComboBoxSelection(newName);
                 }
             }
-        });
+            @Override
+            public void mousePressed(MouseEvent e) {}
 
-        deleteIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+        
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+        
+            @Override
+            public void mouseExited(MouseEvent e) {}
+        });
+        
+
+        deleteIcon.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int confirm = JOptionPane.showConfirmDialog(null, "Delete " + name + "?", "Confirm", JOptionPane.YES_NO_OPTION);
@@ -96,11 +103,25 @@ public class PopupMenu extends JPanel {
                     updateComboBoxSelection("Select Decks");
                 }
             }
+        
+            @Override
+            public void mousePressed(MouseEvent e) {}
+        
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+        
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+        
+            @Override
+            public void mouseExited(MouseEvent e) {}
         });
+        
 
         iconPanel.add(editIcon);
         iconPanel.add(deleteIcon);
-        panel.addMouseListener(new MouseAdapter() {
+        
+        panel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 updateComboBoxSelection(name);
@@ -116,6 +137,12 @@ public class PopupMenu extends JPanel {
             public void mouseExited(MouseEvent e) {
                 panel.setBackground(Color.WHITE);
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            
+            @Override
+            public void mouseReleased(MouseEvent e) {}
         });
 
         panel.add(namePanel, BorderLayout.WEST);
