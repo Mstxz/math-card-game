@@ -11,6 +11,7 @@ import GUI.Component.MainMenuButton;
 
 import utils.SharedResource;
 import Audio.SFXPlayer;
+import Audio.BGMPlayer;
 
 public class MainMenuPage extends Page implements ActionListener {
     private JPanel  ButtonZone;
@@ -32,6 +33,15 @@ public class MainMenuPage extends Page implements ActionListener {
             System.out.println("Error loading background image: " + e.getMessage());
         }
         initComponents();
+=======
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
+            mainFrame.setIconImage(icon.getImage());
+        } catch (Exception e) {
+            System.out.println("Error loading icon: " + e.getMessage());
+        }
+
+        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/ID20_LoFi.wav", -10.0f);
     }
 
     private void initComponents() {
