@@ -10,10 +10,7 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.MainMenuButton;
 
 import utils.SharedResource;
-
-import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+import Audio.SFXPlayer;
 
 public class MainMenuPage extends Page implements ActionListener {
     private JPanel  ButtonZone;
@@ -100,7 +97,7 @@ public class MainMenuPage extends Page implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        playSound("Game/src/assets/Audio/Test.wav");
+        SFXPlayer.playSound("Game/src/assets/Audio/Test.wav");
 
         if (e.getSource().equals(playButton)){
             Router.setRoute("SelMode",null);
@@ -113,15 +110,4 @@ public class MainMenuPage extends Page implements ActionListener {
         }
     }
 
-    private void playSound(String soundFile) {
-        try {
-            File file = new File(soundFile);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }
 }

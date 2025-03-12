@@ -7,11 +7,7 @@ import java.io.IOException;
 public class BGMPlayer {
     private Clip bgmClip;
 
-    public BGMPlayer() {
-        playBackgroundMusic("Game/src/assets/Audio/ID20_LoFi.wav", -10.0f);
-    }
-
-    private void playBackgroundMusic(String musicFile, float volume) {
+    public void playBackgroundMusic(String musicFile, float volume) {
         try {
             File audioFile = new File(musicFile);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -24,5 +20,9 @@ public class BGMPlayer {
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
+    }
+
+    public void stopBackgroundMusic() {
+        bgmClip.stop();
     }
 }

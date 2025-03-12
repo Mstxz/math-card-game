@@ -1,5 +1,6 @@
 package GUI.Page;
 
+import Audio.SFXPlayer;
 import GUI.Router;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -108,7 +109,8 @@ public class SelGameMode extends Page implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        playSound("Game/src/assets/Audio/Test.wav");
+        SFXPlayer.playSound("Game/src/assets/Audio/Test.wav");
+
         if (e.getSource().equals(botButton)){
             Router.setRoute("Avenger",null);
         }
@@ -117,18 +119,6 @@ public class SelGameMode extends Page implements ActionListener {
         }
         else if (e.getSource().equals(backButton)){
             Router.setRoute("MainMenu",null);
-        }
-    }
-
-    private void playSound(String soundFile) {
-        try {
-            File file = new File(soundFile);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
         }
     }
 }
