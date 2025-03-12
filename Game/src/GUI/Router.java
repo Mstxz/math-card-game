@@ -12,7 +12,6 @@ import utils.SharedResource;
 public class Router {
     private static Page currentPage;
     private static JFrame mainFrame;
-    private static JLayeredPane layeredPane;
     public Router() {
         SharedResource.loadFont();
         SharedResource.setAllFont();
@@ -70,11 +69,4 @@ public class Router {
         Router.mainFrame = mainFrame;
     }
 
-    public static JLayeredPane getLayeredPane() {
-        return layeredPane;
-    }
-
-    public static void setLayeredPane(JLayeredPane layeredPane) {
-        Router.layeredPane = layeredPane;
-    }
 }
