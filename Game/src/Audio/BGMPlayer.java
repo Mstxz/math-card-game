@@ -22,7 +22,9 @@ public class BGMPlayer {
         }
     }
 
-    public void stopBackgroundMusic() {
-        bgmClip.stop();
+    public static void stopBackgroundMusic() {
+        if (bgmClip != null && bgmClip.isRunning()) {
+            bgmClip.stop();
+        }
     }
 }
