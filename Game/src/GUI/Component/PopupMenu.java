@@ -68,7 +68,7 @@ public class PopupMenu extends JPanel {
         JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         iconPanel.setOpaque(false);
     
-        JLabel editIcon = new JLabel("🖊️");
+        JLabel editIcon = new JLabel("🖊");
         JLabel deleteIcon = new JLabel("❌");
         editIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         deleteIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
