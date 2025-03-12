@@ -62,8 +62,8 @@ public class GameForGUI extends Thread {
             gui.updatePlayerHUD();
             gui.initCard();
             //System.out.println("After re-render: "+inPlay.getHand().size());
-            if(Player.checkWin(sequencePlayer[0],sequencePlayer[1])){
-                System.out.println("Win");
+            if(Player.checkWin(sequencePlayer[0],sequencePlayer[1]) != null){
+                gui.result(Player.checkWin(sequencePlayer[0],sequencePlayer[1]));
                 return;
             }
             if(inPlay instanceof Bot){
@@ -72,9 +72,16 @@ public class GameForGUI extends Thread {
                     targetId = ((int)(Math.random()*2));
                 }
                 Card c;
-                while ((c = inPlay.play(inPlay,sequencePlayer[targetId])) != null){
-                        System.out.println(c);
-                    continue;
+                try {
+                    Thread.sleep(500);
+                    while ((c = inPlay.play(inPlay,sequencePlayer[targetId])) != null){
+                        gui.updatePlayerHUD();
+                        gui.initCard();
+                        Thread.sleep(500);
+                        System.out.println(c.getName());
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
             else{

@@ -199,6 +199,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		this.updatePlayerHUD();
 		this.initCard();
 		game.start();
+		result(player);
 //		int count;
 //		while (!Player.checkWin(player,enemy)){
 //			if (!isPlayerTurn){g
@@ -206,6 +207,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 //				this.setPlayerTurn(true);
 //			}
 //		}
+	}
+	public void result(Player winner){
+		if (winner == player){
+			new ResultShow(true);
+		}
+		else{
+			new ResultShow(false);
+		}
 	}
 
 	public SelectOpponent getSelectOpponent() {

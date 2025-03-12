@@ -17,10 +17,9 @@ public class Router {
         SharedResource.setAllFont();
         mainFrame = new JFrame();
         mainFrame.setSize(1920,1080);
-        mainFrame.setLayout(null);
+        mainFrame.setLayout(new BorderLayout());
         mainFrame.setVisible(true);
 
-        Router.setRoute("MainMenu",null);
         try {
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
             mainFrame.setIconImage(icon.getImage());
@@ -31,11 +30,12 @@ public class Router {
 
     public static void main(String[] args) {
         new Router();
+        Router.setRoute("MainMenu",null);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     public static void setRoute(String route,Object data){
         if (currentPage != null){
-            mainFrame.remove(currentPage.getLayeredPane());
+            mainFrame.remove(currentPage.getMainPanel());
         }
         Router.currentPage = switch (route){
             case "Demo" -> new DemoPage();
@@ -48,8 +48,8 @@ public class Router {
             case "Player" -> new PlayerVsPlayer();
             default -> null;
         };
-        currentPage.setUpLayeredPane();
-        mainFrame.add(currentPage.getLayeredPane());
+
+        mainFrame.add(currentPage.getMainPanel());
 
         mainFrame.setTitle(currentPage.getTitle());
         mainFrame.revalidate();

@@ -29,7 +29,7 @@ public class Bot extends Player{
         Card c = null;
         int index;
         //Bring this condition to bot while loop
-        if (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
+        if (!playable.isEmpty()&& Player.checkWin(self,enemy) == null){
             index = playable.get(((int)(Math.random() * playable.size())));
             c = this.getHand().remove(index);
             c.action(self,enemy);

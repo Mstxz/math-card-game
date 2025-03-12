@@ -150,7 +150,7 @@ public class Player {
         Player.log(self,enemy);
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
         Card c = null;
-        while (!playable.isEmpty()&&!Player.checkWin(self,enemy)){
+        while (!playable.isEmpty()&& Player.checkWin(self,enemy) == null){
             Scanner sc = new Scanner(System.in);
             int index;
             do {
@@ -192,25 +192,29 @@ public class Player {
         System.out.println(enemy.getName()+"'s mana ("+enemy.getPlayerNumber()+") : "+enemy.getMana());
     }
 
-    public static boolean checkWin(Player a,Player b){
+    public static Player checkWin(Player a,Player b){
         if (((Constant)(a.getHp())).getNumber() == 0){
-            System.out.println("Player "+a.getName()+" has eliminated.");
-            System.out.println("Player "+b.getName()+" is victory!!");
+            return b;
+//            System.out.println("Player "+a.getName()+" has eliminated.");
+//            System.out.println("Player "+b.getName()+" is victory!!");
         }
         else if (a.getDeck().getCards().isEmpty()){
-            System.out.println("Player "+a.getName()+" has 0 card to draw.");
-            System.out.println("Player "+b.getName()+" is victory!!");
+            return b;
+//            System.out.println("Player "+a.getName()+" has 0 card to draw.");
+//            System.out.println("Player "+b.getName()+" is victory!!");
         } else if (((Constant)(b.getHp())).getNumber() == 0) {
-            System.out.println("Player "+b.getName()+" has eliminated.");
-            System.out.println("Player "+a.getName()+" is victory!!");
+            return a;
+//            System.out.println("Player "+b.getName()+" has eliminated.");
+//            System.out.println("Player "+a.getName()+" is victory!!");
         } else if (b.getDeck().getCards().isEmpty()) {
-            System.out.println("Player "+b.getName()+" has 0 card to draw.");
-            System.out.println("Player "+a.getName()+" is victory!!");
+            return a;
+//            System.out.println("Player "+b.getName()+" has 0 card to draw.");
+//            System.out.println("Player "+a.getName()+" is victory!!");
         }
         else {
-            return false;
+            return null;
         }
-        return true;
+        //return true;
     }
 
     public static boolean checkWinNonPrint(Player a,Player b){
