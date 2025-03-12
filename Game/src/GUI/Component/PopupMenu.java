@@ -52,6 +52,7 @@ public class PopupMenu extends JPanel {
         popupMenu.repaint();
     }
 
+    //TODO:Pls Refactor this code to component
     private JPanel createItemPanel(int index, String name) {
         JPanel panel = new JPanel(new BorderLayout()); 
         panel.setPreferredSize(new Dimension(480, 40)); 
@@ -64,7 +65,7 @@ public class PopupMenu extends JPanel {
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); 
         namePanel.add(nameLabel);
 
-        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5)); 
+        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         iconPanel.setOpaque(false);
     
         JLabel editIcon = new JLabel("🖊️");
@@ -76,6 +77,7 @@ public class PopupMenu extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 String newName = JOptionPane.showInputDialog(null, "Edit Name:", name);
+                System.out.println(newName);
                 if (newName != null && !newName.trim().isEmpty()) {
                     items.set(index, newName);
                     updatePopupMenu();

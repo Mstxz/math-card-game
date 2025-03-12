@@ -91,7 +91,7 @@ public class MainMenuPage extends Page implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        SFXPlayer.playSound("Game/src/assets/Audio/Test.wav");
+        SFXPlayer.playSound("Game/src/assets/Audio/Test.wav", -10.0f);
 
         if (e.getSource().equals(playButton)){
             Router.setRoute("SelMode",null);
