@@ -80,6 +80,7 @@ public class SelGameMode extends Page implements ActionListener {
 
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.CENTER);
+        setupMainPanel();
     }
 
     public JPanel getMainPanel() {
