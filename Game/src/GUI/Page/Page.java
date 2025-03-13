@@ -11,7 +11,7 @@ public abstract class Page {
     protected JPanel mainPanel;
     protected JFrame mainFrame;
     protected Page(){
-        this.title = "Math Card Game";
+        this.title = "Purr-fect Equations";
         this.mainPanel = new JPanel();
         mainFrame = Router.getMainFrame();
 

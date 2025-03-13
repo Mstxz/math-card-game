@@ -57,7 +57,7 @@ public class SelGameMode extends Page implements ActionListener {
 
         TitlePanel = new JPanel(new BorderLayout());
         TitlePanel.setBackground(new Color(255, 255, 255, 0));
-        TitlePanel.add(Title = new JLabel("Meowthematicians"));
+        TitlePanel.add(Title = new JLabel("Purr-fect Equations"));
         Title.setForeground(SharedResource.SIAMESE_BASE);
         Title.setFont(SharedResource.getCustomSizeFont(100));
         Title.setBorder(new EmptyBorder(150,150,0,0));
