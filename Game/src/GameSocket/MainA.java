@@ -7,7 +7,7 @@ public class MainA {
     public static void main(String[] args) {
         NIOClient c = new NIOClient(2);
 //        //NIOClient c1 = new NIOClient(2);
-//        //c1.pressedReady("assets/a.txt");
+//        //c1.pressedReady("assets/a.deck");
         try {
             c.pressedReady("assets/a.txt");
             c.lobby();

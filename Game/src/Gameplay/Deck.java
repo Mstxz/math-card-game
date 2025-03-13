@@ -16,7 +16,7 @@ public class Deck {
     private Difficulty hardestDifficulty;
 
     public static Deck LoadDeck(String name) throws FileNotFoundException{
-        File deckFile = new File("Game/data/"+name+".txt");
+        File deckFile = new File("Assets/"+name+".deck");
         Deck d = new Deck(name);
         try {
             Scanner sc = new Scanner(deckFile);
