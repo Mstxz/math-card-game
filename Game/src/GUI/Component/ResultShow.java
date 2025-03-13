@@ -20,14 +20,22 @@ public class ResultShow extends JPanel {
         else {
             resultText.setText("Defeat");
         }
+        resultText.setFont(SharedResource.getCustomSizeFont(64));
         banner.setBackground(SharedResource.SIAMESE_DARK);
         banner.setBorder(new MatteBorder(2,0,2,0,SharedResource.SIAMESE_BRIGHT));
-
-        this.setLayout(new GridLayout(3,1));
-        this.add(new JLabel());
+        banner.setBounds(0,Router.getMainFrame().getHeight()/2-150,Router.getMainFrame().getWidth(),300);
+        resultText.setBounds((Router.getMainFrame().getWidth()-400)/2,banner.getY()-50,400,100);
+        resultText.setHorizontalAlignment(SwingConstants.CENTER);
+        System.out.println(resultText);
+        this.setLayout(null);
+        this.add(resultText);
         this.add(banner);
-        this.add(new JLabel());
-        this.setBackground(new Color(0,0,0,0.6f));
-        this.setBounds(0,0, Router.getMainFrame().getWidth(),Router.getMainFrame().getHeight());
+
+        this.setOpaque(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
     }
 }

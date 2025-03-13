@@ -93,6 +93,7 @@ public class MainMenuPage extends Page implements ActionListener {
 
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.CENTER);
+        setupMainPanel();
     }
 
     @Override

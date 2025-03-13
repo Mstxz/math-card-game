@@ -199,7 +199,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		this.updatePlayerHUD();
 		this.initCard();
 		game.start();
-		result(player);
+		//result(player);
 //		int count;
 //		while (!Player.checkWin(player,enemy)){
 //			if (!isPlayerTurn){g
@@ -210,11 +210,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	}
 	public void result(Player winner){
 		if (winner == player){
-			new ResultShow(true);
+			showOverlay(new ResultShow(true),0,0, mainPanel.getWidth(), mainPanel.getHeight());
+			setBackdropDim(true);
 		}
 		else{
-			new ResultShow(false);
+			showOverlay(new ResultShow(false),0,0, mainPanel.getWidth(), mainPanel.getHeight());
+			setBackdropDim(true);
 		}
+
 	}
 
 	public SelectOpponent getSelectOpponent() {

@@ -57,6 +57,15 @@ public class DeckIconPanel extends JPanel {
         g.drawString(String.valueOf(cardCount),15,50);
     }
 
+    private void update(){
+        ArrayList<Card> d = player.getDeck().getCards();
+        cardCount = 0;
+        for (Card c:d){
+            cardCount++;
+        }
+        this.repaint();
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("JPanel with Background Image");
         frame.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -70,12 +79,5 @@ public class DeckIconPanel extends JPanel {
         panel.repaint();
     }
 
-    private void update(){
-        ArrayList<Card> d = player.getDeck().getCards();
-        cardCount = 0;
-        for (Card c:d){
-            cardCount++;
-        }
-        this.repaint();
-    }
+
 }

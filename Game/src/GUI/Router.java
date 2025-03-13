@@ -3,15 +3,19 @@ package GUI;
 import GUI.Component.LobbyProfile;
 import GUI.Page.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import utils.SharedResource;
 
-public class Router {
+public class Router implements ComponentListener {
     private static Page currentPage;
     private static JFrame mainFrame;
+    private static JLayeredPane layeredPane;
     public Router() {
         SharedResource.loadFont();
         SharedResource.setAllFont();
@@ -19,13 +23,14 @@ public class Router {
         mainFrame.setSize(1920,1080);
         mainFrame.setLayout(new BorderLayout());
         mainFrame.setVisible(true);
-
+        layeredPane = new JLayeredPane();
         try {
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
             mainFrame.setIconImage(icon.getImage());
         } catch (Exception e) {
             System.out.println("Error loading icon: " + e.getMessage());
         }
+        mainFrame.setContentPane(layeredPane);
     }
 
     public static void main(String[] args) {
@@ -35,7 +40,9 @@ public class Router {
     }
     public static void setRoute(String route,Object data){
         if (currentPage != null){
-            mainFrame.remove(currentPage.getMainPanel());
+            layeredPane.remove(currentPage.getMainPanel());
+            layeredPane.remove(currentPage.getOverlayPanel());
+            //mainFrame.remove(currentPage.getMainPanel());
         }
         Router.currentPage = switch (route){
             case "Demo" -> new DemoPage();
@@ -49,8 +56,8 @@ public class Router {
             default -> null;
         };
 
-        mainFrame.add(currentPage.getMainPanel());
-
+        layeredPane.add(currentPage.getMainPanel(),JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(currentPage.getOverlayPanel(),JLayeredPane.PALETTE_LAYER);
         mainFrame.setTitle(currentPage.getTitle());
         mainFrame.revalidate();
         mainFrame.repaint();
@@ -69,4 +76,23 @@ public class Router {
         Router.mainFrame = mainFrame;
     }
 
+    @Override
+    public void componentResized(ComponentEvent e) {
+        Router.refresh();
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
 }
