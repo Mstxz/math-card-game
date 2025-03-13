@@ -1,7 +1,6 @@
 package GUI.Page;
 
 import GUI.Router;
-import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -13,7 +12,8 @@ public abstract class Page {
     protected JPanel overlayPanel;
     protected JFrame mainFrame;
     protected Page(){
-        this.title = "Math Card Game";
+        this.title = "Purr-fect Equations";
+        this.mainPanel = new JPanel();
         mainFrame = Router.getMainFrame();
         mainPanel = new JPanel();
         overlayPanel = new JPanel(){
