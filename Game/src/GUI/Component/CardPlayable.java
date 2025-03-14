@@ -93,10 +93,28 @@ public class CardPlayable extends JButton implements MouseListener {
 //		{
 //			System.out.println("Middle Click");
 //		}
-//		if (e.getButton() == MouseEvent.BUTTON3)
-//		{
-//			System.out.println(card.getDescription());
-//		}
+		if (e.getButton() == MouseEvent.BUTTON3)
+		{
+			JPanel	overlay;
+
+			handDeck.gui.showOverlay(
+				new JLabel(ResourceLoader.loadPicture(
+								this.card.getPicture(),
+								this.getWidth(),
+								this.getHeight())
+							),
+							0,
+							0,
+							handDeck.gui.getMainFrame().getWidth(),
+							handDeck.gui.getMainFrame().getHeight()
+			);
+			overlay = handDeck.gui.getOverlayPanel();
+			System.out.println(overlay.toString());
+			handDeck.gui.setBackdropDim(true);
+
+			// handDeck.gui.setOverlayPanel(handDeck);
+			System.out.println(card.getDescription());
+		}
 	}
 
 	@Override

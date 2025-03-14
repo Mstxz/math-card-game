@@ -45,12 +45,12 @@ public abstract class Page {
         overlayPanel.setBounds(0,0,mainPanel.getWidth(),mainPanel.getHeight());
     }
 
-    protected void showOverlay(Component c, int x , int y, int width,int height){
+    public void showOverlay(Component c, int x , int y, int width,int height){
         c.setBounds(x,y,width,height);
         overlayPanel.add(c);
     }
 
-    protected void removeOverlay(Component c){
+    public void removeOverlay(Component c){
         overlayPanel.remove(c);
     }
     public void setBackdropDim(boolean dimBackground){

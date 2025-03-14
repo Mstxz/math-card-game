@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Router",
+            "request": "launch",
+            "mainClass": "GUI.Router",
+            "projectName": "math-card-game_df57cbe"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -13,7 +13,7 @@ import Gameplay.Card;
 
 public class HandDeck extends JPanel{
 	// We should make GUI static
-	private AvengerAssembleGUI gui;
+	protected AvengerAssembleGUI gui;
 	private	Player						owner;
 	private	ArrayList<CardPlayable>		list = new ArrayList<CardPlayable>();
 	private ArrayList<Integer>			playableIndex = new ArrayList<Integer>();
