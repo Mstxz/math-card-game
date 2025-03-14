@@ -22,8 +22,9 @@ import utils.SharedResource;
  */
 public class AvengerAssembleGUI extends Page implements ActionListener {
 	private	HandDeck		OpponentPanel;
-	private JPanel			MiddlePanel;
 	private	HandDeck		UserPanel;
+
+	private JPanel			MiddlePanel;
 	private JPanel			OpponentInfo;
 	private JPanel			OpponentStatus;
 	private JPanel			OpponentMainPanel;
@@ -69,6 +70,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 		playerProfile = new PlayerProfile(player.getName(),player.getProfilePicture());
 		playerInfo = new PlayerInfo(player.getHp(),player.getMana(),"");
+
 		enemyProfile = new PlayerProfile(enemy.getName(),enemy.getProfilePicture());
 		enemyInfo = new PlayerInfo(enemy.getHp(),enemy.getMana(),enemy.getName());
 

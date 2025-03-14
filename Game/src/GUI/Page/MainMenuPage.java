@@ -114,6 +114,9 @@ public class MainMenuPage extends Page implements ActionListener {
         else if (e.getSource().equals(yourDecksButton)){
             Router.setRoute("DeckCreator",null);
         }
+        else if (e.getSource().equals(settingsButton)){
+            Router.setRoute("Setting",null);
+        }
     }
 
 }

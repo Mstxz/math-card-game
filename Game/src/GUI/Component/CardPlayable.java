@@ -64,8 +64,8 @@ public class CardPlayable extends JButton implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// if (isEnemy || handDeck.gui.isBlocked)
-		// 	return ;
+		 if (isEnemy)
+		 	return ;
 		this.OLD_WIDTH = this.getWidth();
 		this.OLD_HEIGHT = this.getHeight();
 		this.setForeground(new Color(0x1E1E1E5F));

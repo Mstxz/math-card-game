@@ -53,6 +53,7 @@ public class Router implements ComponentListener {
             case "DeckCreator" -> new DeckCreatorPage();
             case "SelMode" -> new SelGameMode();
             case "Player" -> new PlayerVsPlayer();
+            case "Setting" -> new SettingPage();
             default -> null;
         };
 
@@ -74,6 +75,10 @@ public class Router implements ComponentListener {
 
     public static void setMainFrame(JFrame mainFrame) {
         Router.mainFrame = mainFrame;
+    }
+
+    public static JPanel getMainPanel(){
+        return currentPage.getMainPanel();
     }
 
     @Override
