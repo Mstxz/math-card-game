@@ -115,6 +115,4 @@ public class CardButton extends JPanel implements ActionListener {
         cardLabel.setAmount(this.amount);
         //this.amount = cardLabel.amount;
     }
-
-
 }

@@ -1,7 +1,7 @@
 package Dump;
 
 import javax.swing.*;
-import Audio.BGMPlayer;
+import AudioPlayer.BGMPlayer;
 
 public class AudioDump extends JFrame {
 

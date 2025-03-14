@@ -3,12 +3,11 @@ package GUI.Page;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.Border;
+
+import AudioPlayer.*;
 
 import GUI.Component.*;
 import GUI.Router;
@@ -44,21 +43,20 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	private SelectOpponent 	selectOpponent;
 	private GameForGUI 		game;
 	public boolean	isBlocked;
-	public AvengerAssembleGUI()
-	{
+	public AvengerAssembleGUI() {
 		super();
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
 		this.isBlocked = false;
 
-		player = new Player("Soda Mun Za","assets/ProfileCat1.jpg");
+		player = new Player("Soda Mun Za", "assets/ProfileCat1.jpg");
 		player.setHp(new Constant(100));
 		enemy = new Bot();
 		enemy.setHp(new Constant(100));
 
 		//selectOpponent = new SelectOpponent(player,enemy);
 
-		UserPanel = new HandDeck(this,player, false);
-		OpponentPanel = new HandDeck(this,enemy, true);
+		UserPanel = new HandDeck(this, player, false);
+		OpponentPanel = new HandDeck(this, enemy, true);
 		OpponentMainPanel = new JPanel();
 		handPanel = new JPanel();
 		PlayerMainPanel = new JPanel();
@@ -68,13 +66,13 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		PlayerStatus = new JPanel();
 		MiddlePanel = new JPanel();
 
-		playerProfile = new PlayerProfile(player.getName(),player.getProfilePicture());
-		playerInfo = new PlayerInfo(player.getHp(),player.getMana(),"");
+		playerProfile = new PlayerProfile(player.getName(), player.getProfilePicture());
+		playerInfo = new PlayerInfo(player.getHp(), player.getMana(), "");
 
-		enemyProfile = new PlayerProfile(enemy.getName(),enemy.getProfilePicture());
-		enemyInfo = new PlayerInfo(enemy.getHp(),enemy.getMana(),enemy.getName());
+		enemyProfile = new PlayerProfile(enemy.getName(), enemy.getProfilePicture());
+		enemyInfo = new PlayerInfo(enemy.getHp(), enemy.getMana(), enemy.getName());
 
-		MiddlePanel.setLayout(new GridLayout(2,2));
+		MiddlePanel.setLayout(new GridLayout(2, 2));
 
 		OpponentMainPanel.setLayout(new BorderLayout());
 		OpponentInfo.setLayout(new BorderLayout());
@@ -85,8 +83,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		PlayerStatus.setLayout(new BorderLayout());
 		handPanel.setLayout(new BorderLayout());
 
-		mainPanel.setLayout(new BorderLayout(10,10));
-		mainPanel.setBorder(new EmptyBorder(20,20,20,20));
+		mainPanel.setLayout(new BorderLayout(10, 10));
+		mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 		mainPanel.add(OpponentMainPanel, BorderLayout.NORTH);
 		mainPanel.add(PlayerMainPanel, BorderLayout.SOUTH);
 
@@ -99,9 +97,9 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		PlayerMainPanel.add(handPanel, BorderLayout.CENTER);
 		PlayerMainPanel.add(PlayerInfo, BorderLayout.EAST);
 		PlayerMainPanel.add(PlayerStatus, BorderLayout.WEST);
-		handPanel.add(UserPanel,BorderLayout.SOUTH);
+		handPanel.add(UserPanel, BorderLayout.SOUTH);
 
-		PlayerStatus.add(playerInfo,BorderLayout.SOUTH);
+		PlayerStatus.add(playerInfo, BorderLayout.SOUTH);
 		PlayerInfo.add(playerProfile);
 		//this.initCard();
 
@@ -124,11 +122,11 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		endTurnButton.setBackground(new Color(216, 220, 223, 255));
 		endTurnButton.setForeground(new Color(102, 142, 169, 0));
 		//endTurnButton.set
-		endTurnButton.setPreferredSize(new Dimension(170,170));
+		endTurnButton.setPreferredSize(new Dimension(170, 170));
 		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(1,6));
+		p.setLayout(new GridLayout(1, 6));
 		p.setBackground(SharedResource.SIAMESE_BRIGHT);
-		for (int i = 0;i<5;i++){
+		for (int i = 0; i < 5; i++) {
 			JPanel tmp = new JPanel();
 			tmp.setBackground(SharedResource.SIAMESE_BRIGHT);
 			p.add(tmp);
@@ -145,7 +143,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		endTurnButton.addActionListener(this);
 
 		this.gameLogic();
+		BGMPlayer.stopBackgroundMusic();
+		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/Test_BattleBGM.wav", -20.0f);
 	}
+
 	public void updatePlayerHUD(){
 		playerInfo.setHp(player.getHp());
 		playerInfo.setMana(player.getMana());
@@ -175,6 +176,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
+		SFXPlayer.playSound("Game/src/assets/Audio/PlayerTurn.wav", -10.0f);
 		if (isPlayerTurn){
 			endTurnButton.setText("<html><body>End<br>Turn</body></html>");
 			endTurnButton.setEnabled(true);
@@ -207,7 +209,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 	}
 	public void result(Player winner){
-
+		BGMPlayer.stopBackgroundMusic();
+		SFXPlayer.playSound("Game/src/assets/Audio/Test2.wav", -10.0f);
 		if (winner == player){
 			showOverlay(new ResultShow("Victory"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
@@ -235,6 +238,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==endTurnButton){
+			SFXPlayer.playSound("Game/src/assets/Audio/Meow.wav", 0f);
 			setPlayerTurn(false);
 			game.resumeGame();
 		}

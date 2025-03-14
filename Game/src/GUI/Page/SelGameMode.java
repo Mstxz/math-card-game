@@ -1,13 +1,10 @@
 package GUI.Page;
 
-import Audio.SFXPlayer;
+import AudioPlayer.SFXPlayer;
 import GUI.Router;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import utils.ResourceLoader;
