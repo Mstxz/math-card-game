@@ -53,6 +53,12 @@ public abstract class Page {
     public void removeOverlay(Component c){
         overlayPanel.remove(c);
     }
+
+    public void clearOverlay(){
+        overlayPanel.removeAll();
+        this.setBackdropDim(false);
+    }
+
     public void setBackdropDim(boolean dimBackground){
         if (dimBackground){
             overlayPanel.setBackground(new Color(0,0,0,100));

@@ -42,11 +42,12 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	private boolean 		isPlayerTurn;
 	private SelectOpponent 	selectOpponent;
 	private GameForGUI 		game;
-	private boolean			isBlocked;
+	public boolean	isBlocked;
 	public AvengerAssembleGUI()
 	{
 		super();
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
+		this.isBlocked = false;
 
 		player = new Player("Soda Mun Za","assets/ProfileCat1.jpg");
 		player.setHp(new Constant(100));
@@ -246,7 +247,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 					getUserPanel().updatePlayable(enemy);
 					updatePlayerHUD();
 					initCard();
-
 				}
 
 				if (Player.checkWin(player,enemy) != null){

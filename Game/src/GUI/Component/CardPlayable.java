@@ -1,10 +1,11 @@
 package GUI.Component;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 import Gameplay.Card;
 import utils.ResourceLoader;
@@ -57,16 +58,14 @@ public class CardPlayable extends JButton implements MouseListener {
 
 	@Override
 	public void	setSize(int width, int height) {
-		// TODO Auto-generated method stub
 		super.setSize(width, height);
 		this.setPreferredSize(new Dimension(width, height));
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (isEnemy)
-			return ;
+		// if (isEnemy || handDeck.gui.isBlocked)
+		// 	return ;
 		this.OLD_WIDTH = this.getWidth();
 		this.OLD_HEIGHT = this.getHeight();
 		this.setForeground(new Color(0x1E1E1E5F));
@@ -82,18 +81,7 @@ public class CardPlayable extends JButton implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-//		if (isEnemy || !isPlayable)
-//			return ;
-//		if (e.getButton() == MouseEvent.BUTTON1)
-//		{
-//			System.out.println("Play " + card.getName());
-//		}
-//		if (e.getButton() == MouseEvent.BUTTON2)
-//		{
-//			System.out.println("Middle Click");
-//		}
-		if (e.getButton() == MouseEvent.BUTTON3)
+		if (e.getButton() == MouseEvent.BUTTON3 && !handDeck.gui.isBlocked)
 		{
 			JPanel	overlay;
 
@@ -109,9 +97,37 @@ public class CardPlayable extends JButton implements MouseListener {
 							handDeck.gui.getMainFrame().getHeight()
 			);
 			overlay = handDeck.gui.getOverlayPanel();
-			System.out.println(overlay.toString());
-			handDeck.gui.setBackdropDim(true);
+			overlay.addKeyListener(new KeyAdapter() {
+				public void	keyPressed(KeyEvent e)
+				{
+					if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						System.out.println("CLOSE");
+						handDeck.gui.isBlocked = false;
+						handDeck.gui.clearOverlay();
+					}
+				}
+			});
+			overlay.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					handDeck.gui.clearOverlay();
+					handDeck.gui.isBlocked = false;
+					overlay.removeMouseListener(this);
+				}
 
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+
+				@Override
+				public void mouseExited(MouseEvent e) {}
+
+				@Override
+				public void mousePressed(MouseEvent e) {}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+			});
+			handDeck.gui.setBackdropDim(true);
 			// handDeck.gui.setOverlayPanel(handDeck);
 			System.out.println(card.getDescription());
 		}
@@ -119,8 +135,7 @@ public class CardPlayable extends JButton implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (isEnemy)
+		if (isEnemy || handDeck.gui.isBlocked)
 			return ;
 		this.setSize(OLD_WIDTH, OLD_HEIGHT);
 		this.setIcon();

@@ -1,15 +1,11 @@
 package GUI.Component;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
 import GUI.Page.AvengerAssembleGUI;
-import Gameplay.CardType;
 import Gameplay.Player;
-import Gameplay.Card;
 
 public class HandDeck extends JPanel{
 	// We should make GUI static
@@ -18,7 +14,6 @@ public class HandDeck extends JPanel{
 	private	ArrayList<CardPlayable>		list = new ArrayList<CardPlayable>();
 	private ArrayList<Integer>			playableIndex = new ArrayList<Integer>();
 	private	boolean						isEnemy;
-	private	boolean						initialize;
 	private	double						scale = 1.0;
 
 	public HandDeck(AvengerAssembleGUI gui,Player owner, boolean isEnemy)
@@ -26,7 +21,6 @@ public class HandDeck extends JPanel{
 		this.gui = gui;
 		this.owner = owner;
 		this.isEnemy = isEnemy;
-		this.initialize = false;
 		if (isEnemy)
 			this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
 		else
@@ -49,7 +43,6 @@ public class HandDeck extends JPanel{
 			list.add(tmp);
 			this.add(tmp);
 		}
-		this.initialize = true;
 		this.revalidate();
 		this.repaint();
 	}
