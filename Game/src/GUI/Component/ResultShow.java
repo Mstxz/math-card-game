@@ -10,18 +10,10 @@ import java.awt.*;
 
 public class ResultShow extends JPanel {
     private  JPanel banner;
-    private JLabel resultText;
-    public ResultShow(boolean isWin){
+    private String displayText;
+    public ResultShow(String displayText) {
         banner = new JPanel();
-        final String text;
-        if (isWin){
-            text = "Victory";
-
-        }
-        else {
-            text = "Defeat";
-
-        }
+        this.displayText = displayText;
         JLabel bigText = new JLabel(){
             @Override
             protected void paintComponent(Graphics g) {
@@ -34,11 +26,11 @@ public class ResultShow extends JPanel {
                 g2d.setColor(SharedResource.SIAMESE_BRIGHT);
                 for(int dx = -5 ;dx <= 5 ;dx++){
                     for(int dy = -5 ;dy <= 5 ;dy++){
-                        g2d.drawString(text, x+dx,y+dy);
+                        g2d.drawString(displayText, x+dx,y+dy);
                     }
                 }
                 g2d.setColor(SharedResource.SIAMESE_LIGHT);
-                g2d.drawString(text, x,y);
+                g2d.drawString(displayText, x,y);
                 System.out.println(x+ ", " + y);
             }
         };

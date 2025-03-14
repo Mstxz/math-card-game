@@ -19,13 +19,14 @@ public class PlayerProfile extends JPanel {
         this.profilePicture = profilePicture;
 
         nameLabel = new JLabel(username);
-        nameLabel.setFont(SharedResource.getFont48());
+        nameLabel.setFont(SharedResource.getCustomSizeFont(28));
         nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         pictureHolder = new JLabel();
         pictureHolder.setBackground(SharedResource.SIAMESE_DARK);
         pictureHolder.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,10));
         pictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
+        pictureHolder.setSize(170, 170);
 
         ImageIcon ic = ResourceLoader.loadPicture(profilePicture,170,170);
         pictureHolder.setIcon(ic);

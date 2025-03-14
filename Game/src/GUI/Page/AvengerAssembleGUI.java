@@ -207,12 +207,16 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	public void result(Player winner){
 
 		if (winner == player){
-			showOverlay(new ResultShow(true),0,0, mainPanel.getWidth(), mainPanel.getHeight());
+			showOverlay(new ResultShow("Victory"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 			//endTurnButton.removeActionListener(this);
 		}
+		else if(winner == enemy){
+			showOverlay(new ResultShow("Defeat"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
+			setBackdropDim(true);
+		}
 		else{
-			showOverlay(new ResultShow(false),0,0, mainPanel.getWidth(), mainPanel.getHeight());
+			showOverlay(new ResultShow("Draw"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
 
@@ -232,14 +236,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 			setPlayerTurn(false);
 			game.resumeGame();
 		}
-		if(e.getSource() instanceof CardPlayable){
+		if(e.getSource() instanceof CardPlayable && isPlayerTurn){
 			CardPlayable c = (CardPlayable) e.getSource();
 			if(c.isPlayable()) {
 				int index = player.getHand().indexOf(c.getCard());
 				Card cardPlayed = player.getHand().remove(index);
 				//gui.addCardPlayed(cardPlayed);
 				if (cardPlayed.getType() == CardType.GREEN){
-					showOverlay(new SelectOpponent(player,enemy,cardPlayed,this),(Router.getMainFrame().getWidth() - 450)/2, (Router.getMainFrame().getHeight() - 300)/2, 450, 300);
+					showOverlay(new SelectOpponent(player,enemy,cardPlayed,this),(Router.getMainFrame().getWidth() - 850)/2, (Router.getMainFrame().getHeight() - 400)/2, 850, 400);
 				}
 				else{
 					cardPlayed.action(player, getEnemy());

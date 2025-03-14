@@ -100,8 +100,7 @@ public class GameForGUI extends Thread {
             gui.updatePlayerHUD();
             gui.initCard();
         }
-        System.out.println("Round out");
-        System.out.println("Draw");
+        gui.result(null);
     }
 
     public boolean isBotTurn(){

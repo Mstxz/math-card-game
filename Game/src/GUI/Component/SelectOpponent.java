@@ -8,14 +8,17 @@ import Gameplay.Player;
 import utils.SharedResource;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class SelectOpponent extends JPanel  implements ActionListener {
-    private JButton selfButton;
-    private JButton opponentButton;
+public class SelectOpponent extends JPanel implements MouseListener,ActionListener {
+    private PlayerProfile selfButton;
+    private PlayerProfile opponentButton;
     private JButton doneButton;
     private AvengerAssembleGUI avengerAssembleGUI;
     private Player self;
@@ -28,20 +31,23 @@ public class SelectOpponent extends JPanel  implements ActionListener {
         super();
         this.card = card;
         this.avengerAssembleGUI = gui;
+        this.self = self;
+        this.opponent = opponent;
         gui.setBackdropDim(true);
 
         this.setLayout(new BorderLayout());
-        setBounds((Router.getMainFrame().getWidth() - 450)/2, (Router.getMainFrame().getHeight() - 300)/2, 450, 300);
-        selfButton = new JButton(self.getName());
-        opponentButton = new JButton(opponent.getName());
+        setBounds((Router.getMainFrame().getWidth() - 850)/2, (Router.getMainFrame().getHeight() - 400)/2, 850, 400);
         JLabel selectTarget = new JLabel("Select Target");
         selectTarget.setFont(SharedResource.getCustomSizeFont(36));
         selectTarget.setForeground(SharedResource.SIAMESE_BRIGHT);
+        selectTarget.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(selectTarget, BorderLayout.NORTH);
 
         JPanel p = new JPanel();
         p.setLayout(new FlowLayout());
         p.setOpaque(false);
+        selfButton = new PlayerProfile(self.getName(),self.getProfilePicture());
+        opponentButton = new PlayerProfile(opponent.getName(),opponent.getProfilePicture());
         p.add(selfButton);
         p.add(opponentButton);
 
@@ -51,16 +57,17 @@ public class SelectOpponent extends JPanel  implements ActionListener {
 
         this.add(doneButton, BorderLayout.SOUTH);
 
-        this.self = self;
-        this.opponent = opponent;
+
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.setBackground(SharedResource.SIAMESE_BASE);
-        selfButton.addActionListener(this);
-        opponentButton.addActionListener(this);
+        selfButton.addMouseListener(this);
+        opponentButton.addMouseListener(this);
         doneButton.addActionListener(this);
 
     }
 
-    public void actionPerformed(ActionEvent e) {
+    @Override
+    public void mouseClicked(MouseEvent e) {
         if (e.getSource() == selfButton) {
             reciever = self;
             this.selfButton.setBorder(new LineBorder(Color.ORANGE,5));
@@ -71,7 +78,30 @@ public class SelectOpponent extends JPanel  implements ActionListener {
             this.selfButton.setBorder(null);
             this.opponentButton.setBorder(new LineBorder(Color.ORANGE,5));
         }
-        else if (e.getSource() == doneButton) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == doneButton) {
             if(reciever != null){
                 this.card.action(self, reciever);
                 self.getDeck().addDispose(card);
@@ -80,6 +110,9 @@ public class SelectOpponent extends JPanel  implements ActionListener {
                 avengerAssembleGUI.initCard();
                 this.setVisible(false);
                 avengerAssembleGUI.setBackdropDim(false);
+                if (Player.checkWin(self,opponent) != null){
+                    avengerAssembleGUI.result(Player.checkWin(self,opponent));
+                }
             }
 
         }
