@@ -68,12 +68,12 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == selfButton) {
+        if (e.getSource().equals(selfButton)) {
             reciever = self;
             this.selfButton.setBorder(new LineBorder(Color.ORANGE,5));
             this.opponentButton.setBorder(null);
         }
-        else if (e.getSource() == opponentButton) {
+        else if (e.getSource().equals(opponentButton)) {
             reciever = opponent;
             this.selfButton.setBorder(null);
             this.opponentButton.setBorder(new LineBorder(Color.ORANGE,5));

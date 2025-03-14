@@ -22,6 +22,7 @@ public class Router implements ComponentListener {
         mainFrame = new JFrame();
         mainFrame.setSize(1920,1080);
         mainFrame.setLayout(new BorderLayout());
+        mainFrame.addComponentListener(this);
         mainFrame.setVisible(true);
         layeredPane = new JLayeredPane();
         try {
@@ -65,6 +66,10 @@ public class Router implements ComponentListener {
     }
 
     public static void refresh(){
+        if (currentPage != null){
+            currentPage.getMainPanel().setSize(mainFrame.getWidth(),mainFrame.getHeight());
+            currentPage.getOverlayPanel().setSize(mainFrame.getWidth(),mainFrame.getHeight());
+        }
         mainFrame.revalidate();
         mainFrame.repaint();
     }
