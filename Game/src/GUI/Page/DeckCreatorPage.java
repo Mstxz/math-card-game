@@ -123,7 +123,8 @@ package GUI.Page;
 
 import GUI.Component.CardButton;
 import GUI.Component.CardLabel;
-import GUI.Component.PopupMenu; //PopupMenu สำหรับเลือก Deck และแก้ไข ลบ
+import GUI.Component.ExitButton; //PopupMenu สำหรับเลือก Deck และแก้ไข ลบ
+import GUI.Component.PopupMenu;
 import GUI.Component.TempDeckZone;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -152,7 +153,13 @@ public class DeckCreatorPage extends Page implements ActionListener {
         title.setForeground(SharedResource.SIAMESE_DARK);
         title.setHorizontalAlignment(SwingConstants.LEFT);
         title.setPreferredSize(new Dimension(title.getWidth(),100));
-        mainPanel.add(title, BorderLayout.NORTH);
+
+        ExitButton exitButton = new ExitButton();
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setOpaque(false);
+        topPanel.add(exitButton);
+
+        mainPanel.add(topPanel, BorderLayout.NORTH);
 
         // Left Panel (3x2 grid with images)
         paLeft = new TempDeckZone();

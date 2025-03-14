@@ -2,19 +2,12 @@
 package GUI.Page;
 
 import GUI.Component.ButtonPanelComponent;
+import GUI.Component.ExitButton;
 import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import GUI.Component.RoundedButton;
-import GUI.Component.RoundedPanel;
 import utils.SharedResource;
-
-
-import java.awt.*;
-import javax.swing.*;
 
 
 
@@ -44,14 +37,19 @@ public class PlayerVsPlayer extends Page {
         title.setPreferredSize(new Dimension(0, 100));
         mainPanel.add(title, BorderLayout.NORTH);
 
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setOpaque(false);
         head = new JLabel("Matchmaking...");
         head.setFont(SharedResource.getCustomSizeFont(40));
         head.setHorizontalAlignment(SwingConstants.CENTER);
+        ExitButton exitButton = new ExitButton();
+        headerPanel.add(exitButton, BorderLayout.WEST);
+        headerPanel.add(head, BorderLayout.CENTER);
 
         // Add ButtonPanelComponent
         ButtonPanelComponent buttonPanelComponent = new ButtonPanelComponent();
         JPanel panel = new JPanel(new BorderLayout(20, 0));
-        panel.add(head,BorderLayout.NORTH);
+        panel.add(headerPanel,BorderLayout.NORTH);
         panel.setBackground(SharedResource.SIAMESE_LIGHT);
         buttonPanelComponent.setOpaque(false);
 

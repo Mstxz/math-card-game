@@ -1,7 +1,8 @@
 package GUI.Component;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import utils.SharedResource;
@@ -28,12 +29,15 @@ public class PopupMenu extends JPanel {
         popupMenu = new JPopupMenu();
         updatePopupMenu();
 
-        comboBox.addActionListener(e -> {
-            Component c = (Component) e.getSource();
-            int width = comboBox.getWidth();
-            popupMenu.setPreferredSize(new Dimension(width, popupMenu.getPreferredSize().height));
-            popupMenu.setPopupSize(new Dimension(width, popupMenu.getPreferredSize().height));
-            popupMenu.show(c, 0, c.getHeight());
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Component c = (Component) e.getSource();
+                int width = comboBox.getWidth();
+                popupMenu.setPreferredSize(new Dimension(width, popupMenu.getPreferredSize().height));
+                popupMenu.setPopupSize(new Dimension(width, popupMenu.getPreferredSize().height));
+                popupMenu.show(c, 0, c.getHeight());
+            }
         });
 
         add(comboBox);
@@ -54,24 +58,31 @@ public class PopupMenu extends JPanel {
         panel.setBackground(SharedResource.SIAMESE_BRIGHT);
         panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
-        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        namePanel.setOpaque(false);
         JLabel nameLabel = new JLabel(name);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        namePanel.add(nameLabel);
 
-        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
-        iconPanel.setOpaque(false);
-        // น่าจะต้องใส่เป็นรูป 
-        JLabel editIcon = new JLabel("\uD83D\uDD8A"); // 🖊 (ดินสอ) 
-        JLabel deleteIcon = new JLabel("\uD83D\uDDD1"); // 🗑 (ถังขยะ)
+        JButton editButton = new JButton("✏");
+        JButton deleteButton = new JButton("🗑");
+        JButton selectButton = new JButton("Select");
 
-        editIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        deleteIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editButton.setBorderPainted(false);
+        editButton.setFocusPainted(false);
+        editButton.setContentAreaFilled(false);
+        editButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        editIcon.addMouseListener(new MouseListener() {
+        deleteButton.setBorderPainted(false);
+        deleteButton.setFocusPainted(false);
+        deleteButton.setContentAreaFilled(false);
+        deleteButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        selectButton.setBorderPainted(false);
+        selectButton.setFocusPainted(false);
+        selectButton.setContentAreaFilled(false);
+        selectButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        editButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 String newName = JOptionPane.showInputDialog(null, "Edit Name:", name);
                 if (newName != null && !newName.trim().isEmpty()) {
                     items.set(index, newName);
@@ -79,23 +90,11 @@ public class PopupMenu extends JPanel {
                     updateComboBoxSelection(newName);
                 }
             }
-            @Override
-            public void mousePressed(MouseEvent e) {}
-
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-        
-            @Override
-            public void mouseEntered(MouseEvent e) {}
-        
-            @Override
-            public void mouseExited(MouseEvent e) {}
         });
-        
 
-        deleteIcon.addMouseListener(new MouseListener() {
+        deleteButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 int confirm = JOptionPane.showConfirmDialog(null, "Delete " + name + "?", "Confirm", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     items.remove(index);
@@ -103,49 +102,23 @@ public class PopupMenu extends JPanel {
                     updateComboBoxSelection("Select Decks");
                 }
             }
-        
-            @Override
-            public void mousePressed(MouseEvent e) {}
-        
-            @Override
-            public void mouseReleased(MouseEvent e) {}
-        
-            @Override
-            public void mouseEntered(MouseEvent e) {}
-        
-            @Override
-            public void mouseExited(MouseEvent e) {}
         });
-        
 
-        iconPanel.add(editIcon);
-        iconPanel.add(deleteIcon);
-        
-        panel.addMouseListener(new MouseListener() {
+        selectButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 updateComboBoxSelection(name);
                 popupMenu.setVisible(false);
             }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                panel.setBackground(new Color(230, 230, 230));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                panel.setBackground(Color.WHITE);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {}
-            
-            @Override
-            public void mouseReleased(MouseEvent e) {}
         });
 
-        panel.add(namePanel, BorderLayout.WEST);
+        JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
+        iconPanel.setOpaque(false);
+        iconPanel.add(editButton);
+        iconPanel.add(deleteButton);
+        iconPanel.add(selectButton);
+
+        panel.add(nameLabel, BorderLayout.WEST);
         panel.add(iconPanel, BorderLayout.EAST);
 
         return panel;
