@@ -1,7 +1,6 @@
-package GUI;
+package GUI.Setting;
 
 import javax.swing.*;
-import java.awt.*;
 // wai ma tum tor
 
 public class SettingGUI {

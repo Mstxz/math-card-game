@@ -1,11 +1,13 @@
 package GUI.Page;
 
 import GUI.Component.RotatingSettingOption;
-import GUI.SettingController;
+import GUI.Setting.SettingController;
+import GUI.Setting.UserPreference;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +19,8 @@ public class SettingPage extends Page implements ActionListener {
 
     public SettingPage(){
         resolutionText = new JLabel("Choose Resolution");
-        resolutionSettingButton = new RotatingSettingOption(new ArrayList<String>(List.of("1920x1080","1366x768")));
         applyButton = new JButton("Apply");
+        createResolutionSettingButton();
 
         mainPanel.add(resolutionText);
         mainPanel.add(resolutionSettingButton);
@@ -27,10 +29,17 @@ public class SettingPage extends Page implements ActionListener {
         applyButton.addActionListener(this);
     }
 
+    public void createResolutionSettingButton(){
+        resolutionSettingButton = new RotatingSettingOption(SettingController.resolutionList,UserPreference.getInstance().getResolutionIndex());
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(applyButton)){
-            SettingController.updateResolution(resolutionSettingButton.getText());
+            UserPreference.getInstance().setResolutionIndex(resolutionSettingButton.getCurrentIndex());
+
+            SettingController.updateResolution(resolutionSettingButton.getCurrentIndex());
+            SettingController.updatePreference();
         }
     }
 }

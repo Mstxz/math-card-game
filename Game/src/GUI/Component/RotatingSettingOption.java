@@ -11,10 +11,21 @@ public class RotatingSettingOption extends JLabel implements MouseListener {
     private int currentIndex;
 
     public RotatingSettingOption(ArrayList<String> optionList){
+        this(optionList,0);
+    }
+
+    public RotatingSettingOption(ArrayList<String> optionList,int currentIndex){
         this.optionList = optionList;
-        currentIndex = 0;
         this.setText(optionList.get(currentIndex));
         this.addMouseListener(this);
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
     }
 
     @Override
