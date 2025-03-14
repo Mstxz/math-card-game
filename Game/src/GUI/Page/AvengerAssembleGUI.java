@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.Border;
 
 import GUI.Component.*;
+import GUI.Router;
 import Gameplay.*;
 import Gameplay.Numbers.Constant;
 import utils.SharedResource;
@@ -41,6 +42,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	private boolean 		isPlayerTurn;
 	private SelectOpponent 	selectOpponent;
 	private GameForGUI 		game;
+	private boolean			isBlocked;
 	public AvengerAssembleGUI()
 	{
 		super();
@@ -51,7 +53,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		enemy = new Bot();
 		enemy.setHp(new Constant(100));
 
-		selectOpponent = new SelectOpponent(player,enemy);
+		//selectOpponent = new SelectOpponent(player,enemy);
 
 		UserPanel = new HandDeck(this,player, false);
 		OpponentPanel = new HandDeck(this,enemy, true);
@@ -206,16 +208,11 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		if (winner == player){
 			showOverlay(new ResultShow(true),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
-			UserPanel.cleanUp();
-			OpponentPanel.cleanUp();
-			endTurnButton.removeActionListener(this);
+			//endTurnButton.removeActionListener(this);
 		}
 		else{
 			showOverlay(new ResultShow(false),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
-			UserPanel.cleanUp();
-			OpponentPanel.cleanUp();
-			endTurnButton.removeActionListener(this);
 		}
 
 	}
@@ -241,18 +238,17 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 				Card cardPlayed = player.getHand().remove(index);
 				//gui.addCardPlayed(cardPlayed);
 				if (cardPlayed.getType() == CardType.GREEN){
-					getSelectOpponent().setVisible(true);
-					//gui.addCardPlayed(cardPlayed);
-					cardPlayed.action(player, getSelectOpponent().getReciever());
+					showOverlay(new SelectOpponent(player,enemy,cardPlayed,this),(Router.getMainFrame().getWidth() - 450)/2, (Router.getMainFrame().getHeight() - 300)/2, 450, 300);
 				}
 				else{
 					cardPlayed.action(player, getEnemy());
+					player.getDeck().addDispose(cardPlayed);
+					getUserPanel().updatePlayable(enemy);
+					updatePlayerHUD();
+					initCard();
 
 				}
-				player.getDeck().addDispose(cardPlayed);
-				getUserPanel().updatePlayable(enemy);
-				updatePlayerHUD();
-				initCard();
+
 				if (Player.checkWin(player,enemy) != null){
 					result(Player.checkWin(player,enemy));
 				}

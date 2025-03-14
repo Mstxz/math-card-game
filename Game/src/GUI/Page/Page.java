@@ -5,12 +5,21 @@ import GUI.Router;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public abstract class Page {
     protected String title;
     protected JPanel mainPanel;
     protected JPanel overlayPanel;
     protected JFrame mainFrame;
+    protected static MouseListener mouseListener = new MouseListener() {
+        public void mouseClicked(MouseEvent e) {}
+        public void mousePressed(MouseEvent e) {}
+        public void mouseReleased(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {}
+        public void mouseExited(MouseEvent e) {}
+    };
     protected Page(){
         this.title = "Purr-fect Equations";
         this.mainPanel = new JPanel();
@@ -44,12 +53,14 @@ public abstract class Page {
     protected void removeOverlay(Component c){
         overlayPanel.remove(c);
     }
-    protected void setBackdropDim(boolean dimBackground){
+    public void setBackdropDim(boolean dimBackground){
         if (dimBackground){
             overlayPanel.setBackground(new Color(0,0,0,100));
+            overlayPanel.addMouseListener(mouseListener);
         }
         else{
             overlayPanel.setBackground(new Color(0,0,0,0));
+            overlayPanel.removeMouseListener(mouseListener);
         }
     }
 
@@ -84,4 +95,6 @@ public abstract class Page {
     public void setOverlayPanel(JPanel overlayPanel) {
         this.overlayPanel = overlayPanel;
     }
+
+
 }
