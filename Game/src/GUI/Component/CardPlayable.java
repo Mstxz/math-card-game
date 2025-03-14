@@ -26,7 +26,6 @@ public class CardPlayable extends JButton implements MouseListener {
 		this.setSize((int)(SharedResource.CARD_WIDTH * scale), (int)(SharedResource.CARD_HEIGHT * scale));
 		this.setIcon();
 		this.addMouseListener(this);
-		this.addActionListener(handDeck);
 		//System.out.println(card.getName());
 	}
 

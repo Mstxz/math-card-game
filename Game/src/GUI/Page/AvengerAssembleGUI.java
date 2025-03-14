@@ -199,23 +199,23 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		this.updatePlayerHUD();
 		this.initCard();
 		game.start();
-		//result(player);
-//		int count;
-//		while (!Player.checkWin(player,enemy)){
-//			if (!isPlayerTurn){g
-//				enemy.play(enemy,player);
-//				this.setPlayerTurn(true);
-//			}
-//		}
+
 	}
 	public void result(Player winner){
+
 		if (winner == player){
 			showOverlay(new ResultShow(true),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
+			UserPanel.cleanUp();
+			OpponentPanel.cleanUp();
+			endTurnButton.removeActionListener(this);
 		}
 		else{
 			showOverlay(new ResultShow(false),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
+			UserPanel.cleanUp();
+			OpponentPanel.cleanUp();
+			endTurnButton.removeActionListener(this);
 		}
 
 	}
@@ -234,7 +234,30 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 			setPlayerTurn(false);
 			game.resumeGame();
 		}
+		if(e.getSource() instanceof CardPlayable){
+			CardPlayable c = (CardPlayable) e.getSource();
+			if(c.isPlayable()) {
+				int index = player.getHand().indexOf(c.getCard());
+				Card cardPlayed = player.getHand().remove(index);
+				//gui.addCardPlayed(cardPlayed);
+				if (cardPlayed.getType() == CardType.GREEN){
+					getSelectOpponent().setVisible(true);
+					//gui.addCardPlayed(cardPlayed);
+					cardPlayed.action(player, getSelectOpponent().getReciever());
+				}
+				else{
+					cardPlayed.action(player, getEnemy());
 
+				}
+				player.getDeck().addDispose(cardPlayed);
+				getUserPanel().updatePlayable(enemy);
+				updatePlayerHUD();
+				initCard();
+				if (Player.checkWin(player,enemy) != null){
+					result(Player.checkWin(player,enemy));
+				}
+			}
+		}
 	}
 
 	public Player getPlayer() {

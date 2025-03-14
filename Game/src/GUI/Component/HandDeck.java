@@ -11,7 +11,7 @@ import Gameplay.CardType;
 import Gameplay.Player;
 import Gameplay.Card;
 
-public class HandDeck extends JPanel implements ActionListener {
+public class HandDeck extends JPanel{
 	// We should make GUI static
 	private AvengerAssembleGUI gui;
 	private	Player						owner;
@@ -45,6 +45,7 @@ public class HandDeck extends JPanel implements ActionListener {
 		for (int i = 0;i < owner.getHand().size();i++) {
 			tmp = new CardPlayable(this,owner.getHand().get(i), scale, isEnemy,playableIndex.contains(i));
 			tmp.setPlayable(playableIndex.contains(i));
+			tmp.addActionListener(gui);
 			list.add(tmp);
 			this.add(tmp);
 		}
@@ -81,28 +82,11 @@ public class HandDeck extends JPanel implements ActionListener {
 		this.repaint();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() instanceof JButton){
-			CardPlayable c = (CardPlayable) e.getSource();
-			if(c.isPlayable()) {
-				int index = list.indexOf(c);
-				Card cardPlayed = owner.getHand().remove(index);
-				//gui.addCardPlayed(cardPlayed);
-				if (cardPlayed.getType() == CardType.GREEN){
-					gui.getSelectOpponent().setVisible(true);
-					//gui.addCardPlayed(cardPlayed);
-					cardPlayed.action(owner, gui.getSelectOpponent().getReciever());
-				}
-				else{
-					cardPlayed.action(owner, gui.getEnemy());
 
-				}
-				owner.getDeck().addDispose(cardPlayed);
-				this.updatePlayable(gui.getEnemy());
-				gui.updatePlayerHUD();
-				gui.initCard();
-			}
+	public void cleanUp(){
+		for (CardPlayable c : list) {
+			c.removeActionListener(gui);
+			c.removeMouseListener(c);
 		}
 	}
 }
