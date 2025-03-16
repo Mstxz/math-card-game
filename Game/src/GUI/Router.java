@@ -55,7 +55,7 @@ public class Router implements ComponentListener {
             case "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
             case "DeckCreator" -> new DeckCreatorPage();
             case "SelMode" -> new SelGameMode();
-            case "Player" -> new PlayerVsPlayer();
+            case "Player" -> new RoomSelect();
             case "Setting" -> new SettingPage();
             default -> null;
         };

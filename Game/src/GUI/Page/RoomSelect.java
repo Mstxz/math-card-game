@@ -4,31 +4,83 @@ package GUI.Page;
 import GUI.Component.ButtonPanelComponent;
 import GUI.Component.ExitButton;
 import GUI.Component.PlayerPanelComponent;
+import Gameplay.Player;
 import utils.SharedResource;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.LinkedList;
 
 
 public class RoomSelect extends Page {
+    private JPanel optionPanel;
     private JPanel middlePanel;
-    private JLabel title;
+    private JLabel header;
     private JLabel createRoomLabel;
     private JLabel joinRoomLabel;
     private JButton createButton;
     private JButton joinButton;
     private JTextField hostIpField;
-    //private Image bg;
+    private JLabel exitLabel;
 
     public RoomSelect() {
-        mainPanel.setLayout(new BorderLayout(20, 0));
-        mainPanel.setBackground(new Color(221,218,210));
-//        mainPanel.setBorder(BorderFactory.createCompoundBorder(
-//                BorderFactory.createLineBorder(Color.yellow, 3), // Outer line border
-//                new EmptyBorder(20, 40, 80, 40) // Inner padding
-//        ));
-        mainPanel.setBorder(new EmptyBorder(20, 40, 40, 40));
+        middlePanel = new JPanel();
+        optionPanel = new JPanel();
+        header = new JLabel("Select");
+        header.setFont(SharedResource.getCustomSizeFont(48));
+        header.setHorizontalAlignment(SwingConstants.CENTER);
+
+        createRoomLabel = new JLabel("Create Room");
+        createRoomLabel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        createRoomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        joinRoomLabel = new JLabel("Join Room");
+        joinRoomLabel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        joinRoomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        createButton = new JButton("Create");
+        createButton.setBorder(new EmptyBorder(10,60,10,60));
+        createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        joinButton = new JButton("Join");
+        joinButton.setBorder(new EmptyBorder(10,60,10,60));
+        joinButton.setPreferredSize(new Dimension(200,60));
+        joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        hostIpField = new JTextField();
+        hostIpField.setColumns(50);
+        hostIpField.setMaximumSize(new Dimension(200,50));
+        hostIpField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        exitLabel = new JLabel("< Exit");
+        exitLabel.setVerticalAlignment(SwingConstants.NORTH);
+        exitLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+        optionPanel.setLayout(new BoxLayout(optionPanel,BoxLayout.Y_AXIS));
+        optionPanel.setPreferredSize(new Dimension(300,600));
+        optionPanel.add(createRoomLabel);
+        optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
+        optionPanel.add(createButton);
+        optionPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        optionPanel.add(joinRoomLabel);
+        optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
+        optionPanel.add(hostIpField);
+        optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
+        optionPanel.add(joinButton);
+        optionPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+        middlePanel.setLayout(new BorderLayout(0,100));
+        middlePanel.add(header,BorderLayout.NORTH);
+        middlePanel.add(optionPanel);
+        middlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+        mainPanel.setLayout(new GridLayout(1,3));
+        mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        mainPanel.add(exitLabel);
+        mainPanel.add(middlePanel);
+        mainPanel.add(new JLabel());
+
         setupMainPanel();
     }
 
