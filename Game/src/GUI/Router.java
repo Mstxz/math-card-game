@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import GUI.Setting.SettingController;
 import utils.SharedResource;
 
 public class Router implements ComponentListener {
@@ -32,6 +33,7 @@ public class Router implements ComponentListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
         mainFrame.setContentPane(layeredPane);
+        SettingController.update();
     }
 
     public static void main(String[] args) {

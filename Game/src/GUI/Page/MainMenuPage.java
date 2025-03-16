@@ -10,8 +10,8 @@ import javax.swing.border.EmptyBorder;
 import GUI.Component.MainMenuButton;
 
 import utils.SharedResource;
-import Audio.SFXPlayer;
-import Audio.BGMPlayer;
+import AudioPlayer.SFXPlayer;
+import AudioPlayer.BGMPlayer;
 
 public class MainMenuPage extends Page implements ActionListener {
     private JPanel  ButtonZone;
