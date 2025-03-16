@@ -26,7 +26,7 @@ public class CatNap extends Card {
     @Override
     public ArrayList<CardAction> getCardAction(Player self,Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new CardAction(CardActionType.PLUS_MANA,getReceiver(self,enemy).getPlayerNumber(),2));
+        arr.add(new CardAction(CardActionType.DRAW,getReceiver(self,enemy).getPlayerNumber(),2));
         return arr;
     }
 }

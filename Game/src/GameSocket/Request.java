@@ -78,6 +78,15 @@ public class Request {
         return this;
     }
 
+    public Request appendData(int integer) {
+        ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + Integer.BYTES);
+
+        bf.clear().put(this.data).putInt(integer).flip();
+        this.data = bf.array();
+        this.bytesLength = this.data.length;
+        return this;
+    }
+
     public byte[] encodeBytes(){
         ByteBuffer bf = ByteBuffer.allocate(8 + bytesLength);
         bf.putInt(operation.ordinal());
@@ -90,7 +99,6 @@ public class Request {
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
         try {
             int opCode = in.readInt();
-            System.out.println(opCode);
             ProtocolOperation operation = ProtocolOperation.values()[opCode];
             int dataBytes = in.readInt();
             byte[] dataGet = in.readNBytes(dataBytes);

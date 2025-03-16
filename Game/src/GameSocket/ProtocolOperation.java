@@ -7,6 +7,8 @@ public enum ProtocolOperation {
     DECK,
     CARD,
     DRAW,
+    END_TURN,
+    START_TURN,
     ACKN,
     COUNT,
 }

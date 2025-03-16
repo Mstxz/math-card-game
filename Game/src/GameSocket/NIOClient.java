@@ -1,9 +1,11 @@
 package GameSocket;
 
+import Gameplay.Card;
 import Gameplay.Player;
 import utils.ResourceLoader;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
@@ -11,6 +13,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -20,12 +23,16 @@ public class NIOClient {
     private SocketChannel channel;
     private ClientState currentState;
     private String deckPath;
-    private Vector<String> events;
+    private Vector<Request> events;
     private ArrayList<PlayerInfo> players;
+    private int playerID;
     public NIOClient(int roomCapacity){
-        this.events = new Vector<String>();
+        this.events = new Vector<Request>();
         this.currentState = ClientState.IDLE;
         this.players = new ArrayList<PlayerInfo>(roomCapacity);
+        for(int i = 0 ;i <roomCapacity;i++){
+            players.add(null);
+        }
         try {
             SocketAddress address = new InetSocketAddress("localhost", 5000);
             channel = SocketChannel.open(address);
@@ -46,7 +53,9 @@ public class NIOClient {
                 //String data = new String(buffer.array(),buffer.position(),byteRead);
                 if(serverRes.getOperation() == ProtocolOperation.ACKN){
                     System.out.println("Acknowledged");
+                    playerID = ByteBuffer.wrap(serverRes.getData()).getInt();
                 }
+
             }
             buffer.clear();
             System.out.println("Successfully Connected");
@@ -106,36 +115,18 @@ public class NIOClient {
                                 channel.write(buffer);
                             }
                             buffer.clear();
-//                            buffer.clear();
-//                            try (BufferedInputStream f = ResourceLoader.loadFileAsStream(deckPath);
-//                                 InputStreamReader fr = new InputStreamReader(f);
-//                                 BufferedReader br = new BufferedReader(fr)
-//                            ){
-//                                String line;
-//                                while ((line = br.readLine()) != null){
-//                                    buffer.put(line.getBytes());
-//                                    buffer.put("\r\n".getBytes());
-//                                }
-//                                buffer.flip();
-//                                while (buffer.hasRemaining()){
-//                                    channel.write(buffer);
-//                                }
-//                            }
-//
-//                            buffer.clear().put("END OF DECK".getBytes()).flip();
-//                            while (buffer.hasRemaining()){
-//                                channel.write(buffer);
-//                            }
-
-//                            byteRead = readIntoBuffer();
-//                            if (byteRead > 0){
-//                                data = new String(buffer.array(),buffer.position(),byteRead);
-//                            }
-
-                            //players.set(0,new PlayerInfo("",2,0));
                             break;
                         case LOBBY:
-                            System.out.println("BRUH");
+                            //System.out.println("BRUH");
+                            int i = 0;
+                            System.out.println(players);
+                            while (i < serverReq.getBytesLength()){
+                                byte[] slice = Arrays.copyOfRange(serverReq.getData(),i,serverReq.getBytesLength());
+                                PlayerInfo playerInfo = PlayerInfo.decodeBytes(slice);
+                                i += playerInfo.encodeBytes().length;
+                                players.set(playerInfo.getPlayerID(),playerInfo);
+                            }
+                            System.out.println(players);
 //                            while ((byteRead = readIntoBuffer()) != -1){
 //                                if (byteRead > 1){
 //                                    if (byteRead != "END".getBytes().length){
@@ -151,6 +142,7 @@ public class NIOClient {
 //                            }
                             break;
                         case COUNT:
+                            System.out.println("Bruh");
                             System.out.println(serverReq.getDataUTF());
                             break;
                         default:
@@ -158,18 +150,15 @@ public class NIOClient {
                     }
                     buffer.clear();
                 }
-                for (Iterator<String> it = events.iterator(); it.hasNext(); ) {
-                    String e = it.next();
-                    String[] arg = e.split(" ");
-                    switch (arg[0]){
-                        case "ready":
-                            Request clientRequest = new Request(ProtocolOperation.READY);
-                            buffer.clear().put(clientRequest.encodeBytes()).flip();
+                for (Iterator<Request> it = events.iterator(); it.hasNext(); ) {
+                    Request e = it.next();
+                    switch (e.getOperation()){
+                        case READY:
+                            buffer.clear().put(e.encodeBytes()).flip();
                             while (buffer.hasRemaining()){
                                 channel.write(buffer);
                             }
                             buffer.clear();
-                            System.out.println("Ready");
                             break;
 
                     }
@@ -212,7 +201,7 @@ public class NIOClient {
         }
     }
 
-    public Vector<String> getEvents() {
+    public Vector<Request> getEvents() {
         return events;
     }
 
@@ -224,6 +213,17 @@ public class NIOClient {
         else{
             currentState = ClientState.IDLE;
         }
-        this.events.add("ready");
+        this.events.add(new Request(ProtocolOperation.READY));
+    }
+
+    public void playCard(Card card,int targetID){
+        if(currentState == ClientState.PLAY){
+            Request req = new Request(ProtocolOperation.CARD);
+            req.appendData(card.getName());
+            req.appendData(playerID);
+            req.appendData(targetID);
+            this.events.add(req);
+        }
+
     }
 }

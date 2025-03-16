@@ -1,6 +1,7 @@
 package GameSocket;
 
 import Gameplay.Numbers.Constant;
+import Gameplay.Player;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -22,11 +23,12 @@ public class NIOServer {
     private ByteBuffer buffer;
     private long gameStarting;
     private ServerInfo info;
-
-    public NIOServer() {
+    private int roomCapacity;
+    public NIOServer(int roomCapacity) {
         registeredID = new HashMap<SocketChannel,Integer>();
-        playerState = new PlayerState[4];
+        playerState = new PlayerState[roomCapacity];
         buffer = ByteBuffer.allocate(1024);
+        this.roomCapacity = roomCapacity;
         gameStarting = -1;
         info = new ServerInfo();
     }
@@ -60,7 +62,6 @@ public class NIOServer {
                             if(epochSecond < gameStarting){
                                 if (playerState[registeredID.get(client)].getCountDown() > gameStarting-epochSecond){
                                     playerState[registeredID.get(client)].setCountDown(playerState[registeredID.get(client)].getCountDown() - 1);
-                                    System.out.println(gameStarting-epochSecond);
                                     Request serverReq = new Request(ProtocolOperation.COUNT);
                                     serverReq.setData(String.valueOf(gameStarting-epochSecond));
                                     buffer.clear();
@@ -162,12 +163,13 @@ public class NIOServer {
                         playerState[this.registeredID.get(client)].getPlayerInfo().setHp(new Constant(Integer.parseInt(request[2])));
                         System.out.println(playerState[this.registeredID.get(client)].getPlayerInfo());
                         Request serverRes = new Request(ProtocolOperation.ACKN);
+                        serverRes.appendData(this.registeredID.get(client));
                         buffer.clear().put(serverRes.encodeBytes());
                         buffer.flip();
                         while (buffer.hasRemaining()) {
                             client.write(buffer);
                         }
-                        //lobbyUpdate();
+                        lobbyUpdate();
                         break;
                     case READY:
                         playerState[registeredID.get(client)].toggleReady();
@@ -177,7 +179,8 @@ public class NIOServer {
                             if(playerState[i].isReady()) countReady++;
                             if(playerState[i].isStarted()) started=true;
                         }
-                        if (countReady == registeredID.size()){
+                        System.out.println("Ready: " + countReady);
+                        if (countReady == roomCapacity){
                             gameStarting = Instant.now().getEpochSecond() + 10;
                         }
                         else if (!started){
@@ -231,8 +234,9 @@ public class NIOServer {
                             }
                         }
                         break;
-//                    case "PLAY":
-//                        pushUpdate("PLAY ",registeredID.get(k));
+                    case CARD:
+                        Request req = new Request(ProtocolOperation.CARD);
+                        pushUpdate(req,registeredID.get(client));
                 }
             }
         } else {
@@ -240,11 +244,12 @@ public class NIOServer {
         }
     }
     private void lobbyUpdate(){
-        Request serverReq = new Request(ProtocolOperation.LOBBY);
+
 //        pushUpdate("LOBBY");
 //        ByteBuffer bf = ByteBuffer.allocate(1024);
         for(PlayerState to:playerState){
             if(to!= null) {
+                Request serverReq = new Request(ProtocolOperation.LOBBY);
                 for (PlayerState from : playerState) {
                     if (from != null) {
                         serverReq.appendData(from.getPlayerInfo().encodeBytes());

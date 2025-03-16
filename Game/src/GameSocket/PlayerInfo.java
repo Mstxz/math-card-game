@@ -4,13 +4,14 @@ import Gameplay.Card;
 import Gameplay.Number;
 import Gameplay.NumberType;
 import Gameplay.Numbers.Constant;
+import Gameplay.Player;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class PlayerInfo {
+public class PlayerInfo extends Player {
     private String name;
     private String profilePicture;
     private int mana;
@@ -25,6 +26,7 @@ public class PlayerInfo {
     }
 
     public PlayerInfo(String name, String profilePicture, int hp, int playerNumber) {
+        super(name,profilePicture);
         this.name = name;
         this.profilePicture = profilePicture;
         this.mana = 1;
