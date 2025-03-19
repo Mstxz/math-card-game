@@ -85,51 +85,63 @@ public class CardPlayable extends JButton implements MouseListener {
 		{
 			JPanel	overlay;
 
-			handDeck.gui.showOverlay(
-				new JLabel(ResourceLoader.loadPicture(
-								this.card.getPicture(),
-								this.getWidth(),
-								this.getHeight())
-							),
-							0,
-							0,
-							handDeck.gui.getMainFrame().getWidth(),
-							handDeck.gui.getMainFrame().getHeight()
-			);
+			// handDeck.gui.showOverlay(
+			// 	new JLabel(ResourceLoader.loadPicture(
+			// 					this.card.getPicture(),
+			// 					this.getWidth(),
+			// 					this.getHeight())
+			// 				),
+			// 				0,
+			// 				0,
+			// 				handDeck.gui.getMainFrame().getWidth(),
+			// 				handDeck.gui.getMainFrame().getHeight()
+			// );
+			// handDeck.gui.showOverlay(
+			// 				new CardInspector(card, handDeck.gui),
+			// 				0,
+			// 				0,
+			// 				handDeck.gui.getMainFrame().getWidth(),
+			// 				handDeck.gui.getMainFrame().getHeight()
+			// );
 			overlay = handDeck.gui.getOverlayPanel();
-			overlay.addKeyListener(new KeyAdapter() {
-				public void	keyPressed(KeyEvent e)
-				{
-					if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-						System.out.println("CLOSE");
-						handDeck.gui.isBlocked = false;
-						handDeck.gui.clearOverlay();
-					}
-				}
-			});
-			overlay.addMouseListener(new MouseListener() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					handDeck.gui.clearOverlay();
-					handDeck.gui.isBlocked = false;
-					overlay.removeMouseListener(this);
-				}
+			// overlay.setLayout(new BorderLayout());
+			// overlay.add(new JLabel(ResourceLoader.loadPicture(this.card.getPicture(),this.getWidth(),this.getHeight())), BorderLayout.PAGE_START);
+			// overlay.add(new JLabel(ResourceLoader.loadPicture("assets/Green_HP-1.png",this.getWidth(),this.getHeight())), BorderLayout.PAGE_START);
+			overlay.add(new CardInspector(card, handDeck.gui));
+			// overlay.addKeyListener(new KeyAdapter() {
+			// 	public void	keyPressed(KeyEvent e)
+			// 	{
+			// 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			// 			System.out.println("CLOSE");
+			// 			handDeck.gui.isBlocked = false;
+			// 			handDeck.gui.clearOverlay();
+			// 			overlay.removeKeyListener(this);
+			// 		}
+			// 	}
+			// });
+			// overlay.addMouseListener(new MouseListener() {
+			// 	@Override
+			// 	public void mouseClicked(MouseEvent e) {
+			// 		handDeck.gui.clearOverlay();
+			// 		handDeck.gui.isBlocked = false;
+			// 		overlay.removeMouseListener(this);
+			// 	}
 
-				@Override
-				public void mouseEntered(MouseEvent e) {}
+			// 	@Override
+			// 	public void mouseEntered(MouseEvent e) {}
 
-				@Override
-				public void mouseExited(MouseEvent e) {}
+			// 	@Override
+			// 	public void mouseExited(MouseEvent e) {}
 
-				@Override
-				public void mousePressed(MouseEvent e) {}
+			// 	@Override
+			// 	public void mousePressed(MouseEvent e) {}
 
-				@Override
-				public void mouseReleased(MouseEvent e) {}
-			});
+			// 	@Override
+			// 	public void mouseReleased(MouseEvent e) {}
+			// });
 			handDeck.gui.setBackdropDim(true);
 			// handDeck.gui.setOverlayPanel(handDeck);
-			System.out.println(card.getDescription());
+			// System.out.println(card.getDescription());
 		}
 	}
 

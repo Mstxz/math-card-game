@@ -56,6 +56,7 @@ public abstract class Page {
 
     public void clearOverlay(){
         overlayPanel.removeAll();
+        overlayPanel.setLayout(null);
         this.setBackdropDim(false);
     }
 

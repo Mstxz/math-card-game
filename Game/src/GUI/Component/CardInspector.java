@@ -2,44 +2,74 @@ package GUI.Component;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Font;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import GUI.Page.AvengerAssembleGUI;
+
 import java.awt.event.*;
 
 import Gameplay.Card;
+import utils.ResourceLoader;
+import utils.SharedResource;
 
-public class CardInspector extends JPanel implements KeyListener {
-	private	Card	card;
+public class CardInspector extends JPanel implements MouseListener {
+	private	AvengerAssembleGUI	gui;
+	private JLabel				img;
+	private	JLabel				name;
+	private	JLabel				description;
+	private	Card				card;
 
-	public CardInspector(Card card) {
+	public CardInspector(Card card, AvengerAssembleGUI gui) {
 		super();
 		this.card = card;
-		this.setBackground(new Color(0x00FF00AF, true));
-		this.setSize(new Dimension(1920, 1080));
+		this.gui = gui;
+		
+		this.setLayout(new BorderLayout());
+		this.img = new JLabel(ResourceLoader.loadPicture(this.card.getPicture(), SharedResource.CARD_WIDTH * 2, SharedResource.CARD_HEIGHT * 2));
+
+		this.name = new JLabel(card.getName());
+		this.name.setFont(SharedResource.getCustomSizeFont(72));
+		this.name.setHorizontalAlignment(SwingConstants.CENTER);
+		this.description = new JLabel(card.getDescription());
+		this.description.setHorizontalAlignment(SwingConstants.CENTER);
+		this.description.setFont(SharedResource.getCustomSizeFont(36));
+
+		JPanel p = new JPanel();
+		p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
+		p.setOpaque(false);
+		p.setAlignmentX(CENTER_ALIGNMENT);
+		p.add(name);
+		p.add(description);
+		this.add(img, BorderLayout.NORTH);
+		this.add(p, BorderLayout.CENTER);
+		
+
+		this.setSize(gui.getMainFrame().getWidth(), gui.getMainFrame().getHeight());
+		this.addMouseListener(this);
+		this.setOpaque(false);
 		this.setVisible(true);
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-		{
-			this.removeAll();
-			this.setVisible(false);
-		}
+	public void mouseClicked(MouseEvent e) {
+		this.removeAll();
+		this.removeMouseListener(this);
+		this.setVisible(false);
+		gui.clearOverlay();
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 }
