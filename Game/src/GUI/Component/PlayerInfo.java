@@ -26,7 +26,6 @@ public class PlayerInfo extends JPanel {
 
     private ManaIcon manaIconList[] = new ManaIcon[10];
 
-    //TODO:Can someone pls fix the parameter to Player
     public PlayerInfo(Player player,boolean isUser) {
         super();
         this.player = player;
@@ -84,13 +83,17 @@ public class PlayerInfo extends JPanel {
         }
         manaField.add(manaZone,BorderLayout.CENTER);
 
-
+        deckIconPanel = new DeckIconPanel(player);
 
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.add(this.hpLabel);
         JPanel tmp = new JPanel();
-        //tmp.add(hpField);
-        this.add(this.hpField);
+        tmp.setAlignmentX(LEFT_ALIGNMENT);
+        tmp.setMaximumSize(new Dimension(200,110));
+        tmp.setBackground(SharedResource.SIAMESE_BRIGHT);
+        tmp.add(hpField);
+        tmp.add(deckIconPanel);
+        this.add(tmp);
         this.add(this.manaLabel);
         this.add(this.manaField);
         this.setBackground(SharedResource.SIAMESE_BRIGHT);
@@ -115,6 +118,7 @@ public class PlayerInfo extends JPanel {
             }
         }
         manaField.repaint();
+        deckIconPanel.repaint();
     }
 
     public Number getHp() {

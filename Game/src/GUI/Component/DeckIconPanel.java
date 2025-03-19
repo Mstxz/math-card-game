@@ -35,6 +35,7 @@ public class DeckIconPanel extends JPanel {
         this.setPreferredSize(new Dimension(72,80));
         System.out.println("Panel width: " + this.getWidth());
         System.out.println("Panel height: " + this.getHeight());
+        this.setBackground(SharedResource.SIAMESE_BRIGHT);
 
         System.out.println("Image width: " + deckIcon.getWidth(null));
         System.out.println("Image height: " + deckIcon.getHeight(null));
@@ -52,9 +53,10 @@ public class DeckIconPanel extends JPanel {
         //TODO: When someone implement this in Avenger or something call getFont and delete loadFont and Setfont
         //g.setFont(SharedResource.getCustomSizeFont(20));
         SharedResource.loadFont();
-        g.setFont(new Font("Madimi One Regular",Font.PLAIN,20));
+        g.setFont(new Font("Madimi One Regular",Font.PLAIN,30));
 
-        g.drawString(String.valueOf(cardCount),15,50);
+        g.drawString(String.valueOf(cardCount),12,55);
+        this.update();
     }
 
     private void update(){
