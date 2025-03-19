@@ -24,11 +24,11 @@ public class NIOServer {
     private long gameStarting;
     private ServerInfo info;
     private int roomCapacity;
-    public NIOServer(int roomCapacity) {
+    public NIOServer() {
         registeredID = new HashMap<SocketChannel,Integer>();
         playerState = new PlayerState[roomCapacity];
         buffer = ByteBuffer.allocate(1024);
-        this.roomCapacity = roomCapacity;
+        roomCapacity = 4;
         gameStarting = -1;
         info = new ServerInfo();
     }
@@ -58,7 +58,6 @@ public class NIOServer {
                         SocketChannel client = (SocketChannel) k.channel();
                         if(gameStarting != -1){
                             long epochSecond = Instant.now().getEpochSecond();
-
                             if(epochSecond < gameStarting){
                                 if (playerState[registeredID.get(client)].getCountDown() > gameStarting-epochSecond){
                                     playerState[registeredID.get(client)].setCountDown(playerState[registeredID.get(client)].getCountDown() - 1);
@@ -123,6 +122,7 @@ public class NIOServer {
                     break;
                 }
             }
+            gameStarting = -1;
 
         } else {
             throw new RuntimeException("Unknown Channel");
@@ -134,16 +134,10 @@ public class NIOServer {
             try {
                 bytesRead = client.read(buffer);
             } catch (IOException e) {
-                Socket socket = client.socket();
-                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-                registeredID.remove(client);
-                client.close();
+                handleDisconnect(client);
             }
             if (bytesRead == -1) {
-                Socket socket = client.socket();
-                System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-                registeredID.remove(client);
-                client.close();
+                handleDisconnect(client);
             }
             else if (bytesRead > 0){
                 buffer.flip();
@@ -180,7 +174,7 @@ public class NIOServer {
                             if(playerState[i].isStarted()) started=true;
                         }
                         System.out.println("Ready: " + countReady);
-                        if (countReady == roomCapacity){
+                        if (countReady == registeredID.size()){
                             gameStarting = Instant.now().getEpochSecond() + 10;
                         }
                         else if (!started){
@@ -196,38 +190,7 @@ public class NIOServer {
                         ){
                             data = new String(clientReq.getData(),0,clientReq.getBytesLength(),StandardCharsets.UTF_8);
                             out.writeBytes(data);
-
-//                            while (true){
-//                                if (bytesRead == -1){
-//                                    Socket socket = client.socket();
-//                                    System.out.println("DISCONNECTED: " + socket.getInetAddress().getHostAddress());
-//                                    registeredID.remove(client);
-//                                    client.close();
-//                                    break;
-//                                }
-//                                else if (bytesRead > 0){
-//                                    buffer.flip();
-//                                    data = new String(buffer.array(), buffer.position(), bytesRead,StandardCharsets.UTF_8);
-//                                    if (data.equals("END")){
-//                                        //System.out.println("End");
-//                                        break;
-//                                    }
-//                                    out.writeBytes(data);
-//                                }
-//                                bytesRead = client.read(buffer);
-//                            }
                             playerState[registeredID.get(client)].setDeckPath(f.getAbsolutePath());
-//                            try(BufferedReader frr = new BufferedReader(new FileReader(f.getAbsolutePath()));){
-//                                String line;
-//                                while ((line = frr.readLine()) != null){
-//                                    System.out.println(line);
-//                                }
-//                            } catch (FileNotFoundException e) {
-//                                throw new RuntimeException(e);
-//                            } catch (IOException e) {
-//                                throw new RuntimeException(e);
-//                            }
-//                            System.out.println(f.getAbsolutePath());
                             info.updateDeckLoaded(playerState);
                             if (info.isDeckLoaded()){
                                 lobbyUpdate();
@@ -243,6 +206,17 @@ public class NIOServer {
             throw new RuntimeException("Unknown Channel");
         }
     }
+
+    private void handleDisconnect(SocketChannel sc){
+        try{
+            System.out.println("DISCONNECTED: " + sc.socket().getInetAddress().getHostAddress());
+            registeredID.remove(sc);
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void lobbyUpdate(){
 
 //        pushUpdate("LOBBY");

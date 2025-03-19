@@ -7,12 +7,16 @@ import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import GameSocket.NIOClient;
+import GameSocket.NIOServer;
 import utils.SharedResource;
 
 
 
 public class PlayerVsPlayer extends Page {
     private JLabel title,head;
+    private NIOClient client;
     private JButton exitButton;
     private JButton decksButton;
     private JButton readyButton;
@@ -20,7 +24,11 @@ public class PlayerVsPlayer extends Page {
 
     //private Image bg;
 
-    public PlayerVsPlayer() {
+    public PlayerVsPlayer(NIOServer server) {
+        if (server != null){
+            //server.start();
+            //client = new NIOClient(1);
+        }
         mainPanel.setLayout(new BorderLayout(20, 0));
         mainPanel.setBackground(new Color(221,218,210));
 //        mainPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -71,7 +79,7 @@ public class PlayerVsPlayer extends Page {
 
 
     public static void main(String[] args) {
-        new PlayerVsPlayer();
+        //new PlayerVsPlayer();
     }
 }
 

@@ -1,4 +1,5 @@
 package GUI.Component;
+import Gameplay.Player;
 import utils.SharedResource;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class PlayerInfo extends JPanel {
     private int mana;
     private String name;
     private int deckSize;
+    private Player player;
 
     private JLabel hpLabel;
     private JLabel hpField;
@@ -25,14 +27,15 @@ public class PlayerInfo extends JPanel {
     private ManaIcon manaIconList[] = new ManaIcon[10];
 
     //TODO:Can someone pls fix the parameter to Player
-    public PlayerInfo(Number hp, int mana, String name/*,int deckSize*/) {
+    public PlayerInfo(Player player,boolean isUser) {
         super();
-        this.hp = hp;
-        this.mana = mana;
-        this.name = name;
-        this.deckSize = deckSize;
+        this.player = player;
+        this.hp = player.getHp();
+        this.mana = player.getMana();
+        this.name = player.getName();
+        this.deckSize = player.getDeck().getCards().size();
 
-        if (name.isEmpty()){
+        if (isUser){
             hpLabel = new JLabel("Your Hp");
             manaLabel = new JLabel("Your Mana");
         }
@@ -43,14 +46,14 @@ public class PlayerInfo extends JPanel {
         hpLabel.setAlignmentX(LEFT_ALIGNMENT);
         manaLabel.setAlignmentX(LEFT_ALIGNMENT);
 
-        hpField = new JLabel(hp.toString());
+        hpField = new JLabel(player.getHp().toString());
         hpField.setFont(SharedResource.getFont48());
         hpField.setBackground(SharedResource.SIAMESE_LIGHT);
         hpField.setOpaque(true);
         hpField.setBorder(new EmptyBorder(20,20,20,20));
         hpField.setAlignmentX(LEFT_ALIGNMENT);
 
-        manaLeft = new JLabel(this.mana+"/10");
+        manaLeft = new JLabel(player.getMana()+"/"+player.getMaxMana());
         manaLeft.setForeground(SharedResource.SIAMESE_LIGHT);
         manaLeft.setBackground(SharedResource.SIAMESE_DARK);
         manaLeft.setOpaque(true);
@@ -60,19 +63,23 @@ public class PlayerInfo extends JPanel {
         manaField.setBackground(SharedResource.SIAMESE_LIGHT);
         manaField.add(manaLeft,BorderLayout.EAST);
         manaField.setAlignmentX(LEFT_ALIGNMENT);
-        manaField.setMaximumSize(new Dimension(300,50));
+        manaField.setMaximumSize(new Dimension(350,50));
         manaField.setBorder(new EmptyBorder(0,10,0,0));
 
         manaZone = new JPanel();
         manaZone.setLayout(new GridLayout(1,10));
         manaZone.setBackground(SharedResource.SIAMESE_LIGHT);
-        for (int i =0;i<10;i++){
-            if (i<=mana-1){
-                manaIconList[i] = new ManaIcon(false);
+        for (int i = 0;i<10;i++){
+            if (i<=player.getMana()-1){
+                manaIconList[i] = new ManaIcon(false,true);
+            }
+            else if (i <= player.getMaxMana() - 1){
+                manaIconList[i] = new ManaIcon(true,true);
             }
             else {
-                manaIconList[i] = new ManaIcon(true);
+                manaIconList[i] = new ManaIcon(false,false);
             }
+            //manaIconList[i].setPreferredSize(new Dimension(40,40));
             manaZone.add(manaIconList[i]);
         }
         manaField.add(manaZone,BorderLayout.CENTER);
@@ -87,35 +94,35 @@ public class PlayerInfo extends JPanel {
         this.add(this.manaLabel);
         this.add(this.manaField);
         this.setBackground(SharedResource.SIAMESE_BRIGHT);
-        this.setPreferredSize(new Dimension(300,250));
+        this.setPreferredSize(new Dimension(350,250));
 
+    }
+
+    public void updateInfo(){
+        this.hpField.setText(player.getHp().toString());
+        this.manaLeft.setText(player.getMana()+"/"+player.getMaxMana());
+        for (int i = 0;i<10;i++){
+            if (i<=player.getMana()-1){
+                manaIconList[i].setIsUseable(true);
+                manaIconList[i].setIsUSe(false);
+            }
+            else if (i <= player.getMaxMana() - 1){
+                manaIconList[i].setIsUseable(true);
+                manaIconList[i].setIsUSe(true);
+            }
+            else {
+                manaIconList[i].setIsUseable(false);
+            }
+        }
+        manaField.repaint();
     }
 
     public Number getHp() {
         return hp;
     }
 
-    public void setHp(Number hp) {
-        this.hp = hp;
-        this.hpField.setText(hp.toString());
-    }
-
     public int getMana() {
         return mana;
-    }
-
-    public void setMana(int mana) {
-        this.mana = mana;
-        this.manaLeft.setText(this.mana+"/10");
-        for (int i = 0;i<10;i++){
-            if (i<=mana-1){
-                manaIconList[i].setIsUSe(false);
-            }
-            else {
-                manaIconList[i].setIsUSe(true);
-            }
-        }
-        manaField.repaint();
     }
 
     @Override

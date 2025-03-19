@@ -4,16 +4,21 @@ package GUI.Page;
 import GUI.Component.ButtonPanelComponent;
 import GUI.Component.ExitButton;
 import GUI.Component.PlayerPanelComponent;
+import GUI.Router;
+import GameSocket.NIOClient;
+import GameSocket.NIOServer;
 import Gameplay.Player;
 import utils.SharedResource;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 
-public class RoomSelect extends Page {
+public class RoomSelect extends Page implements ActionListener {
     private JPanel optionPanel;
     private JPanel middlePanel;
     private JLabel header;
@@ -81,9 +86,21 @@ public class RoomSelect extends Page {
         mainPanel.add(middlePanel);
         mainPanel.add(new JLabel());
 
+        createButton.addActionListener(this);
+        joinButton.addActionListener(this);
+
         setupMainPanel();
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(createButton)){
+            Router.setRoute("PlayerVsPlayer",new NIOServer());
+        }
+        else if(e.getSource().equals(joinButton)){
+            Router.setRoute("PlayerVsPlayer",null);
+        }
+    }
 
     public static void main(String[] args) {
         new RoomSelect();

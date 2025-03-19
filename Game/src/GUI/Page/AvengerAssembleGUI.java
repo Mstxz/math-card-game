@@ -67,10 +67,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 		MiddlePanel = new JPanel();
 
 		playerProfile = new PlayerProfile(player.getName(), player.getProfilePicture());
-		playerInfo = new PlayerInfo(player.getHp(), player.getMana(), "");
+		playerInfo = new PlayerInfo(player,true);
 
 		enemyProfile = new PlayerProfile(enemy.getName(), enemy.getProfilePicture());
-		enemyInfo = new PlayerInfo(enemy.getHp(), enemy.getMana(), enemy.getName());
+		enemyInfo = new PlayerInfo(enemy,false);
 
 		MiddlePanel.setLayout(new GridLayout(2, 2));
 
@@ -144,14 +144,12 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 		this.gameLogic();
 		BGMPlayer.stopBackgroundMusic();
-		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/Test_BattleBGM.wav", -20.0f);
+		//BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/Test_BattleBGM.wav", -20.0f);
 	}
 
 	public void updatePlayerHUD(){
-		playerInfo.setHp(player.getHp());
-		playerInfo.setMana(player.getMana());
-		enemyInfo.setHp(enemy.getHp());
-		enemyInfo.setMana(enemy.getMana());
+		playerInfo.updateInfo();
+		enemyInfo.updateInfo();
 	}
 
 	public void playerRenderHand(){
