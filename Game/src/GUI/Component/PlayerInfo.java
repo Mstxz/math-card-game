@@ -10,6 +10,8 @@ public class PlayerInfo extends JPanel {
     private Number hp;
     private int mana;
     private String name;
+    private int deckSize;
+
     private JLabel hpLabel;
     private JLabel hpField;
     private JLabel manaLabel;
@@ -18,13 +20,18 @@ public class PlayerInfo extends JPanel {
     private JPanel hpPanel;
     private JPanel manaPanel;
     private JPanel manaZone;
+    private DeckIconPanel deckIconPanel;
 
     private ManaIcon manaIconList[] = new ManaIcon[10];
-    public PlayerInfo(Number hp, int mana, String name) {
+
+    //TODO:Can someone pls fix the parameter to Player
+    public PlayerInfo(Number hp, int mana, String name/*,int deckSize*/) {
         super();
         this.hp = hp;
         this.mana = mana;
         this.name = name;
+        this.deckSize = deckSize;
+
         if (name.isEmpty()){
             hpLabel = new JLabel("Your Hp");
             manaLabel = new JLabel("Your Mana");
@@ -70,8 +77,12 @@ public class PlayerInfo extends JPanel {
         }
         manaField.add(manaZone,BorderLayout.CENTER);
 
+
+
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.add(this.hpLabel);
+        JPanel tmp = new JPanel();
+        //tmp.add(hpField);
         this.add(this.hpField);
         this.add(this.manaLabel);
         this.add(this.manaField);
