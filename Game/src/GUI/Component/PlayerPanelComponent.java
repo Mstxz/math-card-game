@@ -1,31 +1,45 @@
 package GUI.Component;
 
+import Gameplay.Player;
+
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
 
 
 
 public class PlayerPanelComponent extends JPanel {
+    private ArrayList<PlayerLobbyCard> slot;
+
     public PlayerPanelComponent() {
-        setLayout(new GridLayout(1, 4, 20, 20));
+//        setLayout(new GridLayout(1, 4, 20, 20));
         setOpaque(false);
-        //setBackground(new Color(210, 200, 180));
+        this.slot = new ArrayList<PlayerLobbyCard>();
+//        setBackground(new Color(210, 200, 180));
 
-        for (int i = 1; i <= 4; i++) {
-            ImageIcon playerImage = new ImageIcon(getClass().getResource("/assets/testLobby/Cat3.jpg"));
+        slot.add(new PlayerLobbyCard(new Player("Soda Mun Za", "assets/ProfileCat1.jpg"), true));
+        this.add(slot.getFirst()); // TODO: Set the constructor user to be owner.
+//        this.addUser(new Player("Bot1", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
+//        this.addUser(new Player("Bot2", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
+//        this.addUser(new Player("Bot3", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
+        this.FlowScale();
+    }
 
-            if (playerImage.getImageLoadStatus() != MediaTracker.COMPLETE) {
-                System.out.println("Error loading image");
-            }
+    public void addUser(Player player) {
+        if (slot.size() >= 4 || player == null)
+            return ;
+        this.slot.add(new PlayerLobbyCard(player, false));
+        this.add(slot.getLast());
+        FlowScale();
+    }
 
-            Image scaledImage = playerImage.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    public void removeUser() {
+        // TODO: To remove user card when quiting.
+    }
 
-            playerImage = new ImageIcon(scaledImage);
-
-            PlayerChoose playerCard = new PlayerChoose(playerImage, "Player " + i, true);
-            add(playerCard);
-        }
+    private void FlowScale(){
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, (int)(500 / slot.size()), 0));
     }
 }
 

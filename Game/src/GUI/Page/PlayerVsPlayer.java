@@ -5,16 +5,19 @@ import GUI.Component.ButtonPanelComponent;
 import GUI.Component.ExitButton;
 import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import GameSocket.NIOClient;
 import GameSocket.NIOServer;
 import utils.SharedResource;
+import Gameplay.Player;
 
 
 
 public class PlayerVsPlayer extends Page {
+    private ArrayList<Player> list;
     private JLabel title,head;
     private NIOClient client;
     private JButton exitButton;
@@ -29,6 +32,7 @@ public class PlayerVsPlayer extends Page {
             //server.start();
             //client = new NIOClient(1);
         }
+        list = new ArrayList<Player>();
         mainPanel.setLayout(new BorderLayout(20, 0));
         mainPanel.setBackground(new Color(221,218,210));
 //        mainPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -36,7 +40,7 @@ public class PlayerVsPlayer extends Page {
 //                new EmptyBorder(20, 40, 80, 40) // Inner padding
 //        ));
         mainPanel.setBorder(new EmptyBorder(20, 40, 40, 40));
-        //mainPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
+        //mai/nPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
         // Title Component
         title = new JLabel("Player Vs Player");
         title.setFont(SharedResource.getCustomSizeFont(80));
@@ -70,7 +74,7 @@ public class PlayerVsPlayer extends Page {
         //centerPanel.setBackground(SharedResource.SIAMESE_BASE);
         centerPanel.add(Box.createVerticalGlue());
         centerPanel.add(new PlayerPanelComponent());
-        centerPanel.add(Box.createVerticalGlue());
+//        centerPanel.add(Box.createVerticalGlue());
         panel.add(centerPanel, BorderLayout.CENTER);
 
         mainPanel.add(panel, BorderLayout.CENTER);
