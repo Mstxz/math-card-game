@@ -17,6 +17,9 @@ public class PlayerInfo extends JPanel {
     private JLabel manaLeft;
     private JPanel hpPanel;
     private JPanel manaPanel;
+    private JPanel manaZone;
+
+    private ManaIcon manaIconList[] = new ManaIcon[10];
     public PlayerInfo(Number hp, int mana, String name) {
         super();
         this.hp = hp;
@@ -53,6 +56,20 @@ public class PlayerInfo extends JPanel {
         manaField.setMaximumSize(new Dimension(300,50));
         manaField.setBorder(new EmptyBorder(0,10,0,0));
 
+        manaZone = new JPanel();
+        manaZone.setLayout(new GridLayout(1,10));
+        manaZone.setBackground(SharedResource.SIAMESE_LIGHT);
+        for (int i =0;i<10;i++){
+            if (i<=mana-1){
+                manaIconList[i] = new ManaIcon(false);
+            }
+            else {
+                manaIconList[i] = new ManaIcon(true);
+            }
+            manaZone.add(manaIconList[i]);
+        }
+        manaField.add(manaZone,BorderLayout.CENTER);
+
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.add(this.hpLabel);
         this.add(this.hpField);
@@ -79,6 +96,15 @@ public class PlayerInfo extends JPanel {
     public void setMana(int mana) {
         this.mana = mana;
         this.manaLeft.setText(this.mana+"/10");
+        for (int i = 0;i<10;i++){
+            if (i<=mana-1){
+                manaIconList[i].setIsUSe(false);
+            }
+            else {
+                manaIconList[i].setIsUSe(true);
+            }
+        }
+        manaField.repaint();
     }
 
     @Override
