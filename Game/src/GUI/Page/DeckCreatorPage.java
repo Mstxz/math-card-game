@@ -204,7 +204,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     public Dimension calculateDimension(){
         System.out.println(paRight.getBounds());
         int column = paRight.getWidth() / 225;
-        int row = Math.ceilDiv(paRight.getComponentCount(),column
+        int row = Math.ceilDiv(paRight.getComponentCount(),column);
         return new Dimension(300,6000);
     }
 
