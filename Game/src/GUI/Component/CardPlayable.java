@@ -39,6 +39,7 @@ public class CardPlayable extends JButton implements MouseListener {
 	public void	setIcon()
 	{
 		if (!isEnemy) {
+			System.out.println(this.card.getPicture());
 			this.setIcon(ResourceLoader.loadPicture(this.card.getPicture(), this.getWidth(), this.getHeight()));
 			if (!isPlayable) {
 				this.setEnabled(false);

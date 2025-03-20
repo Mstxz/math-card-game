@@ -146,7 +146,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
-        mainPanel.setBorder(new EmptyBorder(10,80,10,80));
+        mainPanel.setBorder(new EmptyBorder(10,80,80,80));
         // Title Label
         title = new JLabel("Your Deck");
         title.setFont(SharedResource.getFont48());
@@ -164,7 +164,6 @@ public class DeckCreatorPage extends Page implements ActionListener {
         // Left Panel (3x2 grid with images)
         paLeft = new TempDeckZone();
         paLeft.setLayout(new GridLayout(3, 2, 10, 10));
-        paLeft.setPreferredSize(new Dimension(500,1080));
         paLeft.setBackground(SharedResource.SIAMESE_LIGHT); 
         saveButton = new JButton("Save");
 
@@ -180,7 +179,6 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         deckShow = new JPanel();
         deckShow.setLayout(new BorderLayout(0,10));
-        deckShow.setPreferredSize(new Dimension(500,1080));
         deckShow.add(paLeft,BorderLayout.CENTER);
         deckShow.add(saveButton,BorderLayout.SOUTH);
         deckShow.add(PopupMenu,BorderLayout.NORTH);
@@ -188,16 +186,26 @@ public class DeckCreatorPage extends Page implements ActionListener {
         mainPanel.add(deckShow, BorderLayout.WEST);
 
 
-        paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
+        paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25)) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                this.setPreferredSize(calculateDimension());
+                super.paintComponent(g);
+            }
+        };
         loadButton();
-        paRight.setPreferredSize(new Dimension(300,6000));
         paRight.setBackground(SharedResource.SIAMESE_LIGHT); 
         JScrollPane scrollPane = new JScrollPane(paRight);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setPreferredSize(new Dimension(1000,3000));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         saveButton.addActionListener(this);
+    }
+    public Dimension calculateDimension(){
+        System.out.println(paRight.getBounds());
+        int column = paRight.getWidth() / 225;
+        int row = Math.ceilDiv(paRight.getComponentCount(),column
+        return new Dimension(300,6000);
     }
 
     private void loadButton(){

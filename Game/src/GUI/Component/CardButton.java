@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import Gameplay.Card;
 import utils.ResourceLoader;
 
-public class CardButton extends JPanel implements ActionListener {
+public class CardButton extends JPanel implements ActionListener{
     protected String name;
     protected int amount = 0;
     protected CardLabel cardLabel = null;
@@ -43,7 +45,7 @@ public class CardButton extends JPanel implements ActionListener {
         else {
             tempCard = Card.createCard(temp[0]);
         }
-        nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,200));
+        nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,250));
         removeButton = new JButton("-");
 
         panel1 = new JPanel();

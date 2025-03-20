@@ -25,8 +25,8 @@ public class Deck {
                 String info[] = card.split(" ");
                 Card c;
                 if (info[0].equals("Plus")||info[0].equals("Minus")){
-                    c = Card.createCard(info[0],Integer.parseInt(info[1]),info[2]);
-                    for (int i=0;i<Integer.parseInt(info[2]);i++){
+                    c = Card.createCard(info[0],Integer.parseInt(info[2]),info[1]);
+                    for (int i=0;i<Integer.parseInt(info[3]);i++){
                         d.addCard(c);
                     }
                 }
