@@ -190,12 +190,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
         loadButton();
-        paRight.setPreferredSize(new Dimension(300,3000));
+        paRight.setPreferredSize(new Dimension(300,6000));
         paRight.setBackground(SharedResource.SIAMESE_LIGHT); 
         JScrollPane scrollPane = new JScrollPane(paRight);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setPreferredSize(new Dimension(1000,900));
+        scrollPane.setPreferredSize(new Dimension(1000,3000));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         saveButton.addActionListener(this);
     }

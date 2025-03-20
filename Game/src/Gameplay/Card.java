@@ -48,7 +48,7 @@ public abstract class Card {
     }
 
     public static Card createCard(String name, int number,String type){
-        CardType cardType;
+        CardType cardType = CardType.YELLOW;
         switch (type){
             case "Blue":
                 cardType = CardType.BLUE;

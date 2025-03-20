@@ -31,10 +31,14 @@ public class CardButton extends JPanel implements ActionListener {
         addButton = new JButton("+");
         nameButton = new JLabel();
         String[] temp = name.split(" ");
+        for (String t : temp){
+            System.out.println(t);
+        }
         Card tempCard;
-        if (temp.length == 2){
+        if (temp.length == 3){
+
             //System.out.println(temp[0]+"/"+temp[1]);
-            tempCard = Card.createCard(temp[0],Integer.valueOf(temp[1]));
+            tempCard = Card.createCard(temp[0],Integer.valueOf(temp[2]),temp[1]);
         }
         else {
             tempCard = Card.createCard(temp[0]);

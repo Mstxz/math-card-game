@@ -15,7 +15,7 @@ public class Plus extends Card {
     public Plus(int number,CardType type){
         super("Plus"+number,"Add "+number+" to hp",1, Difficulty.EASY, type);
         this.number = number;
-        this.picture = "assets/Green_BetaHP+"+number+".png";
+        this.picture = "assets/Card/"+getFolder()+"/"+ getFolder() +"_HP+"+number+".png";
     }
 
     @Override
