@@ -163,8 +163,14 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         // Left Panel (3x2 grid with images)
         paLeft = new TempDeckZone();
-        paLeft.setLayout(new GridLayout(3, 2, 10, 10));
-        paLeft.setBackground(SharedResource.SIAMESE_LIGHT); 
+        paLeft.setLayout(new FlowLayout());
+        paLeft.setPreferredSize(new Dimension(300,1000));
+        paLeft.setBackground(SharedResource.SIAMESE_LIGHT);
+
+        JScrollPane cardScrollPane = new JScrollPane(paLeft);
+        cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
         saveButton = new JButton("Save");
 
         String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
@@ -179,7 +185,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         deckShow = new JPanel();
         deckShow.setLayout(new BorderLayout(0,10));
-        deckShow.add(paLeft,BorderLayout.CENTER);
+        deckShow.add(cardScrollPane,BorderLayout.CENTER);
         deckShow.add(saveButton,BorderLayout.SOUTH);
         deckShow.add(PopupMenu,BorderLayout.NORTH);
 
@@ -202,10 +208,9 @@ public class DeckCreatorPage extends Page implements ActionListener {
         saveButton.addActionListener(this);
     }
     public Dimension calculateDimension(){
-        System.out.println(paRight.getBounds());
         int column = paRight.getWidth() / 225;
         int row = Math.ceilDiv(paRight.getComponentCount(),column);
-        return new Dimension(300,6000);
+        return new Dimension(300,row * (paRight.getComponent(0).getHeight() + 25) + 10);
     }
 
     private void loadButton(){

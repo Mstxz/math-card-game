@@ -1,16 +1,14 @@
 package GUI.Component;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 
 import Gameplay.Card;
 import utils.ResourceLoader;
 
-public class CardButton extends JPanel implements ActionListener{
+public class CardButton extends JPanel implements ActionListener, MouseListener {
     protected String name;
     protected int amount = 0;
     protected CardLabel cardLabel = null;
@@ -33,9 +31,6 @@ public class CardButton extends JPanel implements ActionListener{
         addButton = new JButton("+");
         nameButton = new JLabel();
         String[] temp = name.split(" ");
-        for (String t : temp){
-            System.out.println(t);
-        }
         Card tempCard;
         if (temp.length == 3){
 
@@ -46,6 +41,7 @@ public class CardButton extends JPanel implements ActionListener{
             tempCard = Card.createCard(temp[0]);
         }
         nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,250));
+        cardPicture = tempCard.getPicture();
         removeButton = new JButton("-");
 
         panel1 = new JPanel();
@@ -59,8 +55,9 @@ public class CardButton extends JPanel implements ActionListener{
 
         addButton.addActionListener(this);
         removeButton.addActionListener(this);
+        this.addMouseListener(this);
 
-        this.setSize(200,this.getHeight());
+        this.setSize(200,280);
     }
 
     @Override
@@ -93,13 +90,12 @@ public class CardButton extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(addButton)){
             if (amount==0){
-                cardLabel = new CardLabel(this.name,0);
-                deckZonePanel.add(cardLabel);
-                deckZonePanel.getAllCardLabel().add(cardLabel);
+                cardLabel = new CardLabel(this.name,0,cardPicture);
+                deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
             }
             amount+=1;
-            cardLabel.setText(this.name+" : "+amount);
+            cardLabel.setAmount(amount);
         }
         else if (e.getSource().equals(removeButton)) {
             if (amount==0){
@@ -116,9 +112,55 @@ public class CardButton extends JPanel implements ActionListener{
 //                }
                 return;
             }
-            cardLabel.setText(this.name+" : "+amount);
+            cardLabel.setAmount(amount);
         }
-        cardLabel.setAmount(this.amount);
         //this.amount = cardLabel.amount;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON3){
+            if (amount==0){
+                return;
+            }
+            amount-=1;
+            System.out.println(amount);
+            if (amount==0){
+                deckZonePanel.removeCard(cardLabel);
+                deckZonePanel.revalidate();
+                deckZonePanel.repaint();
+                return;
+            }
+            cardLabel.setAmount(amount);
+        }
+        else if (e.getButton() == MouseEvent.BUTTON1){
+            if (amount==0){
+                cardLabel = new CardLabel(this.name,0,cardPicture);
+                deckZonePanel.addCard(cardLabel);
+                index = deckZonePanel.getAllCardLabel().size()-1;
+            }
+            amount+=1;
+            cardLabel.setAmount(amount);
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
     }
 }

@@ -11,6 +11,12 @@ public class TempDeckZone extends JPanel {
     public TempDeckZone(){
         super();
     }
+
+    public void addCard(CardLabel c){
+        allCardLabel.add(c);
+        this.add(c);
+    }
+
     public void removeCard(CardLabel c){
         this.remove(c);
         this.allCardLabel.remove(c);
@@ -22,4 +28,6 @@ public class TempDeckZone extends JPanel {
     public void setAllCardLabel(HashSet<CardLabel> allCardLabel) {
         this.allCardLabel = allCardLabel;
     }
+
+
 }
