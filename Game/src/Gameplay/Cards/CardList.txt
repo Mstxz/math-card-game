@@ -5,27 +5,105 @@ Plus Blue 4
 Plus Blue 5
 Plus Blue 6
 Plus Blue 7
-Plus 8
-Plus 9
-Plus 10
-Plus 15
-Plus 20
-Plus 25
+Plus Blue 8
+Plus Blue 9
+Plus Blue 10
+Plus Blue 15
+Plus Blue 20
+Plus Blue 25
+Plus Red 1
+Plus Red 2
+Plus Red 3
+Plus Red 4
+Plus Red 5
+Plus Red 6
+Plus Red 7
+Plus Red 8
+Plus Red 9
+Plus Red 10
+Plus Red 15
+Plus Red 20
+Plus Red 25
+Plus Green 1
+Plus Green 2
+Plus Green 3
+Plus Green 4
+Plus Green 5
+Plus Green 6
+Plus Green 7
+Plus Green 8
+Plus Green 9
+Plus Green 10
+Plus Green 15
+Plus Green 20
+Plus Green 25
+Plus Yellow 1
+Plus Yellow 2
+Plus Yellow 3
+Plus Yellow 4
+Plus Yellow 5
+Plus Yellow 6
+Plus Yellow 7
+Plus Yellow 8
+Plus Yellow 9
+Plus Yellow 10
+Plus Yellow 15
+Plus Yellow 20
+Plus Yellow 25
 AbsoluteHp
 FlipSigned
-Minus 1
-Minus 2
-Minus 3
-Minus 4
-Minus 5
-Minus 6
-Minus 7
-Minus 8
-Minus 9
-Minus 10
-Minus 15
-Minus 20
-Minus 25
+Minus Blue 1
+Minus Blue 2
+Minus Blue 3
+Minus Blue 4
+Minus Blue 5
+Minus Blue 6
+Minus Blue 7
+Minus Blue 8
+Minus Blue 9
+Minus Blue 10
+Minus Blue 15
+Minus Blue 20
+Minus Blue 25
+Minus Red 1
+Minus Red 2
+Minus Red 3
+Minus Red 4
+Minus Red 5
+Minus Red 6
+Minus Red 7
+Minus Red 8
+Minus Red 9
+Minus Red 10
+Minus Red 15
+Minus Red 20
+Minus Red 25
+Minus Green 1
+Minus Green 2
+Minus Green 3
+Minus Green 4
+Minus Green 5
+Minus Green 6
+Minus Green 7
+Minus Green 8
+Minus Green 9
+Minus Green 10
+Minus Green 15
+Minus Green 20
+Minus Green 25
+Minus Yellow 1
+Minus Yellow 2
+Minus Yellow 3
+Minus Yellow 4
+Minus Yellow 5
+Minus Yellow 6
+Minus Yellow 7
+Minus Yellow 8
+Minus Yellow 9
+Minus Yellow 10
+Minus Yellow 15
+Minus Yellow 20
+Minus Yellow 25
 TimeSquare
 CatTreat
 CatNap
