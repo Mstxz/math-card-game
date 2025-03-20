@@ -95,10 +95,10 @@ public class RoomSelect extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(createButton)){
-            Router.setRoute("PlayerVsPlayer",new NIOServer());
+            Router.setRoute("Lobby",new NIOServer());
         }
         else if(e.getSource().equals(joinButton)){
-            Router.setRoute("PlayerVsPlayer",null);
+            Router.setRoute("Lobby",null);
         }
     }
 

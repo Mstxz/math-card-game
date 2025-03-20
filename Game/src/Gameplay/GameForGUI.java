@@ -77,7 +77,7 @@ public class GameForGUI extends Thread {
                     while ((c = inPlay.play(inPlay,sequencePlayer[targetId])) != null){
                         gui.updatePlayerHUD();
                         gui.initCard();
-                        Thread.sleep(500);
+                        Thread.sleep(2000);
                         System.out.println(c.getName());
                     }
                 } catch (InterruptedException e) {

@@ -23,14 +23,21 @@ public class NIOServer {
     private ByteBuffer buffer;
     private long gameStarting;
     private ServerInfo info;
-    private int roomCapacity;
     public NIOServer() {
         registeredID = new HashMap<SocketChannel,Integer>();
-        playerState = new PlayerState[roomCapacity];
+        playerState = new PlayerState[4];
         buffer = ByteBuffer.allocate(1024);
-        roomCapacity = 4;
         gameStarting = -1;
         info = new ServerInfo();
+    }
+
+    public void unsetCountdown(){
+        gameStarting = -1;
+        for (int i=0;i<4;i++){
+            if (registeredID.containsValue(i)){
+                playerState[i].setCountDown(10);
+            }
+        }
     }
 
     public void start() {
@@ -122,7 +129,8 @@ public class NIOServer {
                     break;
                 }
             }
-            gameStarting = -1;
+            unsetCountdown();
+
 
         } else {
             throw new RuntimeException("Unknown Channel");

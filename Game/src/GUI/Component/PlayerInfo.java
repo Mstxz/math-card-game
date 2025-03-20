@@ -4,6 +4,7 @@ import utils.SharedResource;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import Gameplay.Number;
 
@@ -50,7 +51,6 @@ public class PlayerInfo extends JPanel {
         hpField.setBackground(SharedResource.SIAMESE_LIGHT);
         hpField.setOpaque(true);
         hpField.setBorder(new EmptyBorder(20,20,20,20));
-        hpField.setAlignmentX(LEFT_ALIGNMENT);
 
         manaLeft = new JLabel(player.getMana()+"/"+player.getMaxMana());
         manaLeft.setForeground(SharedResource.SIAMESE_LIGHT);
@@ -88,11 +88,13 @@ public class PlayerInfo extends JPanel {
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.add(this.hpLabel);
         JPanel tmp = new JPanel();
+        tmp.setLayout(new FlowLayout(FlowLayout.LEFT,10,0));
         tmp.setAlignmentX(LEFT_ALIGNMENT);
-        tmp.setMaximumSize(new Dimension(200,110));
+        tmp.setMaximumSize(new Dimension(300,110));
         tmp.setBackground(SharedResource.SIAMESE_BRIGHT);
         tmp.add(hpField);
         tmp.add(deckIconPanel);
+        //tmp.setBorder(new LineBorder(Color.BLUE,5));
         this.add(tmp);
         this.add(this.manaLabel);
         this.add(this.manaField);
