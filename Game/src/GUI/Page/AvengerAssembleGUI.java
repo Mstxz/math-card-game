@@ -144,7 +144,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 		this.gameLogic();
 		BGMPlayer.stopBackgroundMusic();
-		//BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/Test_BattleBGM.wav", -20.0f);
+		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM.wav", -20.0f);
 	}
 
 	public void updatePlayerHUD(){
@@ -174,7 +174,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
-		SFXPlayer.playSound("Game/src/assets/Audio/PlayerTurn.wav", -10.0f);
+		SFXPlayer.playSound("Game/src/assets/Audio/SFX/PlayerTurn.wav", -10.0f);
 		if (isPlayerTurn){
 			endTurnButton.setText("<html><body>End<br>Turn</body></html>");
 			endTurnButton.setEnabled(true);
@@ -236,11 +236,12 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==endTurnButton){
-			SFXPlayer.playSound("Game/src/assets/Audio/Meow.wav", 0f);
+			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Meow.wav", 0f);
 			setPlayerTurn(false);
 			game.resumeGame();
 		}
 		if(e.getSource() instanceof CardPlayable && isPlayerTurn){
+			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav", 0f);
 			CardPlayable c = (CardPlayable) e.getSource();
 			if(c.isPlayable()) {
 				int index = player.getHand().indexOf(c.getCard());

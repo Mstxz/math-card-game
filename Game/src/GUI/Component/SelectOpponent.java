@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import AudioPlayer.SFXPlayer;
 import GUI.Page.AvengerAssembleGUI;
 import GUI.Page.Page;
 import GUI.Router;
@@ -110,6 +111,7 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
                 avengerAssembleGUI.initCard();
                 this.setVisible(false);
                 avengerAssembleGUI.setBackdropDim(false);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav", 0f);
                 if (Player.checkWin(self,opponent) != null){
                     avengerAssembleGUI.result(Player.checkWin(self,opponent));
                 }

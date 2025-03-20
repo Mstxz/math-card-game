@@ -42,7 +42,7 @@ public class MainMenuPage extends Page implements ActionListener {
         }
 
         BGMPlayer.stopBackgroundMusic();
-        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/ID20_LoFi.wav", -10.0f);
+        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
     }
 
     private void initComponents() {
@@ -103,7 +103,7 @@ public class MainMenuPage extends Page implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        SFXPlayer.playSound("Game/src/assets/Audio/Test.wav", -10.0f);
+        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav", -10.0f);
 
         if (e.getSource().equals(playButton)){
             Router.setRoute("SelMode",null);

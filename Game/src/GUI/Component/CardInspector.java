@@ -7,6 +7,7 @@ import java.awt.Font;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import AudioPlayer.SFXPlayer;
 import GUI.Page.AvengerAssembleGUI;
 
 import java.awt.event.*;
@@ -55,6 +56,7 @@ public class CardInspector extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Desc_Down.wav", -10.0f);
 		this.removeAll();
 		this.removeMouseListener(this);
 		this.setVisible(false);

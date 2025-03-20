@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
+import AudioPlayer.SFXPlayer;
 import Gameplay.Card;
 import utils.ResourceLoader;
 import utils.SharedResource;
@@ -84,6 +85,7 @@ public class CardPlayable extends JButton implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3 && !handDeck.gui.isBlocked)
 		{
+			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Desc_UP.wav", -10.0f);
 			JPanel	overlay;
 
 			// handDeck.gui.showOverlay(
