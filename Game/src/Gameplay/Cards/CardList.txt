@@ -1,10 +1,10 @@
-Plus 1
-Plus 2
-Plus 3
-Plus 4
-Plus 5
-Plus 6
-Plus 7
+Plus Blue 1
+Plus Blue 2
+Plus Blue 3
+Plus Blue 4
+Plus Blue 5
+Plus Blue 6
+Plus Blue 7
 Plus 8
 Plus 9
 Plus 10
@@ -29,3 +29,5 @@ Minus 25
 TimeSquare
 CatTreat
 CatNap
+Copycat
+Digitalize

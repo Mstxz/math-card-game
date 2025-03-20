@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class CatNap extends Card {
     public CatNap(){
-        super("Cat Nap","Draw 2 cards",2, Difficulty.EASY, CardType.BLUE);
-        this.picture = "assets/Yellow_BetaCatNap.png";
+        super("CatNap","Draw 2 cards",2, Difficulty.EASY, CardType.YELLOW);
+        //this.picture = "assets/Yellow_BetaCatNap.png";
     }
 
     @Override

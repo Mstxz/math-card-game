@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class Plus extends Card {
     private int number;
-    public Plus(int number){
-        super("Plus"+number,"Add "+number+" to hp",1, Difficulty.EASY, CardType.GREEN);
+    public Plus(int number,CardType type){
+        super("Plus"+number,"Add "+number+" to hp",1, Difficulty.EASY, type);
         this.number = number;
         this.picture = "assets/Green_BetaHP+"+number+".png";
     }

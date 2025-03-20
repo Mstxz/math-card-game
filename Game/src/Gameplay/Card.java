@@ -21,8 +21,20 @@ public abstract class Card {
         this.manaUsed = manaUsed;
         this.difficult = difficult;
         this.type = type;
+        this.picture = "assets/Card/"+getFolder()+"/"+getFolder()+"_"+name+".png";
     }
-
+    public String getFolder(){
+        if (type == CardType.BLUE){
+            return "Blue";
+        }
+        if (type == CardType.RED){
+            return "Red";
+        }
+        if (type == CardType.GREEN){
+            return "Green";
+        }
+        return "Yellow";
+    }
     public String getName() {
         return name;
     }
@@ -35,12 +47,23 @@ public abstract class Card {
         this.picture = picture;
     }
 
-    public static Card createCard(String name, int number){
+    public static Card createCard(String name, int number,String type){
+        CardType cardType;
+        switch (type){
+            case "Blue":
+                cardType = CardType.BLUE;
+                break;
+            case "Red":
+                cardType = CardType.RED;
+                break;
+            case "Green":
+                cardType = CardType.GREEN;
+        }
         switch (name){
             case "Plus":
-                return new Plus(number);
+                return new Plus(number,cardType);
             case "Minus":
-                return new Minus(number);
+                return new Minus(number,cardType);
         }
         return null;
     }

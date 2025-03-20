@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class CatTreat extends Card implements HaveCondition {
     public CatTreat(){
-        super("CatTreat","Increase user mana by 2",0, Difficulty.EASY, CardType.BLUE);
+        super("CatTreat","Increase user mana by 2",0, Difficulty.EASY, CardType.YELLOW);
         this.picture = "assets/Yellow_BetaCatFood.png";
     }
 

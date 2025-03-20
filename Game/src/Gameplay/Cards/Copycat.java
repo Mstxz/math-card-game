@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Copycat extends Card {
     public Copycat(){
-        super("Copycat","Copy your HP to be the same as your opponent.",3, Difficulty.EASY, CardType.BLUE);
+        super("CopyCat","Copy your HP to be the same as your opponent.",3, Difficulty.EASY, CardType.BLUE);
     }
 
     @Override

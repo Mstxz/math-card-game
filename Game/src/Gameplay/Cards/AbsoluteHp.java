@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class AbsoluteHp extends Card {
     public AbsoluteHp(){
-        super("Absolute HP","Absolute user hp",2, Difficulty.MEDIUM, CardType.BLUE);
-        this.picture = "assets/Blue_BetaAbsoluteHP.png";
+        super("AbsoluteC.Cat","Absolute user hp",2, Difficulty.MEDIUM, CardType.BLUE);
+        //this.picture = "assets/Blue_BetaAbsoluteHP.png";
     }
 
     @Override
