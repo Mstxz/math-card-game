@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class PersistenceCat extends Card implements HaveCondition {
     public PersistenceCat(){
-        super("Sqrt(HP)","Sqare root opponent HP",9, Difficulty.MEDIUM, CardType.RED);
-        this.picture = "assets/Red_BetaTimeSquare.png";
+        super("PersistenceCat","Sqare root opponent HP",9, Difficulty.MEDIUM, CardType.RED);
+//        this.picture = "assets/Red_BetaTimeSquare.png";
     }
 
     @Override
