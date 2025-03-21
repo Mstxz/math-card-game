@@ -22,11 +22,16 @@ public class SliderUI extends BasicSliderUI {
 
     @Override
     public void paintTrack(Graphics g) {
-        g.setColor(Color.GRAY);
-        g.fillRect(trackRect.x, trackRect.y + (trackRect.height - 10) / 2, trackRect.width, 10);
+        g.setColor(new Color(118,118,118));
+        g.fillRoundRect(trackRect.x, trackRect.y + (trackRect.height - 15) / 2, trackRect.width, 15,15,15);
         g.setColor(Color.WHITE);
-        g.fillRect(trackRect.x  , trackRect.y + (trackRect.height - 10) / 2,
-                valueForXPosition(xPositionForValue(slider.getValue()))*trackRect.width/100, 10);
+        g.fillRoundRect(trackRect.x  , trackRect.y + (trackRect.height - 15) / 2,
+                valueForXPosition(xPositionForValue(slider.getValue()))*trackRect.width/100, 15,15,15);
         //System.out.println(valueForXPosition(xPositionForValue(slider.getValue()))+" "+xPositionForValue(slider.getValue()));
+    }
+
+    @Override
+    public void paintFocus(Graphics g) {
+
     }
 }

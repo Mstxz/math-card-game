@@ -1,0 +1,51 @@
+package GUI.Setting.Component;
+
+import utils.ResourceLoader;
+
+import javax.swing.*;
+
+public class ProfilePicture {
+    private String profileName;
+    private String description;
+    private ImageIcon image;
+    private JButton button;
+
+    public ProfilePicture(String profileName,String description,String image){
+        this.profileName = profileName;
+        this.description = description;
+        this.image = ResourceLoader.loadPicture(image,150,150);
+        button = new JButton(this.image);
+    }
+
+    public String getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ImageIcon getImage() {
+        return image;
+    }
+
+    public void setImage(ImageIcon image) {
+        this.image = image;
+    }
+
+    public JButton getButton() {
+        return button;
+    }
+
+    public void setButton(JButton button) {
+        this.button = button;
+    }
+}
