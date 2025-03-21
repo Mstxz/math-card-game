@@ -7,7 +7,9 @@ Minus Green 15 5
 Minus Green 20 5
 Minus Green 25 3
 AbsoluteHp 2
-CatNap 10
-CatTreat 8
+CatNap 5
+CatTreat 4
 FlipSigned 4
-TimeSquare 2
+PersistenceCat 2
+Copycat 4
+Digitalize 5

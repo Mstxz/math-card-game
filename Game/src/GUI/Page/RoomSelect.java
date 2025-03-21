@@ -27,7 +27,7 @@ public class RoomSelect extends Page implements ActionListener {
     private JButton createButton;
     private JButton joinButton;
     private JTextField hostIpField;
-    private JLabel exitLabel;
+    private ExitButton exitLabel;
 
     public RoomSelect() {
         middlePanel = new JPanel();
@@ -58,7 +58,7 @@ public class RoomSelect extends Page implements ActionListener {
         hostIpField.setMaximumSize(new Dimension(200,50));
         hostIpField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        exitLabel = new JLabel("< Exit");
+        exitLabel = new ExitButton("SelMode");
         exitLabel.setVerticalAlignment(SwingConstants.NORTH);
         exitLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
