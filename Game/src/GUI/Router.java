@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import GUI.Setting.SettingController;
+import GameSocket.NIOClient;
 import GameSocket.NIOServer;
 import utils.SharedResource;
 
@@ -57,7 +58,7 @@ public class Router implements ComponentListener {
             case "DeckCreator" -> new DeckCreatorPage();
             case "SelMode" -> new SelGameMode();
             case "Player" -> new RoomSelect();
-            case "Lobby" -> new PlayerVsPlayer((NIOServer) data);
+            case "Lobby" -> new PlayerVsPlayer((NIOClient) data);
             case "Setting" -> new SettingPage();
             default -> null;
         };

@@ -3,6 +3,7 @@ package GUI.Page;
 
 import GUI.Component.ButtonPanelComponent;
 import GUI.Component.ExitButton;
+import GUI.Component.Loader;
 import GUI.Component.PlayerPanelComponent;
 import GUI.Router;
 import GameSocket.NIOClient;
@@ -28,6 +29,7 @@ public class RoomSelect extends Page implements ActionListener {
     private JButton joinButton;
     private JTextField hostIpField;
     private JLabel exitLabel;
+    private boolean loading;
 
     public RoomSelect() {
         middlePanel = new JPanel();
@@ -95,10 +97,54 @@ public class RoomSelect extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(createButton)){
-            Router.setRoute("Lobby",new NIOServer());
+            NIOServer server = new NIOServer();
+            server.start();
+            NIOClient client = new NIOClient("Localhost");
+            Loader l = new Loader(this,"Creating Session"){
+                @Override
+                public void running(){
+                    try{
+                        Thread.sleep(1000);
+
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                @Override
+                public boolean closeCondition(){
+                    return client.isConnected() && client.isLobbyLoaded();
+                }
+                @Override
+                public void onClose(){
+                    super.onClose();
+                    Router.setRoute("Lobby",client);
+                }
+            };
+            l.startLoad();
         }
         else if(e.getSource().equals(joinButton)){
-            Router.setRoute("Lobby",null);
+            NIOClient client = new NIOClient("Localhost");
+            Loader l = new Loader(this,"Joining Session"){
+                @Override
+                public void running(){
+                    try{
+                        Thread.sleep(1000);
+
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                @Override
+                public boolean closeCondition(){
+                    return client.isConnected() && client.isLobbyLoaded();
+                }
+                @Override
+                public void onClose(){
+                    super.onClose();
+                    Router.setRoute("Lobby",client);
+                }
+            };
+            l.startLoad();
         }
     }
 

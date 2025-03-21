@@ -27,11 +27,7 @@ public class PlayerVsPlayer extends Page {
 
     //private Image bg;
 
-    public PlayerVsPlayer(NIOServer server) {
-        if (server != null){
-            //server.start();
-            //client = new NIOClient(1);
-        }
+    public PlayerVsPlayer(NIOClient client) {
         list = new ArrayList<Player>();
         mainPanel.setLayout(new BorderLayout(20, 0));
         mainPanel.setBackground(new Color(221,218,210));
@@ -72,8 +68,11 @@ public class PlayerVsPlayer extends Page {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setOpaque(false);
         //centerPanel.setBackground(SharedResource.SIAMESE_BASE);
+        PlayerPanelComponent playerPanelComponent = new PlayerPanelComponent(client.getPlayerInfos(),client.getPlayerID());
+        centerPanel.add(playerPanelComponent);
+        client.addLobbyObserver(playerPanelComponent);
         centerPanel.add(Box.createVerticalGlue());
-        centerPanel.add(new PlayerPanelComponent());
+
 //        centerPanel.add(Box.createVerticalGlue());
         panel.add(centerPanel, BorderLayout.CENTER);
 

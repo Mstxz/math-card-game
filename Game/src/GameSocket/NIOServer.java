@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-public class NIOServer {
+public class NIOServer extends Thread{
     private HashMap<SocketChannel,Integer> registeredID;
     private PlayerState[] playerState;
     private ByteBuffer buffer;
@@ -40,7 +40,7 @@ public class NIOServer {
         }
     }
 
-    public void start() {
+    public void run() {
         try (ServerSocketChannel server = ServerSocketChannel.open()) {
             server.bind(new InetSocketAddress(5000));
             server.configureBlocking(false);

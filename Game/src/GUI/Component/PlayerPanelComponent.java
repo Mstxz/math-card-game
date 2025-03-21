@@ -1,5 +1,7 @@
 package GUI.Component;
 
+import GameSocket.LobbyObserver;
+import GameSocket.PlayerInfo;
 import Gameplay.Player;
 
 import java.awt.*;
@@ -9,17 +11,23 @@ import javax.swing.*;
 
 
 
-public class PlayerPanelComponent extends JPanel {
+public class PlayerPanelComponent extends JPanel implements LobbyObserver {
     private ArrayList<PlayerLobbyCard> slot;
 
-    public PlayerPanelComponent() {
+    public PlayerPanelComponent(ArrayList<PlayerInfo> playerInfos,int ownerID) {
 //        setLayout(new GridLayout(1, 4, 20, 20));
         setOpaque(false);
         this.slot = new ArrayList<PlayerLobbyCard>();
 //        setBackground(new Color(210, 200, 180));
 
-        slot.add(new PlayerLobbyCard(new Player("Soda Mun Za", "assets/ProfileCat1.jpg"), true));
-        this.add(slot.getFirst()); // TODO: Set the constructor user to be owner.
+        //slot.add(new PlayerLobbyCard(new Player("Soda Mun Za", "assets/ProfileCat1.jpg"), true));
+        for (int i =0;i<playerInfos.size();i++) {
+            PlayerInfo playerInfo = playerInfos.get(i);
+            if (playerInfo != null) {
+                slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID));
+            }
+        }
+        //this.add(slot.getFirst()); // TODO: Set the constructor user to be owner.
 //        this.addUser(new Player("Bot1", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
 //        this.addUser(new Player("Bot2", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
 //        this.addUser(new Player("Bot3", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
@@ -38,8 +46,20 @@ public class PlayerPanelComponent extends JPanel {
         // TODO: To remove user card when quiting.
     }
 
+    public void updateLobby(){
+        this.removeAll();
+        for (PlayerLobbyCard lobbyCard:slot){
+            this.add(lobbyCard);
+        }
+    }
+
     private void FlowScale(){
         this.setLayout(new FlowLayout(FlowLayout.CENTER, (int)(500 / slot.size()), 0));
+    }
+
+    @Override
+    public void onChange() {
+        updateLobby();
     }
 }
 

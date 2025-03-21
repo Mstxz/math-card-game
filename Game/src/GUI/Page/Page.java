@@ -50,6 +50,46 @@ public abstract class Page {
         overlayPanel.add(c);
     }
 
+    public void showOverlay(Component c, OverlayPlacement placement){
+        int x = 0,y = 0;
+        int midX = (mainFrame.getWidth() - c.getWidth())/2;
+        int midY = (mainFrame.getHeight() - c.getHeight())/2;
+        switch (placement){
+            case TOP:
+                x = midX;
+                break;
+            case LEFT:
+                y = midY;
+                break;
+            case RIGHT:
+                x = mainFrame.getWidth() - c.getWidth();
+                y = midY;
+                break;
+            case BOTTOM:
+                x = midX;
+                y = mainFrame.getHeight() - c.getHeight();
+                break;
+            case CENTER:
+                x = midX;
+                y = midY;
+                break;
+            case TOP_LEFT:
+                break;
+            case TOP_RIGHT:
+                x = mainFrame.getWidth() - c.getWidth();
+                break;
+            case BOTTOM_LEFT:
+                y = mainFrame.getHeight() - c.getHeight();
+                break;
+            case BOTTOM_RIGHT:
+                x = mainFrame.getWidth() - c.getWidth();
+                y = mainFrame.getHeight() - c.getHeight();
+                break;
+        }
+        c.setLocation(x,y);
+        overlayPanel.add(c);
+    }
+
     public void removeOverlay(Component c){
         overlayPanel.remove(c);
     }

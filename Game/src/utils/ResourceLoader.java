@@ -2,6 +2,7 @@ package utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,6 +17,17 @@ public class ResourceLoader {
         URL imgURL = Objects.requireNonNull(ResourceLoader.class.getClassLoader().getResource(picture));
         Image loadedImg = (new ImageIcon(imgURL)).getImage().getScaledInstance(width,height,Image.SCALE_DEFAULT);
         return new ImageIcon(loadedImg);
+    }
+
+    public static BufferedImage loadBufferedPicture(String picture){
+        URL imgURL = Objects.requireNonNull(ResourceLoader.class.getClassLoader().getResource(picture));
+        Image loadedImg = new ImageIcon(imgURL).getImage();
+        System.out.println(picture+" "+loadedImg.getWidth(null) + " "+loadedImg.getHeight(null));
+        BufferedImage bf = new BufferedImage(loadedImg.getWidth(null),loadedImg.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bf.createGraphics();
+        g2d.drawImage(loadedImg,0,0,null);
+        g2d.dispose();
+        return bf;
     }
 
     public static BufferedInputStream loadFileAsStream(String file){

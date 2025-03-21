@@ -1,41 +1,45 @@
 package GameSocket;
 
 import Gameplay.Card;
-import Gameplay.Player;
 import utils.ResourceLoader;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
 
 
-public class NIOClient {
+public class NIOClient extends Thread{
     private ByteBuffer buffer = ByteBuffer.allocate(1024);
     private SocketChannel channel;
     private ClientState currentState;
     private String deckPath;
     private Vector<Request> events;
-    private ArrayList<PlayerInfo> players;
+    private ArrayList<PlayerInfo> playerInfos;
+    private boolean connected;
+    private boolean lobbyLoaded;
     private int playerID;
-    public NIOClient(int roomCapacity){
+    private ArrayList<LobbyObserver> lobbyObservers;
+    public NIOClient(String hostIP){
+        lobbyObservers = new ArrayList<>();
         this.events = new Vector<Request>();
         this.currentState = ClientState.IDLE;
-        this.players = new ArrayList<PlayerInfo>(roomCapacity);
-        for(int i = 0 ;i <roomCapacity;i++){
-            players.add(null);
+        this.connected = false;
+        this.lobbyLoaded = false;
+        this.playerInfos = new ArrayList<PlayerInfo>(4);
+        for(int i = 0 ;i < 4 ;i++){
+            playerInfos.add(null);
         }
         try {
-            SocketAddress address = new InetSocketAddress("localhost", 5000);
+            SocketAddress address = new InetSocketAddress(hostIP, 5000);
             channel = SocketChannel.open(address);
+
             channel.configureBlocking(true);
             Request req = new Request(ProtocolOperation.USER,"Arktik assets/icon.png 100");
             buffer.clear();
@@ -54,11 +58,31 @@ public class NIOClient {
                 if(serverRes.getOperation() == ProtocolOperation.ACKN){
                     System.out.println("Acknowledged");
                     playerID = ByteBuffer.wrap(serverRes.getData()).getInt();
+                    if (channel.isOpen()){
+                        connected = true;
+                    }
                 }
 
             }
             buffer.clear();
-            System.out.println("Successfully Connected");
+            byteRead = channel.read(buffer);
+            if (byteRead > 0){
+                buffer.flip();
+                Request serverRes = Request.decodeBytes(buffer.array());
+                if (serverRes.getOperation() == ProtocolOperation.LOBBY){
+                    int i = 0;
+
+                    while (i < serverRes.getBytesLength()){
+                        byte[] slice = Arrays.copyOfRange(serverRes.getData(),i,serverRes.getBytesLength());
+                        PlayerInfo playerInfo = PlayerInfo.decodeBytes(slice);
+                        i += playerInfo.encodeBytes().length;
+                        playerInfos.set(playerInfo.getPlayerID(),playerInfo);
+                    }
+                    lobbyLoaded = true;
+                    notifyLobbyObserver();
+                    System.out.println("Successfully Connected");
+                }
+            }
             channel.configureBlocking(false);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -83,21 +107,18 @@ public class NIOClient {
         return 0;
     }
 
-    public void lobby() throws RuntimeException{
+    @Override
+    public void run(){
         try {
             while (currentState == ClientState.IDLE || currentState == ClientState.READY || currentState == ClientState.LOADING) {
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
                     Request serverReq = Request.decodeBytes(buffer.array());
-//                    String data = new String(buffer.array(),buffer.position(),byteRead);
-//                    String[] args = data.split(" ");
 
                     switch (serverReq.getOperation()){
                         case ProtocolOperation.DECK:
                             currentState = ClientState.LOADING;
                             Request request = new Request(ProtocolOperation.DECK);
-                            //ByteBuffer bf = ByteBuffer.allocate(2048);
-                            //buffer.clear().put("DECK".getBytes());
                             try (BufferedInputStream f = ResourceLoader.loadFileAsStream(deckPath);
                                  InputStreamReader fr = new InputStreamReader(f);
                                  BufferedReader br = new BufferedReader(fr)
@@ -119,30 +140,17 @@ public class NIOClient {
                         case LOBBY:
                             //System.out.println("BRUH");
                             int i = 0;
-                            System.out.println(players);
+                            System.out.println(playerInfos);
                             while (i < serverReq.getBytesLength()){
                                 byte[] slice = Arrays.copyOfRange(serverReq.getData(),i,serverReq.getBytesLength());
                                 PlayerInfo playerInfo = PlayerInfo.decodeBytes(slice);
                                 i += playerInfo.encodeBytes().length;
-                                players.set(playerInfo.getPlayerID(),playerInfo);
+                                playerInfos.set(playerInfo.getPlayerID(),playerInfo);
+
                             }
-                            System.out.println(players);
-//                            while ((byteRead = readIntoBuffer()) != -1){
-//                                if (byteRead > 1){
-//                                    if (byteRead != "END".getBytes().length){
-//                                        data = new String(buffer.array(),buffer.position(),byteRead);
-//                                        PlayerInfo playerInfo = PlayerInfo.decodeBytes(buffer.array());
-//                                        players.set(playerInfo.getPlayerID(),playerInfo);
-//                                        System.out.println(playerInfo);
-//                                    }
-//                                    else{
-//                                        break;
-//                                    }
-//                                }
-//                            }
+                            notifyLobbyObserver();
                             break;
                         case COUNT:
-                            System.out.println("Bruh");
                             System.out.println(serverReq.getDataUTF());
                             break;
                         default:
@@ -163,6 +171,30 @@ public class NIOClient {
 
                     }
                     it.remove();
+                }
+
+            }
+            while (currentState == ClientState.PLAY || currentState == ClientState.WAIT) {
+                buffer.clear();
+                int byteRead = channel.read(buffer);
+                if (byteRead > 0){
+                    buffer.flip();
+                    String data = new String(buffer.array(),buffer.position(),byteRead);
+                    String[] arg = data.split(" ");
+                    if(currentState == ClientState.PLAY){
+                        switch (arg[0]){
+                            case "PLAY":
+                                // other play card
+                                break;
+                            case "DRAW":
+                                // other draw card
+                                break;
+                        }
+                    }
+                    else if (currentState == ClientState.WAIT) {
+
+                    }
+                    buffer.clear();
                 }
 
             }
@@ -225,5 +257,48 @@ public class NIOClient {
             this.events.add(req);
         }
 
+    }
+    public void addLobbyObserver(LobbyObserver observer){
+        lobbyObservers.add(observer);
+        observer.onChange();
+
+    }
+
+    private void notifyLobbyObserver(){
+        for(LobbyObserver l:lobbyObservers){
+            l.onChange();
+        }
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    public ArrayList<PlayerInfo> getPlayerInfos() {
+        return playerInfos;
+    }
+
+    public void setPlayerInfos(ArrayList<PlayerInfo> playerInfos) {
+        this.playerInfos = playerInfos;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public boolean isLobbyLoaded() {
+        return lobbyLoaded;
+    }
+
+    public void setLobbyLoaded(boolean lobbyLoaded) {
+        this.lobbyLoaded = lobbyLoaded;
     }
 }
