@@ -1,13 +1,16 @@
 package GUI.Setting.Component;
 
 import GUI.Setting.UIManager.SliderUI;
+import utils.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class VolumeSlider extends JPanel {
     private JSlider slider;
-    private ImageIcon icon;
+    private ImageIcon iconOpen = ResourceLoader.loadPicture("assets/Component/VolumeHigh.png");
+    private ImageIcon iconClose = ResourceLoader.loadPicture("assets/Component/VolumeMute.png");
+    private JButton button;
 
     public VolumeSlider(){
         this.setLayout(new BorderLayout());
@@ -21,7 +24,11 @@ public class VolumeSlider extends JPanel {
         slider.setPaintTrack(true);
         slider.setOrientation(JSlider.HORIZONTAL);
 
+        button = new JButton(iconOpen);
+        //button.se
+
         this.add(slider,BorderLayout.CENTER);
+        this.add(button,BorderLayout.EAST);
         this.setSize(500,200);
     }
 

@@ -16,13 +16,17 @@ public class SliderUI extends BasicSliderUI {
 
     @Override
     protected Dimension getThumbSize() {
-        Image img = ResourceLoader.loadPicture("assets/Component/PawSlider.png",30,30).getImage();
+        Image img = ResourceLoader.loadPicture("assets/Component/PawSlider.png",50,50).getImage();
         return new Dimension(img.getWidth(null),img.getHeight(null));
     }
 
     @Override
     public void paintTrack(Graphics g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.GRAY);
         g.fillRect(trackRect.x, trackRect.y + (trackRect.height - 10) / 2, trackRect.width, 10);
+        g.setColor(Color.WHITE);
+        g.fillRect(trackRect.x  , trackRect.y + (trackRect.height - 10) / 2,
+                valueForXPosition(xPositionForValue(slider.getValue()))*trackRect.width/100, 10);
+        //System.out.println(valueForXPosition(xPositionForValue(slider.getValue()))+" "+xPositionForValue(slider.getValue()));
     }
 }
