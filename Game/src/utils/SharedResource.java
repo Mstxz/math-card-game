@@ -23,6 +23,7 @@ public class SharedResource {
         catch (FontFormatException | IOException exception){
             return;
         }
+        setAllFont();
 
     }
 
