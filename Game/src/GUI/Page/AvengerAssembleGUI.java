@@ -144,7 +144,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener {
 
 		this.gameLogic();
 		BGMPlayer.stopBackgroundMusic();
-		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM.wav", -20.0f);
+		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_LoFiVersion.wav", -20.0f);
 	}
 
 	public void updatePlayerHUD(){
