@@ -7,9 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ExitButton extends JButton implements ActionListener {
-    public ExitButton() {
+    private String route;
+    public ExitButton(String route) {
         super("< Exit");
-
+        this.route = route;
         setPreferredSize(new Dimension(100, 40));
         setForeground(Color.BLACK);
         setFocusPainted(false);
@@ -23,6 +24,6 @@ public class ExitButton extends JButton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Router.setRoute("SelMode", null);
+        Router.setRoute(route, null);
     }
 }

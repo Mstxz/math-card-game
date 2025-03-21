@@ -154,7 +154,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         title.setHorizontalAlignment(SwingConstants.LEFT);
         title.setPreferredSize(new Dimension(title.getWidth(),100));
 
-        ExitButton exitButton = new ExitButton();
+        ExitButton exitButton = new ExitButton("MainMenu");
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.setOpaque(false);
         topPanel.add(exitButton);

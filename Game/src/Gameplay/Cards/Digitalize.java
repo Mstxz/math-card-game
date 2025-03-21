@@ -16,7 +16,7 @@ public class Digitalize extends Card implements HaveCondition {
     public boolean checkCondition(Player user, Player receiver) {
         boolean is0or1 = true;
         for (char i:(String.valueOf(((Constant)(receiver.getHp())).getNumber())).toCharArray()){
-            if (i == '1' || i == '0'){
+            if (i == '1' || i == '0' || i == '-'){
                 continue;
             }
             is0or1 = false;
@@ -36,6 +36,9 @@ public class Digitalize extends Card implements HaveCondition {
                     sum+=pow2;
                 }
                 pow2*=2;
+            }
+            if (enemyHp[0] == '-'){
+                sum = sum*(-1);
             }
             enemy.setHp(new Constant(sum));
         }
