@@ -78,7 +78,7 @@ Minus Green 10
 Minus Green 15
 Minus Green 20
 Minus Green 25
-TimeSquare
+PersistenceCat
 CatTreat
 CatNap
 Copycat

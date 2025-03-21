@@ -7,9 +7,9 @@ import Gameplay.Numbers.Constant;
 
 import java.util.ArrayList;
 
-public class TimeSquare extends Card implements HaveCondition {
-    public TimeSquare(){
-        super("Sqrt(HP)","Sqare root opponent HP",7, Difficulty.MEDIUM, CardType.RED);
+public class PersistenceCat extends Card implements HaveCondition {
+    public PersistenceCat(){
+        super("Sqrt(HP)","Sqare root opponent HP",9, Difficulty.MEDIUM, CardType.RED);
         this.picture = "assets/Red_BetaTimeSquare.png";
     }
 
