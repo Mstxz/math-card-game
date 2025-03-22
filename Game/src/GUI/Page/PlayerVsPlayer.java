@@ -71,6 +71,7 @@ public class PlayerVsPlayer extends Page {
         PlayerPanelComponent playerPanelComponent = new PlayerPanelComponent(client.getPlayerInfos(),client.getPlayerID());
         centerPanel.add(playerPanelComponent);
         client.addLobbyObserver(playerPanelComponent);
+        client.start();
         centerPanel.add(Box.createVerticalGlue());
 
 //        centerPanel.add(Box.createVerticalGlue());

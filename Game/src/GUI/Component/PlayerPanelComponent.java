@@ -13,11 +13,13 @@ import javax.swing.*;
 
 public class PlayerPanelComponent extends JPanel implements LobbyObserver {
     private ArrayList<PlayerLobbyCard> slot;
+    private int ownerID;
 
     public PlayerPanelComponent(ArrayList<PlayerInfo> playerInfos,int ownerID) {
 //        setLayout(new GridLayout(1, 4, 20, 20));
         setOpaque(false);
         this.slot = new ArrayList<PlayerLobbyCard>();
+        this.ownerID = ownerID;
 //        setBackground(new Color(210, 200, 180));
 
         //slot.add(new PlayerLobbyCard(new Player("Soda Mun Za", "assets/ProfileCat1.jpg"), true));
@@ -51,6 +53,9 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
         for (PlayerLobbyCard lobbyCard:slot){
             this.add(lobbyCard);
         }
+        this.FlowScale();
+        revalidate();
+        repaint();
     }
 
     private void FlowScale(){
@@ -58,7 +63,14 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
     }
 
     @Override
-    public void onChange() {
+    public void onChange(ArrayList<PlayerInfo> playerInfos) {
+        slot.clear();
+        for (int i =0;i<playerInfos.size();i++) {
+            PlayerInfo playerInfo = playerInfos.get(i);
+            if (playerInfo != null) {
+                slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID));
+            }
+        }
         updateLobby();
     }
 }

@@ -140,7 +140,7 @@ public class NIOClient extends Thread{
                         case LOBBY:
                             //System.out.println("BRUH");
                             int i = 0;
-                            System.out.println(playerInfos);
+
                             while (i < serverReq.getBytesLength()){
                                 byte[] slice = Arrays.copyOfRange(serverReq.getData(),i,serverReq.getBytesLength());
                                 PlayerInfo playerInfo = PlayerInfo.decodeBytes(slice);
@@ -148,6 +148,7 @@ public class NIOClient extends Thread{
                                 playerInfos.set(playerInfo.getPlayerID(),playerInfo);
 
                             }
+                            System.out.println(playerInfos);
                             notifyLobbyObserver();
                             break;
                         case COUNT:
@@ -260,13 +261,14 @@ public class NIOClient extends Thread{
     }
     public void addLobbyObserver(LobbyObserver observer){
         lobbyObservers.add(observer);
-        observer.onChange();
+        observer.onChange(playerInfos);
 
     }
 
     private void notifyLobbyObserver(){
+        System.out.println("Notify");
         for(LobbyObserver l:lobbyObservers){
-            l.onChange();
+            l.onChange(playerInfos);
         }
     }
 

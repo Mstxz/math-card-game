@@ -123,7 +123,7 @@ public class RoomSelect extends Page implements ActionListener {
             l.startLoad();
         }
         else if(e.getSource().equals(joinButton)){
-            NIOClient client = new NIOClient("Localhost");
+            NIOClient client = new NIOClient(hostIpField.getText());
             Loader l = new Loader(this,"Joining Session"){
                 @Override
                 public void running(){

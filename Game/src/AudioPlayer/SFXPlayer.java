@@ -9,6 +9,9 @@ public class SFXPlayer {
 
     public static void playSound(String soundFile, float volume) {
         try {
+            if (clip!=null){
+                clip.stop();
+            }
             File audioFile = new File(soundFile);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
