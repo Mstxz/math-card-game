@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Profile extends JPanel implements ActionListener {
-    private JPanel panel1;
-    private JPanel panel2;
-    private JPanel panel3;
+    private JPanel panel1; // profile zone
+    private JPanel panel2; // preview profile zone
+    private JPanel panel3; //
 
     private JPanel panel4;
 
@@ -33,8 +33,10 @@ public class Profile extends JPanel implements ActionListener {
         panel4.setLayout(new BorderLayout());
 
         panel1 = new JPanel();
+        //panel1.setPreferredSize(new Dimension(500,300));
         panel1.setLayout(new BorderLayout());
         JPanel panel5 = new JPanel();
+        panel5.setPreferredSize(new Dimension(500,50));
         panel5.setLayout(new BorderLayout());
 
         name = new JTextField("Klong Ha");
@@ -55,9 +57,11 @@ public class Profile extends JPanel implements ActionListener {
 
         panel2 = new JPanel();
         panel2.setLayout(new BorderLayout());
+        //panel2.setPreferredSize(new Dimension(500,100));
 
         JPanel panel7 = new JPanel();
         panel7.setLayout(new BorderLayout());
+        panel7.setPreferredSize(new Dimension(500,50));
 
         selectedProfile = new JLabel(selectedImage.getImage());
         profileNameLabel = new JLabel(selectedImage.getProfileName());
@@ -83,6 +87,7 @@ public class Profile extends JPanel implements ActionListener {
         panel4.add(panel1,BorderLayout.NORTH);
         panel4.add(panel2,BorderLayout.CENTER);
 
+        this.setLayout(new BorderLayout(10,20));
         this.add(panel4,BorderLayout.WEST);
         this.add(panel3,BorderLayout.CENTER);
     }
@@ -97,17 +102,12 @@ public class Profile extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton){
-            Iterator i = profilePictureList.keySet().iterator();
-            while (i.hasNext()){
-                ProfilePicture o = profilePictureList.get((String) i.next());
-                if (e.getSource().equals(o.getButton())){
-                    selectedImage = o;
-                    selectedProfile.setIcon(selectedImage.getImage());
-                    profileNameLabel.setText(selectedImage.getProfileName());
-                    descriptionLabel.setText(selectedImage.getDescription());
-
-                }
+            ProfilePicture o = profilePictureList.get(((JButton) e.getSource()).getName());
+            selectedImage = o;
+            selectedProfile.setIcon(selectedImage.getImage());
+            profileNameLabel.setText(selectedImage.getProfileName());
+            descriptionLabel.setText(selectedImage.getDescription());
             }
         }
     }
-}
+

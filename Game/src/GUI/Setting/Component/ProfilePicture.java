@@ -15,6 +15,7 @@ public class ProfilePicture {
         this.description = description;
         this.image = ResourceLoader.loadPicture(image,150,150);
         button = new JButton(this.image);
+        button.setName(profileName);
     }
 
     public String getProfileName() {
