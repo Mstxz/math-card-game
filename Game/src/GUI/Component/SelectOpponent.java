@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
 public class SelectOpponent extends JPanel implements MouseListener,ActionListener {
     private PlayerProfile selfButton;
     private PlayerProfile opponentButton;
@@ -54,9 +55,29 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
 
         this.add(p, BorderLayout.CENTER);
 
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setOpaque(false);
+
         doneButton = new JButton("Done");
 
-        this.add(doneButton, BorderLayout.SOUTH);
+        doneButton.setPreferredSize(new Dimension(250, 76)); // ขนาดปุ่ม
+        doneButton.setFont(SharedResource.getCustomSizeFont(28)); // ปรับขนาดตัวอักษร
+        doneButton.setForeground(new Color(72, 62, 56)); // สีตัวอักษร (เข้ากับสีกรอบ)
+
+// ตั้งค่าสีพื้นหลังของปุ่ม
+        doneButton.setBackground(new Color(221, 218, 210)); // สีชั้นในสุด (พื้นที่ปุ่ม)
+        doneButton.setOpaque(true);
+
+        doneButton.setBorder(BorderFactory.createCompoundBorder(
+                new LineBorder(new Color(72, 62, 56), 4, true), // ขอบนอกสุด (เข้ม)
+                BorderFactory.createCompoundBorder(
+                        new LineBorder(new Color(191, 180, 168), 12, true), // ขอบกลาง (กลาง)
+                        new LineBorder(new Color(221, 218, 210), 1, true) // ขอบในสุด (อ่อน)
+                )
+        ));
+
+        buttonPanel.add(doneButton);
+        this.add(buttonPanel, BorderLayout.SOUTH);
 
 
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
