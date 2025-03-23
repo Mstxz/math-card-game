@@ -36,8 +36,11 @@ public class BGMPlayer {
         if (bgmClip != null){
 
             FloatControl gainControl = (FloatControl) bgmClip.getControl(FloatControl.Type.MASTER_GAIN);
-            System.out.println(Calculation.percentOfRangeLog10(gainControl.getMinimum(),gainControl.getMaximum(),((float) UserPreference.getInstance().getMusicVolume() / 100)));
-            gainControl.setValue(Calculation.percentOfRangeLog10(gainControl.getMinimum(),gainControl.getMaximum(),((float) UserPreference.getInstance().getMusicVolume() / 100)));
+            float gain = Calculation.percentOfRangeLog10(-60.0f,gainControl.getMaximum(),((float) UserPreference.getInstance().getMusicVolume() / 100));
+            if (gain == -60.0f){
+                gain = gainControl.getMinimum();
+            }
+            gainControl.setValue(gain);
         }
     }
 }

@@ -127,7 +127,10 @@ public class Profile extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() instanceof JButton){
+        if (e.getSource().equals(saveButton)){
+
+        }
+        else if (e.getSource() instanceof JButton){
             ProfilePicture o = profilePictureList.get(((JButton) e.getSource()).getName());
             selectedImage = o;
             selectedProfile.setIcon(selectedImage.getImage());
