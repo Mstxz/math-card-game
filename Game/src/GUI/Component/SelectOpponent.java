@@ -2,20 +2,19 @@ package GUI.Component;
 
 import AudioPlayer.SFXPlayer;
 import GUI.Page.AvengerAssembleGUI;
-import GUI.Page.Page;
 import GUI.Router;
 import Gameplay.Card;
 import Gameplay.Player;
-import utils.SharedResource;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import utils.SharedResource;
+
 
 public class SelectOpponent extends JPanel implements MouseListener,ActionListener {
     private PlayerProfile selfButton;
@@ -54,9 +53,36 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
 
         this.add(p, BorderLayout.CENTER);
 
-        doneButton = new JButton("Done");
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setOpaque(false);
 
-        this.add(doneButton, BorderLayout.SOUTH);
+        doneButton = new JButton("Done");
+        doneButton.setPreferredSize(new Dimension(250, 76));
+        doneButton.setFont(SharedResource.getCustomSizeFont(28));
+        doneButton.setForeground(new Color(72, 62, 56)); 
+
+        doneButton.setContentAreaFilled(false);
+        doneButton.setOpaque(false);    
+        doneButton.setForeground(Color.BLACK);
+
+        doneButton.setBorder(BorderFactory.createCompoundBorder(
+        new RoundBorder(new Color(72, 62, 56), new Color(98, 86, 77), 4, 30),  // ขอบนอก (เข้ม)
+        BorderFactory.createCompoundBorder(
+        new RoundBorder(new Color(191, 180, 168), new Color(191, 180, 168), 12, 30), // ขอบกลาง (กลาง)
+        new RoundBorder(new Color(221, 218, 210), new Color(221, 218, 210), 1, 30)   // ขอบใน (อ่อน)
+        )
+        ));
+        doneButton.setLayout(null);
+
+        //Label แปะบนปุ่ม 
+        JLabel buttonLabel = new JLabel("Done", SwingConstants.CENTER);
+        buttonLabel.setFont(SharedResource.getCustomSizeFont(28));
+        buttonLabel.setForeground(Color.BLACK);
+        buttonLabel.setBounds(0, 0, doneButton.getPreferredSize().width, doneButton.getPreferredSize().height);
+        doneButton.add(buttonLabel);
+        buttonPanel.add(doneButton);
+
+        this.add(buttonPanel, BorderLayout.SOUTH);
 
 
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
