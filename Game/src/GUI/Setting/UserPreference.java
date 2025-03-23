@@ -1,6 +1,8 @@
 package GUI.Setting;
 
 import GUI.Component.RotatingSettingOption;
+import GUI.Setting.Component.Profile;
+import GUI.Setting.Controller.UserProfile;
 
 import java.io.*;
 
@@ -9,6 +11,7 @@ public class UserPreference implements Serializable {
     private int SFXVolume;
     private int MusicVolume;
     private static UserPreference userPreference = null;
+    private UserProfile profile;
 
     public static UserPreference getInstance(){
         if (userPreference==null){
@@ -36,12 +39,13 @@ public class UserPreference implements Serializable {
             System.out.println("write");
         }
         catch (IOException e){
-
+            System.out.println("Klong ha");
         }
     }
 
     private UserPreference(){
         this.resolutionIndex = 0;
+        this.profile = new UserProfile();
     }
 
     private UserPreference(int resolutionIndex){
@@ -71,5 +75,13 @@ public class UserPreference implements Serializable {
 
     public void setMusicVolume(int musicVolume) {
         MusicVolume = musicVolume;
+    }
+
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
     }
 }

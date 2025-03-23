@@ -1,7 +1,7 @@
 package GUI.Setting.Component;
 
 import GUI.Component.RotatingSettingOption;
-import GUI.Setting.SettingController;
+import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
 import utils.RoundPanelUI;
 import utils.SharedResource;
@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class GameSetting extends JPanel implements ActionListener {
     private JPanel panel1;

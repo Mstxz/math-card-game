@@ -5,14 +5,11 @@ import GUI.Page.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
-import GUI.Setting.SettingController;
+import GUI.Setting.Controller.SettingController;
 import GameSocket.NIOClient;
-import GameSocket.NIOServer;
 import utils.SharedResource;
 
 public class Router implements ComponentListener {

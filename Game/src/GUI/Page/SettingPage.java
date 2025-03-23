@@ -3,7 +3,7 @@ package GUI.Page;
 import GUI.Component.ExitButton;
 import GUI.Component.RotatingSettingOption;
 import GUI.Setting.Component.TabbedPanel;
-import GUI.Setting.SettingController;
+import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
 import utils.SharedResource;
 
@@ -12,9 +12,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SettingPage extends Page {
     private JPanel settingTabPanel;
