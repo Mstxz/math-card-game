@@ -4,8 +4,9 @@ import utils.ResourceLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class ProfilePicture {
+public class ProfilePicture implements Serializable {
     private String profileName;
     private String description;
     private ImageIcon image;

@@ -1,5 +1,8 @@
 package GUI.Setting.Component;
 
+import GUI.Setting.Controller.SettingController;
+import GUI.Setting.Controller.UserProfile;
+import GUI.Setting.UserPreference;
 import utils.RoundPanelUI;
 import utils.SharedResource;
 
@@ -28,11 +31,10 @@ public class Profile extends JPanel implements ActionListener {
     private JTextArea descriptionLabel;
 
     private ProfilePicture selectedImage;
+    private String selectedKey;
 
-    private HashMap<String,ProfilePicture> profilePictureList = new HashMap<String,ProfilePicture>();
     public Profile(){
-        loadProfileList();
-        selectedImage = profilePictureList.get("Klong ha");
+        selectedImage = UserPreference.getInstance().getProfile().getProfilePicture();
         panel4 = new JPanel();
         panel4.setLayout(new BorderLayout(0,100));
 
@@ -43,10 +45,13 @@ public class Profile extends JPanel implements ActionListener {
         panel5.setPreferredSize(new Dimension(500,50));
         panel5.setLayout(new BorderLayout(10,10));
 
-        name = new JTextField("Klong Ha");
+        name = new JTextField(UserPreference.getInstance().getProfile().getName());
+        name.setEditable(false);
+        name.setFocusable(false);
         name.setFont(SharedResource.getCustomSizeFont(30));
         name.setOpaque(false);
         profileImage = new JLabel(selectedImage.getImage());
+        selectedKey = UserPreference.getInstance().getProfile().getProfileName();
         renameButton = new JButton("Rename");
         saveButton = new JButton("Save");
 
@@ -99,9 +104,9 @@ public class Profile extends JPanel implements ActionListener {
         panel3.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,40,40));
         panel3.setLayout(new GridLayout(2,2,60,60));
         panel3.setBorder(new EmptyBorder(60,10,120,20));
-        Iterator i = profilePictureList.keySet().iterator();
+        Iterator i = UserProfile.profilePictureList.keySet().iterator();
         while (i.hasNext()){
-            ProfilePicture o = profilePictureList.get((String) i.next());
+            ProfilePicture o = UserProfile.profilePictureList.get((String) i.next());
             panel3.add(o.getButton());
             o.getButton().addActionListener(this);
             System.out.println(o.getProfileName());
@@ -116,22 +121,41 @@ public class Profile extends JPanel implements ActionListener {
         this.add(panel4,BorderLayout.WEST);
         this.add(panel3,BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(1000,500));
-    }
 
-    public void loadProfileList(){
-        profilePictureList.put("Klong ha",new ProfilePicture("Klong ha","Klong Eng Ha","assets/testLobby/Cat3.jpg"));
-        profilePictureList.put("Clown",new ProfilePicture("Clown","Heavy is teammate","assets/testLobby/clown.png"));
-        profilePictureList.put("Pleng's cat",new ProfilePicture("Pleng's cat","I don't know, this is not my cat!","assets/testLobby/pleng_cat.png"));
-        profilePictureList.put("Karn Bob",new ProfilePicture("Karn Bob","Is that him cutting a new hair?","assets/testLobby/pupe_karn_1.png"));
+        saveButton.addActionListener(this);
+        renameButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)){
-
+            UserPreference.getInstance().setProfile(new UserProfile(name.getText(),selectedKey) );
+            SettingController.updatePreference();
+            System.out.println("Save");
+            profileImage.setIcon(UserPreference.getInstance().getProfile().getProfilePicture().getImage());
+            renameButton.setText("Rename");
+            name.setEditable(false);
+            name.setFocusable(false);
+            name.setOpaque(false);
+        }
+        else if (e.getSource().equals(renameButton)){
+            if (((JButton)(e.getSource())).getText().equals("Rename")){
+                renameButton.setText("Cancel");
+                name.setOpaque(true);
+                name.setFocusable(true);
+                name.setEditable(true);
+            }
+            else if (((JButton)(e.getSource())).getText().equals("Cancel")){
+                name.setEditable(false);
+                name.setText(UserPreference.getInstance().getProfile().getName());
+                renameButton.setText("Rename");
+                name.setFocusable(false);
+                name.setOpaque(false);
+            }
         }
         else if (e.getSource() instanceof JButton){
-            ProfilePicture o = profilePictureList.get(((JButton) e.getSource()).getName());
+            ProfilePicture o =UserProfile.profilePictureList.get(((JButton) e.getSource()).getName());
+            selectedKey = ((JButton) e.getSource()).getName();
             selectedImage = o;
             selectedProfile.setIcon(selectedImage.getImage());
             profileNameLabel.setText(selectedImage.getProfileName());

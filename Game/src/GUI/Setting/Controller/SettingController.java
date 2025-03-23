@@ -1,10 +1,9 @@
-package GUI.Setting;
+package GUI.Setting.Controller;
 
 import AudioPlayer.BGMPlayer;
-import AudioPlayer.SFXPlayer;
 import GUI.Router;
+import GUI.Setting.UserPreference;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ public class SettingController {
     public static ArrayList<String> resolutionList = new ArrayList<String>(List.of("1366x768","1920x1080"));
 
     public static void update(){
+        UserProfile.loadProfile();
         updateResolution(UserPreference.getInstance().getResolutionIndex());
         updateSoundVolume();
     }
