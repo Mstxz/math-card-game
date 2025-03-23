@@ -110,7 +110,7 @@ public class NIOClient extends Thread{
     @Override
     public void run(){
         try {
-            while (currentState == ClientState.IDLE || currentState == ClientState.READY || currentState == ClientState.LOADING) {
+            while (channel.isOpen() && (currentState == ClientState.IDLE || currentState == ClientState.READY || currentState == ClientState.LOADING)) {
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
                     Request serverReq = Request.decodeBytes(buffer.array());
@@ -302,5 +302,14 @@ public class NIOClient extends Thread{
 
     public void setLobbyLoaded(boolean lobbyLoaded) {
         this.lobbyLoaded = lobbyLoaded;
+    }
+
+    public void closeClient(){
+        try {
+            channel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

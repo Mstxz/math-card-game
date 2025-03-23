@@ -1,11 +1,9 @@
 package GameSocket;
 
 import Gameplay.Numbers.Constant;
-import Gameplay.Player;
 
 import java.io.*;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -17,18 +15,29 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-public class NIOServer extends Thread{
+public class NIOServer extends Thread {
+    private static NIOServer instance = null;
     private HashMap<SocketChannel,Integer> registeredID;
     private PlayerState[] playerState;
     private ByteBuffer buffer;
     private long gameStarting;
-    private ServerInfo info;
+    private ServerInfo serverInfo;
+
+
+    public static NIOServer getInstance() {
+        if (instance == null){
+            instance = new NIOServer();
+        }
+        return instance;
+    }
+
     public NIOServer() {
         registeredID = new HashMap<SocketChannel,Integer>();
         playerState = new PlayerState[4];
         buffer = ByteBuffer.allocate(1024);
         gameStarting = -1;
-        info = new ServerInfo();
+        serverInfo = new ServerInfo();
+
     }
 
     public void unsetCountdown(){
@@ -46,7 +55,7 @@ public class NIOServer extends Thread{
             server.configureBlocking(false);
             Selector selector = Selector.open();
             server.register(selector, SelectionKey.OP_ACCEPT);
-            while (true) {
+            while (serverInfo.isRunning()) {
                 try {
                     selector.select();
                 } catch (IOException e) {
@@ -91,8 +100,8 @@ public class NIOServer extends Thread{
                                 playerState[registeredID.get(client)].setStarted(true);
                             }
 
-                            info.updateGameStarted(playerState);
-                            if (info.isGameStarted()){
+                            serverInfo.updateGameStarted(playerState);
+                            if (serverInfo.isGameStarted()){
                                 gameStarting = -1;
                             }
                         }
@@ -113,8 +122,10 @@ public class NIOServer extends Thread{
                 }
             }
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
+        System.out.println("Server stopped");
     }
     public void handleAcception(Selector selector,SelectionKey k) throws RuntimeException,IOException{
         if (k.channel() instanceof ServerSocketChannel serverChannel) {
@@ -199,8 +210,8 @@ public class NIOServer extends Thread{
                             data = new String(clientReq.getData(),0,clientReq.getBytesLength(),StandardCharsets.UTF_8);
                             out.writeBytes(data);
                             playerState[registeredID.get(client)].setDeckPath(f.getAbsolutePath());
-                            info.updateDeckLoaded(playerState);
-                            if (info.isDeckLoaded()){
+                            serverInfo.updateDeckLoaded(playerState);
+                            if (serverInfo.isDeckLoaded()){
                                 lobbyUpdate();
                             }
                         }
@@ -256,5 +267,11 @@ public class NIOServer extends Thread{
                 ps.getDataOutQueue().add(req);
             }
         }
+    }
+
+    public void stopServer(){
+
+        serverInfo.setRunning(false);
+        NIOServer.instance = null;
     }
 }

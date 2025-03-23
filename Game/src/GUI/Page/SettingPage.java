@@ -1,5 +1,6 @@
 package GUI.Page;
 
+import GUI.Component.ExitButton;
 import GUI.Component.RotatingSettingOption;
 import GUI.Setting.Component.TabbedPanel;
 import GUI.Setting.SettingController;
@@ -15,44 +16,31 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingPage extends Page implements ActionListener {
-    private JLabel resolutionText;
-    private JButton applyButton;
+public class SettingPage extends Page {
     private JPanel settingTabPanel;
     private JLabel settingTitle;
 
-    private RotatingSettingOption resolutionSettingButton;
 
     public SettingPage(){
+        ExitButton exitButton = new ExitButton("MainMenu");
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
         settingTitle = new JLabel("Setting");
         settingTitle.setFont(SharedResource.getCustomSizeFont(48));
         settingTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        topPanel.add(exitButton,BorderLayout.WEST);
+        topPanel.add(settingTitle,BorderLayout.CENTER);
+        JLabel emptySpace = new JLabel();
+        emptySpace.setPreferredSize(new Dimension(100, 40));
+        topPanel.add(emptySpace,BorderLayout.EAST);
         settingTabPanel = new JPanel();
         settingTabPanel.setBorder(new EmptyBorder(0,40,0,80));
         settingTabPanel.add(new TabbedPanel());
-        //createResolutionSettingButton();
-
-        //mainPanel.add(resolutionText);
-        //mainPanel.add(resolutionSettingButton);
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(settingTitle,BorderLayout.NORTH);
+        mainPanel.add(topPanel,BorderLayout.NORTH);
         mainPanel.add(settingTabPanel);
         mainPanel.setBorder(new EmptyBorder(20,20,80,40));
-        //applyButton.addActionListener(this);
         setupMainPanel();
     }
 
-    public void createResolutionSettingButton(){
-        resolutionSettingButton = new RotatingSettingOption(SettingController.resolutionList,UserPreference.getInstance().getResolutionIndex());
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(applyButton)){
-            UserPreference.getInstance().setResolutionIndex(resolutionSettingButton.getCurrentIndex());
-
-            SettingController.updateResolution(resolutionSettingButton.getCurrentIndex());
-            SettingController.updatePreference();
-        }
-    }
 }

@@ -1,6 +1,7 @@
 package GameSocket;
 
 public class ServerInfo {
+    private boolean running = true;
     private boolean gameStarted = false;
     private boolean deckLoaded = false;
 
@@ -42,5 +43,13 @@ public class ServerInfo {
 
     public boolean isGameStarted() {
         return gameStarted;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
     }
 }
