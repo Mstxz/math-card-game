@@ -3,6 +3,7 @@ package GUI.Setting.Component;
 import utils.ResourceLoader;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ProfilePicture {
     private String profileName;
@@ -14,7 +15,13 @@ public class ProfilePicture {
         this.profileName = profileName;
         this.description = description;
         this.image = ResourceLoader.loadPicture(image,150,150);
-        button = new JButton(this.image);
+        button = new JButton(this.image){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                this.setIcon(ResourceLoader.loadPicture(image,getWidth(),getHeight()));
+            }
+        };
         button.setName(profileName);
     }
 

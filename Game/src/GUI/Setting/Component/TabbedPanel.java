@@ -29,6 +29,7 @@ public class TabbedPanel extends JTabbedPane {
         frame.add(new TabbedPanel());
 
         frame.setSize(1000,659);
+        frame.setBackground(SharedResource.SIAMESE_BRIGHT);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

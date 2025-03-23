@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingController {
-    public static ArrayList<String> resolutionList = new ArrayList<String>(List.of("1920x1080","1366x768"));
+    public static ArrayList<String> resolutionList = new ArrayList<String>(List.of("1366x768","1920x1080"));
 
     public static void update(){
         updateResolution(UserPreference.getInstance().getResolutionIndex());

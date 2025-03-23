@@ -5,21 +5,27 @@ import javax.swing.plaf.PanelUI;
 import java.awt.*;
 
 public class RoundPanelUI extends PanelUI {
-    private Color c;
+    private Color color;
+    private int arcWidth;
+    private int arcHeight;
     public RoundPanelUI(Color c){
-        this.c = c;
+        this(c,20,20);
+        
     }
-
+    public RoundPanelUI(Color color,int arcWidth, int arcHeight){
+        this.color = color;
+        this.arcWidth = arcWidth;
+        this.arcHeight = arcHeight;
+    }
     @Override
     public void paint(Graphics g, JComponent c) {
-        c.setBackground(this.c);
+        c.setBackground(this.color);
         Graphics2D g2d = ((Graphics2D)(g));
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(c.getParent().getBackground());
-        System.out.println(c.getParent().getBackground());
         g2d.fillRect(0, 0, c.getWidth(), c.getHeight());
-        g2d.setColor(this.c);
-        g2d.fillRoundRect(0,0,c.getWidth(),c.getHeight(),20,20);
+        g2d.setColor(this.color);
+        g2d.fillRoundRect(0,0,c.getWidth(),c.getHeight(),arcWidth,arcHeight);
         super.paint(g,c);
     }
 

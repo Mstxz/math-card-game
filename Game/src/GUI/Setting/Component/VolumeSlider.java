@@ -5,6 +5,7 @@ import utils.ResourceLoader;
 import utils.SharedResource;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 
@@ -36,7 +37,6 @@ public class VolumeSlider extends JPanel {
 
         this.add(slider,BorderLayout.CENTER);
         this.add(button,BorderLayout.EAST);
-        this.setSize(400,50);
     }
 
     public static void main(String[] args) {
