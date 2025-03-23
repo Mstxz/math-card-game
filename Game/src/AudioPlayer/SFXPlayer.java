@@ -1,5 +1,8 @@
 package AudioPlayer;
 
+import GUI.Setting.UserPreference;
+import utils.Calculation;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +20,7 @@ public class SFXPlayer {
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(volume);
+            gainControl.setValue(Calculation.percentOfRange(gainControl.getMinimum(),volume,((float) UserPreference.getInstance().getSFXVolume() / 100)));
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();

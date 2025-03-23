@@ -6,6 +6,8 @@ import java.io.*;
 
 public class UserPreference implements Serializable {
     private int resolutionIndex;
+    private int SFXVolume;
+    private int MusicVolume;
     private static UserPreference userPreference = null;
 
     public static UserPreference getInstance(){
@@ -16,13 +18,14 @@ public class UserPreference implements Serializable {
                     userPreference = (UserPreference) oi.readObject();
                 }
                 catch (ClassNotFoundException | IOException e){
-
+                    userPreference = new UserPreference();
                 }
             }
             else {
                 userPreference = new UserPreference();
             }
         }
+
         return userPreference;
     }
 
@@ -51,5 +54,22 @@ public class UserPreference implements Serializable {
 
     public void setResolutionIndex(int resolutionIndex) {
         this.resolutionIndex = resolutionIndex;
+    }
+
+
+    public int getSFXVolume() {
+        return SFXVolume;
+    }
+
+    public void setSFXVolume(int SFXVolume) {
+        this.SFXVolume = SFXVolume;
+    }
+
+    public int getMusicVolume() {
+        return MusicVolume;
+    }
+
+    public void setMusicVolume(int musicVolume) {
+        MusicVolume = musicVolume;
     }
 }

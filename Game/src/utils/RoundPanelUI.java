@@ -8,15 +8,27 @@ public class RoundPanelUI extends PanelUI {
     private Color color;
     private int arcWidth;
     private int arcHeight;
+    private boolean topLeft;
+    private boolean topRight;
+    private boolean bottomLeft;
+    private boolean bottomRight;
     public RoundPanelUI(Color c){
         this(c,20,20);
-        
     }
     public RoundPanelUI(Color color,int arcWidth, int arcHeight){
+        this(color,arcWidth,arcHeight,true,true,true,true);
+    }
+
+    public RoundPanelUI(Color color, int arcWidth, int arcHeight, boolean topLeft, boolean topRight, boolean bottomLeft, boolean bottomRight) {
         this.color = color;
         this.arcWidth = arcWidth;
         this.arcHeight = arcHeight;
+        this.topLeft = topLeft;
+        this.topRight = topRight;
+        this.bottomLeft = bottomLeft;
+        this.bottomRight = bottomRight;
     }
+
     @Override
     public void paint(Graphics g, JComponent c) {
         c.setBackground(this.color);
@@ -26,6 +38,18 @@ public class RoundPanelUI extends PanelUI {
         g2d.fillRect(0, 0, c.getWidth(), c.getHeight());
         g2d.setColor(this.color);
         g2d.fillRoundRect(0,0,c.getWidth(),c.getHeight(),arcWidth,arcHeight);
+        if (!topLeft){
+            g2d.fillRect(0,0,arcWidth,arcHeight);
+        }
+        if (!topRight){
+            g2d.fillRect(c.getWidth()-arcWidth,0,arcWidth,arcHeight);
+        }
+        if (!bottomLeft){
+            g2d.fillRect(0,c.getHeight() - arcHeight,arcWidth,arcHeight);
+        }
+        if (!bottomRight){
+            g2d.fillRect(c.getWidth()-arcWidth,c.getHeight()-arcHeight,arcWidth,arcHeight);
+        }
         super.paint(g,c);
     }
 

@@ -39,6 +39,18 @@ public class VolumeSlider extends JPanel {
         this.add(button,BorderLayout.EAST);
     }
 
+    public JSlider getSlider() {
+        return slider;
+    }
+
+    public int getValue(){
+        return slider.getValue();
+    }
+
+    public void setValue(int value){
+        slider.setValue(value);
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.add(new VolumeSlider());

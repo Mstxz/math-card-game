@@ -1,5 +1,7 @@
 package GUI.Setting;
 
+import AudioPlayer.BGMPlayer;
+import AudioPlayer.SFXPlayer;
 import GUI.Router;
 
 import java.io.*;
@@ -11,6 +13,7 @@ public class SettingController {
 
     public static void update(){
         updateResolution(UserPreference.getInstance().getResolutionIndex());
+        updateSoundVolume();
     }
 
     public static void updateResolution(int index){
@@ -21,6 +24,10 @@ public class SettingController {
         else if (resolution.equals("1366x768")){
             Router.getMainFrame().setSize(1366,768);
         }
+    }
+
+    public static void updateSoundVolume(){
+        BGMPlayer.updateVolume();
     }
 
     public static void updatePreference(){

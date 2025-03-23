@@ -110,11 +110,12 @@ public class Profile extends JPanel implements ActionListener {
         panel4.setBackground(SharedResource.SIAMESE_LIGHT);
         panel4.add(panel1,BorderLayout.NORTH);
         panel4.add(panel8,BorderLayout.CENTER);
-        this.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT,30,30));
+        this.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT,30,30,false,true,true,true));
         this.setBorder(new EmptyBorder(20,20,40,40));
         this.setLayout(new BorderLayout(50,10));
         this.add(panel4,BorderLayout.WEST);
         this.add(panel3,BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(1000,500));
     }
 
     public void loadProfileList(){
