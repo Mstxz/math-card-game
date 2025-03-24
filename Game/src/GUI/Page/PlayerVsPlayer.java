@@ -50,7 +50,13 @@ public class PlayerVsPlayer extends Page {
         head = new JLabel("Matchmaking...");
         head.setFont(SharedResource.getCustomSizeFont(40));
         head.setHorizontalAlignment(SwingConstants.CENTER);
-        ExitButton exitButton = new ExitButton("SelMode");
+        ExitButton exitButton = new ExitButton("SelMode"){
+            @Override
+            public void cleanUp() {
+                NIOServer.getInstance().stopServer();
+                client.closeClient();
+            }
+        };
         headerPanel.add(exitButton, BorderLayout.WEST);
         headerPanel.add(head, BorderLayout.CENTER);
 

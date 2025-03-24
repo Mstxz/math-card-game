@@ -45,6 +45,8 @@ public class UserPreference implements Serializable {
 
     private UserPreference(){
         this.resolutionIndex = 0;
+        this.MusicVolume = 50;
+        this.SFXVolume = 50;
         this.profile = new UserProfile();
     }
 

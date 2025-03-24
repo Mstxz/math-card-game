@@ -1,6 +1,8 @@
 package GUI.Component;
 
 import GUI.Router;
+import utils.SharedResource;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,18 +14,19 @@ public class ExitButton extends JButton implements ActionListener {
         super("< Exit");
         this.route = route;
         setPreferredSize(new Dimension(100, 40));
-        setForeground(Color.BLACK);
         setFocusPainted(false);
         setBorderPainted(false);
         setContentAreaFilled(false);
-        setFont(new Font("Arial", Font.BOLD, 16));
+        setFont(SharedResource.getCustomSizeFont(24));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         addActionListener(this);
     }
+    public void cleanUp(){}
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        cleanUp();
         Router.setRoute(route, null);
     }
 }

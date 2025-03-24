@@ -97,8 +97,7 @@ public class RoomSelect extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(createButton)){
-            NIOServer server = new NIOServer();
-            server.start();
+            NIOServer.getInstance().start();
             NIOClient client = new NIOClient("Localhost");
             Loader l = new Loader(this,"Creating Session"){
                 @Override

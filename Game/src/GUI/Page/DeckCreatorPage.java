@@ -165,17 +165,25 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paLeft = new TempDeckZone();
         paLeft.setLayout(new FlowLayout());
         paLeft.setPreferredSize(new Dimension(300,1000));
-        paLeft.setBackground(SharedResource.SIAMESE_LIGHT);
+        paLeft.setOpaque(false);
 
         JScrollPane cardScrollPane = new JScrollPane(paLeft);
+        /*เปิดแถบเลื่อน
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);*/
+        //ปิดแถบเลื่อน
+        cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        cardScrollPane.setOpaque(false);
+        cardScrollPane.getViewport().setOpaque(false);
 
         saveButton = new JButton("Save");
 
         String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
         PopupMenu PopupMenu = new PopupMenu();
-        PopupMenu.setBackground(SharedResource.SIAMESE_LIGHT); 
+        JPanel PopupMenuPanel = new JPanel(new FlowLayout());
+        PopupMenuPanel.add(PopupMenu);
+
         //deckNameField = new JComboBox<>(options);
         //deckNameField.setRenderer(new ColoredComboBoxRenderer());
         //deckNameField.setBorder(BorderFactory.createTitledBorder("Your Decks"));
@@ -187,10 +195,25 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckShow.setLayout(new BorderLayout(0,10));
         deckShow.add(cardScrollPane,BorderLayout.CENTER);
         deckShow.add(saveButton,BorderLayout.SOUTH);
-        deckShow.add(PopupMenu,BorderLayout.NORTH);
+        deckShow.add(PopupMenuPanel,BorderLayout.NORTH);
+        deckShow.setBackground(SharedResource.SIAMESE_LIGHT);
+
+        //ปิดการแสดงผล
+        cardScrollPane.setOpaque(false);
+        cardScrollPane.getViewport().setOpaque(false);
+        paLeft.setOpaque(false);
+        PopupMenu.setOpaque(false);
+        saveButton.setOpaque(false);
+        PopupMenuPanel.setOpaque(false);
+
+        //ปิดขอบ
+        deckShow.setBorder(BorderFactory.createEmptyBorder()); 
+        cardScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        paLeft.setBorder(BorderFactory.createEmptyBorder());
+        PopupMenu.setBorder(BorderFactory.createEmptyBorder());
+        saveButton.setBorder(BorderFactory.createEmptyBorder());
 
         mainPanel.add(deckShow, BorderLayout.WEST);
-
 
         paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25)) {
             @Override
