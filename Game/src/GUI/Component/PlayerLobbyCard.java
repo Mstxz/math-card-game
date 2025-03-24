@@ -51,6 +51,8 @@ public class PlayerLobbyCard extends JPanel {
         } else {
             readyLabel.setText("NOT READY");
         }
+        revalidate();
+        repaint();
     }
 
     public void setReady(boolean ready) {

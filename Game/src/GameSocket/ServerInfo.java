@@ -2,6 +2,7 @@ package GameSocket;
 
 public class ServerInfo {
     private boolean running = true;
+    private boolean listening = false;
     private boolean gameStarted = false;
     private boolean deckLoaded = false;
 
@@ -51,5 +52,13 @@ public class ServerInfo {
 
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    public boolean isListening() {
+        return listening;
+    }
+
+    public void setListening(boolean listening) {
+        this.listening = listening;
     }
 }

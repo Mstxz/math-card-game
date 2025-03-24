@@ -4,6 +4,7 @@ import Gameplay.Numbers.Constant;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -50,8 +51,12 @@ public class NIOServer extends Thread {
     }
 
     public void run() {
-        try (ServerSocketChannel server = ServerSocketChannel.open()) {
+        try{
+            ServerSocketChannel server = ServerSocketChannel.open();
+            server.setOption(StandardSocketOptions.SO_REUSEADDR,true);
             server.bind(new InetSocketAddress(5000));
+            serverInfo.setListening(true);
+            System.out.println("Server Start");
             server.configureBlocking(false);
             Selector selector = Selector.open();
             server.register(selector, SelectionKey.OP_ACCEPT);
@@ -120,7 +125,10 @@ public class NIOServer extends Thread {
                     buffer.clear();
                     it.remove();
                 }
+
             }
+            selector.close();
+            server.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
@@ -270,8 +278,12 @@ public class NIOServer extends Thread {
     }
 
     public void stopServer(){
-
         serverInfo.setRunning(false);
+        serverInfo.setListening(false);
         NIOServer.instance = null;
+    }
+
+    public boolean isBound(){
+        return serverInfo.isListening();
     }
 }

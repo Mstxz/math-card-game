@@ -12,15 +12,15 @@ public class ProfilePicture implements Serializable {
     private ImageIcon image;
     private JButton button;
 
-    public ProfilePicture(String profileName,String description,String image){
+    public ProfilePicture(String profileName,String description){
         this.profileName = profileName;
         this.description = description;
-        this.image = ResourceLoader.loadPicture(image,150,150);
+        this.image = ResourceLoader.loadPicture(getProfileURL(),150,150);
         button = new JButton(this.image){
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                this.setIcon(ResourceLoader.loadPicture(image,getWidth(),getHeight()));
+                this.setIcon(ResourceLoader.loadPicture(getProfileURL(),getWidth(),getHeight()));
             }
         };
         button.setName(profileName);
@@ -56,5 +56,9 @@ public class ProfilePicture implements Serializable {
 
     public void setButton(JButton button) {
         this.button = button;
+    }
+
+    public String getProfileURL(){
+        return "assets/Profile/"+profileName+".png";
     }
 }

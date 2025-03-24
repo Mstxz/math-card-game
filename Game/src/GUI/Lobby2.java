@@ -27,7 +27,7 @@ public class Lobby2 extends Page {
     public Lobby2(boolean isHost,ArrayList<LobbyProfile> allProfile){
         this.isHost = isHost;
         this.allProfile = new ArrayList<LobbyProfile>();
-        this.allProfile.add(new LobbyProfile("Klong",false,"assets/testLobby/Cat3.jpg"));
+        this.allProfile.add(new LobbyProfile("Klong",false, "assets/testLobby/Klong ha.jpg"));
         this.allProfile.add(new LobbyProfile("Pupe",false,"assets/testLobby/clown.png"));
         this.ID = 2;
 

@@ -2,7 +2,7 @@ package GameSocket;
 
 public class MainB {
     public static void main(String[] args) {
-        NIOClient c = new NIOClient("Localhost");
+        NIOClient c = new NIOClient();
 //        //NIOClient c1 = new NIOClient(2);
 //        //c1.pressedReady("assets/a.deck");
         try {

@@ -97,14 +97,19 @@ public class RoomSelect extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(createButton)){
+            NIOServer.getInstance().stopServer();
             NIOServer.getInstance().start();
-            NIOClient client = new NIOClient("Localhost");
+            NIOClient client = new NIOClient();
             Loader l = new Loader(this,"Creating Session"){
                 @Override
                 public void running(){
                     try{
-                        Thread.sleep(1000);
-
+                        if (NIOServer.getInstance().isBound()){
+                            client.connect("localhost");
+                            while (!client.isConnected() || !client.isLobbyLoaded()){
+                                Thread.sleep(1000);
+                            }
+                        }
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
@@ -122,7 +127,8 @@ public class RoomSelect extends Page implements ActionListener {
             l.startLoad();
         }
         else if(e.getSource().equals(joinButton)){
-            NIOClient client = new NIOClient(hostIpField.getText());
+            NIOClient client = new NIOClient();
+            client.connect(hostIpField.getText());
             Loader l = new Loader(this,"Joining Session"){
                 @Override
                 public void running(){

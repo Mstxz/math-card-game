@@ -5,6 +5,8 @@ import GUI.Component.ButtonPanelComponent;
 import GUI.Component.ExitButton;
 import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +18,7 @@ import Gameplay.Player;
 
 
 
-public class PlayerVsPlayer extends Page {
+public class PlayerVsPlayer extends Page implements ActionListener {
     private ArrayList<Player> list;
     private JLabel title,head;
     private NIOClient client;
@@ -24,7 +26,7 @@ public class PlayerVsPlayer extends Page {
     private JButton decksButton;
     private JButton readyButton;
     private JButton settingsButton;
-
+    private ButtonPanelComponent btnPanel;
     //private Image bg;
 
     public PlayerVsPlayer(NIOClient client) {
@@ -53,21 +55,22 @@ public class PlayerVsPlayer extends Page {
         ExitButton exitButton = new ExitButton("SelMode"){
             @Override
             public void cleanUp() {
-                NIOServer.getInstance().stopServer();
                 client.closeClient();
+                NIOServer.getInstance().stopServer();
+
             }
         };
         headerPanel.add(exitButton, BorderLayout.WEST);
         headerPanel.add(head, BorderLayout.CENTER);
 
         // Add ButtonPanelComponent
-        ButtonPanelComponent buttonPanelComponent = new ButtonPanelComponent();
+        btnPanel = new ButtonPanelComponent();
         JPanel panel = new JPanel(new BorderLayout(20, 0));
         panel.add(headerPanel,BorderLayout.NORTH);
         panel.setBackground(SharedResource.SIAMESE_LIGHT);
-        buttonPanelComponent.setOpaque(false);
+        btnPanel.setOpaque(false);
 
-        panel.add(buttonPanelComponent, BorderLayout.SOUTH);
+        panel.add(btnPanel, BorderLayout.SOUTH);
 
         // Create a JPanel to hold the PlayerPanelComponent and center it
         JPanel centerPanel = new JPanel();
@@ -80,6 +83,9 @@ public class PlayerVsPlayer extends Page {
         client.start();
         centerPanel.add(Box.createVerticalGlue());
 
+        btnPanel.getDeckButton().addActionListener(this);
+        btnPanel.getReadyButton().addActionListener(this);
+
 //        centerPanel.add(Box.createVerticalGlue());
         panel.add(centerPanel, BorderLayout.CENTER);
 
@@ -87,6 +93,12 @@ public class PlayerVsPlayer extends Page {
 
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(btnPanel.getReadyButton())){
+
+        }
+    }
 
     public static void main(String[] args) {
         //new PlayerVsPlayer();

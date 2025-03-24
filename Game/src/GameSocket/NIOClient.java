@@ -1,5 +1,6 @@
 package GameSocket;
 
+import GUI.Setting.UserPreference;
 import Gameplay.Card;
 import utils.ResourceLoader;
 
@@ -26,7 +27,7 @@ public class NIOClient extends Thread{
     private boolean lobbyLoaded;
     private int playerID;
     private ArrayList<LobbyObserver> lobbyObservers;
-    public NIOClient(String hostIP){
+    public NIOClient(){
         lobbyObservers = new ArrayList<>();
         this.events = new Vector<Request>();
         this.currentState = ClientState.IDLE;
@@ -36,12 +37,15 @@ public class NIOClient extends Thread{
         for(int i = 0 ;i < 4 ;i++){
             playerInfos.add(null);
         }
+
+    }
+    public void connect(String hostIP){
         try {
             SocketAddress address = new InetSocketAddress(hostIP, 5000);
             channel = SocketChannel.open(address);
-
+            System.out.println("Client Start");
             channel.configureBlocking(true);
-            Request req = new Request(ProtocolOperation.USER,"Arktik assets/icon.png 100");
+            Request req = new Request(ProtocolOperation.USER, UserPreference.getInstance().getProfile().getName() +" "+UserPreference.getInstance().getProfile().getProfilePicture().getProfileURL() +" 100");
             buffer.clear();
             buffer.put(req.encodeBytes());
             buffer.flip();
@@ -307,6 +311,7 @@ public class NIOClient extends Thread{
     public void closeClient(){
         try {
             channel.close();
+            System.out.println("Client Closed");
         } catch (IOException e) {
             e.printStackTrace();
         }

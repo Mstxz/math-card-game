@@ -58,6 +58,16 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
         repaint();
     }
 
+    private void toggleReady(){
+        boolean oldReadyState = this.slot.get(ownerID).getReady();
+        if (oldReadyState){
+            this.slot.get(ownerID).setReady(false);
+        }
+        else{
+            this.slot.get(ownerID).setReady(true);
+        }
+    }
+
     private void FlowScale(){
         this.setLayout(new FlowLayout(FlowLayout.CENTER, (int)(500 / slot.size()), 0));
     }

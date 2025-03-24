@@ -23,4 +23,12 @@ public class ButtonPanelComponent extends JPanel {
         add(deckButton);
         add(readyButton);
     }
+
+    public JButton getDeckButton() {
+        return deckButton;
+    }
+
+    public JButton getReadyButton() {
+        return readyButton;
+    }
 }
