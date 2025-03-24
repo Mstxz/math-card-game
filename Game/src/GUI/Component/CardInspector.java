@@ -20,9 +20,12 @@ public class CardInspector extends JPanel implements MouseListener {
 	private JLabel				img;
 	private	JLabel				name;
 	private	JLabel				description;
+	private JPanel				ManaUsage;
+	private ManaIcon[]			manaIconList = new ManaIcon[10];
 	private	Card				card;
 
 	public CardInspector(Card card, AvengerAssembleGUI gui) {
+
 		super();
 		this.card = card;
 		this.gui = gui;
@@ -39,11 +42,30 @@ public class CardInspector extends JPanel implements MouseListener {
 		this.description.setHorizontalAlignment(SwingConstants.CENTER);
 		this.description.setFont(SharedResource.getCustomSizeFont(36));
 
+		ManaUsage = new JPanel(new GridLayout(1, 10));
+		ManaUsage.setAlignmentX(LEFT_ALIGNMENT);
+		ManaUsage.setMaximumSize(new Dimension(400, 70));
+		ManaUsage.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT));
+		for (int i = 0;i<10;i++){
+			if (i<=card.getManaUsed()-1){
+				manaIconList[i] = new ManaIcon(false,true);
+			}
+			else if (i <= card.getManaUsed() - 1){
+				manaIconList[i] = new ManaIcon(true,true);
+			}
+			else {
+				manaIconList[i] = new ManaIcon(false,false);
+			}
+			//manaIconList[i].setPreferredSize(new Dimension(40,40));
+			ManaUsage.add(manaIconList[i]);
+		}
+
 		JPanel p = new JPanel();
 		p.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT));
 		p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
 		p.add(name);
 		p.add(description);
+		p.add(ManaUsage);
 		p.setBorder(BorderFactory.createEmptyBorder(50,5,50,50));
 		p.setPreferredSize(new Dimension(400, 300));
 
