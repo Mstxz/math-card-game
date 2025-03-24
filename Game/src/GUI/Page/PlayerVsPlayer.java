@@ -7,29 +7,32 @@ import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import GUI.Router;
+import GameSocket.LobbyObserver;
 import GameSocket.NIOClient;
 import GameSocket.NIOServer;
+import GameSocket.PlayerInfo;
 import utils.SharedResource;
 import Gameplay.Player;
 
 
 
-public class PlayerVsPlayer extends Page implements ActionListener {
+public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserver {
     private ArrayList<Player> list;
     private JLabel title,head;
     private NIOClient client;
-    private JButton exitButton;
-    private JButton decksButton;
-    private JButton readyButton;
-    private JButton settingsButton;
     private ButtonPanelComponent btnPanel;
+    private PlayerPanelComponent playerPanel;
     //private Image bg;
 
     public PlayerVsPlayer(NIOClient client) {
+        this.client = client;
         list = new ArrayList<Player>();
         mainPanel.setLayout(new BorderLayout(20, 0));
         mainPanel.setBackground(new Color(221,218,210));
@@ -60,8 +63,12 @@ public class PlayerVsPlayer extends Page implements ActionListener {
 
             }
         };
+
+        JLabel emptySpace = new JLabel();
+        emptySpace.setPreferredSize(exitButton.getPreferredSize());
         headerPanel.add(exitButton, BorderLayout.WEST);
         headerPanel.add(head, BorderLayout.CENTER);
+        headerPanel.add(emptySpace,BorderLayout.EAST);
 
         // Add ButtonPanelComponent
         btnPanel = new ButtonPanelComponent();
@@ -77,26 +84,44 @@ public class PlayerVsPlayer extends Page implements ActionListener {
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setOpaque(false);
         //centerPanel.setBackground(SharedResource.SIAMESE_BASE);
-        PlayerPanelComponent playerPanelComponent = new PlayerPanelComponent(client.getPlayerInfos(),client.getPlayerID());
-        centerPanel.add(playerPanelComponent);
-        client.addLobbyObserver(playerPanelComponent);
-        client.start();
+        playerPanel = new PlayerPanelComponent(client.getPlayerInfos(),client.getPlayerID());
+        centerPanel.add(playerPanel);
+
         centerPanel.add(Box.createVerticalGlue());
 
         btnPanel.getDeckButton().addActionListener(this);
         btnPanel.getReadyButton().addActionListener(this);
 
-//        centerPanel.add(Box.createVerticalGlue());
         panel.add(centerPanel, BorderLayout.CENTER);
 
         mainPanel.add(panel, BorderLayout.CENTER);
-
+        client.addLobbyObserver(this);
+        client.addLobbyObserver(playerPanel);
+        client.start();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(btnPanel.getReadyButton())){
+            client.pressedReady();
+        } else if (e.getSource().equals(btnPanel.getDeckButton())) {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.setCurrentDirectory(new File("Assets"));
+            jFileChooser.setFileFilter(new FileNameExtensionFilter("Deck File","deck"));
+            int l = jFileChooser.showOpenDialog(mainFrame);
+            if (l == JFileChooser.APPROVE_OPTION){
+                String deckPath = jFileChooser.getSelectedFile().getAbsolutePath();
+                client.setDeckPath(deckPath);
+                btnPanel.getReadyButton().setEnabled(true);
+            }
 
+        }
+    }
+
+    @Override
+    public void onLobbyChange(ArrayList<PlayerInfo> playerInfos) {
+        if (client.isGameStarted()){
+            Router.setRoute("MultiplayerGame",client);
         }
     }
 

@@ -2,7 +2,6 @@ package GameSocket;
 
 import GUI.Setting.UserPreference;
 import Gameplay.Card;
-import utils.ResourceLoader;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -23,16 +22,16 @@ public class NIOClient extends Thread{
     private String deckPath;
     private Vector<Request> events;
     private ArrayList<PlayerInfo> playerInfos;
-    private boolean connected;
     private boolean lobbyLoaded;
+    private boolean gameStarted;
     private int playerID;
     private ArrayList<LobbyObserver> lobbyObservers;
     public NIOClient(){
         lobbyObservers = new ArrayList<>();
         this.events = new Vector<Request>();
         this.currentState = ClientState.IDLE;
-        this.connected = false;
         this.lobbyLoaded = false;
+        this.gameStarted = false;
         this.playerInfos = new ArrayList<PlayerInfo>(4);
         for(int i = 0 ;i < 4 ;i++){
             playerInfos.add(null);
@@ -62,9 +61,6 @@ public class NIOClient extends Thread{
                 if(serverRes.getOperation() == ProtocolOperation.ACKN){
                     System.out.println("Acknowledged");
                     playerID = ByteBuffer.wrap(serverRes.getData()).getInt();
-                    if (channel.isOpen()){
-                        connected = true;
-                    }
                 }
 
             }
@@ -123,7 +119,7 @@ public class NIOClient extends Thread{
                         case ProtocolOperation.DECK:
                             currentState = ClientState.LOADING;
                             Request request = new Request(ProtocolOperation.DECK);
-                            try (BufferedInputStream f = ResourceLoader.loadFileAsStream(deckPath);
+                            try (BufferedInputStream f = new BufferedInputStream(new FileInputStream(deckPath));
                                  InputStreamReader fr = new InputStreamReader(f);
                                  BufferedReader br = new BufferedReader(fr)
                             ){
@@ -157,6 +153,9 @@ public class NIOClient extends Thread{
                             break;
                         case COUNT:
                             System.out.println(serverReq.getDataUTF());
+                            if (serverReq.getDataUTF().equals("1")){
+                                gameStarted = true;
+                            }
                             break;
                         default:
                             //System.out.println(buffer.asLongBuffer().get());
@@ -242,15 +241,22 @@ public class NIOClient extends Thread{
         return events;
     }
 
-    public void pressedReady(String deckPath){
+    public void pressedReady(){
+        if (this.deckPath == null || this.deckPath.equals("")){
+            return;
+        }
         if(currentState != ClientState.READY){
             currentState = ClientState.READY;
-            this.deckPath = deckPath;
         }
         else{
             currentState = ClientState.IDLE;
         }
         this.events.add(new Request(ProtocolOperation.READY));
+    }
+
+    public void setDeckPath(String deckPath){
+        this.deckPath = deckPath;
+        System.out.println(deckPath);
     }
 
     public void playCard(Card card,int targetID){
@@ -265,24 +271,17 @@ public class NIOClient extends Thread{
     }
     public void addLobbyObserver(LobbyObserver observer){
         lobbyObservers.add(observer);
-        observer.onChange(playerInfos);
+        observer.onLobbyChange(playerInfos);
 
     }
 
     private void notifyLobbyObserver(){
         System.out.println("Notify");
         for(LobbyObserver l:lobbyObservers){
-            l.onChange(playerInfos);
+            l.onLobbyChange(playerInfos);
         }
     }
 
-    public boolean isConnected() {
-        return connected;
-    }
-
-    public void setConnected(boolean connected) {
-        this.connected = connected;
-    }
 
     public ArrayList<PlayerInfo> getPlayerInfos() {
         return playerInfos;
@@ -306,6 +305,14 @@ public class NIOClient extends Thread{
 
     public void setLobbyLoaded(boolean lobbyLoaded) {
         this.lobbyLoaded = lobbyLoaded;
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
     }
 
     public void closeClient(){

@@ -23,11 +23,13 @@ public class PlayerState {
     }
 
     public void setReady(boolean ready) {
+
         this.ready = ready;
+        playerInfo.setReady(ready);
     }
 
     public void toggleReady() {
-        ready = !ready;
+        setReady(!ready);
     }
 
     public boolean isStarted() {

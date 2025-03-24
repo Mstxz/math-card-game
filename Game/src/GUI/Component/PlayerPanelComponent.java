@@ -26,7 +26,7 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
         for (int i =0;i<playerInfos.size();i++) {
             PlayerInfo playerInfo = playerInfos.get(i);
             if (playerInfo != null) {
-                slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID));
+                slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID,playerInfo.isReady()));
             }
         }
         //this.add(slot.getFirst()); // TODO: Set the constructor user to be owner.
@@ -39,7 +39,7 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
     public void addUser(Player player) {
         if (slot.size() >= 4 || player == null)
             return ;
-        this.slot.add(new PlayerLobbyCard(player, false));
+        this.slot.add(new PlayerLobbyCard(player, false,false));
         this.add(slot.getLast());
         FlowScale();
     }
@@ -58,7 +58,7 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
         repaint();
     }
 
-    private void toggleReady(){
+    public void toggleReady(){
         boolean oldReadyState = this.slot.get(ownerID).getReady();
         if (oldReadyState){
             this.slot.get(ownerID).setReady(false);
@@ -73,12 +73,12 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
     }
 
     @Override
-    public void onChange(ArrayList<PlayerInfo> playerInfos) {
+    public void onLobbyChange(ArrayList<PlayerInfo> playerInfos) {
         slot.clear();
         for (int i =0;i<playerInfos.size();i++) {
             PlayerInfo playerInfo = playerInfos.get(i);
             if (playerInfo != null) {
-                slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID));
+                slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID,playerInfo.isReady()));
             }
         }
         updateLobby();

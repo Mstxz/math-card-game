@@ -106,7 +106,7 @@ public class RoomSelect extends Page implements ActionListener {
                     try{
                         if (NIOServer.getInstance().isBound()){
                             client.connect("localhost");
-                            while (!client.isConnected() || !client.isLobbyLoaded()){
+                            while (!client.isLobbyLoaded()){
                                 Thread.sleep(1000);
                             }
                         }
@@ -116,7 +116,7 @@ public class RoomSelect extends Page implements ActionListener {
                 }
                 @Override
                 public boolean closeCondition(){
-                    return client.isConnected() && client.isLobbyLoaded();
+                    return client.isLobbyLoaded();
                 }
                 @Override
                 public void onClose(){
@@ -141,7 +141,7 @@ public class RoomSelect extends Page implements ActionListener {
                 }
                 @Override
                 public boolean closeCondition(){
-                    return client.isConnected() && client.isLobbyLoaded();
+                    return client.isLobbyLoaded();
                 }
                 @Override
                 public void onClose(){

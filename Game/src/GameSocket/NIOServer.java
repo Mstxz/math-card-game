@@ -45,7 +45,7 @@ public class NIOServer extends Thread {
         gameStarting = -1;
         for (int i=0;i<4;i++){
             if (registeredID.containsValue(i)){
-                playerState[i].setCountDown(10);
+                playerState[i].setCountDown(11);
             }
         }
     }
@@ -205,8 +205,9 @@ public class NIOServer extends Thread {
                             gameStarting = Instant.now().getEpochSecond() + 10;
                         }
                         else if (!started){
-                            gameStarting = -1;
+                            unsetCountdown();
                         }
+                        lobbyUpdate();
                         break;
                     case DECK:
                         File f = File.createTempFile("temp",".dat");

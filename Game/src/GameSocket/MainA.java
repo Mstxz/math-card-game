@@ -9,7 +9,7 @@ public class MainA {
 //        //NIOClient c1 = new NIOClient(2);
 //        //c1.pressedReady("assets/a.deck");
         try {
-            c.pressedReady("assets/a.txt");
+            c.pressedReady();
             c.start();
         } catch (RuntimeException e) {
             e.printStackTrace();

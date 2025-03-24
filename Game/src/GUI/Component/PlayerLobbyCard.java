@@ -15,11 +15,11 @@ public class PlayerLobbyCard extends JPanel {
     private boolean isOwner;
     private boolean isReady;
 
-    public PlayerLobbyCard(Player player, boolean isOwner)
+    public PlayerLobbyCard(Player player, boolean isOwner,boolean isReady)
     {
         this.player = player;
         this.isOwner = isOwner;
-
+        this.isReady = isReady;
         this.setLayout(new BorderLayout(10, 10));
         this.setAlignmentX(CENTER_ALIGNMENT);
         this.setOpaque(false);
@@ -57,6 +57,7 @@ public class PlayerLobbyCard extends JPanel {
 
     public void setReady(boolean ready) {
         isReady = ready;
+        update_status();
     }
 
     public boolean getReady() {
@@ -65,6 +66,7 @@ public class PlayerLobbyCard extends JPanel {
 
     public void setOwner(boolean owner) {
         isOwner = owner;
+        update_status();
     }
 
     public boolean getOwner() {

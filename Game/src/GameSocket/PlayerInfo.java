@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class PlayerInfo extends Player {
+    private boolean isReady;
     private String name;
     private String profilePicture;
     private int mana;
@@ -22,11 +23,12 @@ public class PlayerInfo extends Player {
     private int playerNumber;
 
     public PlayerInfo() {
-        this("","assets/icon.png",0,0);
+        this("","assets/icon.png",0,0,false);
     }
 
-    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber) {
+    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady) {
         super(name,profilePicture);
+        this.isReady = isReady;
         this.name = name;
         this.profilePicture = profilePicture;
         this.mana = 1;
@@ -38,13 +40,14 @@ public class PlayerInfo extends Player {
     }
 
     public byte[] encodeBytes(){
-        ByteBuffer bf = ByteBuffer.allocate(16+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length);
+        ByteBuffer bf = ByteBuffer.allocate(20+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length);
         bf.putInt(playerNumber);
         bf.putInt(100);
         bf.putInt(name.getBytes(StandardCharsets.UTF_8).length);
         bf.put(name.getBytes(StandardCharsets.UTF_8));
         bf.putInt(profilePicture.getBytes(StandardCharsets.UTF_8).length);
         bf.put(profilePicture.getBytes());
+        bf.putInt((isReady ? 1: 0));
         return bf.array();
     }
 
@@ -57,12 +60,17 @@ public class PlayerInfo extends Player {
             String playerName = new String(in.readNBytes(nameByte),StandardCharsets.UTF_8);
             int profilePictureByte = in.readInt();
             String profilePicture = new String(in.readNBytes(profilePictureByte),StandardCharsets.UTF_8);
-            return new PlayerInfo(playerName,profilePicture,playerHP,playerID);
+            int ready = in.readInt();
+            boolean isReady = false;
+            if (ready == 1){
+                isReady = true;
+            }
+            return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady);
         }
         catch(IOException e){
             e.printStackTrace();
         }
-        return new PlayerInfo("","assets/icon.png",0,0);
+        return new PlayerInfo("","assets/icon.png",0,0,false);
     }
 
     public String getProfilePicture() {
@@ -129,10 +137,30 @@ public class PlayerInfo extends Player {
         this.playerNumber = playerNumber;
     }
 
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public void setReady(boolean ready) {
+        isReady = ready;
+    }
+
+    @Override
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    @Override
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
+    }
+
     @Override
     public String toString() {
         return "PlayerInfo{" +
-                "name='" + name + '\'' +
+                "isReady=" + isReady +
+                ", name='" + name + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
                 ", mana=" + mana +
                 ", cardsInHand=" + cardsInHand +

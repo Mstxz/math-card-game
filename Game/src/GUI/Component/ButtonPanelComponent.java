@@ -11,6 +11,7 @@ public class ButtonPanelComponent extends JPanel {
         
         deckButton = new JButton("Decks");
         readyButton = new JButton("Ready");
+        readyButton.setEnabled(false);
 
         deckButton.setBackground(Color.BLUE);
         deckButton.setForeground(Color.WHITE);
