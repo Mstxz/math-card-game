@@ -121,11 +121,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
 */
 package GUI.Page;
 
-import GUI.Component.CardButton;
-import GUI.Component.CardLabel;
-import GUI.Component.ExitButton; //PopupMenu สำหรับเลือก Deck และแก้ไข ลบ
-import GUI.Component.PopupMenu;
-import GUI.Component.TempDeckZone;
+import GUI.Component.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -133,6 +130,8 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import GUI.Component.PopupMenu;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -143,6 +142,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JPanel deckShow;
     private JButton saveButton;
     private JComboBox deckNameField;
+    private PopupMenu popupMenu;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -180,9 +180,10 @@ public class DeckCreatorPage extends Page implements ActionListener {
         saveButton = new JButton("Save");
 
         String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
-        PopupMenu PopupMenu = new PopupMenu();
+        popupMenu = new PopupMenu();
+        PopupItem.menu = popupMenu;
         JPanel PopupMenuPanel = new JPanel(new FlowLayout());
-        PopupMenuPanel.add(PopupMenu);
+        PopupMenuPanel.add(popupMenu);
 
         //deckNameField = new JComboBox<>(options);
         //deckNameField.setRenderer(new ColoredComboBoxRenderer());
@@ -202,7 +203,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
         paLeft.setOpaque(false);
-        PopupMenu.setOpaque(false);
+        popupMenu.setOpaque(false);
         saveButton.setOpaque(false);
         PopupMenuPanel.setOpaque(false);
 
@@ -210,7 +211,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckShow.setBorder(BorderFactory.createEmptyBorder()); 
         cardScrollPane.setBorder(BorderFactory.createEmptyBorder());
         paLeft.setBorder(BorderFactory.createEmptyBorder());
-        PopupMenu.setBorder(BorderFactory.createEmptyBorder());
+        popupMenu.setBorder(BorderFactory.createEmptyBorder());
         saveButton.setBorder(BorderFactory.createEmptyBorder());
 
         mainPanel.add(deckShow, BorderLayout.WEST);
