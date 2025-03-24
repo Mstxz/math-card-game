@@ -4,6 +4,14 @@ import javax.swing.*;
 import javax.swing.plaf.PanelUI;
 import java.awt.*;
 
+/**
+ * <h2>Example</h2>
+ *
+ * <p>JPanel p1 = new JPanel();</p>
+ * <p>p1.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT));</p>
+ * <p>p1.setPreferredSize(new Dimension(300,300));</p>
+ *
+ */
 public class RoundPanelUI extends PanelUI {
     private Color color;
     private int arcWidth;
