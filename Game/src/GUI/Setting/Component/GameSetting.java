@@ -1,6 +1,7 @@
 package GUI.Setting.Component;
 
 import GUI.Component.RotatingSettingOption;
+import GUI.Component.RoundBorder;
 import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
 import utils.RoundPanelUI;
@@ -41,8 +42,52 @@ public class GameSetting extends JPanel implements ActionListener {
         panel1.setBackground(SharedResource.SIAMESE_LIGHT);
 
         panel2 = new JPanel();
+
         revertButton = new JButton("Revert to default");
+        revertButton.setPreferredSize(new Dimension(250, 76));
+        revertButton.setFont(SharedResource.getCustomSizeFont(28));
+        revertButton.setForeground(new Color(102, 142, 169));
+        revertButton.setContentAreaFilled(false);
+        revertButton.setOpaque(false);
+        revertButton.setForeground(Color.BLACK);
+        revertButton.setBorder(BorderFactory.createCompoundBorder(
+                new RoundBorder(new Color(102, 142, 169), new Color(98, 86, 77), 3, 30),  // ขอบนอก (เข้ม)
+                BorderFactory.createCompoundBorder(
+                        new RoundBorder(new Color(163, 190, 208), new Color(163, 190, 208), 12, 30), // ขอบกลาง (กลาง)
+                        new RoundBorder(new Color(216, 220, 223), new Color(216, 220, 223), 1, 30)   // ขอบใน (อ่อน)
+                )
+        ));
+        revertButton.setLayout(null);
+
+        JLabel revertButtonLabel = new JLabel("Revert to default", SwingConstants.CENTER);
+        revertButtonLabel.setFont(SharedResource.getCustomSizeFont(28));
+        revertButtonLabel.setForeground(new Color(102, 142, 169));
+        revertButtonLabel.setBounds(0, 0, revertButton.getPreferredSize().width, revertButton.getPreferredSize().height);
+        revertButton.add(revertButtonLabel);
+
         applyButton = new JButton("Apply");
+
+        applyButton.setPreferredSize(new Dimension(250, 76));
+        applyButton.setFont(SharedResource.getCustomSizeFont(28));
+        applyButton.setForeground(new Color(102, 142, 169));
+        applyButton.setContentAreaFilled(false);
+        applyButton.setOpaque(false);
+        applyButton.setForeground(Color.BLACK);
+        applyButton.setBorder(BorderFactory.createCompoundBorder(
+                new RoundBorder(new Color(102, 142, 169), new Color(98, 86, 77), 3, 30),  // ขอบนอก (เข้ม)
+                BorderFactory.createCompoundBorder(
+                        new RoundBorder(new Color(163, 190, 208), new Color(163, 190, 208), 12, 30), // ขอบกลาง (กลาง)
+                        new RoundBorder(new Color(216, 220, 223), new Color(216, 220, 223), 1, 30)   // ขอบใน (อ่อน)
+                )
+        ));
+        applyButton.setLayout(null);
+
+        JLabel applyButtonLabel = new JLabel("Apply", SwingConstants.CENTER);
+        applyButtonLabel.setFont(SharedResource.getCustomSizeFont(28));
+        applyButtonLabel.setForeground(new Color(102, 142, 169));
+        applyButtonLabel.setBounds(0, 0, applyButton.getPreferredSize().width, applyButton.getPreferredSize().height);
+        applyButton.add(applyButtonLabel);
+
         panel2.setLayout(new FlowLayout(FlowLayout.RIGHT));
         panel2.add(revertButton);
         panel2.add(applyButton);
