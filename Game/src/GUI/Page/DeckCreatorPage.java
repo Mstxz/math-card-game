@@ -143,6 +143,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JButton saveButton;
     private JComboBox deckNameField;
     private PopupMenu popupMenu;
+    private ArrayList<CardButton> cardButtonArrayList;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -179,7 +180,6 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         saveButton = new JButton("Save");
 
-        String[] options = { "Deck 1", "Deck 2", "Deck 3", "Create New" };
         popupMenu = new PopupMenu();
         PopupItem.menu = popupMenu;
         JPanel PopupMenuPanel = new JPanel(new FlowLayout());
@@ -223,6 +223,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 super.paintComponent(g);
             }
         };
+        cardButtonArrayList = new ArrayList<CardButton>();
         loadButton();
         paRight.setBackground(SharedResource.SIAMESE_LIGHT); 
         JScrollPane scrollPane = new JScrollPane(paRight);
@@ -230,6 +231,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         saveButton.addActionListener(this);
+        PopupItem.deckZone = paLeft;
     }
     public Dimension calculateDimension(){
         int column = paRight.getWidth() / 225;
@@ -240,14 +242,16 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private void loadButton(){
         ArrayList<String> fileString = ResourceLoader.readFile("Gameplay/Cards/CardList.txt");
         for (int i = 0;i<fileString.size();i++){
-            paRight.add(new CardButton(fileString.get(i),paLeft));
+            CardButton tmp = new CardButton(fileString.get(i),paLeft);
+            paRight.add(tmp);
+            cardButtonArrayList.add(tmp);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)){
-            File f = new File("Assets/"+ deckNameField.getSelectedItem().toString() +".deck");
+            File f = new File("Assets/"+ popupMenu.getDeckName() +".deck");
             System.out.println("Have File");
             try {
                 FileOutputStream out = new FileOutputStream(f);

@@ -1,5 +1,7 @@
 package GUI.Component;
 
+import Gameplay.Card;
+import Gameplay.Deck;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -9,10 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 public class PopupItem extends JPanel implements ActionListener, MouseListener {
     private String name;
     public static PopupMenu menu;
+    public static TempDeckZone deckZone;
+
     private JButton nameButton;
     private JButton editButton;
     private JButton deleteButton;
@@ -82,6 +88,25 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
     public void mouseClicked(MouseEvent e) {
         if (e.getSource().equals(this)||e.getSource().equals(nameButton)){
             menu.updateMainButton(name);
+            HashMap<Card,Integer> cardList = new HashMap<Card, Integer>();
+            try{
+                Deck tmp = Deck.LoadDeck(name);
+                for (Card i : tmp.getCards()){
+                    if (cardList.containsKey(i)){
+                        int j = cardList.get(i);
+                        j+=1;
+                        cardList.put(i,j);
+                    }
+                    else {
+                        cardList.put(i,1);
+                    }
+                }
+            }
+            catch (FileNotFoundException ex){
+
+            }
+            deckZone.setAllCardLabel(deckZone.createCardLabelSet(cardList));
+            deckZone.update();
             menu.toggleMenu();
         }
     }
