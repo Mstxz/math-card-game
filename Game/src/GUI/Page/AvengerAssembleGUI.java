@@ -3,7 +3,7 @@ package GUI.Page;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -45,7 +45,15 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private SelectOpponent 	selectOpponent;
 	private Game game;
 	public boolean	isBlocked;
-	public AvengerAssembleGUI(Game game) {
+
+	private ArrayList<String> playlist = new ArrayList<>(Arrays.asList(
+			"Game/src/assets/Audio/BGM/Lobby_BGM_2.wav",
+			"Game/src/assets/Audio/BGM/Gameplay_BGM_LoFiVersion.wav"
+	));
+
+	private Random rand = new Random();
+
+	public AvengerAssembleGUI() {
 		super();
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
 		this.isBlocked = false;
@@ -149,7 +157,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		onCardPlayed();
 		game.start();
 		BGMPlayer.stopBackgroundMusic();
-		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_LoFiVersion.wav", -20.0f);
+		int randomIndex = rand.nextInt(playlist.size());
+		BGMPlayer.playBackgroundMusic(playlist.get(randomIndex), -20.0f);
 	}
 
 	public void updatePlayerHUD(){

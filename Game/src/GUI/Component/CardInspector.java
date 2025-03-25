@@ -89,6 +89,7 @@ public class CardInspector extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Desc_Down.wav", -10.0f);
+		//SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_Down.wav", -10.0f); //remove this comment when rock n roll card is done
 		this.removeAll();
 		this.removeMouseListener(this);
 		this.setVisible(false);
