@@ -95,7 +95,7 @@ public class CardPlayable extends JButton implements MouseListener {
 		if (e.getButton() == MouseEvent.BUTTON3 && !isEnemy && !handDeck.gui.isBlocked)
 		{
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Desc_UP.wav", -10.0f);
-			//SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX.wav", -10.0f); //remove the comment of this line when rocknroll card is finished
+			//SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_UP.wav", -10.0f); //remove the comment of this line when rocknroll card is finished
 
 			JPanel	overlay;
 
