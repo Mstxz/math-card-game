@@ -83,7 +83,7 @@ public class NIOServer extends Thread {
                                 if (playerState[registeredID.get(client)].getCountDown() > gameStarting-epochSecond){
                                     playerState[registeredID.get(client)].setCountDown(playerState[registeredID.get(client)].getCountDown() - 1);
                                     Request serverReq = new Request(ProtocolOperation.COUNT);
-                                    serverReq.setData(String.valueOf(gameStarting-epochSecond));
+                                    serverReq.setData((int) (gameStarting-epochSecond));
                                     buffer.clear();
                                     buffer.put(serverReq.encodeBytes());
                                     buffer.flip();
@@ -175,14 +175,19 @@ public class NIOServer extends Thread {
                 String[] request = data.split(" ");
                 switch (clientReq.getOperation()){
                     case ProtocolOperation.USER:
-                        String userData = new String(clientReq.getData(), 0, clientReq.getBytesLength(),StandardCharsets.UTF_8);
-                        System.out.println(userData);
-                        request = userData.split(" ");
-                        System.out.println("Player "+request[0]+" has joined the game.");
-                        playerState[this.registeredID.get(client)].getPlayerInfo().setName(request[0]);
-                        playerState[this.registeredID.get(client)].getPlayerInfo().setProfilePicture(request[1]);
-                        playerState[this.registeredID.get(client)].getPlayerInfo().setHp(new Constant(Integer.parseInt(request[2])));
-                        System.out.println(playerState[this.registeredID.get(client)].getPlayerInfo());
+
+                        try(RequestReader r = new RequestReader(clientReq)){
+                            String name = r.readString();
+                            String profileURL = r.readString();
+                            int startHp = r.readInt();
+                            System.out.println("Player "+name+" has joined the game.");
+                            playerState[this.registeredID.get(client)].getPlayerInfo().setName(name);
+                            playerState[this.registeredID.get(client)].getPlayerInfo().setProfilePicture(profileURL);
+                            playerState[this.registeredID.get(client)].getPlayerInfo().setHp(new Constant(startHp));
+                            System.out.println(playerState[this.registeredID.get(client)].getPlayerInfo());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                         Request serverRes = new Request(ProtocolOperation.ACKN);
                         serverRes.appendData(this.registeredID.get(client));
                         buffer.clear().put(serverRes.encodeBytes());
@@ -214,16 +219,23 @@ public class NIOServer extends Thread {
                         f.deleteOnExit();
                         try (
                                 FileOutputStream fo = new FileOutputStream(f);
-                                DataOutputStream out = new DataOutputStream(fo)
+                                DataOutputStream out = new DataOutputStream(fo);
+                                RequestReader r = new RequestReader(clientReq);
                         ){
-                            data = new String(clientReq.getData(),0,clientReq.getBytesLength(),StandardCharsets.UTF_8);
-                            out.writeBytes(data);
+                            while (!r.reachTheEnd()){
+                                data = r.readString();
+                                out.writeBytes(data);
+                            }
+
                             playerState[registeredID.get(client)].setDeckPath(f.getAbsolutePath());
                             serverInfo.updateDeckLoaded(playerState);
                             if (serverInfo.isDeckLoaded()){
                                 lobbyUpdate();
                             }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
+
                         break;
                     case CARD:
                         Request req = new Request(ProtocolOperation.CARD);

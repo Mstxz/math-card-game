@@ -4,8 +4,11 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 import Gameplay.Card;
+import Gameplay.CardType;
 import utils.ResourceLoader;
 
 public class CardButton extends JPanel implements ActionListener, MouseListener {
@@ -14,6 +17,7 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
     protected CardLabel cardLabel = null;
     protected TempDeckZone deckZonePanel;
     protected String cardPicture;
+    protected CardType cardType;
 
     private int index;
 
@@ -25,21 +29,21 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
 
     public CardButton(String name,TempDeckZone deckZonePanel){
         super();
-        this.name = name;
         this.deckZonePanel = deckZonePanel;
-
         addButton = new JButton("+");
         nameButton = new JLabel();
         String[] temp = name.split(" ");
         Card tempCard;
         if (temp.length == 3){
-
+            this.name = temp[0] + " " + temp[1];
             //System.out.println(temp[0]+"/"+temp[1]);
-            tempCard = Card.createCard(temp[0],Integer.valueOf(temp[2]),temp[1]);
+            tempCard = Card.createCard(temp[0],Integer.valueOf(temp[1]),temp[2]);
         }
         else {
+            this.name = name;
             tempCard = Card.createCard(temp[0]);
         }
+        cardType = tempCard.getType();
         nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,250));
         cardPicture = tempCard.getPicture();
         removeButton = new JButton("-");
@@ -90,7 +94,7 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(addButton)){
             if (amount==0){
-                cardLabel = new CardLabel(this.name,0,cardPicture);
+                cardLabel = new CardLabel(this.name,this.cardType,0,cardPicture);
                 deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
             }
@@ -135,7 +139,7 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
         }
         else if (e.getButton() == MouseEvent.BUTTON1){
             if (amount==0){
-                cardLabel = new CardLabel(this.name,0,cardPicture);
+                cardLabel = new CardLabel(this.name,this.cardType,0,cardPicture);
                 deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
             }

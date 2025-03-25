@@ -4,5 +4,15 @@ public enum CardType {
     RED,
     GREEN,
     BLUE,
-    YELLOW
+    YELLOW;
+
+    @Override
+    public String toString() {
+        return switch (this){
+            case RED -> "Red";
+            case BLUE -> "Blue";
+            case GREEN, YELLOW -> "Green";
+        };
+    }
 }
+

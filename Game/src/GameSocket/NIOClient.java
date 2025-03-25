@@ -1,5 +1,6 @@
 package GameSocket;
 
+import GUI.Component.Game;
 import GUI.Setting.UserPreference;
 import Gameplay.Card;
 
@@ -15,12 +16,12 @@ import java.util.Iterator;
 import java.util.Vector;
 
 
-public class NIOClient extends Thread{
+public class NIOClient extends Game {
     private ByteBuffer buffer = ByteBuffer.allocate(1024);
     private SocketChannel channel;
     private ClientState currentState;
     private String deckPath;
-    private Vector<Request> events;
+    private ArrayList<Request> events;
     private ArrayList<PlayerInfo> playerInfos;
     private boolean lobbyLoaded;
     private boolean gameStarted;
@@ -28,7 +29,7 @@ public class NIOClient extends Thread{
     private ArrayList<LobbyObserver> lobbyObservers;
     public NIOClient(){
         lobbyObservers = new ArrayList<>();
-        this.events = new Vector<Request>();
+        this.events = new ArrayList<>();
         this.currentState = ClientState.IDLE;
         this.lobbyLoaded = false;
         this.gameStarted = false;
@@ -44,7 +45,10 @@ public class NIOClient extends Thread{
             channel = SocketChannel.open(address);
             System.out.println("Client Start");
             channel.configureBlocking(true);
-            Request req = new Request(ProtocolOperation.USER, UserPreference.getInstance().getProfile().getName() +" "+UserPreference.getInstance().getProfile().getProfilePicture().getProfileURL() +" 100");
+            Request req = new Request(ProtocolOperation.USER);
+            req.appendData(UserPreference.getInstance().getProfile().getName());
+            req.appendData(UserPreference.getInstance().getProfile().getProfilePicture().getProfileURL());
+            req.appendData(100);
             buffer.clear();
             buffer.put(req.encodeBytes());
             buffer.flip();
@@ -70,13 +74,14 @@ public class NIOClient extends Thread{
                 buffer.flip();
                 Request serverRes = Request.decodeBytes(buffer.array());
                 if (serverRes.getOperation() == ProtocolOperation.LOBBY){
-                    int i = 0;
+                    try (RequestReader r = new RequestReader(serverRes)){
+                        while (!r.reachTheEnd()){
+                            PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
+                            playerInfos.set(playerInfo.getPlayerID(),playerInfo);
+                        }
 
-                    while (i < serverRes.getBytesLength()){
-                        byte[] slice = Arrays.copyOfRange(serverRes.getData(),i,serverRes.getBytesLength());
-                        PlayerInfo playerInfo = PlayerInfo.decodeBytes(slice);
-                        i += playerInfo.encodeBytes().length;
-                        playerInfos.set(playerInfo.getPlayerID(),playerInfo);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
                     }
                     lobbyLoaded = true;
                     notifyLobbyObserver();
@@ -125,7 +130,7 @@ public class NIOClient extends Thread{
                             ){
                                 String line;
                                 while ((line = br.readLine()) != null){
-                                    request.appendData(line).appendData("\r\n");
+                                    request.appendData(line+"\r\n");
                                     //buffer.put("\r\n".getBytes());
                                     //buffer.put(line.getBytes());
                                 }
@@ -139,23 +144,30 @@ public class NIOClient extends Thread{
                             break;
                         case LOBBY:
                             //System.out.println("BRUH");
-                            int i = 0;
+                            try (RequestReader r = new RequestReader(serverReq)){
+                                while (!r.reachTheEnd()){
+                                    PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
+                                    playerInfos.set(playerInfo.getPlayerID(),playerInfo);
+                                }
 
-                            while (i < serverReq.getBytesLength()){
-                                byte[] slice = Arrays.copyOfRange(serverReq.getData(),i,serverReq.getBytesLength());
-                                PlayerInfo playerInfo = PlayerInfo.decodeBytes(slice);
-                                i += playerInfo.encodeBytes().length;
-                                playerInfos.set(playerInfo.getPlayerID(),playerInfo);
-
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
                             }
                             System.out.println(playerInfos);
                             notifyLobbyObserver();
                             break;
                         case COUNT:
-                            System.out.println(serverReq.getDataUTF());
-                            if (serverReq.getDataUTF().equals("1")){
-                                gameStarted = true;
+                            try (RequestReader r = new RequestReader(serverReq)){
+                                int count = r.readInt();
+                                System.out.println(count);
+                                if (count == 1){
+                                    gameStarted = true;
+                                }
+
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
                             }
+
                             break;
                         default:
                             //System.out.println(buffer.asLongBuffer().get());
@@ -180,9 +192,9 @@ public class NIOClient extends Thread{
             }
             while (currentState == ClientState.PLAY || currentState == ClientState.WAIT) {
                 buffer.clear();
-                int byteRead = channel.read(buffer);
+                int byteRead = readIntoBuffer();
                 if (byteRead > 0){
-                    buffer.flip();
+                    Request serverReq = Request.decodeBytes(buffer.array());
                     String data = new String(buffer.array(),buffer.position(),byteRead);
                     String[] arg = data.split(" ");
                     if(currentState == ClientState.PLAY){
@@ -237,7 +249,7 @@ public class NIOClient extends Thread{
         }
     }
 
-    public Vector<Request> getEvents() {
+    public ArrayList<Request> getEvents() {
         return events;
     }
 
@@ -323,5 +335,15 @@ public class NIOClient extends Thread{
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void notifyEndTurn() {
+
+    }
+
+    @Override
+    public boolean isGameEnded() {
+        return false;
     }
 }
