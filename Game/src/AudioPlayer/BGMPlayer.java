@@ -26,6 +26,14 @@ public class BGMPlayer {
         }
     }
 
+    public static boolean checkIfPlaying(){
+        return bgmClip.isRunning();
+    }
+
+    public static Clip getBgmClip(){
+        return bgmClip;
+    }
+
     public static void stopBackgroundMusic() {
         if (bgmClip != null && bgmClip.isRunning()) {
             bgmClip.stop();

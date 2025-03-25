@@ -41,8 +41,9 @@ public class MainMenuPage extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
-        BGMPlayer.stopBackgroundMusic();
-        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
+        if(BGMPlayer.getBgmClip() == null || BGMPlayer.checkIfPlaying() == false ){
+            BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
+        }
     }
 
     private void initComponents() {
