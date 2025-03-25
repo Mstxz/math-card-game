@@ -290,13 +290,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	@Override
 	public void onGameEnded(Player winner) {
 		BGMPlayer.stopBackgroundMusic();
-		SFXPlayer.playSound("Game/src/assets/Audio/Test2.wav", -10.0f);
 		if (winner == game.getPlayer()){
+			SFXPlayer.playSound("Game/src/assets/Audio/Test2.wav", -10.0f);
 			showOverlay(new ResultShow("Victory"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 			//endTurnButton.removeActionListener(this);
 		}
 		else if(winner != null){
+			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Lose_Awakened.wav", -10.0f);
 			showOverlay(new ResultShow("Defeat"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
