@@ -66,10 +66,10 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
         doneButton.setForeground(Color.BLACK);
 
         doneButton.setBorder(BorderFactory.createCompoundBorder(
-        new RoundBorder(new Color(72, 62, 56), new Color(98, 86, 77), 4, 30),  // ขอบนอก (เข้ม)
+        new RoundBorder(new Color(72, 62, 56), new Color(98, 86, 77), 4, 36),  // ขอบนอก (เข้ม)
         BorderFactory.createCompoundBorder(
-        new RoundBorder(new Color(191, 180, 168), new Color(191, 180, 168), 12, 30), // ขอบกลาง (กลาง)
-        new RoundBorder(new Color(221, 218, 210), new Color(221, 218, 210), 1, 30)   // ขอบใน (อ่อน)
+        new RoundBorder(new Color(191, 180, 168), new Color(191, 180, 168), 12, 28), // ขอบกลาง (กลาง)
+        new RoundBorder(new Color(221, 218, 210), new Color(221, 218, 210), 2, 12)   // ขอบใน (อ่อน)
         )
         ));
         doneButton.setLayout(null);
