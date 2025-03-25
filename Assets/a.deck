@@ -6,10 +6,11 @@ Minus 10 Green 5
 Minus 15 Green 5
 Minus 20 Green 5
 Minus 25 Green 3
-AbsoluteHp 2
 CatNap 5
-CatTreat 4
+CatTreat 2
 FlipSigned 4
-PersistenceCat 2
 Copycat 4
-Digitalize 5
+BlindBox 2
+AngryCat 2
+CatClown 2
+LogAndRoll 2
