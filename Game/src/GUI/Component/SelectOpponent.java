@@ -10,9 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import utils.RoundPanelUI;
 import utils.SharedResource;
 
 
@@ -22,21 +25,23 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
     private JButton doneButton;
     private AvengerAssembleGUI avengerAssembleGUI;
     private Player self;
-    private Player opponent;
+    private ArrayList<Player> opponentList;
+    private final int WIDTH = 850;
+    private final int HEIGHT = 500;
 
     private Player reciever;
     private Card card;
 
-    public SelectOpponent(Player self, Player opponent, Card card, AvengerAssembleGUI gui) {
+    public SelectOpponent(Player self, ArrayList<Player> opponentList, Card card, AvengerAssembleGUI gui) {
         super();
         this.card = card;
         this.avengerAssembleGUI = gui;
         this.self = self;
-        this.opponent = opponent;
+        this.opponentList = opponentList;
         gui.setBackdropDim(true);
 
         this.setLayout(new BorderLayout());
-        setBounds((Router.getMainFrame().getWidth() - 850)/2, (Router.getMainFrame().getHeight() - 400)/2, 850, 400);
+        setSize(WIDTH,HEIGHT);
         JLabel selectTarget = new JLabel("Select Target");
         selectTarget.setFont(SharedResource.getCustomSizeFont(36));
         selectTarget.setForeground(SharedResource.SIAMESE_BRIGHT);
@@ -44,12 +49,17 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
         this.add(selectTarget, BorderLayout.NORTH);
 
         JPanel p = new JPanel();
-        p.setLayout(new FlowLayout());
+        p.setLayout(new FlowLayout(FlowLayout.CENTER,30,0));
         p.setOpaque(false);
-        selfButton = new PlayerProfile(self.getName(),self.getProfilePicture());
-        opponentButton = new PlayerProfile(opponent.getName(),opponent.getProfilePicture());
+        selfButton = new PlayerProfile(self);
+        selfButton.setBorder(new LineBorder(SharedResource.SIAMESE_BASE,5));
         p.add(selfButton);
-        p.add(opponentButton);
+        for (Player opponent:opponentList){
+            opponentButton = new PlayerProfile(opponent);
+            opponentButton.setBorder(new LineBorder(SharedResource.SIAMESE_BASE,5));
+            opponentButton.addMouseListener(this);
+            p.add(opponentButton);
+        }
 
         this.add(p, BorderLayout.CENTER);
 
@@ -86,9 +96,8 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
 
 
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
-        this.setBackground(SharedResource.SIAMESE_BASE);
+        this.setUI(new RoundPanelUI(SharedResource.SIAMESE_BASE,50,50));
         selfButton.addMouseListener(this);
-        opponentButton.addMouseListener(this);
         doneButton.addActionListener(this);
 
     }
@@ -98,11 +107,11 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
         if (e.getSource().equals(selfButton)) {
             reciever = self;
             this.selfButton.setBorder(new LineBorder(Color.ORANGE,5));
-            this.opponentButton.setBorder(null);
+            this.opponentButton.setBorder(new LineBorder(SharedResource.SIAMESE_BASE,5));
         }
-        else if (e.getSource().equals(opponentButton)) {
-            reciever = opponent;
-            this.selfButton.setBorder(null);
+        else if (e.getSource() instanceof PlayerProfile) {
+            reciever = ((PlayerProfile) e.getSource()).getOwner();
+            this.selfButton.setBorder(new LineBorder(SharedResource.SIAMESE_BASE,5));
             this.opponentButton.setBorder(new LineBorder(Color.ORANGE,5));
         }
     }
@@ -132,15 +141,11 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
             if(reciever != null){
                 this.card.action(self, reciever);
                 self.getDeck().addDispose(card);
-                avengerAssembleGUI.getUserPanel().updatePlayable(opponent);
-                avengerAssembleGUI.updatePlayerHUD();
-                avengerAssembleGUI.initCard();
+                avengerAssembleGUI.onCardPlayed();
                 this.setVisible(false);
                 avengerAssembleGUI.setBackdropDim(false);
                 SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav", 0f);
-                if (Player.checkWin(self,opponent) != null){
-                    avengerAssembleGUI.result(Player.checkWin(self,opponent));
-                }
+                avengerAssembleGUI.checkGameEnd();
             }
 
         }
