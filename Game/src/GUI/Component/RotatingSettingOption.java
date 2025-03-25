@@ -21,6 +21,7 @@ public class RotatingSettingOption extends JPanel implements MouseListener {
     }
 
     public RotatingSettingOption(ArrayList<String> optionList,int currentIndex){
+        this.currentIndex = currentIndex;
         leftArrow = new JLabel(ResourceLoader.loadPicture("assets/LeftArrow.png"));
         rightArrow = new JLabel(ResourceLoader.loadPicture("assets/RightArrow.png"));
         currentOptionText = new JLabel(optionList.get(currentIndex));

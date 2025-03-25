@@ -130,6 +130,7 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import GUI.Component.PopupMenu;
 import utils.ResourceLoader;
@@ -164,7 +165,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         // Left Panel (3x2 grid with images)
         paLeft = new TempDeckZone();
-        paLeft.setLayout(new FlowLayout());
+        paLeft.setLayout(new FlowLayout(FlowLayout.LEFT));
         paLeft.setPreferredSize(new Dimension(300,1000));
         paLeft.setOpaque(false);
 
@@ -175,6 +176,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         //ปิดแถบเลื่อน
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        cardScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
 
@@ -229,6 +231,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(paRight);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         saveButton.addActionListener(this);
         PopupItem.deckZone = paLeft;
@@ -258,11 +261,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 CardLabel[] s = new CardLabel[paLeft.getAllCardLabel().size()];
                 s = paLeft.getAllCardLabel().toArray(s);
                 for (int i = 0;i<s.length;i++){
-                    String text = s[i].getName()+" "+s[i].getAmount();
+                    String text = s[i].getName()+" "+s[i].getCardType().toString()+" "+s[i].getAmount();
                     if (i!=s.length-1){
                         text+="\n";
                     }
                     System.out.println("Have Text");
+                    System.out.println(text);
                     for (int j = 0;j<text.toCharArray().length;j++){
                         try {
                             out.write((int)(text.charAt(j)));

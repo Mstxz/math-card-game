@@ -18,6 +18,7 @@ public class SettingController {
 
     public static void updateResolution(int index){
         String resolution = resolutionList.get(index);
+        System.out.println("Index:" + index + " Resolution: " + resolution);
         if (resolution.equals("1920x1080")){
             Router.getMainFrame().setSize(1920,1080);
         }
