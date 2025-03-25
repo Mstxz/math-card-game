@@ -1,5 +1,6 @@
 package GUI;
 
+import GUI.Component.Game;
 import GUI.Component.LobbyProfile;
 import GUI.Page.*;
 import java.awt.*;
@@ -50,7 +51,7 @@ public class Router implements ComponentListener {
             case "Demo" -> new DemoPage();
             case "Demo2" -> new Demo2Page();
             case "MainMenu" -> new MainMenuPage();
-            case "Avenger" -> new AvengerAssembleGUI(); //game page
+            case "Avenger" -> new AvengerAssembleGUI((Game) data); //game page
             case "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
             case "DeckCreator" -> new DeckCreatorPage();
             case "SelMode" -> new SelGameMode();

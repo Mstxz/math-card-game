@@ -26,7 +26,7 @@ public class HandDeck extends JPanel{
 		else
 			this.setLayout(new FlowLayout(FlowLayout.CENTER));
 		this.setVisible(true);
-		this.updatePlayable(gui.getEnemy());
+		this.updatePlayable(gui.getActiveEnemy());
 	}
 
 	public void	RenderHand()

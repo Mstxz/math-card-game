@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Minus extends Card {
     private int number;
     public Minus(int number,CardType type){
-        super("Minus"+number,"Subtract "+number+" to hp",1, Difficulty.EASY, type);
+        super("Minus "+number,"Subtract "+number+" to hp",1, Difficulty.EASY, type);
         this.number = number;
         this.picture = "assets/Card/"+getFolder()+"/"+ getFolder() +"_HP-"+number+".png";
     }

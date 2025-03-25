@@ -150,7 +150,7 @@ public class Player {
         Player.log(self,enemy);
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
         Card c = null;
-        while (!playable.isEmpty()&& Player.checkWin(self,enemy) == null){
+        while (!playable.isEmpty()){
             Scanner sc = new Scanner(System.in);
             int index;
             do {
@@ -192,29 +192,29 @@ public class Player {
         System.out.println(enemy.getName()+"'s mana ("+enemy.getPlayerNumber()+") : "+enemy.getMana());
     }
 
-    public static Player checkWin(Player a,Player b){
-        if (((Constant)(a.getHp())).getNumber() == 0){
-            return b;
-//            System.out.println("Player "+a.getName()+" has eliminated.");
-//            System.out.println("Player "+b.getName()+" is victory!!");
+    public static Player checkWin(ArrayList<Player> playerList){
+        ArrayList<Integer> stillAlive = new ArrayList<>();
+        for (int i=0;i<playerList.size();i++){
+            stillAlive.add(i);
         }
-        else if (a.getDeck().getCards().isEmpty()){
-            return b;
-//            System.out.println("Player "+a.getName()+" has 0 card to draw.");
-//            System.out.println("Player "+b.getName()+" is victory!!");
-        } else if (((Constant)(b.getHp())).getNumber() == 0) {
-            return a;
-//            System.out.println("Player "+b.getName()+" has eliminated.");
-//            System.out.println("Player "+a.getName()+" is victory!!");
-        } else if (b.getDeck().getCards().isEmpty()) {
-            return a;
-//            System.out.println("Player "+b.getName()+" has 0 card to draw.");
-//            System.out.println("Player "+a.getName()+" is victory!!");
+        for (int lose:checkLose(playerList)){
+            stillAlive.remove(lose);
         }
-        else {
+        if(stillAlive.size() != 1) {
             return null;
         }
+        return playerList.get(stillAlive.getFirst());
         //return true;
+    }
+
+    public static ArrayList<Integer> checkLose(ArrayList<Player> playerList){
+        ArrayList<Integer> lose = new ArrayList<>();
+        for (Player p:playerList){
+            if (((Constant)(p.getHp())).getNumber() == 0 || p.getDeck().getCards().isEmpty()){
+                lose.add(p.getPlayerNumber());
+            }
+        }
+        return lose;
     }
 
     public static boolean checkWinNonPrint(Player a,Player b){
@@ -242,5 +242,20 @@ public class Player {
         if (maxMana<10){
             maxMana+=1;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", deck=" + deck +
+                ", mana=" + mana +
+                ", hand=" + hand +
+                ", hp=" + hp +
+                ", numberType=" + numberType +
+                ", maxMana=" + maxMana +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", playerNumber=" + playerNumber +
+                '}';
     }
 }

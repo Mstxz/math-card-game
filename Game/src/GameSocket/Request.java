@@ -52,18 +52,30 @@ public class Request {
     }
 
     public void setData(byte[] data) {
-        this.data = data;
+        ByteBuffer bf = ByteBuffer.allocate( Integer.BYTES + data.length);
+        bf.clear().putInt(data.length).put(data).flip();
+        this.data = bf.array();
+        this.bytesLength = this.data.length;
+    }
+
+    public void setData(int data) {
+        ByteBuffer bf = ByteBuffer.allocate( Integer.BYTES);
+        bf.clear().putInt(data).flip();
+        this.data = bf.array();
         this.bytesLength = this.data.length;
     }
 
     public void setData(String data) {
-        this.data = data.getBytes(StandardCharsets.UTF_8);
+        byte[] newBytes = data.getBytes(StandardCharsets.UTF_8);
+        ByteBuffer bf = ByteBuffer.allocate( Integer.BYTES + newBytes.length);
+        bf.clear().putInt(newBytes.length).put(newBytes).flip();
+        this.data = bf.array();
         this.bytesLength = this.data.length;
     }
 
     public Request appendData(byte[] data) {
-        ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + data.length);
-        bf.clear().put(this.data).put(data).flip();
+        ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + Integer.BYTES + data.length);
+        bf.clear().put(this.data).putInt(data.length).put(data).flip();
         this.data = bf.array();
         this.bytesLength = this.data.length;
         return this;
@@ -71,20 +83,38 @@ public class Request {
 
     public Request appendData(String data) {
         byte[] newBytes = data.getBytes(StandardCharsets.UTF_8);
-        ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + newBytes.length);
-        bf.clear().put(this.data).put(newBytes).flip();
+        ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + Integer.BYTES + newBytes.length);
+        bf.clear().put(this.data).putInt(newBytes.length).put(newBytes).flip();
         this.data = bf.array();
         this.bytesLength = this.data.length;
+        System.out.println("Request: " + Arrays.toString(this.data) + " Len: "+bytesLength);
+
         return this;
     }
 
     public Request appendData(int integer) {
         ByteBuffer bf = ByteBuffer.allocate(this.bytesLength + Integer.BYTES);
-
         bf.clear().put(this.data).putInt(integer).flip();
         this.data = bf.array();
         this.bytesLength = this.data.length;
+        System.out.println("Request: " + Arrays.toString(this.data) + " Len: "+bytesLength);
         return this;
+    }
+
+
+    private void setDataNoLength(byte[] data) {
+        ByteBuffer bf = ByteBuffer.allocate( data.length);
+        bf.clear().put(data).flip();
+        this.data = bf.array();
+        this.bytesLength = this.data.length;
+    }
+
+    private void setDataNoLength(String data) {
+        byte[] newBytes = data.getBytes(StandardCharsets.UTF_8);
+        ByteBuffer bf = ByteBuffer.allocate( newBytes.length);
+        bf.clear().put(newBytes).flip();
+        this.data = bf.array();
+        this.bytesLength = this.data.length;
     }
 
     public byte[] encodeBytes(){
@@ -92,23 +122,27 @@ public class Request {
         bf.putInt(operation.ordinal());
         bf.putInt(bytesLength);
         bf.put(data);
+        System.out.println("Encoded: " + Arrays.toString(bf.array()));
         return bf.array();
     }
 
     public static Request decodeBytes(byte[] bytes){
-        DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
-        try {
+        try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes))) {
             int opCode = in.readInt();
             ProtocolOperation operation = ProtocolOperation.values()[opCode];
             int dataBytes = in.readInt();
             byte[] dataGet = in.readNBytes(dataBytes);
-            return new Request(operation,dataGet);
+            System.out.println("Decoded: " + Arrays.toString(dataGet));
+            Request newReq = new Request(operation);
+            newReq.setDataNoLength(dataGet);
+            return newReq;
         }
         catch(IOException e){
             e.printStackTrace();
         }
         return new Request(ProtocolOperation.ACKN);
     }
+
 
     @Override
     public String toString() {

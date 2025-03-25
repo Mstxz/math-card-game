@@ -39,6 +39,10 @@ public class UserProfile implements Serializable {
         return profilePicture;
     }
 
+    public String getProfilePictureURL(){
+        return profilePicture.getProfileURL();
+    }
+
     public void setProfilePicture(ProfilePicture profilePicture) {
         this.profilePicture = profilePicture;
     }

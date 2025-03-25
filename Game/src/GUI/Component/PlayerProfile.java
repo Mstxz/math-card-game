@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import Gameplay.Player;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -12,11 +13,14 @@ public class PlayerProfile extends JPanel {
     private String profilePicture;
     private JLabel nameLabel;
     private JLabel pictureHolder;
+    private Player owner;
 
-    public PlayerProfile(String username, String profilePicture) {
+    public PlayerProfile(Player owner) {
         super();
-        this.username = username;
-        this.profilePicture = profilePicture;
+
+        this.owner = owner;
+        this.username = owner.getName();
+        this.profilePicture = owner.getProfilePicture();
 
         nameLabel = new JLabel(username);
         nameLabel.setFont(SharedResource.getCustomSizeFont(28));
@@ -28,7 +32,7 @@ public class PlayerProfile extends JPanel {
         pictureHolder.setHorizontalAlignment(SwingConstants.CENTER);
         pictureHolder.setSize(170, 170);
 
-        ImageIcon ic = ResourceLoader.loadPicture(profilePicture,170,170);
+        ImageIcon ic = ResourceLoader.loadPicture(profilePicture,171,171);
         pictureHolder.setIcon(ic);
         this.setLayout(new BorderLayout(0,15));
         this.add(nameLabel,BorderLayout.SOUTH);
@@ -53,4 +57,11 @@ public class PlayerProfile extends JPanel {
         this.profilePicture = profilePicture;
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 }

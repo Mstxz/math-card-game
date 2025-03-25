@@ -1,12 +1,21 @@
 package GUI.Page;
 
+import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
 import GUI.Router;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import GUI.Setting.UserPreference;
+import Gameplay.Bot;
+import Gameplay.Deck;
+import Gameplay.GameForGUI;
+import Gameplay.Player;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -38,6 +47,10 @@ public class SelGameMode extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
+        if(!BGMPlayer.getFilepath().equals("Game/src/assets/Audio/BGM/Lobby_BGM.wav")){
+            BGMPlayer.stopBackgroundMusic();
+            BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
+        }
     }
 
     private void initComponents() {
@@ -110,7 +123,20 @@ public class SelGameMode extends Page implements ActionListener {
         SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav", -10.0f);
 
         if (e.getSource().equals(botButton)){
-            Router.setRoute("Avenger",null);
+            Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
+            player.setDeck(new Deck("a"));
+            try {
+                player.setDeck(Deck.LoadDeck("a"));
+            }
+            catch (FileNotFoundException ex){
+                ex.printStackTrace();
+            }
+            Player bot = new Bot();
+            ArrayList<Player> p = new ArrayList<>();
+            p.add(player);
+            p.add(bot);
+            GameForGUI botGame = new GameForGUI(p);
+            Router.setRoute("Avenger",botGame);
         }
        else if (e.getSource().equals(playerButton)){
             Router.setRoute("Player",null);

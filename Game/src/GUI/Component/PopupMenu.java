@@ -1,9 +1,14 @@
 package GUI.Component;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.*;
 
+import Gameplay.Card;
+import Gameplay.Deck;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -18,7 +23,8 @@ public class PopupMenu extends JPanel {
         setLayout(new BorderLayout());
 
         items = new ArrayList<>();
-        items.add(new PopupItem("Deck 1"));
+        setUpItem();
+        //items.add(new PopupItem("Deck 1"));
 
         mainButton = new JButton();
         mainButton.setLayout(new BorderLayout());
@@ -82,5 +88,17 @@ public class PopupMenu extends JPanel {
 
     public ArrayList<PopupItem> getItems() {
         return new ArrayList<>(items);
+    }
+
+    public void setUpItem(){
+        File folder = new File("Assets");
+        File[] fileList = folder.listFiles();
+        for (File i: fileList){
+            items.add(new PopupItem(i.getName().split(".deck")[0]));
+        }
+    }
+
+    public String getDeckName(){
+        return textLabel.getText();
     }
 }
