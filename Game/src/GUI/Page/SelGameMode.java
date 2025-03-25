@@ -1,5 +1,6 @@
 package GUI.Page;
 
+import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
 import GUI.Router;
 import java.awt.*;
@@ -46,6 +47,10 @@ public class SelGameMode extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
+        if(!BGMPlayer.getFilepath().equals("Game/src/assets/Audio/BGM/Lobby_BGM.wav")){
+            BGMPlayer.stopBackgroundMusic();
+            BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
+        }
     }
 
     private void initComponents() {

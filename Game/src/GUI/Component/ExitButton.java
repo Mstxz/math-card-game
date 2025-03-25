@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import AudioPlayer.SFXPlayer;
 import GUI.Router;
 import utils.SharedResource;
 
@@ -26,6 +27,7 @@ public class ExitButton extends JButton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav", -10.0f);
         cleanUp();
         Router.setRoute(route, null);
     }

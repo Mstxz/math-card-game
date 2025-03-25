@@ -9,10 +9,12 @@ import java.io.IOException;
 
 public class BGMPlayer {
     private static Clip bgmClip;
+    private static String filepath;
 
     public static void playBackgroundMusic(String musicFile, float volume) {
         try {
             File audioFile = new File(musicFile);
+            filepath = musicFile;
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             bgmClip = AudioSystem.getClip();
             bgmClip.open(audioStream);
@@ -26,19 +28,19 @@ public class BGMPlayer {
         }
     }
 
-    public static boolean checkIfPlaying(){
-        return bgmClip.isRunning();
-    }
-
-    public static Clip getBgmClip(){
-        return bgmClip;
-    }
-
     public static void stopBackgroundMusic() {
         if (bgmClip != null && bgmClip.isRunning()) {
             bgmClip.stop();
         }
     }
+
+    public static boolean checkIfPlaying(){
+        return bgmClip.isRunning();
+    }
+
+    public static Clip getBgmClip(){return bgmClip;}
+
+    public static String getFilepath(){return filepath;}
 
     public static void updateVolume(){
         if (bgmClip != null){
