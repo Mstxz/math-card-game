@@ -45,9 +45,9 @@ public class CardPlayable extends JButton implements MouseListener {
 		if (!isEnemy) {
 //			System.out.println(this.card.getPicture());
 			Path = this.card.getPicture();
-			if (Path == null)
+			System.out.println(this.card.getName());
+			if (Path == null || Path.equals(""))
 			{
-				System.out.println(this.card.getName());
 				this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
 			} else {
 				this.setIcon(ResourceLoader.loadPicture(Path, this.getWidth(), this.getHeight()));
@@ -59,8 +59,6 @@ public class CardPlayable extends JButton implements MouseListener {
 		}
 		else {
 			this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
-
-
 		}
 	}
 
