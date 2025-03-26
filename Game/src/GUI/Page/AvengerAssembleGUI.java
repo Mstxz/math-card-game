@@ -235,6 +235,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 				}
 				else{
 					cardPlayed.action(game.getPlayer(), getActiveEnemy());
+					game.getPlayer().getDeck().getDispose().add(cardPlayed);
 					onCardPlayed();
 				}
 

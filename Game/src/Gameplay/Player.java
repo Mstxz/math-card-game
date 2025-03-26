@@ -119,7 +119,7 @@ public class Player {
         for (int i=0;i<self.hand.size();i++){
             Card c = self.hand.get(i);
             //System.out.println(self.getMana()>=c.getManaUsed());
-            if (self.getMana()>=c.getManaUsed() && (!(c instanceof HaveCondition) || ((HaveCondition) c).checkCondition(self, enemy))){
+            if (self.getMana()>=c.getManaUsed() && (!(c instanceof HaveCondition) || ((HaveCondition) c).checkCondition(self, c.getReceiver(self,enemy)))){
                 playable.add(i);
             }
         }
@@ -164,6 +164,7 @@ public class Player {
             c = hand.remove(index);
             c.action(self,enemy);
             deck.addDispose(c);
+            System.out.println(deck.getDispose().getLast().getName());
             Player.log(self,enemy);
             playable = self.showCard(self,enemy);
             if (!playable.isEmpty()){
