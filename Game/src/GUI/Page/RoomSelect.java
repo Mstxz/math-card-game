@@ -13,6 +13,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 
 public class RoomSelect extends Page implements ActionListener {
     private JPanel optionPanel;
@@ -69,10 +72,38 @@ public class RoomSelect extends Page implements ActionListener {
 //        joinButton.setPreferredSize(new Dimension(200,60));
         joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        hostIpField = new JTextField();
+
+        hostIpField = new JTextField("Room ID");
+        hostIpField.setFont(SharedResource.getCustomSizeFont(28));
+        hostIpField.setHorizontalAlignment(SwingConstants.CENTER);
+        hostIpField.setBounds(0, 0, 500, 90);
         hostIpField.setColumns(50);
-        hostIpField.setMaximumSize(new Dimension(200,50));
+        hostIpField.setMaximumSize(new Dimension(580,90));
         hostIpField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hostIpField.setForeground(new Color(172,158,145));
+        //hostIpField.setBorder(BorderFactory.createLineBorder(new Color(100,90,82),3));
+        hostIpField.setBorder(new RoundBorder(new Color(100, 90, 82), null, 3, 20));
+        hostIpField.setOpaque(false); // ทำให้พื้นหลังของ JTextField โปร่งใส
+        hostIpField.setBackground(new Color(221, 218, 210));
+
+// เพิ่ม FocusListener เพื่อให้ placeholder หายไปเมื่อกดช่องกรอก และกลับมาเมื่อเว้นว่าง
+        hostIpField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (hostIpField.getText().equals("Room ID")) {
+                    hostIpField.setText("");
+                    hostIpField.setForeground(new Color(72, 62, 56)); // เปลี่ยนเป็นสีดำเมื่อพิมพ์ข้อความ
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (hostIpField.getText().isEmpty()) {
+                    hostIpField.setText("Room ID");
+                    hostIpField.setForeground(Color.GRAY); // กลับมาเป็น placeholder สีเทา
+                }
+            }
+        });
 
         exitLabel = new ExitButton("SelMode");
         exitLabel.setVerticalAlignment(SwingConstants.NORTH);
@@ -171,96 +202,3 @@ public class RoomSelect extends Page implements ActionListener {
         new RoomSelect();
     }
 }
-
-
-
-/*
-
-public class PlayerVsPlayer extends Page {
-    private JLabel title, head, matchCode;
-    private JButton exitButton, settingsButton, decksButton, readyButton;
-
-    public PlayerVsPlayer() {
-        mainPanel.setLayout(new BorderLayout(20, 0));
-        mainPanel.setBackground(new Color(240, 235, 225)); // Light beige
-        mainPanel.setBorder(new EmptyBorder(20, 40, 40, 40));
-
-        // Title
-        title = new JLabel("Player vs Player");
-        title.setFont(SharedResource.getCustomSizeFont(60)); // Adjusted font
-        title.setForeground(new Color(50, 40, 35)); // Dark brown text
-        title.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(title, BorderLayout.NORTH);
-
-        // Rounded Border Panel (Main Panel)
-        RoundedPanel centerPanel = new RoundedPanel(30, new Color(205, 190, 170)); // Light brown rounded panel
-        centerPanel.setLayout(new BorderLayout(20, 10));
-
-        // Top Panel (Exit & Settings)
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setOpaque(false);
-
-        exitButton = new JButton("< Exit");
-        exitButton.setFont(SharedResource.getCustomSizeFont(20));
-        exitButton.setBorderPainted(false);
-        exitButton.setContentAreaFilled(false);
-        exitButton.setFocusPainted(false);
-        topPanel.add(exitButton, BorderLayout.WEST);
-
-        settingsButton = new JButton(new ImageIcon("settings_icon.png")); // Replace with actual image path
-        settingsButton.setBorderPainted(false);
-        settingsButton.setContentAreaFilled(false);
-        settingsButton.setFocusPainted(false);
-        topPanel.add(settingsButton, BorderLayout.EAST);
-
-        centerPanel.add(topPanel, BorderLayout.NORTH);
-
-        // Matchmaking Header & Code
-        JPanel matchmakingPanel = new JPanel(new GridLayout(2, 1, 0, 5));
-        matchmakingPanel.setOpaque(false);
-
-        head = new JLabel("Matchmaking...", SwingConstants.CENTER);
-        head.setFont(SharedResource.getCustomSizeFont(30));
-        head.setForeground(new Color(80, 60, 50));
-
-        matchCode = new JLabel("Code: ABCDEF", SwingConstants.CENTER);
-        matchCode.setFont(SharedResource.getCustomSizeFont(20));
-        matchCode.setForeground(new Color(90, 80, 70));
-
-        matchmakingPanel.add(head);
-        matchmakingPanel.add(matchCode);
-
-        centerPanel.add(matchmakingPanel, BorderLayout.CENTER);
-
-        // Player Panel (4 players with images and names)
-        JPanel playerContainer = new JPanel(new GridLayout(1, 4, 15, 0));
-        playerContainer.setOpaque(false);
-
-        playerContainer.add(new PlayerPanelComponent("Soda Mun Za", "ready", "assets/ProfileCat1.jpg"));
-        playerContainer.add(new PlayerPanelComponent("Bob Hair Karn", "ready", "assets/ProfileCat1.jpg"));
-        playerContainer.add(new PlayerPanelComponent("Klong Ang Ha", "notReady", "assets/ProfileCat1.jpg"));
-        playerContainer.add(new PlayerPanelComponent("Om Tuk", "ready", "assets/ProfileCat1.jpg"));
-
-        centerPanel.add(playerContainer, BorderLayout.SOUTH);
-
-        // Buttons (Decks & Ready with rounded effect)
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 0));
-        buttonPanel.setOpaque(false);
-
-        decksButton = new RoundedButton("Decks");
-        readyButton = new RoundedButton("Ready");
-
-        buttonPanel.add(decksButton);
-        buttonPanel.add(readyButton);
-
-        centerPanel.add(buttonPanel, BorderLayout.PAGE_END);
-
-        // Add to Main Panel
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-    }
-
-    public static void main(String[] args) {
-        new PlayerVsPlayer();
-    }
-}
-*/

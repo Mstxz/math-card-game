@@ -16,6 +16,12 @@ public class RoundBorder implements Border {
         this.radius = radius;
     }
 
+    public RoundBorder(Color borderColor, int thickness, int radius) {
+        this.borderColor = borderColor;
+        this.thickness = thickness;
+        this.radius = radius;
+    }
+
     @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
     Graphics2D g2 = (Graphics2D) g.create();

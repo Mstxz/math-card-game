@@ -1,7 +1,7 @@
 package GUI.Component;
 import GUI.Component.RoundBorder;
 import javax.swing.*;
-import java.awt.*;
+        import java.awt.*;
 
 public class PlayerVSPlayerSelectButton extends JButton {
     public PlayerVSPlayerSelectButton(String text) {
