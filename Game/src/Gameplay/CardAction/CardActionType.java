@@ -5,6 +5,8 @@ public enum CardActionType {
     DISCARD,
     SET_HP,
     SET_MANA,
-    END_TURN
+    END_TURN,
+    GET_CARD,
+    GET_FROM_DISCARD
 }
 

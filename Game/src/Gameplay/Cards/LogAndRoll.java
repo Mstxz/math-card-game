@@ -1,7 +1,10 @@
 package Gameplay.Cards;
 
+import Gameplay.CardAction.*;
 import Gameplay.*;
 import Gameplay.Numbers.Constant;
+
+import java.util.ArrayList;
 
 public class LogAndRoll extends Card implements HaveCondition {
     public LogAndRoll(){
@@ -19,5 +22,14 @@ public class LogAndRoll extends Card implements HaveCondition {
     @Override
     public boolean checkCondition(Player user, Player receiver) {
         return (((Constant)(receiver.getHp())).getNumber() >=10);
+    }
+
+    @Override
+    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
+        ArrayList<CardAction> arr = new ArrayList<CardAction>();
+        Player receiver = this.getReceiver(self,enemy);
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
+        arr.add(new SetHp(new Constant((int)Math.log10(((Constant)(receiver.getHp())).getNumber())),receiver));
+        return arr;
     }
 }

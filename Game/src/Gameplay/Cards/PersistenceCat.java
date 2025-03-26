@@ -1,7 +1,6 @@
 package Gameplay.Cards;
 
-import GUI.CardAction;
-import GUI.CardActionType;
+import Gameplay.CardAction.*;
 import Gameplay.*;
 import Gameplay.Numbers.Constant;
 
@@ -32,7 +31,9 @@ public class PersistenceCat extends Card implements HaveCondition {
     @Override
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new CardAction(CardActionType.SET_HP,getReceiver(self,enemy).getPlayerNumber()));
+        Player receiver = this.getReceiver(self,enemy);
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
+        arr.add(new SetHp(receiver.getHp().add(new Constant((int)(Math.sqrt(((Constant)(receiver.getHp())).getNumber())))),receiver));
         return arr;
     }
 }

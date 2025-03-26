@@ -1,7 +1,6 @@
 package Gameplay.Cards;
 
-import GUI.CardAction;
-import GUI.CardActionType;
+import Gameplay.CardAction.*;
 import Gameplay.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,8 @@ public class CatTreat extends Card implements HaveCondition {
     @Override
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new CardAction(CardActionType.DRAW,getReceiver(self,enemy).getPlayerNumber(),2));
+        Player receiver = this.getReceiver(self,enemy);
+        arr.add(new SetMana(receiver.getMana() + 2,receiver));
         return arr;
     }
 }

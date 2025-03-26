@@ -1,6 +1,6 @@
 package Gameplay;
 
-import GUI.CardAction;
+import Gameplay.CardAction.*;
 import Gameplay.Cards.*;
 
 import java.lang.reflect.InvocationTargetException;
@@ -158,7 +158,7 @@ public abstract class Card {
     }
 
     public abstract void action(Player self,Player enemy);
-    public ArrayList<CardAction> getCardAction(Player self,Player enemy){
+    public ArrayList<CardAction> getCardAction(Player self, Player enemy){
         return null;
     }
 }
