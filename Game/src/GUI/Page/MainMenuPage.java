@@ -50,18 +50,8 @@ public class MainMenuPage extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
-        int randomIndex = rand.nextInt(playlist.size());
-
-        if((BGMPlayer.getBgmClip() == null || !playlist.contains(BGMPlayer.getFilepath())) || !BGMPlayer.checkIfPlaying()){
-            if (BGMPlayer.getBgmClip() == null) {
-
-                BGMPlayer.playBackgroundMusic(playlist.get(1/*randomIndex*/));
-            }
-            else {
-                BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic(playlist.get(1/*randomIndex*/));
-            }
-        }
+        //BGMPlayer.playlistRunner(playlist);
+        BGMPlayer.playBackgroundMusic(playlist.get(1));
     }
 
     private void initComponents() {

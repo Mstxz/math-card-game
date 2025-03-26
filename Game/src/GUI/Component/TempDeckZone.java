@@ -44,6 +44,10 @@ public class TempDeckZone extends JPanel {
         for (CardLabel c:this.allCardLabel){
             c.setAmount(0);
         }
+        this.removeAll();
+        if (allCardLabel.isEmpty()){
+            return;
+        }
         for (CardLabel c:allCardLabel){
             CardButton cardButton = cardLabelHashMap.get(c);
             cardButton.setCardLabel(c);

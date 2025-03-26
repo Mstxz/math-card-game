@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class BGMPlayer {
     private static Clip bgmClip;
     private static String filepath;
+    private static Thread playlistThread;
 
     public static void playBackgroundMusic(String musicFile) {
         try {
@@ -54,4 +55,36 @@ public class BGMPlayer {
             gainControl.setValue(gain);
         }
     }
+
+    private static void playPlaylist(ArrayList<String> playlist){
+        int current = 0;
+       while (true){
+           Clip audio;
+            try {
+                audio = AudioSystem.getClip();
+                audio.open(AudioSystem.getAudioInputStream(new File(playlist.get(current))));
+                bgmClip = audio;
+                updateVolume();
+                bgmClip.start();
+                while (audio.isRunning()){
+                    try {
+                        Thread.sleep(500);
+                    }
+                    catch (InterruptedException ex){
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
+
+            }
+            current = (current+1)%playlist.size();
+       }
+    }
+
+    public static void playlistRunner(ArrayList<String> playlist){
+        playlistThread = new Thread(()->playPlaylist(playlist));
+        playlistThread.start();
+    }
+
 }
