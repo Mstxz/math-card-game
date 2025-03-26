@@ -261,7 +261,11 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 CardLabel[] s = new CardLabel[paLeft.getAllCardLabel().size()];
                 s = paLeft.getAllCardLabel().toArray(s);
                 for (int i = 0;i<s.length;i++){
-                    String text = s[i].getName()+" "+s[i].getCardType().toString()+" "+s[i].getAmount();
+                    String className = s[i].getCard().getClass().getSimpleName();
+                    String text = className+" "+s[i].getCardType().toString()+" "+s[i].getAmount();
+                    if (className.equals("Plus") || className.equals("Minus")){
+                        text = s[i].getName()+" "+s[i].getCardType().toString()+" "+s[i].getAmount();
+                    }
                     if (i!=s.length-1){
                         text+="\n";
                     }

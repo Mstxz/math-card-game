@@ -11,7 +11,7 @@ import Gameplay.Card;
 import Gameplay.CardType;
 import utils.ResourceLoader;
 
-public class CardButton extends JPanel implements ActionListener, MouseListener {
+public class CardButton extends JPanel implements MouseListener {
     protected String name;
     protected int amount = 0;
     protected CardLabel cardLabel = null;
@@ -46,7 +46,7 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
         cardType = tempCard.getType();
         nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,250));
         cardPicture = tempCard.getPicture();
-        cardLabel = new CardLabel(this.name,this.cardType,0,cardPicture);
+        cardLabel = new CardLabel(tempCard,0);
         deckZonePanel.registerButton(cardLabel,this);
         removeButton = new JButton("-");
 
@@ -57,10 +57,6 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
 
         this.setLayout(new BorderLayout());
         this.add(nameButton,BorderLayout.CENTER);
-        this.add(panel1,BorderLayout.SOUTH);
-
-        addButton.addActionListener(this);
-        removeButton.addActionListener(this);
         this.addMouseListener(this);
 
         this.setSize(200,280);
@@ -100,33 +96,6 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
         this.cardLabel = cardLabel;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(addButton)){
-            if (amount==0){
-                cardLabel = new CardLabel(this.name,this.cardType,0,cardPicture);
-                deckZonePanel.addCard(cardLabel);
-                index = deckZonePanel.getAllCardLabel().size()-1;
-            }
-            amount+=1;
-            cardLabel.setAmount(amount);
-        }
-        else if (e.getSource().equals(removeButton)) {
-            if (amount==0){
-                return;
-            }
-            amount-=1;
-            System.out.println(amount);
-            if (amount==0){
-                deckZonePanel.removeCard(cardLabel);
-                deckZonePanel.revalidate();
-                deckZonePanel.repaint();
-                return;
-            }
-            cardLabel.setAmount(amount);
-        }
-        //this.amount = cardLabel.amount;
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {

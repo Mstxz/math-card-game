@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import Gameplay.Card;
 import Gameplay.CardType;
 import utils.ResourceLoader;
 import utils.SharedResource;
@@ -13,21 +14,23 @@ import java.awt.event.ComponentListener;
 import java.util.Objects;
 
 public class CardLabel extends JPanel {
-
+    private Card card;
     private String name;
     private int amount;
     private CardType cardType;
     private JLabel miniPicture;
     private JLabel cardNameLabel;
     private JLabel cardAmountLabel;
-    public CardLabel(String name,CardType type,int amount,String cardPicture){
+
+    public CardLabel(Card card,int amount){
         super();
+        this.card = card;
+        this.name = card.getName();
+        this.amount = amount;
+        this.cardType = card.getType();
         cardNameLabel = new JLabel(name);
         cardAmountLabel = new JLabel(String.valueOf(amount));
-        miniPicture = new JLabel(ResourceLoader.loadPicture(cardPicture,59,80));
-        this.name = name;
-        this.amount = amount;
-        this.cardType = type;
+        miniPicture = new JLabel(ResourceLoader.loadPicture(card.getPicture(),59,80));
         this.setLayout(new BorderLayout(20,0));
         this.add(cardNameLabel);
         this.add(miniPicture,BorderLayout.WEST);
@@ -61,6 +64,10 @@ public class CardLabel extends JPanel {
 
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
+    }
+
+    public Card getCard() {
+        return card;
     }
 
     @Override

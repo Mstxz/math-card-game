@@ -31,7 +31,7 @@ public class TempDeckZone extends JPanel {
         Iterator i = cardIntegerHashMap.keySet().iterator();
         while (i.hasNext()){
             Card j = (Card)(i.next());
-            tmp.add(new CardLabel(j.getName(),j.getType(),cardIntegerHashMap.get(j),j.getPicture()));
+            tmp.add(new CardLabel(j,cardIntegerHashMap.get(j)));
         }
         return tmp;
     }
