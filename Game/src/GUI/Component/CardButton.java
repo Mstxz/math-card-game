@@ -46,6 +46,8 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
         cardType = tempCard.getType();
         nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,250));
         cardPicture = tempCard.getPicture();
+        cardLabel = new CardLabel(this.name,this.cardType,0,cardPicture);
+        deckZonePanel.registerButton(cardLabel,this);
         removeButton = new JButton("-");
 
         panel1 = new JPanel();
@@ -90,6 +92,14 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
         this.nameButton = nameButton;
     }
 
+    public CardLabel getCardLabel() {
+        return cardLabel;
+    }
+
+    public void setCardLabel(CardLabel cardLabel) {
+        this.cardLabel = cardLabel;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(addButton)){
@@ -111,9 +121,6 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
                 deckZonePanel.removeCard(cardLabel);
                 deckZonePanel.revalidate();
                 deckZonePanel.repaint();
-//                for (int i = 0;i<DeckCreater.p1CardLabel.size();i++){
-//                    DeckCreater.p1CardLabel.get(i).repaint();
-//                }
                 return;
             }
             cardLabel.setAmount(amount);
@@ -124,27 +131,23 @@ public class CardButton extends JPanel implements ActionListener, MouseListener 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3){
-            if (amount==0){
+            if (cardLabel.getAmount() == 0){
                 return;
             }
-            amount-=1;
-            System.out.println(amount);
-            if (amount==0){
+            cardLabel.setAmount(cardLabel.getAmount() - 1);
+            if (cardLabel.getAmount() == 0){
                 deckZonePanel.removeCard(cardLabel);
                 deckZonePanel.revalidate();
                 deckZonePanel.repaint();
                 return;
             }
-            cardLabel.setAmount(amount);
         }
         else if (e.getButton() == MouseEvent.BUTTON1){
-            if (amount==0){
-                cardLabel = new CardLabel(this.name,this.cardType,0,cardPicture);
+            if (cardLabel.getAmount() == 0){
                 deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
             }
-            amount+=1;
-            cardLabel.setAmount(amount);
+            cardLabel.setAmount(cardLabel.getAmount() + 1);
         }
     }
 

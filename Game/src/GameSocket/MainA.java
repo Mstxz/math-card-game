@@ -1,7 +1,7 @@
 package GameSocket;
 
 import Gameplay.Card;
-import Gameplay.Cards.AbsoluteHp;
+import Gameplay.Cards.AbsoluteCCat;
 
 public class MainA {
     public static void main(String[] args) {

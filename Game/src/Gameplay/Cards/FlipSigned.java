@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class FlipSigned extends Card {
     public FlipSigned(){
-        super("FlipSign","multiply -1 to your HP",2, Difficulty.MEDIUM, CardType.BLUE);
+        super("FlipSigned","multiply -1 to your HP",2, Difficulty.MEDIUM, CardType.BLUE);
         //this.picture = "assets/Blue_BetaFlipSignedHP.png";
     }
 

@@ -7,8 +7,13 @@ import java.util.*;
 
 public class TempDeckZone extends JPanel {
     public HashSet<CardLabel> allCardLabel = new HashSet<CardLabel>();
+    public HashMap<CardLabel,CardButton> cardLabelHashMap = new HashMap<>();
     public TempDeckZone(){
         super();
+    }
+
+    public void registerButton(CardLabel c, CardButton owner){
+        cardLabelHashMap.put(c,owner);
     }
 
     public void addCard(CardLabel c){
@@ -36,6 +41,13 @@ public class TempDeckZone extends JPanel {
     }
 
     public void setAllCardLabel(HashSet<CardLabel> allCardLabel) {
+        for (CardLabel c:this.allCardLabel){
+            c.setAmount(0);
+        }
+        for (CardLabel c:allCardLabel){
+            CardButton cardButton = cardLabelHashMap.get(c);
+            cardButton.setCardLabel(c);
+        }
         this.allCardLabel = allCardLabel;
     }
 

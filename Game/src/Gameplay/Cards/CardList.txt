@@ -37,7 +37,7 @@ Plus 10 Green
 Plus 15 Green
 Plus 20 Green
 Plus 25 Green
-AbsoluteHp
+AbsoluteCCat
 FlipSigned
 Minus 1 Blue
 Minus 2 Blue
@@ -83,3 +83,7 @@ CatTreat
 CatNap
 Copycat
 Digitalize
+BlindBox
+CatClown
+LogAndRoll
+AngryCat

@@ -10,9 +10,9 @@ import Gameplay.Player;
 
 import java.util.ArrayList;
 
-public class AbsoluteHp extends Card {
-    public AbsoluteHp(){
-        super("AbsoluteC.Cat","Absolute user hp",2, Difficulty.MEDIUM, CardType.BLUE);
+public class AbsoluteCCat extends Card {
+    public AbsoluteCCat(){
+        super("AbsoluteCCat","Absolute user hp",2, Difficulty.MEDIUM, CardType.BLUE);
         //this.picture = "assets/Blue_BetaAbsoluteHP.png";
     }
 
