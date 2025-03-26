@@ -3,21 +3,18 @@ package GUI.Page;
 import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
 import GUI.Router;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import GUI.Setting.UserPreference;
 import Gameplay.Bot;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -29,6 +26,8 @@ public class SelGameMode extends Page implements ActionListener {
     private JButton botButton = new JButton("Player vs Bot");
     private JButton exitButton = new JButton("exit");
     private JButton backButton = new JButton("Back");
+    private JButton selectBotButton = new JButton("Select Bot Test");
+
     private Image bg;
 
     private String track = "Game/src/assets/Audio/BGM/Lobby_BGM.wav";
@@ -94,6 +93,8 @@ public class SelGameMode extends Page implements ActionListener {
         setButton(botButton);
         ButtonZone.add(backButton);
         setButton(backButton);
+        ButtonZone.add(selectBotButton);
+        setButton(selectBotButton);
 //        ButtonZone.add(exitButton);
 //        setButton(exitButton);
 
@@ -153,5 +154,9 @@ public class SelGameMode extends Page implements ActionListener {
         else if (e.getSource().equals(backButton)){
             Router.setRoute("MainMenu",null);
         }
+        else if (e.getSource().equals(selectBotButton)){
+            Router.setRoute("SelBot",null);
+        }
+
     }
 }
