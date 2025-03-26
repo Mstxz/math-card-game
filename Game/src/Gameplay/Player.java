@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player {
-    private String name;
-    private Deck deck = new Deck("Test");
-    private int mana = 1;
-    private ArrayList<Card> hand = new ArrayList<Card>();
-    private Number hp = new Constant(100);
-    private NumberType numberType = NumberType.CONSTANT;
-    private int maxMana = 1;
-    private String profilePicture;
-    private int playerNumber;
+    protected String name;
+    protected Deck deck = new Deck("Test");
+    protected int mana = 1;
+    protected ArrayList<Card> hand = new ArrayList<Card>();
+    protected Number hp = new Constant(100);
+    protected NumberType numberType = NumberType.CONSTANT;
+    protected int maxMana = 1;
+    protected String profilePicture;
+    protected int playerNumber;
 
     public Player(String name){
         this.name = name;
@@ -24,7 +24,6 @@ public class Player {
     public Player(String name,String profilePicture){
         this.name = name;
         this.profilePicture = profilePicture;
-
     }
 
     public String getName() {

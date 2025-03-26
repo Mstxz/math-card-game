@@ -13,14 +13,7 @@ import java.util.ArrayList;
 
 public class PlayerInfo extends Player {
     private boolean isReady;
-    private String name;
-    private String profilePicture;
-    private int mana;
     private int cardsInHand;
-    private Number hp;
-    private NumberType numberType;
-    private int maxMana;
-    private int playerNumber;
 
     public PlayerInfo() {
         this("","assets/icon.png",0,0,false);
@@ -29,13 +22,8 @@ public class PlayerInfo extends Player {
     public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady) {
         super(name,profilePicture);
         this.isReady = isReady;
-        this.name = name;
-        this.profilePicture = profilePicture;
-        this.mana = 1;
         this.cardsInHand = 0;
         this.hp = new Constant(hp);
-        this.numberType = NumberType.CONSTANT;
-        this.maxMana = 1;
         this.playerNumber = playerNumber;
     }
 

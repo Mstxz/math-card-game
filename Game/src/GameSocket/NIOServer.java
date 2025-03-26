@@ -23,6 +23,7 @@ public class NIOServer extends Thread {
     private ByteBuffer buffer;
     private long gameStarting;
     private ServerInfo serverInfo;
+    private GameState gameState;
 
 
     public static NIOServer getInstance() {

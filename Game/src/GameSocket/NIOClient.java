@@ -195,14 +195,12 @@ public class NIOClient extends Game {
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
                     Request serverReq = Request.decodeBytes(buffer.array());
-                    String data = new String(buffer.array(),buffer.position(),byteRead);
-                    String[] arg = data.split(" ");
                     if(currentState == ClientState.PLAY){
-                        switch (arg[0]){
-                            case "PLAY":
+                        switch (serverReq.getOperation()){
+                            case DRAW:
                                 // other play card
                                 break;
-                            case "DRAW":
+                            case CARD:
                                 // other draw card
                                 break;
                         }
@@ -212,7 +210,20 @@ public class NIOClient extends Game {
                     }
                     buffer.clear();
                 }
+                for (Iterator<Request> it = events.iterator(); it.hasNext(); ) {
+                    Request e = it.next();
+                    switch (e.getOperation()){
+                        case READY:
+                            buffer.clear().put(e.encodeBytes()).flip();
+                            while (buffer.hasRemaining()){
+                                channel.write(buffer);
+                            }
+                            buffer.clear();
+                            break;
 
+                    }
+                    it.remove();
+                }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
