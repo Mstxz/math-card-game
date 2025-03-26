@@ -11,7 +11,8 @@ public enum CardType {
         return switch (this){
             case RED -> "Red";
             case BLUE -> "Blue";
-            case GREEN, YELLOW -> "Green";
+            case GREEN -> "Green";
+            case YELLOW -> "Yellow";
         };
     }
 }
