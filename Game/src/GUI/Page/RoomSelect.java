@@ -1,14 +1,10 @@
 
 package GUI.Page;
 
-import GUI.Component.ButtonPanelComponent;
-import GUI.Component.ExitButton;
-import GUI.Component.Loader;
-import GUI.Component.PlayerPanelComponent;
+import GUI.Component.*;
 import GUI.Router;
 import GameSocket.NIOClient;
 import GameSocket.NIOServer;
-import Gameplay.Player;
 import utils.SharedResource;
 
 import javax.swing.*;
@@ -16,7 +12,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 
 
 public class RoomSelect extends Page implements ActionListener {
@@ -25,8 +20,8 @@ public class RoomSelect extends Page implements ActionListener {
     private JLabel header;
     private JLabel createRoomLabel;
     private JLabel joinRoomLabel;
-    private JButton createButton;
-    private JButton joinButton;
+    private PlayerVSPlayerSelectButton  createButton;
+    private PlayerVSPlayerSelectButton  joinButton;
     private JTextField hostIpField;
     private ExitButton exitLabel;
     private boolean loading;
@@ -46,13 +41,32 @@ public class RoomSelect extends Page implements ActionListener {
         joinRoomLabel.setBackground(SharedResource.SIAMESE_BRIGHT);
         joinRoomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        createButton = new JButton("Create");
-        createButton.setBorder(new EmptyBorder(10,60,10,60));
+        createButton = new PlayerVSPlayerSelectButton("Create");
+        createButton.setPreferredSize(new Dimension(350, 80));
+
+        JLabel createButtonLabel = new JLabel("                     Create                     ", SwingConstants.CENTER);
+        createButtonLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        createButtonLabel.setFont(SharedResource.getCustomSizeFont(28));
+        createButtonLabel.setForeground(new Color(102, 142, 169));
+        createButtonLabel.setBounds(0, 0, 356, 99);
+        createButton.add(createButtonLabel);
+//        createButton.setBorder(new EmptyBorder(10,60,10,60));
+//        createButton.setPreferredSize(new Dimension(200,60));
         createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        joinButton = new JButton("Join");
-        joinButton.setBorder(new EmptyBorder(10,60,10,60));
-        joinButton.setPreferredSize(new Dimension(200,60));
+        joinButton = new PlayerVSPlayerSelectButton ("Join");
+        joinButton.setPreferredSize(new Dimension(350, 80));
+
+        JLabel joinButtonLabel = new JLabel("                        Join                        ", SwingConstants.CENTER);
+        joinButtonLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        joinButtonLabel.setFont(SharedResource.getCustomSizeFont(28));
+        joinButtonLabel.setForeground(new Color(102, 142, 169));
+        joinButtonLabel.setBounds(0, 0, 356, 99);
+        joinButton.add(joinButtonLabel);
+        joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+//        joinButton.setBorder(new EmptyBorder(10,60,10,60));
+//        joinButton.setPreferredSize(new Dimension(200,60));
         joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         hostIpField = new JTextField();

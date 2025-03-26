@@ -52,10 +52,10 @@ public class GameSetting extends JPanel implements ActionListener {
         revertButton.setOpaque(false);
         revertButton.setForeground(Color.BLACK);
         revertButton.setBorder(BorderFactory.createCompoundBorder(
-                new RoundBorder(new Color(102, 142, 169), new Color(98, 86, 77), 3, 30),  // ขอบนอก (เข้ม)
+                new RoundBorder(new Color(102, 142, 169), new Color(98, 86, 77), 4, 36),  // ขอบนอก (เข้ม)
                 BorderFactory.createCompoundBorder(
-                        new RoundBorder(new Color(163, 190, 208), new Color(163, 190, 208), 12, 30), // ขอบกลาง (กลาง)
-                        new RoundBorder(new Color(216, 220, 223), new Color(216, 220, 223), 1, 30)   // ขอบใน (อ่อน)
+                        new RoundBorder(new Color(163, 190, 208), new Color(163, 190, 208), 8, 28), // ขอบกลาง (กลาง)
+                        new RoundBorder(new Color(216, 220, 223), new Color(216, 220, 223), 2, 12)   // ขอบใน (อ่อน)
                 )
         ));
         revertButton.setLayout(null);
@@ -75,10 +75,10 @@ public class GameSetting extends JPanel implements ActionListener {
         applyButton.setOpaque(false);
         applyButton.setForeground(Color.BLACK);
         applyButton.setBorder(BorderFactory.createCompoundBorder(
-                new RoundBorder(new Color(102, 142, 169), new Color(98, 86, 77), 3, 30),  // ขอบนอก (เข้ม)
+                new RoundBorder(new Color(102, 142, 169), new Color(98, 86, 77), 4, 36),  // ขอบนอก (เข้ม)
                 BorderFactory.createCompoundBorder(
-                        new RoundBorder(new Color(163, 190, 208), new Color(163, 190, 208), 12, 30), // ขอบกลาง (กลาง)
-                        new RoundBorder(new Color(216, 220, 223), new Color(216, 220, 223), 1, 30)   // ขอบใน (อ่อน)
+                        new RoundBorder(new Color(163, 190, 208), new Color(163, 190, 208), 8, 28), // ขอบกลาง (กลาง)
+                        new RoundBorder(new Color(216, 220, 223), new Color(216, 220, 223), 2, 12)   // ขอบใน (อ่อน)
                 )
         ));
         applyButton.setLayout(null);
