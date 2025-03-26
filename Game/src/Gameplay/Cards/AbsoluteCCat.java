@@ -1,7 +1,6 @@
 package Gameplay.Cards;
 
-import GUI.CardAction;
-import GUI.CardActionType;
+import Gameplay.CardAction.*;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -25,7 +24,9 @@ public class AbsoluteCCat extends Card {
     @Override
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new CardAction(CardActionType.SET_HP,getReceiver(self,enemy).getPlayerNumber()));
+        Player receiver = this.getReceiver(self,enemy);
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
+        arr.add(new SetHp(new Constant(Math.abs(((Constant)(self.getHp())).getNumber())),receiver));
         return arr;
     }
 }

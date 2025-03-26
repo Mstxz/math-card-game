@@ -1,6 +1,9 @@
 package Gameplay.Cards;
 
+import Gameplay.CardAction.*;
 import Gameplay.*;
+
+import java.util.ArrayList;
 
 public class CatClown extends Card implements HaveCondition {
     public CatClown(){
@@ -17,5 +20,15 @@ public class CatClown extends Card implements HaveCondition {
     @Override
     public boolean checkCondition(Player user, Player receiver) {
         return receiver.getHand().size()>0;
+    }
+
+    @Override
+    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
+        ArrayList<CardAction> arr = new ArrayList<CardAction>();
+        Player receiver = this.getReceiver(self,enemy);
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
+        int index = (int) (Math.random()*enemy.getHand().size())%enemy.getHand().size();
+        arr.add(new GetCard(receiver,enemy.getHand().get(index)));
+        return arr;
     }
 }

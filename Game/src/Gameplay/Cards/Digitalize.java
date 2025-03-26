@@ -1,7 +1,6 @@
 package Gameplay.Cards;
 
-import GUI.CardAction;
-import GUI.CardActionType;
+import Gameplay.CardAction.*;
 import Gameplay.*;
 import Gameplay.Numbers.Constant;
 
@@ -41,12 +40,27 @@ public class Digitalize extends Card implements HaveCondition {
                 sum = sum*(-1);
             }
             enemy.setHp(new Constant(sum));
+            self.setMana(self.getMana()-this.manaUsed);
         }
     }
     @Override
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new CardAction(CardActionType.SET_HP,getReceiver(self,enemy).getPlayerNumber()));
+        Player receiver = this.getReceiver(self,enemy);
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
+        int pow2 = 1;
+        int sum = 0;
+        char[] enemyHp = (String.valueOf(((Constant)(enemy.getHp())).getNumber())).toCharArray();
+        for (int i = enemyHp.length-1;i>=0;i--){
+            if (enemyHp[i] == '1'){
+                sum+=pow2;
+            }
+            pow2*=2;
+        }
+        if (enemyHp[0] == '-'){
+            sum = sum*(-1);
+        }
+        arr.add(new SetHp(new Constant(sum),receiver));
         return arr;
     }
 }
