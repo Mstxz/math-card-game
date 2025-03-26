@@ -1,13 +1,10 @@
 package Gameplay.Cards;
 
-import Gameplay.Card;
-import Gameplay.CardType;
-import Gameplay.Difficulty;
-import Gameplay.Player;
+import Gameplay.*;
 
 import java.util.HashMap;
 
-public class JesusCat extends Card {
+public class JesusCat extends Card implements HaveCondition {
     public JesusCat(){
         super("JesusCat","Add the card with highest difficulty which user has recently discarded to their hands.",7, Difficulty.EASY, CardType.YELLOW);
     }
@@ -32,5 +29,10 @@ public class JesusCat extends Card {
             }
         }
         self.getHand().add(tmp);
+    }
+
+    @Override
+    public boolean checkCondition(Player user, Player receiver) {
+        return !user.getDeck().getDispose().isEmpty();
     }
 }
