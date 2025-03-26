@@ -167,21 +167,21 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         // Left Panel (3x2 grid with images)
         paLeft = new TempDeckZone();
-        paLeft.setLayout(new FlowLayout(FlowLayout.LEFT));
-        paLeft.setPreferredSize(new Dimension(300,1000));
+        paLeft.setLayout(new FlowLayout(FlowLayout.CENTER,0,20));
         paLeft.setOpaque(false);
 
-        JScrollPane cardScrollPane = new JScrollPane(paLeft);
+
         /*เปิดแถบเลื่อน
+
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         //ปิดแถบเลื่อน
+        JScrollPane cardScrollPane = new JScrollPane(paLeft);
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         cardScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
-
         deckOption = new JPanel(new GridLayout(1,2));
         deckOption.setPreferredSize(new Dimension(300,100));
 
@@ -229,7 +229,9 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25)) {
             @Override
             protected void paintComponent(Graphics g) {
-                this.setPreferredSize(calculateDimension());
+                int column = getWidth() / 225;
+                int row = Math.ceilDiv(getComponentCount(),column);
+                this.setPreferredSize(new Dimension(300,row * (getComponent(0).getHeight() + 25) + 10));
                 super.paintComponent(g);
             }
         };

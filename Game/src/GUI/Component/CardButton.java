@@ -108,15 +108,17 @@ public class CardButton extends JPanel implements MouseListener {
                 deckZonePanel.removeCard(cardLabel);
                 deckZonePanel.revalidate();
                 deckZonePanel.repaint();
-                return;
             }
         }
         else if (e.getButton() == MouseEvent.BUTTON1){
             if (cardLabel.getAmount() == 0){
                 deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
+
             }
             cardLabel.setAmount(cardLabel.getAmount() + 1);
+            deckZonePanel.revalidate();
+            deckZonePanel.repaint();
         }
     }
 

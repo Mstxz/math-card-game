@@ -3,6 +3,7 @@ package GUI.Component;
 import Gameplay.Card;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 
 public class TempDeckZone extends JPanel {
@@ -12,6 +13,9 @@ public class TempDeckZone extends JPanel {
         super();
     }
 
+
+
+
     public void registerButton(CardLabel c, CardButton owner){
         cardLabelHashMap.put(c,owner);
     }
@@ -19,11 +23,17 @@ public class TempDeckZone extends JPanel {
     public void addCard(CardLabel c){
         allCardLabel.add(c);
         this.add(c);
+        this.setPreferredSize(new Dimension(400,getComponentCount() * (120) + 10));
+        revalidate();
+        repaint();
     }
 
     public void removeCard(CardLabel c){
         this.remove(c);
         this.allCardLabel.remove(c);
+        this.setPreferredSize(new Dimension(400,getComponentCount() * (120) + 10));
+        revalidate();
+        repaint();
     }
 
     public HashSet<CardLabel> createCardLabelSet(HashMap<Card,Integer> cardIntegerHashMap){
@@ -61,5 +71,8 @@ public class TempDeckZone extends JPanel {
         while (i.hasNext()){
             this.add((CardLabel)i.next());
         }
+        this.setPreferredSize(new Dimension(400,getComponentCount() * (120) + 10));
+        revalidate();
+        repaint();
     }
 }

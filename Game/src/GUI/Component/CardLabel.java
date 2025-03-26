@@ -36,7 +36,7 @@ public class CardLabel extends JPanel {
         this.add(miniPicture,BorderLayout.WEST);
         this.add(cardAmountLabel,BorderLayout.EAST);
         this.setBackground(SharedResource.SIAMESE_LIGHT);
-        this.setPreferredSize(new Dimension(300,100));
+        this.setPreferredSize(new Dimension(400,100));
     }
 
     public int getAmount() {
