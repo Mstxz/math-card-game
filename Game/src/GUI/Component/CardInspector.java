@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import AudioPlayer.SFXPlayer;
+import AudioPlayer.SFXSwitcher;
 import GUI.Page.AvengerAssembleGUI;
 
 import java.awt.event.*;
@@ -88,12 +89,7 @@ public class CardInspector extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (card.getName().equals("LogAndRoll")){
-			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_Down.wav", -10.0f); //remove this comment when rock n roll card is done
-		}
-		else {
-			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Desc_Down.wav", -10.0f);
-		}
+		SFXSwitcher.cardDescDown(card);
 		this.removeAll();
 		this.removeMouseListener(this);
 		this.setVisible(false);
