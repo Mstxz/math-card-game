@@ -4,6 +4,9 @@ import GUI.Router;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -25,6 +28,12 @@ public class MainMenuPage extends Page implements ActionListener {
     private JLabel  Title;
     private Image   bg;
 
+    private Random rand = new Random();
+    private ArrayList<String> playlist = new ArrayList<>(Arrays.asList(
+            "Game/src/assets/Audio/BGM/Lobby_BGM_1.wav",
+            "Game/src/assets/Audio/BGM/Lobby_BGM_2.wav"
+    ));
+
     public MainMenuPage() {
         super();
         try {
@@ -41,15 +50,8 @@ public class MainMenuPage extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
-        if((BGMPlayer.getBgmClip() == null || !BGMPlayer.getFilepath().equals("Game/src/assets/Audio/BGM/Lobby_BGM.wav")) || BGMPlayer.checkIfPlaying() == false ){
-            if (BGMPlayer.getBgmClip() == null) {
-                BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
-            }
-            else {
-                BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
-            }
-        }
+        //BGMPlayer.playlistRunner(playlist);
+        BGMPlayer.playBackgroundMusic(playlist.get(1));
     }
 
     private void initComponents() {

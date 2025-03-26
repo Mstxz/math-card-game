@@ -141,7 +141,9 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JPanel paRight;
     private JLabel title;
     private JPanel deckShow;
+    private JPanel deckOption;
     private JButton saveButton;
+    private JButton createButton;
     private JComboBox deckNameField;
     private PopupMenu popupMenu;
     private ArrayList<CardButton> cardButtonArrayList;
@@ -180,7 +182,11 @@ public class DeckCreatorPage extends Page implements ActionListener {
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
 
+        deckOption = new JPanel(new GridLayout(1,2));
+        deckOption.setPreferredSize(new Dimension(300,100));
+
         saveButton = new JButton("Save");
+        createButton = new JButton("Create");
 
         popupMenu = new PopupMenu();
         PopupItem.menu = popupMenu;
@@ -197,7 +203,9 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckShow = new JPanel();
         deckShow.setLayout(new BorderLayout(0,10));
         deckShow.add(cardScrollPane,BorderLayout.CENTER);
-        deckShow.add(saveButton,BorderLayout.SOUTH);
+        deckShow.add(deckOption,BorderLayout.SOUTH);
+        deckOption.add(saveButton,BorderLayout.WEST);
+        deckOption.add(createButton,BorderLayout.EAST);
         deckShow.add(PopupMenuPanel,BorderLayout.NORTH);
         deckShow.setBackground(SharedResource.SIAMESE_LIGHT);
 
