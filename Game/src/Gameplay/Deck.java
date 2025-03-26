@@ -32,7 +32,7 @@ public class Deck {
                 }
                 else {
                     c = Card.createCard(info[0]);
-                    for (int i = 0;i<Integer.parseInt(info[1]);i++){
+                    for (int i = 0;i<Integer.parseInt(info[info.length-1]);i++){
                         d.addCard(c);
                     }
                 }

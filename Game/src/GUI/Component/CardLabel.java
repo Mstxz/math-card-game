@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.Objects;
 
 public class CardLabel extends JPanel {
 
@@ -60,5 +61,17 @@ public class CardLabel extends JPanel {
 
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CardLabel cardLabel)) return false;
+        return Objects.equals(name, cardLabel.name) && cardType == cardLabel.cardType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cardType);
     }
 }
