@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -29,6 +31,12 @@ public class SelGameMode extends Page implements ActionListener {
     private JButton backButton = new JButton("Back");
     private Image bg;
 
+    private Random rand = new Random();
+    private ArrayList<String> playlist = new ArrayList<>(Arrays.asList(
+            "Game/src/assets/Audio/BGM/Lobby_BGM_1.wav",
+            "Game/src/assets/Audio/BGM/Lobby_BGM_2.wav"
+    ));
+
     public SelGameMode() {
         super();
         // Ensure the background image exists
@@ -47,9 +55,15 @@ public class SelGameMode extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
-        if(!BGMPlayer.getFilepath().equals("Game/src/assets/Audio/BGM/Lobby_BGM.wav")){
-            BGMPlayer.stopBackgroundMusic();
-            BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", -10.0f);
+        int randomIndex = rand.nextInt(playlist.size());
+        if((BGMPlayer.getBgmClip() == null || !playlist.contains(BGMPlayer.getFilepath())) || !BGMPlayer.checkIfPlaying()){
+            if (BGMPlayer.getBgmClip() == null) {
+                BGMPlayer.playBackgroundMusic(playlist.get(1/*randomIndex*/));
+            }
+            else {
+                BGMPlayer.stopBackgroundMusic();
+                BGMPlayer.playBackgroundMusic(playlist.get(1/*randomIndex*/));
+            }
         }
     }
 

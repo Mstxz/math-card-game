@@ -6,12 +6,13 @@ import utils.Calculation;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class BGMPlayer {
     private static Clip bgmClip;
     private static String filepath;
 
-    public static void playBackgroundMusic(String musicFile, float volume) {
+    public static void playBackgroundMusic(String musicFile) {
         try {
             File audioFile = new File(musicFile);
             filepath = musicFile;
