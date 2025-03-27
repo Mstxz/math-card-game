@@ -138,7 +138,7 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == doneButton) {
             if(reciever != null){
-                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav", 0f);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
                 this.setVisible(false);
                 avengerAssembleGUI.setBackdropDim(false);
                 avengerAssembleGUI.playCard(card,reciever);

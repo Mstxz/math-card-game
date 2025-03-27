@@ -1,5 +1,6 @@
 package GUI.Setting.Component;
 
+import AudioPlayer.SFXPlayer;
 import GUI.Component.RotatingSettingOption;
 import GUI.Component.RoundBorder;
 import GUI.Setting.Controller.SettingController;
@@ -110,6 +111,7 @@ public class GameSetting extends JPanel implements ActionListener {
             UserPreference.getInstance().setMusicVolume(musicVolume.getValue());
             SettingController.update();
             SettingController.updatePreference();
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Confirm.wav");
         }
     }
 }

@@ -1,6 +1,7 @@
 
 package GUI.Page;
 
+import AudioPlayer.BGMPlayer;
 import GUI.Component.ButtonPanelComponent;
 import GUI.Component.ExitButton;
 import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
@@ -31,6 +32,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
     //private Image bg;
 
     public PlayerVsPlayer(NIOClient client) {
+        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/PVP_Lobby_BGM.wav");
         this.client = client;
         list = new ArrayList<Player>();
         mainPanel.setLayout(new BorderLayout(20, 0));

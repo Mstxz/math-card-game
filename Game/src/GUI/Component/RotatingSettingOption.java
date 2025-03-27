@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import AudioPlayer.SFXPlayer;
 import utils.ResourceLoader;
 
 import javax.swing.*;
@@ -58,6 +59,7 @@ public class RotatingSettingOption extends JPanel implements MouseListener {
             }
         }
         this.currentOptionText.setText(optionList.get(currentIndex));
+        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
     }
 
     @Override

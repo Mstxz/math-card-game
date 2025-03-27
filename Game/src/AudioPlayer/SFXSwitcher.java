@@ -18,14 +18,14 @@ public class SFXSwitcher {
     public static void cardDescUP(Card c){
         switch (c.getName()){
             case "LogAndRoll":
-                SFXPlayer.playSound(defaultclickUP, -10.0f);
-                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_UP.wav", -10.0f);
+                SFXPlayer.playSound(defaultclickUP);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_UP.wav");
                 break;
             case "JesusCat":
-                SFXPlayer.playSound(defaultclickUP, -10.0f);
-                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Jesus_easterSFX_UP.wav", -10.0f);
+                SFXPlayer.playSound(defaultclickUP);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Jesus_easterSFX_UP.wav");
             default:
-                SFXPlayer.playSound(defaultclickUP, -10.0f);
+                SFXPlayer.playSound(defaultclickUP);
                 break;
         }
     }
@@ -33,11 +33,11 @@ public class SFXSwitcher {
     public static void cardDescDown(Card c){
         switch (c.getName()){
             case "LogAndRoll":
-                SFXPlayer.playSound(defaultclickDown, -10.0f);
-                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_Down.wav", -10.0f);
+                SFXPlayer.playSound(defaultclickDown);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_Down.wav");
                 break;
             default:
-                SFXPlayer.playSound(defaultclickDown, -10.0f);
+                SFXPlayer.playSound(defaultclickDown);
                 break;
         }
     }
@@ -45,11 +45,11 @@ public class SFXSwitcher {
     public static void deckSelectSwitcher(String c, MouseEvent e){
         switch (c){
             case "LogAndRoll":
-                SFXPlayer.playSound(defaultCardDeckSelection, -10.0f);
-                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_Deck.wav", -10.0f);
+                SFXPlayer.playSound(defaultCardDeckSelection);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_Deck.wav");
                 break;
             default:
-                SFXPlayer.playSound(defaultCardDeckSelection, -10.0f);
+                SFXPlayer.playSound(defaultCardDeckSelection);
                 break;
         }
     }

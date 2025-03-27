@@ -27,7 +27,7 @@ public class ExitButton extends JButton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav", -10.0f);
+        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
         cleanUp();
         Router.setRoute(route, null);
     }

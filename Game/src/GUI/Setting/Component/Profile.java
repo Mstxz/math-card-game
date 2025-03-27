@@ -1,5 +1,6 @@
 package GUI.Setting.Component;
 
+import AudioPlayer.SFXPlayer;
 import GUI.Setting.Controller.SettingController;
 import GUI.Setting.Controller.UserProfile;
 import GUI.Setting.UserPreference;
@@ -136,6 +137,7 @@ public class Profile extends JPanel implements ActionListener {
             name.setEditable(false);
             name.setFocusable(false);
             name.setOpaque(false);
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Confirm.wav");
         }
         else if (e.getSource().equals(renameButton)){
             if (((JButton)(e.getSource())).getText().equals("Rename")){
@@ -143,6 +145,7 @@ public class Profile extends JPanel implements ActionListener {
                 name.setOpaque(true);
                 name.setFocusable(true);
                 name.setEditable(true);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
             }
             else if (((JButton)(e.getSource())).getText().equals("Cancel")){
                 name.setEditable(false);
@@ -150,6 +153,7 @@ public class Profile extends JPanel implements ActionListener {
                 renameButton.setText("Rename");
                 name.setFocusable(false);
                 name.setOpaque(false);
+                SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_cancel.wav");
             }
         }
         else if (e.getSource() instanceof JButton){
