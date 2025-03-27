@@ -91,10 +91,10 @@ public class SelGameMode extends Page implements ActionListener {
         setButton(playerButton);
         ButtonZone.add(botButton);
         setButton(botButton);
-        ButtonZone.add(backButton);
-        setButton(backButton);
         ButtonZone.add(selectBotButton);
         setButton(selectBotButton);
+        ButtonZone.add(backButton);
+        setButton(backButton);
 //        ButtonZone.add(exitButton);
 //        setButton(exitButton);
 
