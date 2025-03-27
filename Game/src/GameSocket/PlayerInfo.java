@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PlayerInfo extends Player {
     private boolean isReady;
@@ -27,15 +28,47 @@ public class PlayerInfo extends Player {
         this.playerNumber = playerNumber;
     }
 
+    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady,int cardsInHand, ArrayList<Card> hand) {
+        super(name,profilePicture);
+        this.isReady = isReady;
+        this.cardsInHand = cardsInHand;
+        this.hp = new Constant(hp);
+        this.playerNumber = playerNumber;
+        this.hand = hand;
+    }
+
+
     public byte[] encodeBytes(){
-        ByteBuffer bf = ByteBuffer.allocate(20+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length);
+        ByteBuffer bf = ByteBuffer.allocate(24+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length);
         bf.putInt(playerNumber);
         bf.putInt(100);
         bf.putInt(name.getBytes(StandardCharsets.UTF_8).length);
         bf.put(name.getBytes(StandardCharsets.UTF_8));
         bf.putInt(profilePicture.getBytes(StandardCharsets.UTF_8).length);
-        bf.put(profilePicture.getBytes());
+        bf.put(profilePicture.getBytes(StandardCharsets.UTF_8));
         bf.putInt((isReady ? 1: 0));
+        bf.putInt(cardsInHand);
+        return bf.array();
+    }
+
+    public byte[] encodeBytesIncludeHand(){
+        int handLength = 0;
+        for (Card card:hand){
+            handLength += 4 + card.encode().length;
+        }
+        ByteBuffer bf = ByteBuffer.allocate(24+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length + handLength);
+        bf.putInt(playerNumber);
+        bf.putInt(100);
+        bf.putInt(name.getBytes(StandardCharsets.UTF_8).length);
+        bf.put(name.getBytes(StandardCharsets.UTF_8));
+        bf.putInt(profilePicture.getBytes(StandardCharsets.UTF_8).length);
+        bf.put(profilePicture.getBytes(StandardCharsets.UTF_8));
+        bf.putInt((isReady ? 1: 0));
+        bf.putInt(cardsInHand);
+        for (Card card:hand){
+            bf.putInt(card.encode().length);
+            bf.put(card.encode());
+        }
         return bf.array();
     }
 
@@ -43,8 +76,8 @@ public class PlayerInfo extends Player {
         if (bytes.length == 0) {
             return null;
         }
-        DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
-        try {
+        try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes))){
+            int byteRead = 0;
             int playerID = in.readInt();
             int playerHP = in.readInt();
             int nameByte = in.readInt();
@@ -56,7 +89,19 @@ public class PlayerInfo extends Player {
             if (ready == 1){
                 isReady = true;
             }
-            return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady);
+            int cardInHand = in.readInt();
+            byteRead = nameByte + profilePictureByte + 24;
+            if (byteRead == bytes.length){
+                return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady);
+            }
+            ArrayList<Card> cards = new ArrayList<>();
+            while (byteRead != bytes.length){
+                int cardBytes = in.readInt();
+                byteRead += 4;
+                Card card = Card.decode(Arrays.copyOfRange(bytes,byteRead,byteRead + cardBytes));
+                cards.add(card);
+            }
+            return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady,cardInHand,cards);
         }
         catch(IOException e){
             e.printStackTrace();
@@ -159,6 +204,7 @@ public class PlayerInfo extends Player {
                 ", numberType=" + numberType +
                 ", maxMana=" + maxMana +
                 ", playerNumber=" + playerNumber +
+                ", hand=" + hand +
                 '}';
     }
 }

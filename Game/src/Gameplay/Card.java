@@ -1,9 +1,15 @@
 package Gameplay;
 
+import GameSocket.PlayerInfo;
 import Gameplay.CardAction.*;
 import Gameplay.Cards.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -67,6 +73,17 @@ public abstract class Card {
         }
         return null;
     }
+
+    public static Card createCard(String name, int number,CardType cardType){
+        switch (name){
+            case "Plus":
+                return new Plus(number,cardType);
+            case "Minus":
+                return new Minus(number,cardType);
+        }
+        return null;
+    }
+
     public static Card createCard(String name){
         try {
             Class<?> cclass = Class.forName("Gameplay.Cards."+name);
@@ -93,6 +110,37 @@ public abstract class Card {
 //                return new Digitalize();
 //        }
 //        return null;
+    }
+    public byte[] encode(){
+        byte[] nameBytes = getClass().getSimpleName().getBytes(StandardCharsets.UTF_8);
+        ByteBuffer bf = ByteBuffer.allocate(8+nameBytes.length);
+        bf.putInt(1);
+        bf.putInt(type.ordinal());
+        bf.put(nameBytes);
+        return bf.array();
+    }
+
+    public static Card decode(byte[] bytes){
+        DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+        try {
+            int segmentCount = in.readInt();
+            if (segmentCount == 1){
+                String cardName = in.readUTF();
+                return Card.createCard(cardName);
+            }
+            else if (segmentCount == 3){
+                int cardTypeNumber = in.readInt();
+                CardType cardType = CardType.values()[cardTypeNumber];
+                int cardNumber = in.readInt();
+                String cardName = in.readUTF();
+                return Card.createCard(cardName,cardNumber,cardType);
+            }
+
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setName(String name) {

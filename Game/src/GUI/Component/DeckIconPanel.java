@@ -31,14 +31,8 @@ public class DeckIconPanel extends JPanel {
 
 
         deckIcon = loadPicture("assets/Component/deckIcon.png",72,80).getImage();
-        System.out.println(deckIcon);
         this.setPreferredSize(new Dimension(72,80));
-        System.out.println("Panel width: " + this.getWidth());
-        System.out.println("Panel height: " + this.getHeight());
         this.setBackground(SharedResource.SIAMESE_BRIGHT);
-
-        System.out.println("Image width: " + deckIcon.getWidth(null));
-        System.out.println("Image height: " + deckIcon.getHeight(null));
 
         this.update();
         //this.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,5));
@@ -60,11 +54,7 @@ public class DeckIconPanel extends JPanel {
     }
 
     private void update(){
-        ArrayList<Card> d = player.getDeck().getCards();
-        cardCount = 0;
-        for (Card c:d){
-            cardCount++;
-        }
+        cardCount = player.getDeck().getCards().size();
         this.repaint();
     }
 

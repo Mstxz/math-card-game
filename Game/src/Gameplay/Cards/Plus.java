@@ -9,6 +9,11 @@ import Gameplay.Difficulty;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Plus extends Card {
@@ -37,4 +42,16 @@ public class Plus extends Card {
         arr.add(new SetHp(receiver.getHp().add(new Constant(this.number)),receiver));
         return arr;
     }
+
+    @Override
+    public byte[] encode(){
+        byte[] nameBytes = getClass().getSimpleName().getBytes(StandardCharsets.UTF_8);
+        ByteBuffer bf = ByteBuffer.allocate(12+nameBytes.length);
+        bf.putInt(3);
+        bf.putInt(type.ordinal());
+        bf.putInt(number);
+        bf.put(nameBytes);
+        return bf.array();
+    }
+
 }

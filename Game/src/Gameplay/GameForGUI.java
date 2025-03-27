@@ -47,29 +47,10 @@ public class GameForGUI extends Game {
 
     @Override
     public void run(){
-        Player a = turnOrder.getFirst();
-        Player b = turnOrder.getLast();
-
-        b.setHp(new Constant(100));
-        a.setHp(new Constant(100));
-
-        a.getDeck().shuffle();
-        b.getDeck().shuffle();
-        for(int i=0;i<4;i++){
-            a.draw();
-            b.draw();
-        }
-        b.draw();
-        if (a == getPlayer()){
-            observer.onGameStart(0);
-        }
         for (int i = 0 ; i<2*20; i++){
             Player inPlay = turnOrder.get(i%2);
             inPlay.draw();
             observer.onHandChanged();
-            //System.out.println("Before re-render: "+inPlay.getHand().size());
-            //System.out.println("After re-render: "+inPlay.getHand().size());
-
             if(inPlay instanceof Bot){
                 int targetId = ((int)(Math.random()*2));
                 while (targetId == i % 2){
@@ -123,7 +104,21 @@ public class GameForGUI extends Game {
 
     @Override
     public void notifyGameStart() {
+        Player a = turnOrder.getFirst();
+        Player b = turnOrder.getLast();
 
+        b.setHp(new Constant(100));
+        a.setHp(new Constant(100));
+
+        a.getDeck().shuffle();
+        b.getDeck().shuffle();
+        for(int i=0;i<4;i++){
+            a.draw();
+            b.draw();
+        }
+        b.draw();
+
+        observer.onGameStart(0);
     }
 
     @Override

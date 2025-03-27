@@ -33,4 +33,8 @@ public class GameState {
     public boolean isAllInGame(){
         return countLoaded == players.size();
     }
+
+    public void setCurrentTurn(int currentTurn) {
+        this.currentTurn = currentTurn;
+    }
 }

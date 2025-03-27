@@ -24,6 +24,7 @@ public class NIOClient extends Game {
     private boolean lobbyLoaded;
     private boolean gameStarted;
     private final ArrayList<LobbyObserver> lobbyObservers;
+    private int currentTurn;
     public NIOClient(){
         super();
         lobbyObservers = new ArrayList<>();
@@ -31,7 +32,7 @@ public class NIOClient extends Game {
         this.currentState = ClientState.IDLE;
         this.lobbyLoaded = false;
         this.gameStarted = false;
-
+        this.currentTurn = 0;
     }
     public void connect(String hostIP){
         try {
@@ -59,6 +60,7 @@ public class NIOClient extends Game {
                 if(serverRes.getOperation() == ProtocolOperation.ACKN){
                     System.out.println("Acknowledged");
                     playerOrder = ByteBuffer.wrap(serverRes.getData()).getInt();
+                    System.out.println("Player Index:" + playerOrder);
                 }
 
             }
@@ -135,6 +137,7 @@ public class NIOClient extends Game {
                                 channel.write(buffer);
                             }
                             buffer.clear();
+
                             break;
                         case LOBBY:
                             //System.out.println("BRUH");
@@ -144,7 +147,7 @@ public class NIOClient extends Game {
                                     PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
                                     turnOrder.add(playerInfo);
                                 }
-
+                                System.out.println(turnOrder);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
@@ -154,17 +157,25 @@ public class NIOClient extends Game {
                             try (RequestReader r = new RequestReader(serverReq)){
                                 int count = r.readInt();
                                 System.out.println(count);
-                                if (count == 1){
-                                    gameStarted = true;
 
-                                    notifyLobbyObserver();
-                                    currentState = ClientState.WAIT;
-                                }
 
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
 
+                            break;
+                        case START_GAME:
+
+                            try (RequestReader reader = new RequestReader(serverReq)){
+                                currentTurn = reader.readInt();
+                                System.out.println("Current Turn: " + currentTurn);
+                            }
+                            catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                            currentState = ClientState.WAIT;
+                            gameStarted = true;
+                            notifyLobbyObserver();
                             break;
                         default:
                             //System.out.println(buffer.asLongBuffer().get());
@@ -187,42 +198,36 @@ public class NIOClient extends Game {
                 }
 
             }
-            System.out.println("Bruh");
             while (channel.isOpen() && (currentState == ClientState.PLAY || currentState == ClientState.WAIT)) {
                 buffer.clear();
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
                     Request serverReq = Request.decodeBytes(buffer.array());
                     System.out.println(serverReq.getOperation().name());
-                    if(currentState == ClientState.PLAY){
-                        switch (serverReq.getOperation()){
-                            case DRAW:
-                                // other play card
-                                break;
-                            case CARD:
-                                // other draw card
-                                break;
-                        }
-                    }
-                    else if (currentState == ClientState.WAIT) {
-                        switch (serverReq.getOperation()){
-                            case START_GAME:
-                                try (RequestReader reader = new RequestReader(serverReq)){
-                                    System.out.println("GAMESTART");
-                                    observer.onGameStart(reader.readInt());
+                    switch (serverReq.getOperation()){
+                        case DRAW:
+                            // other play card
+                            break;
+                        case CARD:
+                            // other draw card
+                            break;
+                        case START_TURN:
+                            currentState = ClientState.PLAY;
+                            observer.onTurnArrive();
+                            break;
+                        case LOBBY:
+                            try (RequestReader r = new RequestReader(serverReq)){
+                                turnOrder.clear();
+                                while (!r.reachTheEnd()){
+                                    PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
+                                    turnOrder.add(playerInfo);
                                 }
-                                catch (Exception ex){
-                                    ex.printStackTrace();
-                                }
-                                break;
-                            case START_TURN:
-                                currentState = ClientState.PLAY;
-                                observer.onTurnArrive();
-                                break;
-                            case CARD:
-                                // other draw card
-                                break;
-                        }
+                                System.out.println(turnOrder);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                            notifyLobbyObserver();
+                            break;
                     }
                     buffer.clear();
                 }
@@ -328,7 +333,7 @@ public class NIOClient extends Game {
 
     @Override
     public void notifyGameStart() {
-        this.events.add(new Request(ProtocolOperation.IN_GAME));
+        observer.onGameStart(currentTurn);
     }
 
     @Override

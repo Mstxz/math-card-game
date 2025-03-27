@@ -150,11 +150,9 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 		onHandChanged();
 		updatePlayerHUD();
+		game.notifyGameStart();
 		if (game instanceof GameForGUI){
 			game.start();
-		}
-		else{
-			game.notifyGameStart();
 		}
 		BGMPlayer.stopBackgroundMusic();
 

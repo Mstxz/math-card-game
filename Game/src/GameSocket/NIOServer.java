@@ -241,21 +241,18 @@ public class NIOServer extends Thread {
                             playerState[registeredID.get(client)].setDeckPath(f.getAbsolutePath());
                             serverInfo.updateDeckLoaded(playerState);
                             if (serverInfo.isDeckLoaded()){
-                                lobbyUpdate();
+                                int randomStarter = ((int)(Math.random()*registeredID.size()));
+                                gameState.setCurrentTurn(randomStarter);
+                                Request start = new Request(ProtocolOperation.START_GAME);
+                                start.appendData(randomStarter);
+                                pushUpdate(start);
+                                handStateUpdate();
+                                sendUpdate(new Request(ProtocolOperation.START_TURN),randomStarter);
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
 
-                        break;
-                    case IN_GAME:
-                        gameState.incrementInGameCount();
-                        if (gameState.isAllInGame()){
-                            int randomStarter = ((int)(Math.random()*registeredID.size()));
-                            Request start = new Request(ProtocolOperation.START_GAME);
-                            start.appendData(randomStarter);
-                            pushUpdate(start);
-                        }
                         break;
                     case CARD:
                         Request req = new Request(ProtocolOperation.CARD);
@@ -298,6 +295,31 @@ public class NIOServer extends Thread {
             }
         }
     }
+
+    private void handStateUpdate(){
+        for(PlayerState to:playerState){
+            if(to!= null) {
+                Request serverReq = new Request(ProtocolOperation.LOBBY);
+                for (PlayerState from : playerState) {
+                    if (from != null) {
+                        if (to == from){
+                            serverReq.appendData(from.getPlayerInfo().encodeBytesIncludeHand());
+                        }
+                        else{
+                            serverReq.appendData(from.getPlayerInfo().encodeBytes());
+                        }
+                        System.out.println(serverReq);
+                        //bf.put(from.getPlayerInfo().encodeBytes());
+                    }
+                    else{
+                        serverReq.appendData(new byte[]{});
+                    }
+                }
+                to.getDataOutQueue().add(serverReq);
+            }
+        }
+    }
+
     public void pushUpdate(Request req){
         for(PlayerState ps:playerState){
             if (ps !=null){

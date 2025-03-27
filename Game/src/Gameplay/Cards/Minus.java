@@ -9,6 +9,8 @@ import Gameplay.Difficulty;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Minus extends Card {
@@ -37,4 +39,15 @@ public class Minus extends Card {
         arr.add(new SetHp(receiver.getHp().subtract(new Constant(this.number)),receiver));
         return arr;
     }
+    @Override
+    public byte[] encode(){
+        byte[] nameBytes = getClass().getSimpleName().getBytes(StandardCharsets.UTF_8);
+        ByteBuffer bf = ByteBuffer.allocate(12+nameBytes.length);
+        bf.putInt(3);
+        bf.putInt(type.ordinal());
+        bf.putInt(number);
+        bf.put(nameBytes);
+        return bf.array();
+    }
+
 }

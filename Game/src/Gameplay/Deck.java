@@ -48,6 +48,9 @@ public class Deck {
     public Deck(String name){
         this.name = name;
         this.cards = new ArrayList<Card>();
+        for (int i = 0; i < 40; i++) {
+            cards.add(null);
+        }
         this.dispose = new ArrayList<Card>();
 
     }
