@@ -14,4 +14,8 @@ public abstract class CardAction {
     public CardActionType getType() {
         return type;
     }
+
+    public Player getTarget() {
+        return target;
+    }
 }

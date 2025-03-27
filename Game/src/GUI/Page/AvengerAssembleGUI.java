@@ -11,6 +11,7 @@ import AudioPlayer.*;
 
 import GUI.Component.*;
 import GUI.Component.Game;
+import Gameplay.CardAction.*;
 import Gameplay.*;
 import utils.SharedResource;
 
@@ -151,9 +152,15 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		mainPanel.setVisible(true);
 
 		endTurnButton.addActionListener(this);
-		setPlayerTurn(game.getPlayerOrder() == 0);
-		onCardPlayed();
-		game.start();
+
+		onHandChanged();
+		updatePlayerHUD();
+		if (game instanceof GameForGUI){
+			game.start();
+		}
+		else{
+			game.notifyGameStart();
+		}
 		BGMPlayer.stopBackgroundMusic();
 		int randomIndex = rand.nextInt(playlist.size());
 		BGMPlayer.playBackgroundMusic(playlist.get(randomIndex));
@@ -162,26 +169,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	public void updatePlayerHUD(){
 		playerInfo.updateInfo();
 		enemyInfo.updateInfo();
-	}
-
-	public void playerRenderHand(){
-		UserPanel.RenderHand();
-	}
-
-	public void enemyRenderHand(){
-		OpponentPanel.RenderHand();
-	}
-
-	public void	initCard()
-	{
-
-		OpponentPanel.RenderHand();
-
-		UserPanel.RenderHand();
-	}
-	public boolean isPlayerTurn(){
-		//System.out.println("Called : "+isPlayerTurn);
-		return isPlayerTurn;
 	}
 
 	public void setPlayerTurn(boolean playerTurn) {
@@ -199,6 +186,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		}
 
 	}
+
 
 	public ArrayList<Card> getCardPlayed() {
 		return cardPlayed;
@@ -229,24 +217,20 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			if(c.isPlayable()) {
 				int index = game.getPlayer().getHand().indexOf(c.getCard());
 				Card cardPlayed = game.getPlayer().getHand().remove(index);
+
 				//gui.addCardPlayed(cardPlayed);
 				if (cardPlayed.getType() == CardType.GREEN){
 					showOverlay(new SelectOpponent(game.getPlayer(),opponents,cardPlayed,this),OverlayPlacement.CENTER);
 				}
 				else{
-					cardPlayed.action(game.getPlayer(), getActiveEnemy());
-					game.getPlayer().getDeck().getDispose().add(cardPlayed);
-					onCardPlayed();
-				}
-
-				if (game.isGameEnded()){
-					onGameEnded(Player.checkWin(game.getTurnOrder()));
+					playCard(cardPlayed,getActiveEnemy());
 				}
 			}
 		}
 	}
 
-	public void checkGameEnd(){
+	public void playCard(Card cardPlayed,Player receiver){
+		game.playerPlay(cardPlayed,receiver);
 		if (game.isGameEnded()){
 			onGameEnded(Player.checkWin(game.getTurnOrder()));
 		}
@@ -269,8 +253,33 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		UserPanel = userPanel;
 	}
 
+	public void updatePlayerHand(){
+		UserPanel.RenderHand();
+	}
+
+	public void updateEnemyHand(){
+		OpponentPanel.RenderHand();
+	}
+
 	@Override
-	public void onCardPlayed() {
+	public void onGameStart(int startTurn) {
+		setPlayerTurn(game.getPlayerOrder() == startTurn);
+	}
+
+	@Override
+	public void onCardPlayed(ArrayList<CardAction> actionsTaken) {
+//		for (CardAction action:actionsTaken){
+//			if (action.getTarget() == game.getPlayer()){
+//				switch (action.getType()){
+//					case DRAW -> {
+//						updatePlayerHand();
+//					}
+//					case DISCARD -> {
+//						updatePlayerHand();
+//					}
+//				}
+//			}
+//		}
 		onHandChanged();
 		playerInfo.updateInfo();
 		enemyInfo.updateInfo();

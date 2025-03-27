@@ -15,7 +15,7 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
     private ArrayList<PlayerLobbyCard> slot;
     private int ownerID;
 
-    public PlayerPanelComponent(ArrayList<PlayerInfo> playerInfos,int ownerID) {
+    public PlayerPanelComponent(ArrayList<Player> playerInfos,int ownerID) {
 //        setLayout(new GridLayout(1, 4, 20, 20));
         setOpaque(false);
         this.slot = new ArrayList<PlayerLobbyCard>();
@@ -24,7 +24,7 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
 
         //slot.add(new PlayerLobbyCard(new Player("Soda Mun Za", "assets/ProfileCat1.jpg"), true));
         for (int i =0;i<playerInfos.size();i++) {
-            PlayerInfo playerInfo = playerInfos.get(i);
+            PlayerInfo playerInfo = (PlayerInfo) playerInfos.get(i);
             if (playerInfo != null) {
                 slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID,playerInfo.isReady()));
             }
@@ -73,10 +73,10 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
     }
 
     @Override
-    public void onLobbyChange(ArrayList<PlayerInfo> playerInfos) {
+    public void onLobbyChange(ArrayList<Player> playerInfos) {
         slot.clear();
         for (int i =0;i<playerInfos.size();i++) {
-            PlayerInfo playerInfo = playerInfos.get(i);
+            PlayerInfo playerInfo = (PlayerInfo) playerInfos.get(i);
             if (playerInfo != null) {
                 slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID,playerInfo.isReady()));
             }

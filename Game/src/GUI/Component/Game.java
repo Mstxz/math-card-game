@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import Gameplay.Card;
 import Gameplay.Player;
 
 import java.util.ArrayList;
@@ -9,8 +10,13 @@ public abstract class Game extends Thread{
     protected int playerOrder;
     protected GameObserver observer;
 
-    public abstract void notifyEndTurn();
 
+    public Game(){
+        this.turnOrder = new ArrayList<>();
+        this.playerOrder = 0;
+    }
+    public abstract void notifyEndTurn();
+    public abstract void notifyGameStart();
 
     public void setObserver(GameObserver observer) {
         this.observer = observer;
@@ -37,4 +43,6 @@ public abstract class Game extends Thread{
     public Player getPlayer(){
         return turnOrder.get(playerOrder);
     }
+
+    public abstract void playerPlay(Card c,Player receiver);
 }

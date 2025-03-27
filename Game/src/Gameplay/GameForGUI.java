@@ -60,6 +60,9 @@ public class GameForGUI extends Game {
             b.draw();
         }
         b.draw();
+        if (a == getPlayer()){
+            observer.onGameStart(0);
+        }
         for (int i = 0 ; i<2*20; i++){
             Player inPlay = turnOrder.get(i%2);
             inPlay.draw();
@@ -76,7 +79,7 @@ public class GameForGUI extends Game {
                 try {
                     Thread.sleep(500);
                     while ((c = inPlay.play(inPlay,turnOrder.get(targetId))) != null){
-                        observer.onCardPlayed();
+                        observer.onCardPlayed(c.getCardAction(inPlay,turnOrder.get(targetId)));
                         ArrayList<Integer> loseList = Player.checkLose(turnOrder);
                         if(!loseList.isEmpty()){
                             observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
@@ -119,8 +122,20 @@ public class GameForGUI extends Game {
     }
 
     @Override
+    public void notifyGameStart() {
+
+    }
+
+    @Override
     public void notifyEndTurn() {
         resumeGame();
+    }
+
+    @Override
+    public void playerPlay(Card c,Player receiver) {
+        c.action(getPlayer(), receiver);
+        getPlayer().getDeck().getDispose().add(c);
+        observer.onCardPlayed(c.getCardAction(getPlayer(), receiver));
     }
 }
 

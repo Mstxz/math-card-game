@@ -17,7 +17,6 @@ import GUI.Router;
 import GameSocket.LobbyObserver;
 import GameSocket.NIOClient;
 import GameSocket.NIOServer;
-import GameSocket.PlayerInfo;
 import utils.SharedResource;
 import Gameplay.Player;
 
@@ -84,7 +83,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setOpaque(false);
         //centerPanel.setBackground(SharedResource.SIAMESE_BASE);
-        playerPanel = new PlayerPanelComponent(client.getPlayerInfos(),client.getPlayerID());
+        playerPanel = new PlayerPanelComponent(client.getTurnOrder(),client.getPlayerOrder());
         centerPanel.add(playerPanel);
 
         centerPanel.add(Box.createVerticalGlue());
@@ -119,9 +118,9 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
     }
 
     @Override
-    public void onLobbyChange(ArrayList<PlayerInfo> playerInfos) {
+    public void onLobbyChange(ArrayList<Player> playerInfos) {
         if (client.isGameStarted()){
-            Router.setRoute("MultiplayerGame",client);
+            Router.setRoute("Avenger",client);
         }
     }
 

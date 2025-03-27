@@ -3,6 +3,7 @@ package GameSocket;
 import GUI.Component.Game;
 import GUI.Setting.UserPreference;
 import Gameplay.Card;
+import Gameplay.Player;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -11,32 +12,25 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Vector;
 
 
 public class NIOClient extends Game {
-    private ByteBuffer buffer = ByteBuffer.allocate(1024);
+    private final ByteBuffer buffer = ByteBuffer.allocate(1024);
     private SocketChannel channel;
     private ClientState currentState;
     private String deckPath;
-    private ArrayList<Request> events;
-    private ArrayList<PlayerInfo> playerInfos;
+    private final ArrayList<Request> events;
     private boolean lobbyLoaded;
     private boolean gameStarted;
-    private int playerID;
-    private ArrayList<LobbyObserver> lobbyObservers;
+    private final ArrayList<LobbyObserver> lobbyObservers;
     public NIOClient(){
+        super();
         lobbyObservers = new ArrayList<>();
         this.events = new ArrayList<>();
         this.currentState = ClientState.IDLE;
         this.lobbyLoaded = false;
         this.gameStarted = false;
-        this.playerInfos = new ArrayList<PlayerInfo>(4);
-        for(int i = 0 ;i < 4 ;i++){
-            playerInfos.add(null);
-        }
 
     }
     public void connect(String hostIP){
@@ -64,7 +58,7 @@ public class NIOClient extends Game {
                 //String data = new String(buffer.array(),buffer.position(),byteRead);
                 if(serverRes.getOperation() == ProtocolOperation.ACKN){
                     System.out.println("Acknowledged");
-                    playerID = ByteBuffer.wrap(serverRes.getData()).getInt();
+                    playerOrder = ByteBuffer.wrap(serverRes.getData()).getInt();
                 }
 
             }
@@ -77,7 +71,7 @@ public class NIOClient extends Game {
                     try (RequestReader r = new RequestReader(serverRes)){
                         while (!r.reachTheEnd()){
                             PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
-                            playerInfos.set(playerInfo.getPlayerID(),playerInfo);
+                            turnOrder.add(playerInfo);
                         }
 
                     } catch (Exception e) {
@@ -145,15 +139,15 @@ public class NIOClient extends Game {
                         case LOBBY:
                             //System.out.println("BRUH");
                             try (RequestReader r = new RequestReader(serverReq)){
+                                turnOrder.clear();
                                 while (!r.reachTheEnd()){
                                     PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
-                                    playerInfos.set(playerInfo.getPlayerID(),playerInfo);
+                                    turnOrder.add(playerInfo);
                                 }
 
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
-                            System.out.println(playerInfos);
                             notifyLobbyObserver();
                             break;
                         case COUNT:
@@ -162,6 +156,9 @@ public class NIOClient extends Game {
                                 System.out.println(count);
                                 if (count == 1){
                                     gameStarted = true;
+
+                                    notifyLobbyObserver();
+                                    currentState = ClientState.WAIT;
                                 }
 
                             } catch (Exception e) {
@@ -190,11 +187,13 @@ public class NIOClient extends Game {
                 }
 
             }
-            while (currentState == ClientState.PLAY || currentState == ClientState.WAIT) {
+            System.out.println("Bruh");
+            while (channel.isOpen() && (currentState == ClientState.PLAY || currentState == ClientState.WAIT)) {
                 buffer.clear();
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0){
                     Request serverReq = Request.decodeBytes(buffer.array());
+                    System.out.println(serverReq.getOperation().name());
                     if(currentState == ClientState.PLAY){
                         switch (serverReq.getOperation()){
                             case DRAW:
@@ -206,7 +205,24 @@ public class NIOClient extends Game {
                         }
                     }
                     else if (currentState == ClientState.WAIT) {
-
+                        switch (serverReq.getOperation()){
+                            case START_GAME:
+                                try (RequestReader reader = new RequestReader(serverReq)){
+                                    System.out.println("GAMESTART");
+                                    observer.onGameStart(reader.readInt());
+                                }
+                                catch (Exception ex){
+                                    ex.printStackTrace();
+                                }
+                                break;
+                            case START_TURN:
+                                currentState = ClientState.PLAY;
+                                observer.onTurnArrive();
+                                break;
+                            case CARD:
+                                // other draw card
+                                break;
+                        }
                     }
                     buffer.clear();
                 }
@@ -229,36 +245,7 @@ public class NIOClient extends Game {
             ex.printStackTrace();
         }
     }
-    public void game(){
-        try {
-            while (currentState == ClientState.PLAY || currentState == ClientState.WAIT) {
-                buffer.clear();
-                int byteRead = channel.read(buffer);
-                if (byteRead > 0){
-                    buffer.flip();
-                    String data = new String(buffer.array(),buffer.position(),byteRead);
-                    String[] arg = data.split(" ");
-                    if(currentState == ClientState.PLAY){
-                        switch (arg[0]){
-                            case "PLAY":
-                                // other play card
-                                break;
-                            case "DRAW":
-                                // other draw card
-                                break;
-                        }
-                    }
-                    else if (currentState == ClientState.WAIT) {
 
-                    }
-                    buffer.clear();
-                }
-
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     public ArrayList<Request> getEvents() {
         return events;
@@ -286,7 +273,7 @@ public class NIOClient extends Game {
         if(currentState == ClientState.PLAY){
             Request req = new Request(ProtocolOperation.CARD);
             req.appendData(card.getName());
-            req.appendData(playerID);
+            req.appendData(playerOrder);
             req.appendData(targetID);
             this.events.add(req);
         }
@@ -294,32 +281,23 @@ public class NIOClient extends Game {
     }
     public void addLobbyObserver(LobbyObserver observer){
         lobbyObservers.add(observer);
-        observer.onLobbyChange(playerInfos);
+        observer.onLobbyChange(turnOrder);
 
     }
 
     private void notifyLobbyObserver(){
         System.out.println("Notify");
         for(LobbyObserver l:lobbyObservers){
-            l.onLobbyChange(playerInfos);
+            l.onLobbyChange(turnOrder);
         }
     }
 
-
-    public ArrayList<PlayerInfo> getPlayerInfos() {
-        return playerInfos;
+    public int getPlayerOrder() {
+        return playerOrder;
     }
 
-    public void setPlayerInfos(ArrayList<PlayerInfo> playerInfos) {
-        this.playerInfos = playerInfos;
-    }
-
-    public int getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
+    public void setPlayerOrder(int playerOrder) {
+        this.playerOrder = playerOrder;
     }
 
     public boolean isLobbyLoaded() {
@@ -349,6 +327,11 @@ public class NIOClient extends Game {
     }
 
     @Override
+    public void notifyGameStart() {
+        this.events.add(new Request(ProtocolOperation.IN_GAME));
+    }
+
+    @Override
     public void notifyEndTurn() {
 
     }
@@ -356,5 +339,10 @@ public class NIOClient extends Game {
     @Override
     public boolean isGameEnded() {
         return false;
+    }
+
+    @Override
+    public void playerPlay(Card c, Player receiver) {
+
     }
 }

@@ -12,6 +12,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -107,7 +108,16 @@ public class NIOServer extends Thread {
                             }
 
                             serverInfo.updateGameStarted(playerState);
+
                             if (serverInfo.isGameStarted()){
+                                ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
+                                for (PlayerState ps : playerState) {
+                                    if (ps != null) {
+                                        playerInfos.add(ps.getPlayerInfo());
+                                        //bf.put(from.getPlayerInfo().encodeBytes());
+                                    }
+                                }
+                                gameState = new GameState(playerInfos);
                                 gameStarting = -1;
                             }
                         }
@@ -238,6 +248,15 @@ public class NIOServer extends Thread {
                         }
 
                         break;
+                    case IN_GAME:
+                        gameState.incrementInGameCount();
+                        if (gameState.isAllInGame()){
+                            int randomStarter = ((int)(Math.random()*registeredID.size()));
+                            Request start = new Request(ProtocolOperation.START_GAME);
+                            start.appendData(randomStarter);
+                            pushUpdate(start);
+                        }
+                        break;
                     case CARD:
                         Request req = new Request(ProtocolOperation.CARD);
                         pushUpdate(req,registeredID.get(client));
@@ -271,6 +290,9 @@ public class NIOServer extends Thread {
                         System.out.println(serverReq);
                         //bf.put(from.getPlayerInfo().encodeBytes());
                     }
+                    else{
+                        serverReq.appendData(new byte[]{});
+                    }
                 }
                 to.getDataOutQueue().add(serverReq);
             }
@@ -286,6 +308,14 @@ public class NIOServer extends Thread {
     public void pushUpdate(Request req,int exclude){
         for(PlayerState ps:playerState){
             if (ps !=null && ps.getPlayerInfo().getPlayerID() != exclude){
+                ps.getDataOutQueue().add(req);
+            }
+        }
+    }
+
+    public void sendUpdate(Request req,int receiver){
+        for(PlayerState ps:playerState){
+            if (ps !=null && ps.getPlayerInfo().getPlayerID() == receiver){
                 ps.getDataOutQueue().add(req);
             }
         }

@@ -40,6 +40,9 @@ public class PlayerInfo extends Player {
     }
 
     public static PlayerInfo decodeBytes(byte[] bytes){
+        if (bytes.length == 0) {
+            return null;
+        }
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
         try {
             int playerID = in.readInt();
