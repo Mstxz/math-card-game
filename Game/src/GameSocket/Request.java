@@ -122,7 +122,6 @@ public class Request {
         bf.putInt(operation.ordinal());
         bf.putInt(bytesLength);
         bf.put(data);
-        System.out.println("Encoded: " + Arrays.toString(bf.array()));
         return bf.array();
     }
 
@@ -132,7 +131,6 @@ public class Request {
             ProtocolOperation operation = ProtocolOperation.values()[opCode];
             int dataBytes = in.readInt();
             byte[] dataGet = in.readNBytes(dataBytes);
-            System.out.println("Decoded: " + Arrays.toString(dataGet));
             Request newReq = new Request(operation);
             newReq.setDataNoLength(dataGet);
             return newReq;

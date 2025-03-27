@@ -42,6 +42,36 @@ public class Deck {
         return d;
     }
 
+    public static Deck LoadDeckFromPath(String deckPath) throws FileNotFoundException{
+        File deckFile = new File(deckPath);
+        Deck d = new Deck(deckFile.getName());
+        try {
+            Scanner sc = new Scanner(deckFile);
+            while (sc.hasNextLine()){
+                String card = sc.nextLine();
+                String info[] = card.split(" ");
+                Card c;
+                if (info[0].equals("Plus")||info[0].equals("Minus")){
+                    c = Card.createCard(info[0],Integer.parseInt(info[1]),info[2]);
+                    for (int i=0;i<Integer.parseInt(info[3]);i++){
+                        d.addCard(c);
+                    }
+                }
+                else {
+                    c = Card.createCard(info[0]);
+                    for (int i = 0;i<Integer.parseInt(info[info.length-1]);i++){
+                        d.addCard(c);
+                    }
+                }
+                System.out.println(c);
+            }
+        }
+        catch (FileNotFoundException e){
+            throw e;
+        }
+        return d;
+    }
+
     public static Deck getDeck(){
         Deck d = new Deck("Default");
         for (int i = 0; i < 40; i++) {

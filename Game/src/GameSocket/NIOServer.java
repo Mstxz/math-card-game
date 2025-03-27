@@ -1,5 +1,7 @@
 package GameSocket;
 
+import Gameplay.Card;
+import Gameplay.Deck;
 import Gameplay.Numbers.Constant;
 
 import java.io.*;
@@ -110,14 +112,7 @@ public class NIOServer extends Thread {
                             serverInfo.updateGameStarted(playerState);
 
                             if (serverInfo.isGameStarted()){
-                                ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
-                                for (PlayerState ps : playerState) {
-                                    if (ps != null) {
-                                        playerInfos.add(ps.getPlayerInfo());
-                                        //bf.put(from.getPlayerInfo().encodeBytes());
-                                    }
-                                }
-                                gameState = new GameState(playerInfos);
+
                                 gameStarting = -1;
                             }
                         }
@@ -226,7 +221,7 @@ public class NIOServer extends Thread {
                         lobbyUpdate();
                         break;
                     case DECK:
-                        File f = File.createTempFile("temp",".dat");
+                        File f = File.createTempFile("temp",".deck");
                         f.deleteOnExit();
                         try (
                                 FileOutputStream fo = new FileOutputStream(f);
@@ -240,14 +235,9 @@ public class NIOServer extends Thread {
 
                             playerState[registeredID.get(client)].setDeckPath(f.getAbsolutePath());
                             serverInfo.updateDeckLoaded(playerState);
+                            System.out.println(f.getAbsolutePath());
                             if (serverInfo.isDeckLoaded()){
-                                int randomStarter = ((int)(Math.random()*registeredID.size()));
-                                gameState.setCurrentTurn(randomStarter);
-                                Request start = new Request(ProtocolOperation.START_GAME);
-                                start.appendData(randomStarter);
-                                pushUpdate(start);
-                                handStateUpdate();
-                                sendUpdate(new Request(ProtocolOperation.START_TURN),randomStarter);
+                                initGame();
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -272,6 +262,51 @@ public class NIOServer extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initGame(){
+
+        ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
+        for (PlayerState ps : playerState) {
+            if (ps != null) {
+                playerInfos.add(ps.getPlayerInfo());
+                //bf.put(from.getPlayerInfo().encodeBytes());
+            }
+        }
+        gameState = new GameState(playerInfos);
+        int randomStarter = ((int)(Math.random()*registeredID.size()));
+        gameState.setCurrentTurn(randomStarter);
+        Request start = new Request(ProtocolOperation.START_GAME);
+        start.appendData(randomStarter);
+        pushUpdate(start);
+        for (PlayerInfo p : gameState.getPlayers()){
+            try {
+                p.setDeck(Deck.LoadDeckFromPath(playerState[p.getPlayerID()].getDeckPath()));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        drawCards(randomStarter,4);
+        for (int i = 1; i < gameState.getPlayers().size(); i++) {
+            drawCards((randomStarter + i) % gameState.getPlayers().size(),5);
+        }
+
+        handStateUpdate();
+        sendUpdate(new Request(ProtocolOperation.START_TURN),randomStarter);
+    }
+
+    private void drawCards(int playerOrder,int numberOfCards){
+        ArrayList<Card> cardsDraw = new ArrayList<>();
+        for (int i = 0; i < numberOfCards; i++) {
+            cardsDraw.add(gameState.getPlayers().get(playerOrder).draw());
+        }
+        Request request = new Request(ProtocolOperation.DRAW);
+        request.appendData(playerOrder);
+        for (Card card:cardsDraw){
+            request.appendData(card.encode());
+        }
+        pushUpdate(request);
     }
 
     private void lobbyUpdate(){
@@ -299,7 +334,7 @@ public class NIOServer extends Thread {
     private void handStateUpdate(){
         for(PlayerState to:playerState){
             if(to!= null) {
-                Request serverReq = new Request(ProtocolOperation.LOBBY);
+                Request serverReq = new Request(ProtocolOperation.HAND_UPDATE);
                 for (PlayerState from : playerState) {
                     if (from != null) {
                         if (to == from){

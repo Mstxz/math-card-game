@@ -207,6 +207,17 @@ public class NIOClient extends Game {
                     switch (serverReq.getOperation()){
                         case DRAW:
                             // other play card
+                            try (RequestReader r = new RequestReader(serverReq)){
+                                int receiver = r.readInt();
+                                while (!r.reachTheEnd()){
+                                    Card cardReceived = Card.decode(r.readByteData());
+                                    turnOrder.get(receiver).getHand().add(cardReceived);
+                                    turnOrder.get(receiver).getDeck().getCards().removeLast();
+                                }
+                                observer.onHandChanged();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                             break;
                         case CARD:
                             // other draw card
@@ -215,7 +226,7 @@ public class NIOClient extends Game {
                             currentState = ClientState.PLAY;
                             observer.onTurnArrive();
                             break;
-                        case LOBBY:
+                        case HAND_UPDATE:
                             try (RequestReader r = new RequestReader(serverReq)){
                                 turnOrder.clear();
                                 while (!r.reachTheEnd()){

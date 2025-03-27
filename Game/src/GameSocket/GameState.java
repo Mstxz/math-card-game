@@ -37,4 +37,8 @@ public class GameState {
     public void setCurrentTurn(int currentTurn) {
         this.currentTurn = currentTurn;
     }
+
+    public ArrayList<PlayerInfo> getPlayers() {
+        return players;
+    }
 }

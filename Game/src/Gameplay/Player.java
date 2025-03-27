@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Player {
     protected String name;
-    protected Deck deck = new Deck("Test");
+    protected Deck deck = Deck.getDeck();
     protected int mana = 1;
     protected ArrayList<Card> hand = new ArrayList<Card>();
     protected Number hp = new Constant(100);
@@ -109,8 +109,10 @@ public class Player {
         this.playerNumber = playerNumber;
     }
 
-    public void draw(){
-        hand.add(deck.getCards().removeLast());
+    public Card draw(){
+        Card c = deck.getCards().removeLast();
+        hand.add(c);
+        return c;
         //Game.cardGui.updateHand();
 
     }

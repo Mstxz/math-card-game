@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class Card {
@@ -114,17 +115,21 @@ public abstract class Card {
     public byte[] encode(){
         byte[] nameBytes = getClass().getSimpleName().getBytes(StandardCharsets.UTF_8);
         ByteBuffer bf = ByteBuffer.allocate(8+nameBytes.length);
-        bf.putInt(1);
+        bf.putInt(2);
         bf.putInt(type.ordinal());
         bf.put(nameBytes);
         return bf.array();
     }
 
     public static Card decode(byte[] bytes){
+        System.out.println(Arrays.toString(bytes));
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
         try {
             int segmentCount = in.readInt();
-            if (segmentCount == 1){
+            if (segmentCount == 2){
+                int cardTypeNumber = in.readInt();
+                CardType cardType = CardType.values()[cardTypeNumber];
+                System.out.println(cardType);
                 String cardName = in.readUTF();
                 return Card.createCard(cardName);
             }
@@ -132,6 +137,7 @@ public abstract class Card {
                 int cardTypeNumber = in.readInt();
                 CardType cardType = CardType.values()[cardTypeNumber];
                 int cardNumber = in.readInt();
+                System.out.println(cardType+ " " +cardNumber);
                 String cardName = in.readUTF();
                 return Card.createCard(cardName,cardNumber,cardType);
             }
