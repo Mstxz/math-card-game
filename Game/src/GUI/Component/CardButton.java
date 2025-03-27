@@ -7,6 +7,8 @@ import java.awt.event.*;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
+import AudioPlayer.SFXPlayer;
+import AudioPlayer.SFXSwitcher;
 import Gameplay.Card;
 import Gameplay.CardType;
 import utils.ResourceLoader;
@@ -104,6 +106,7 @@ public class CardButton extends JPanel implements MouseListener {
                 return;
             }
             cardLabel.setAmount(cardLabel.getAmount() - 1);
+            SFXSwitcher.deckSelectSwitcher(cardLabel.getName(), e);
             if (cardLabel.getAmount() == 0){
                 deckZonePanel.removeCard(cardLabel);
                 deckZonePanel.revalidate();
@@ -111,6 +114,7 @@ public class CardButton extends JPanel implements MouseListener {
             }
         }
         else if (e.getButton() == MouseEvent.BUTTON1){
+            SFXSwitcher.deckSelectSwitcher(cardLabel.getName(), e);
             if (cardLabel.getAmount() == 0){
                 deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
