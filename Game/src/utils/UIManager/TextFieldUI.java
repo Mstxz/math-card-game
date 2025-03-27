@@ -1,4 +1,4 @@
-package GUI.UIManager;
+package utils.UIManager;
 
 import GUI.Component.RoundBorder;
 import utils.SharedResource;

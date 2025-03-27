@@ -132,8 +132,7 @@ import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import GUI.Component.PopupMenu;
-import utils.CustomScrollBarUI;
+import utils.UIManager.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.SharedResource;
 

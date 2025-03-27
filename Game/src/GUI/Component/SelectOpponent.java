@@ -2,7 +2,6 @@ package GUI.Component;
 
 import AudioPlayer.SFXPlayer;
 import GUI.Page.AvengerAssembleGUI;
-import GUI.Router;
 import Gameplay.Card;
 import Gameplay.Player;
 import java.awt.*;
@@ -15,7 +14,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import utils.RoundPanelUI;
+import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
 

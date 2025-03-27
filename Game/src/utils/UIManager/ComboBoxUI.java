@@ -1,14 +1,12 @@
-package GUI.UIManager;
+package utils.UIManager;
 
 import utils.ResourceLoader;
 import utils.SharedResource;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
-import java.awt.geom.Path2D;
 
 public class ComboBoxUI extends BasicComboBoxUI{
     @Override

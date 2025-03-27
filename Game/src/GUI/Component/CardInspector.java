@@ -10,9 +10,9 @@ import GUI.Page.AvengerAssembleGUI;
 import java.awt.event.*;
 
 import Gameplay.Card;
-import utils.CustomScrollBarUI;
+import utils.UIManager.CustomScrollBarUI;
 import utils.ResourceLoader;
-import utils.RoundPanelUI;
+import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
 public class CardInspector extends JPanel implements MouseListener {

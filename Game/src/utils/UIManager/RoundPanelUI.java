@@ -1,4 +1,6 @@
-package utils;
+package utils.UIManager;
+
+import utils.SharedResource;
 
 import javax.swing.*;
 import javax.swing.plaf.PanelUI;

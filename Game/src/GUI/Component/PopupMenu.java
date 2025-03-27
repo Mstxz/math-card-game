@@ -2,16 +2,11 @@ package GUI.Component;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.*;
 
-import GUI.UIManager.TextFieldUI;
-import Gameplay.Card;
-import Gameplay.Deck;
 import utils.ResourceLoader;
-import utils.RoundPanelUI;
+import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
 public class PopupMenu extends JPanel {
