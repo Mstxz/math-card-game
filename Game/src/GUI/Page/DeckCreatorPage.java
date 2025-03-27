@@ -274,7 +274,13 @@ public class DeckCreatorPage extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)){
-            File f = new File("Assets/"+ popupMenu.getDeckName() +".deck");
+            if (!popupMenu.getCurrentDeck().getFileName().equals(popupMenu.getCurrentName())){
+                File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
+                if (f.delete()) {
+                    System.out.println("Delete old deck");
+                }
+            }
+            File f = new File("Assets/"+ popupMenu.getCurrentName() +".deck");
             System.out.println("Have File");
             try {
                 FileOutputStream out = new FileOutputStream(f);
@@ -307,15 +313,16 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 System.out.println("FileNotFound Error");
                 return;
             }
+            popupMenu.setUpItem();
             System.out.println("Write");
         }
         else if (e.getSource().equals(createButton)) {
             String newName = JOptionPane.showInputDialog(null, "Create Deck", name);
-            if (newName != null && !newName.trim().isEmpty()) {
-                PopupMenu.items.add(new PopupItem(newName));
-                popupMenu.updateMenuPanel();
-                popupMenu.updateMainButton(newName);
-            }
+//            if (newName != null && !newName.trim().isEmpty()) {
+//                PopupMenu.items.add(new PopupItem(newName));
+//                popupMenu.updateMenuPanel();
+//                popupMenu.updateMainButton(newName);
+//            }
         }
     }
 

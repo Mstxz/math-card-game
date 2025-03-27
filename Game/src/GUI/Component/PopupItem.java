@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public class PopupItem extends JPanel implements ActionListener, MouseListener {
-    private String name;
+    private String fileName;
     public static PopupMenu menu;
     public static TempDeckZone deckZone;
 
@@ -24,12 +24,13 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
     private JButton deleteButton;
     private int index;
 
-    public PopupItem(String name) {
+    public PopupItem(String name,int index) {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(480, 40));
         this.setBackground(SharedResource.SIAMESE_BRIGHT);
         this.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        this.name = name;
+        this.fileName = name;
+        this.index = index;
 
         nameButton = new JButton(name);
         nameButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
@@ -64,33 +65,37 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(editButton)){
-            String newName = JOptionPane.showInputDialog(null, "Edit Name:", name);
-            if (newName != null && !newName.trim().isEmpty()) {
-                PopupMenu.items.add(new PopupItem(newName));
-                menu.updateMenuPanel();
-                menu.updateMainButton(newName);
-            }
-        }
-        else if (e.getSource().equals(deleteButton)){
-            int confirm = JOptionPane.showConfirmDialog(null, "Delete " + name + "?", "Confirm", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                PopupMenu.items.remove(index);
-                menu.updateMenuPanel();
-                menu.updateMainButton("Select Decks");
-            }
-        }
+//        if (e.getSource().equals(editButton)){
+//            String newName = JOptionPane.showInputDialog(null, "Edit Name:", name);
+//            if (newName != null && !newName.trim().isEmpty()) {
+//                PopupMenu.items.add(new PopupItem(newName));
+//                menu.updateMenuPanel();
+//                menu.updateMainButton(newName);
+//            }
+//        }
+//        else if (e.getSource().equals(deleteButton)){
+//            int confirm = JOptionPane.showConfirmDialog(null, "Delete " + name + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+//            if (confirm == JOptionPane.YES_OPTION) {
+//                PopupMenu.items.remove(index);
+//                menu.updateMenuPanel();
+//                menu.updateMainButton("Select Decks");
+//            }
+//        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource().equals(this)||e.getSource().equals(nameButton)){
-            menu.updateMainButton(name);
+
             HashMap<Card,Integer> cardList = new HashMap<Card, Integer>();
             try{
-                Deck tmp = Deck.LoadDeck(name);
+                Deck tmp = Deck.LoadDeck(fileName);
                 for (Card i : tmp.getCards()){
                     if (cardList.containsKey(i)){
                         int j = cardList.get(i);
@@ -105,6 +110,7 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
             catch (FileNotFoundException ex){
 
             }
+            menu.setSelectedIndex(index);
             deckZone.setAllCardLabel(deckZone.createCardLabelSet(cardList));
             deckZone.update();
             menu.toggleMenu();
