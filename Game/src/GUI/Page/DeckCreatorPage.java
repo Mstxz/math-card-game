@@ -130,6 +130,9 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import GUI.Component.PopupMenu;
+import utils.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -177,6 +180,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         JScrollPane cardScrollPane = new JScrollPane(paLeft);
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        cardScrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         cardScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
@@ -245,6 +249,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(paRight);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         saveButton.addActionListener(this);

@@ -3,15 +3,14 @@ package GUI.Component;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
-import AudioPlayer.SFXPlayer;
 import AudioPlayer.SFXSwitcher;
 import GUI.Page.AvengerAssembleGUI;
 
 import java.awt.event.*;
 
 import Gameplay.Card;
+import utils.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.RoundPanelUI;
 import utils.SharedResource;
@@ -56,7 +55,8 @@ public class CardInspector extends JPanel implements MouseListener {
 		this.Pane = new JScrollPane(desArea);
 		this.Pane.setOpaque(false);
 		this.Pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		this.Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);;
+		this.Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		this.Pane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
 		this.Pane.setPreferredSize(new Dimension(300, 150));
 		this.Pane.setBorder(BorderFactory.createEmptyBorder(0,50,0,0));
 //		this.Pane.setMinimumSize(new Dimension(200, 150));
