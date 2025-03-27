@@ -92,3 +92,5 @@ LogAndRoll
 GiftCat
 FlagCat
 AdoptCat
+JesusCat
+SleepyCat

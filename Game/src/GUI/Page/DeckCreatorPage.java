@@ -122,7 +122,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
 package GUI.Page;
 
 import GUI.Component.*;
-
+import GUI.Component.PopupMenu;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -130,9 +130,9 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 import GUI.Component.PopupMenu;
+import utils.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -147,6 +147,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JComboBox deckNameField;
     private PopupMenu popupMenu;
     private ArrayList<CardButton> cardButtonArrayList;
+    private String name;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -179,15 +180,18 @@ public class DeckCreatorPage extends Page implements ActionListener {
         JScrollPane cardScrollPane = new JScrollPane(paLeft);
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        cardScrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         cardScrollPane.getVerticalScrollBar().setUnitIncrement(16);
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
-        deckOption = new JPanel(new GridLayout(1,2));
+        deckOption = new JPanel(new FlowLayout());
         deckOption.setPreferredSize(new Dimension(300,100));
 
         saveButton = new JButton("Save");
-        createButton = new JButton("Create");
-
+        createButton = new JButton(ResourceLoader.loadPicture("assets/Component/CreateButton.png",220,65));
+        //createButton.setPreferredSize(new Dimension(100, 100));
+        saveButton.setPreferredSize(new Dimension(220, 65));
+        
         popupMenu = new PopupMenu();
         PopupItem.menu = popupMenu;
         JPanel PopupMenuPanel = new JPanel(new FlowLayout());
@@ -216,6 +220,10 @@ public class DeckCreatorPage extends Page implements ActionListener {
         popupMenu.setOpaque(false);
         saveButton.setOpaque(false);
         PopupMenuPanel.setOpaque(false);
+        deckOption.setOpaque(false);
+        createButton.setContentAreaFilled(false);
+        createButton.setBorderPainted(false);
+        createButton.setFocusPainted(false);
 
         //ปิดขอบ
         deckShow.setBorder(BorderFactory.createEmptyBorder()); 
@@ -241,9 +249,11 @@ public class DeckCreatorPage extends Page implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(paRight);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         saveButton.addActionListener(this);
+        createButton.addActionListener(this);
         PopupItem.deckZone = paLeft;
     }
     public Dimension calculateDimension(){
@@ -298,6 +308,14 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 return;
             }
             System.out.println("Write");
+        }
+        else if (e.getSource().equals(createButton)) {
+            String newName = JOptionPane.showInputDialog(null, "Create Deck", name);
+            if (newName != null && !newName.trim().isEmpty()) {
+                PopupMenu.items.add(new PopupItem(newName));
+                popupMenu.updateMenuPanel();
+                popupMenu.updateMainButton(newName);
+            }
         }
     }
 

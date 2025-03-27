@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 import AudioPlayer.SFXPlayer;
+import AudioPlayer.SFXSwitcher;
 import Gameplay.Card;
 import utils.ResourceLoader;
 import utils.SharedResource;
@@ -44,9 +45,9 @@ public class CardPlayable extends JButton implements MouseListener {
 		if (!isEnemy) {
 //			System.out.println(this.card.getPicture());
 			Path = this.card.getPicture();
-			if (Path == null)
+			System.out.println(this.card.getName());
+			if (Path == null || Path.equals(""))
 			{
-				System.out.println(this.card.getName());
 				this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
 			} else {
 				this.setIcon(ResourceLoader.loadPicture(Path, this.getWidth(), this.getHeight()));
@@ -58,8 +59,6 @@ public class CardPlayable extends JButton implements MouseListener {
 		}
 		else {
 			this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
-
-
 		}
 	}
 
@@ -94,12 +93,7 @@ public class CardPlayable extends JButton implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3 && !isEnemy && !handDeck.gui.isBlocked)
 		{
-			if (card.getName().equals("LogAndRoll")){
-				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Rock_n_Roll_easterSFX_UP.wav", -10.0f); //remove the comment of this line when rocknroll card is finished
-			}
-			else {
-				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Desc_UP.wav", -10.0f);
-			}
+			SFXSwitcher.cardDescUP(card);
 
 			JPanel	overlay;
 

@@ -28,11 +28,7 @@ public class MainMenuPage extends Page implements ActionListener {
     private JLabel  Title;
     private Image   bg;
 
-    private Random rand = new Random();
-    private ArrayList<String> playlist = new ArrayList<>(Arrays.asList(
-            "Game/src/assets/Audio/BGM/Lobby_BGM_1.wav",
-            "Game/src/assets/Audio/BGM/Lobby_BGM_2.wav"
-    ));
+    private String track = "Game/src/assets/Audio/BGM/Lobby_BGM.wav";
 
     public MainMenuPage() {
         super();
@@ -50,8 +46,17 @@ public class MainMenuPage extends Page implements ActionListener {
             System.out.println("Error loading icon: " + e.getMessage());
         }
 
-        //BGMPlayer.playlistRunner(playlist);
-        BGMPlayer.playBackgroundMusic(playlist.get(1));
+
+        if((BGMPlayer.getBgmClip() == null || !BGMPlayer.getFilepath().equals(track)) || !BGMPlayer.checkIfPlaying()){
+            if (BGMPlayer.getBgmClip() == null) {
+
+                BGMPlayer.playBackgroundMusic(track);
+            }
+            else {
+                BGMPlayer.stopBackgroundMusic();
+                BGMPlayer.playBackgroundMusic(track);
+            }
+        }
     }
 
     private void initComponents() {

@@ -45,11 +45,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private Game game;
 	public boolean	isBlocked;
 
-	private ArrayList<String> playlist = new ArrayList<>(Arrays.asList(
-			"Game/src/assets/Audio/BGM/Gameplay_BGM_2.wav",
-			"Game/src/assets/Audio/BGM/Gameplay_BGM_LoFiVersion.wav"
-	));
-
 	private Random rand = new Random();
 
 	public AvengerAssembleGUI(Game game) {
@@ -162,8 +157,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			game.notifyGameStart();
 		}
 		BGMPlayer.stopBackgroundMusic();
-		int randomIndex = rand.nextInt(playlist.size());
-		BGMPlayer.playBackgroundMusic(playlist.get(randomIndex));
+
+		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_Mixed.wav");
 	}
 
 	public void updatePlayerHUD(){
