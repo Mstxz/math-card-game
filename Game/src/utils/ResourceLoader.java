@@ -10,16 +10,22 @@ import java.util.Objects;
 
 public class ResourceLoader {
     public static ImageIcon loadPicture(String picture){
+        //System.out.println(picture+" "+picture.split("\\.")[0]+".webp");
+        //picture = picture.split("\\.")[0]+".webp";
         return new ImageIcon(Objects.requireNonNull(ResourceLoader.class.getClassLoader().getResource(picture)));
     }
 
     public static ImageIcon loadPicture(String picture,int width,int height){
+        //System.out.println(picture+" "+picture.split("\\.")[0]+".webp");
+        //picture = picture.split("\\.")[0]+".webp";
         URL imgURL = Objects.requireNonNull(ResourceLoader.class.getClassLoader().getResource(picture));
         Image loadedImg = (new ImageIcon(imgURL)).getImage().getScaledInstance(width,height,Image.SCALE_DEFAULT);
         return new ImageIcon(loadedImg);
     }
 
     public static BufferedImage loadBufferedPicture(String picture){
+        //System.out.println(picture+" "+picture.split("\\.")[0]+".webp");
+        //picture = picture.split("\\.")[0]+".webp";
         URL imgURL = Objects.requireNonNull(ResourceLoader.class.getClassLoader().getResource(picture));
         Image loadedImg = new ImageIcon(imgURL).getImage();
         System.out.println(picture+" "+loadedImg.getWidth(null) + " "+loadedImg.getHeight(null));
