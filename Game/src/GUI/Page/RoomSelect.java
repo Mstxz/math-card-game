@@ -92,7 +92,7 @@ public class RoomSelect extends Page implements ActionListener {
             public void focusGained(FocusEvent e) {
                 if (hostIpField.getText().equals("Room ID")) {
                     hostIpField.setText("");
-                    hostIpField.setForeground(new Color(72, 62, 56)); // เปลี่ยนเป็นสีดำเมื่อพิมพ์ข้อความ
+                    hostIpField.setForeground(SharedResource.SIAMESE_DARK);
                 }
             }
 
@@ -100,7 +100,7 @@ public class RoomSelect extends Page implements ActionListener {
             public void focusLost(FocusEvent e) {
                 if (hostIpField.getText().isEmpty()) {
                     hostIpField.setText("Room ID");
-                    hostIpField.setForeground(Color.GRAY); // กลับมาเป็น placeholder สีเทา
+                    hostIpField.setForeground(SharedResource.SIAMESE_BASE); // กลับมาเป็น placeholder สีเทา
                 }
             }
         });
