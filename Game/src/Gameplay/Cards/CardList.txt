@@ -88,7 +88,6 @@ CatClown
 LogAndRoll
 AngryCat
 ILikeYours
-LogAndRoll
 GiftCat
 FlagCat
 AdoptCat
