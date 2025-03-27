@@ -128,6 +128,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -318,11 +319,17 @@ public class DeckCreatorPage extends Page implements ActionListener {
         }
         else if (e.getSource().equals(createButton)) {
             String newName = JOptionPane.showInputDialog(null, "Create Deck", name);
-//            if (newName != null && !newName.trim().isEmpty()) {
-//                PopupMenu.items.add(new PopupItem(newName));
-//                popupMenu.updateMenuPanel();
-//                popupMenu.updateMainButton(newName);
-//            }
+            if (newName != null && !newName.trim().isEmpty()) {
+                if (new File("Assets/"+newName+".deck").exists()){
+                    JOptionPane.showMessageDialog(this.mainFrame,"Already Have File","",JOptionPane.ERROR_MESSAGE,ResourceLoader.loadPicture("assets/Component/DownArrow.png"));
+                    return;
+                }
+                PopupMenu.items.add(new PopupItem(newName,PopupMenu.items.size()));
+                popupMenu.updateMenuPanel();
+                popupMenu.setSelectedIndex(PopupMenu.items.size()-1);
+                paLeft.setAllCardLabel(new HashSet<CardLabel>());
+                paLeft.update();
+            }
         }
     }
 
