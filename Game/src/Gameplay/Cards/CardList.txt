@@ -93,3 +93,7 @@ FlagCat
 AdoptCat
 JesusCat
 SleepyCat
+DehydrateCat
+Exponetion
+FullCat
+TwinsCat
