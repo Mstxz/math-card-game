@@ -20,6 +20,8 @@ public class CardPlayable extends JButton implements MouseListener {
 	private	int		OLD_WIDTH;
 	private	int		OLD_HEIGHT;
 	private boolean isPlayable;
+	private ImageIcon cardPic;
+
 	public CardPlayable(HandDeck hand,Card card, double scale, boolean isEnemy,boolean isPlayable) {
 		super();
 		this.handDeck = hand;
@@ -27,6 +29,12 @@ public class CardPlayable extends JButton implements MouseListener {
 		this.isEnemy = isEnemy;
 		this.setPlayable(isPlayable);
 		this.setSize((int)(SharedResource.CARD_WIDTH * scale), (int)(SharedResource.CARD_HEIGHT * scale));
+		if (isEnemy){
+			cardPic = ResourceLoader.loadPicture("assets/BackSideCard.png");
+		}
+		else {
+			cardPic = ResourceLoader.loadPicture(this.card.getPicture());
+		}
 		this.setIcon();
 		this.addMouseListener(this);
 		//System.out.println(card.getName());
@@ -41,24 +49,15 @@ public class CardPlayable extends JButton implements MouseListener {
 	public void	setIcon()
 	{
 		String Path;
-
+		this.setIcon(new ImageIcon(cardPic.getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_DEFAULT)));
 		if (!isEnemy) {
 //			System.out.println(this.card.getPicture());
-			Path = this.card.getPicture();
-			System.out.println(this.card.getName());
-			if (Path == null || Path.equals(""))
-			{
-				this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
-			} else {
-				this.setIcon(ResourceLoader.loadPicture(Path, this.getWidth(), this.getHeight()));
-			}
+//			Path = this.card.getPicture();
+//			System.out.println(this.card.getName());
 			if (!isPlayable) {
 				this.setEnabled(false);
 				//this.setBorder(new LineBorder(Color.RED, 3));
 			}
-		}
-		else {
-			this.setIcon(ResourceLoader.loadPicture("assets/BackSideCard.png", this.getWidth(), this.getHeight()));
 		}
 	}
 
@@ -98,7 +97,7 @@ public class CardPlayable extends JButton implements MouseListener {
 			JPanel	overlay;
 
 			overlay = handDeck.gui.getOverlayPanel();
-			overlay.add(new CardInspector(card, handDeck.gui));
+			overlay.add(new CardInspector(card, handDeck.gui,cardPic));
 			handDeck.gui.setBackdropDim(true);
 		} else if (e.getButton() == MouseEvent.BUTTON1 && !isEnemy && !handDeck.gui.isBlocked) {
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Cannot_Play_Click.wav", -10.0f);

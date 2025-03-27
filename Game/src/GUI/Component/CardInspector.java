@@ -25,14 +25,14 @@ public class CardInspector extends JPanel implements MouseListener {
 	private JPanel				ManaUsage;
 	private	Card				card;
 
-	public CardInspector(Card card, AvengerAssembleGUI gui) {
+	public CardInspector(Card card, AvengerAssembleGUI gui,ImageIcon img) {
 
 		super();
 		this.card = card;
 		this.gui = gui;
 
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		this.img = new JLabel(ResourceLoader.loadPicture(this.card.getPicture(), (int)(SharedResource.CARD_WIDTH * 1.2), (int)(SharedResource.CARD_HEIGHT * 1.2)));
+		this.img = new JLabel(new ImageIcon(img.getImage().getScaledInstance((int)(SharedResource.CARD_WIDTH * 1.2), (int)(SharedResource.CARD_HEIGHT * 1.2),Image.SCALE_DEFAULT)));
 
 		this.name = new JLabel(card.getName());
 		this.name.setFont(SharedResource.getCustomSizeFont(72));
@@ -91,7 +91,7 @@ public class CardInspector extends JPanel implements MouseListener {
 		m.setBackground(SharedResource.SIAMESE_BASE);
 		m.setMinimumSize(new Dimension(600, 400));
 		m.setPreferredSize(new Dimension(800, 600));
-		m.add(img);
+		m.add(this.img);
 		m.add(Box.createRigidArea(new Dimension(20, 0)));
 		m.add(p);
 		this.add(m);
