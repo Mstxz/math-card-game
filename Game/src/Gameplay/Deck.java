@@ -4,10 +4,7 @@ import Gameplay.Cards.Plus;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Deck {
     private String name;
@@ -36,7 +33,7 @@ public class Deck {
                         d.addCard(c);
                     }
                 }
-
+                System.out.println(c);
             }
         }
         catch (FileNotFoundException e){
@@ -45,12 +42,17 @@ public class Deck {
         return d;
     }
 
+    public static Deck getDeck(){
+        Deck d = new Deck("Default");
+        for (int i = 0; i < 40; i++) {
+            d.addCard(null);
+        }
+        return d;
+    }
+
     public Deck(String name){
         this.name = name;
         this.cards = new ArrayList<Card>();
-        for (int i = 0; i < 40; i++) {
-            cards.add(null);
-        }
         this.dispose = new ArrayList<Card>();
 
     }

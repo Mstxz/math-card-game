@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import GUI.Setting.Controller.SettingController;
@@ -20,6 +21,7 @@ public class Router implements ComponentListener {
     public Router() {
         SharedResource.loadFont();
         SharedResource.setAllFont();
+        ImageIO.scanForPlugins();
         mainFrame = new JFrame();
         mainFrame.setSize(1920,1080);
         mainFrame.setLayout(new BorderLayout());

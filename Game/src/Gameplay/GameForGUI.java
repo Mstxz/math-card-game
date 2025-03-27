@@ -117,7 +117,6 @@ public class GameForGUI extends Game {
             b.draw();
         }
         b.draw();
-
         observer.onGameStart(0);
     }
 
