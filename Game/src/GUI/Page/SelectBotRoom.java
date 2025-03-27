@@ -1,38 +1,47 @@
 package GUI.Page;
 
 
+import AudioPlayer.BGMPlayer;
+import AudioPlayer.SFXPlayer;
 import GUI.Router;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import javax.swing.*;
+
+import GUI.Setting.UserPreference;
+import Gameplay.Bot;
+import Gameplay.Deck;
+import Gameplay.GameForGUI;
+import Gameplay.Player;
 import utils.SharedResource;
 
 public class SelectBotRoom extends Page implements ActionListener {
+    private JPanel panelA = new JPanel();
+    private JPanel panelB = new JPanel();
+    private JPanel panelC = new JPanel();
+    private JPanel panelD = new JPanel();
+    private JPanel panelE = new JPanel();
+    private JButton exit = new JButton("< Exit");
+    private JButton previousBotButton = new JButton("<");
+    private JButton nextBotButton = new JButton(">");
+    private JButton decksButton = new JButton("Decks");
+    private JButton startButton = new JButton("Start");
+    private JLabel chooseOpponent = new JLabel("Choose Your Opponent");
+    private JLabel selectingBotName = new JLabel("Bot Name");
+    private JLabel selectingBotProfileImage = new JLabel("Bot PFP");
+    private JLabel selectingBotDescription = new JLabel("Bot description for explaining its behavior, pattern, and lore add-on");
+
     public SelectBotRoom() {
         super();
-        JPanel panelA = new JPanel();
-        JPanel panelB = new JPanel();
-        JPanel panelC = new JPanel();
-        JPanel panelD = new JPanel();
-        JPanel panelE = new JPanel();
-        JButton exit = new JButton("< Exit");
-        JButton previousBotButton = new JButton("<");
-        JButton nextBotButton = new JButton(">");
-        JButton decksButton = new JButton("Decks");
-        JButton startButton = new JButton("Start");
-        JLabel chooseOpponent = new JLabel("Choose Your Opponent");
-        JLabel selectingBotName = new JLabel("Bot Name");
-        JLabel selectingBotProfileImage = new JLabel("Bot PFP");
-        JLabel selectingBotDescription = new JLabel("Bot description for explaining its behavior, pattern, and lore add-on");
-
         chooseOpponent.setForeground(SharedResource.SIAMESE_BASE);
         chooseOpponent.setFont(SharedResource.getCustomSizeFont(80));
         selectingBotName.setForeground(SharedResource.SIAMESE_BASE);
         selectingBotName.setFont(SharedResource.getCustomSizeFont(40));
 
 
-        exit.addActionListener(this);
+
 
         this.mainPanel.setLayout(new GridLayout(5,1));
         this.mainPanel.add(panelA);
@@ -64,8 +73,12 @@ public class SelectBotRoom extends Page implements ActionListener {
 
         this.mainPanel.setVisible(true);
 
+        startButton.addActionListener(this);
+        decksButton.addActionListener(this);
+        exit.addActionListener(this);
     }
 
+    /*มันมี Component อยู่แล้วครับอ้าย*/
     public void setButton(JButton button) {
         //setแล้วมันบั๊คครับ(textจะซ้อนทับเวลาHoverเมาส์ที่ปุ่ม)
         //button.setForeground(SharedResource.SIAMESE_BASE);
@@ -75,7 +88,27 @@ public class SelectBotRoom extends Page implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        Router.setRoute("MainMenu",null);
+        if (e.getSource() == startButton){
+            BGMPlayer.stopBackgroundMusic();
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Start.wav");
 
+            Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
+            player.setDeck(new Deck("a"));
+            try {
+                player.setDeck(Deck.LoadDeck("a"));
+            }
+            catch (FileNotFoundException ex){
+                ex.printStackTrace();
+            }
+            Player bot = new Bot();
+            ArrayList<Player> p = new ArrayList<>();
+            p.add(player);
+            p.add(bot);
+            GameForGUI botGame = new GameForGUI(p);
+            Router.setRoute("Avenger",botGame);
+        }
+        else if (e.getSource() == decksButton){
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+        }
     }
 }

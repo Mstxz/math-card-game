@@ -1,6 +1,8 @@
 
 package GUI.Page;
 
+import AudioPlayer.BGMPlayer;
+import AudioPlayer.SFXPlayer;
 import GUI.Component.*;
 import GUI.Router;
 import GameSocket.NIOClient;
@@ -142,6 +144,8 @@ public class RoomSelect extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(createButton)){
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Start.wav");
+            BGMPlayer.stopBackgroundMusic();
             NIOServer.getInstance().stopServer();
             NIOServer.getInstance().start();
             NIOClient client = new NIOClient();
@@ -172,6 +176,7 @@ public class RoomSelect extends Page implements ActionListener {
             l.startLoad();
         }
         else if(e.getSource().equals(joinButton)){
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Start.wav");
             NIOClient client = new NIOClient();
             client.connect(hostIpField.getText());
             Loader l = new Loader(this,"Joining Session"){

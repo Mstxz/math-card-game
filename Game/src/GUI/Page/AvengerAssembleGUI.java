@@ -166,7 +166,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
-		SFXPlayer.playSound("Game/src/assets/Audio/SFX/PlayerTurn.wav", -10.0f);
+		SFXPlayer.playSound("Game/src/assets/Audio/SFX/PlayerTurn.wav");
 		if (isPlayerTurn){
 			endTurnButton.setText("<html><body>End<br>Turn</body></html>");
 			endTurnButton.setEnabled(true);
@@ -200,7 +200,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource()==endTurnButton){
-			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Meow.wav", 0f);
+			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Meow.wav");
 			setPlayerTurn(false);
 			game.notifyEndTurn();
 		}
@@ -208,7 +208,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			CardPlayable c = (CardPlayable) e.getSource();
 			System.out.println(c.isPlayable());
 			if(c.isPlayable()) {
-				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav", 0f);
+				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
 				int index = game.getPlayer().getHand().indexOf(c.getCard());
 				Card cardPlayed = game.getPlayer().getHand().remove(index);
 
@@ -295,13 +295,13 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	public void onGameEnded(Player winner) {
 		BGMPlayer.stopBackgroundMusic();
 		if (winner == game.getPlayer()){
-			SFXPlayer.playSound("Game/src/assets/Audio/Test2.wav", -10.0f);
+			SFXPlayer.playSound("Game/src/assets/Audio/Test2.wav");
 			showOverlay(new ResultShow("Victory"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 			//endTurnButton.removeActionListener(this);
 		}
 		else if(winner != null){
-			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Lose_Awakened.wav", -10.0f);
+			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Lose_Awakened.wav");
 			showOverlay(new ResultShow("Defeat"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}

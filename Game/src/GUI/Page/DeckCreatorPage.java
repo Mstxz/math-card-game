@@ -121,6 +121,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
 */
 package GUI.Page;
 
+import AudioPlayer.SFXPlayer;
 import GUI.Component.*;
 import GUI.Component.PopupMenu;
 import java.awt.*;
@@ -274,6 +275,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)){
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Confirm.wav");
             if (!popupMenu.getCurrentDeck().getFileName().equals(popupMenu.getCurrentName())){
                 File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
                 if (f.delete()) {
@@ -317,6 +319,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
             System.out.println("Write");
         }
         else if (e.getSource().equals(createButton)) {
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
             String newName = JOptionPane.showInputDialog(null, "Create Deck", name);
             if (newName != null && !newName.trim().isEmpty()) {
                 if (new File("Assets/"+newName+".deck").exists()){

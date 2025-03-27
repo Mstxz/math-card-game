@@ -12,7 +12,7 @@ import java.util.List;
 public class SFXPlayer {
     private static final List<Clip> activeClips = new ArrayList<>();
 
-    public static void playSound(String soundFile, float volume) {
+    public static void playSound(String soundFile) {
         try {
             File audioFile = new File(soundFile);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);

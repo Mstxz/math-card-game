@@ -130,7 +130,7 @@ public class SelGameMode extends Page implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav", -10.0f);
+        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
 
         if (e.getSource().equals(botButton)){
             Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
