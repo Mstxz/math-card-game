@@ -205,9 +205,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			game.notifyEndTurn();
 		}
 		if(e.getSource() instanceof CardPlayable && isPlayerTurn){
-			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav", 0f);
 			CardPlayable c = (CardPlayable) e.getSource();
+			System.out.println(c.isPlayable());
 			if(c.isPlayable()) {
+				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav", 0f);
 				int index = game.getPlayer().getHand().indexOf(c.getCard());
 				Card cardPlayed = game.getPlayer().getHand().remove(index);
 

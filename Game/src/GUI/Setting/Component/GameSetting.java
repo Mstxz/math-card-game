@@ -4,7 +4,7 @@ import GUI.Component.RotatingSettingOption;
 import GUI.Component.RoundBorder;
 import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
-import utils.RoundPanelUI;
+import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
 import javax.swing.*;

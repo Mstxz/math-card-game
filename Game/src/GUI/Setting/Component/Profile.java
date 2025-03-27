@@ -3,7 +3,7 @@ package GUI.Setting.Component;
 import GUI.Setting.Controller.SettingController;
 import GUI.Setting.Controller.UserProfile;
 import GUI.Setting.UserPreference;
-import utils.RoundPanelUI;
+import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
 import javax.swing.*;
@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Profile extends JPanel implements ActionListener {
