@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class JesusCat extends Card implements HaveCondition {
     public JesusCat(){
-        super("JesusCat","Add the card with highest difficulty which user has recently discarded to their hands.",7, Difficulty.EASY, CardType.YELLOW);
+        super("JesusCat","Add the card with highest difficulty which user has recently discarded to their hands.",7, Difficulty.BABY, CardType.YELLOW);
     }
 
     @Override

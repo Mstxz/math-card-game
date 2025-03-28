@@ -53,6 +53,18 @@ public class ResourceLoader {
         }
     }
 
+    public static BufferedImage loadBufferedPicture(Image picture){
+        //System.out.println(picture+" "+picture.split("\\.")[0]+".webp");
+        //picture = picture.split("\\.")[0]+".webp";
+            //String filePath = Paths.get(ResourceLoader.class.getClassLoader().getResource(picture).toURI()).toFile().getAbsolutePath();
+            Image loadedImg = picture;
+            BufferedImage bf = new BufferedImage(loadedImg.getWidth(null),loadedImg.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = bf.createGraphics();
+            g2d.drawImage(loadedImg,0,0,null);
+            g2d.dispose();
+            return bf;
+    }
+
     public static BufferedInputStream loadFileAsStream(String file){
         return (BufferedInputStream) ResourceLoader.class.getClassLoader().getResourceAsStream(file);
     }

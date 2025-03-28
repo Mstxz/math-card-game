@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class CatNap extends Card {
     public CatNap(){
-        super("CatNap","Draw 2 cards",2, Difficulty.EASY, CardType.YELLOW);
+        super("CatNap","Draw 2 cards",2, Difficulty.BABY, CardType.YELLOW);
         //this.picture = "assets/Yellow_BetaCatNap.png";
     }
 

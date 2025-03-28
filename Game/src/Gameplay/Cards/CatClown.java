@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class CatClown extends Card implements HaveCondition {
     public CatClown(){
-        super("CatClown","Add a random copy card from opponent to user's hand.",3, Difficulty.EASY, CardType.YELLOW);
+        super("CatClown","Add a random copy card from opponent to user's hand.",3, Difficulty.BABY, CardType.YELLOW);
     }
 
     @Override

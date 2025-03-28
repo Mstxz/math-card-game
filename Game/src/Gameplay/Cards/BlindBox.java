@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class BlindBox extends Card {
     public BlindBox(){
-        super("BlindBox","Select a random number from 1 to 10 to increase the target's HP.",2, Difficulty.MEDIUM, CardType.GREEN);
+        super("BlindBox","Select a random number from 1 to 10 to increase the target's HP.",2, Difficulty.EASY, CardType.GREEN);
     }
 
     @Override

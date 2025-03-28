@@ -7,7 +7,7 @@ import Gameplay.Player;
 
 public class SleepyCat extends Card {
     public SleepyCat(){
-        super("SleepyCat","Add two \"CatNap\" to user's hand.",6, Difficulty.EASY, CardType.YELLOW);
+        super("SleepyCat","Add two \"CatNap\" to user's hand.",6, Difficulty.BABY, CardType.YELLOW);
     }
 
     @Override

@@ -37,7 +37,9 @@ public class HandDeck extends JPanel{
 
 		this.CleanHand();
 		scale = 1.0 - (0.02 * owner.getHand().size());
-		if (-5 * owner.getHand().size() < SharedResource.CARD_WIDTH / 2)
+		if (scale < 0.6)
+			scale = 0.6;
+		if (5 * owner.getHand().size() < SharedResource.CARD_WIDTH / 2)
 			this.gap = (-5 * owner.getHand().size()) % (SharedResource.CARD_WIDTH / 2);
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, this.gap, 0));
 		for (int i = 0;i < owner.getHand().size();i++) {

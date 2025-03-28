@@ -7,7 +7,7 @@ import Gameplay.Player;
 
 public class FullCat extends Card {
     public FullCat(){
-        super("FullCat","Add two \"CatTreat\" to user's hand.",5, Difficulty.EASY, CardType.YELLOW);
+        super("FullCat","Add two \"CatTreat\" to user's hand.",5, Difficulty.BABY, CardType.YELLOW);
     }
 
     @Override
