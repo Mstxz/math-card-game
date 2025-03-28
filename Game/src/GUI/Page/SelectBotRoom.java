@@ -3,6 +3,7 @@ package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
+import GUI.Component.ExitButton;
 import GUI.Router;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,14 +35,25 @@ public class SelectBotRoom extends Page implements ActionListener {
     private JLabel selectingBotDescription = new JLabel("Bot description for explaining its behavior, pattern, and lore add-on");
 
     public SelectBotRoom() {
-        super();
+        panelA = new JPanel();
+        panelB = new JPanel();
+        panelC = new JPanel();
+        panelD = new JPanel();
+        panelE = new JPanel();
+        exit = new ExitButton("SelMode");
+        previousBotButton = new JButton("<");
+        nextBotButton = new JButton(">");
+        decksButton = new JButton("Decks");
+        startButton = new JButton("Start");
+        chooseOpponent = new JLabel("Choose Your Opponent");
+        selectingBotName = new JLabel("Bot Name");
+        selectingBotProfileImage = new JLabel("Bot PFP");
+        selectingBotDescription = new JLabel("Bot description for explaining its behavior, pattern, and lore add-on");
+
         chooseOpponent.setForeground(SharedResource.SIAMESE_BASE);
         chooseOpponent.setFont(SharedResource.getCustomSizeFont(80));
         selectingBotName.setForeground(SharedResource.SIAMESE_BASE);
         selectingBotName.setFont(SharedResource.getCustomSizeFont(40));
-
-
-
 
         this.mainPanel.setLayout(new GridLayout(5,1));
         this.mainPanel.add(panelA);
