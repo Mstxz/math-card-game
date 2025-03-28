@@ -27,10 +27,10 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 public class CustomScrollBarUI extends BasicScrollBarUI {
 
     private final Dimension d = new Dimension();
-    private Color defaultColor;
-    private Color mouseHoverColor;
-    private Color mouseClickColor;
-    private Color trackColor;
+    private final Color defaultColor;
+    private final Color mouseHoverColor;
+    private final Color mouseClickColor;
+    private final Color trackColor;
 
     public CustomScrollBarUI(Color defaultColor, Color mouseHoverColor, Color mouseClickColor, Color trackColor){
         this.defaultColor = defaultColor;
