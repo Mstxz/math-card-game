@@ -25,8 +25,8 @@ public class AbsoluteCCat extends Card {
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
         Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
-        arr.add(new SetHp(new Constant(Math.abs(((Constant)(self.getHp())).getNumber())),receiver));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
+        arr.add(new SetHp(new Constant(Math.abs(((Constant)(self.getHp())).getNumber())),receiver.getPlayerNumber()));
         return arr;
     }
 }

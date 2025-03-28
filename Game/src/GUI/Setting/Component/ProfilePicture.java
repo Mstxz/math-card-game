@@ -20,7 +20,7 @@ public class ProfilePicture implements Serializable {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                this.setIcon(ResourceLoader.loadPicture(getProfileURL(),getWidth(),getHeight()));
+                //this.setIcon(ResourceLoader.loadPicture(getProfileURL(),getWidth(),getHeight()));
             }
         };
         button.setName(profileName);

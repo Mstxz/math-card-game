@@ -31,12 +31,12 @@ public class FlagCat extends Card implements HaveCondition {
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
         Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
         int tmp = 1;
         for (int i = 1;i<=((Constant)self.getHp()).getNumber();i++){
             tmp*=i;
         }
-        arr.add(new SetHp(new Constant(tmp),receiver));
+        arr.add(new SetHp(new Constant(tmp),receiver.getPlayerNumber()));
         return arr;
     }
 }

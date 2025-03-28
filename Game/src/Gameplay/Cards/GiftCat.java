@@ -24,8 +24,8 @@ public class GiftCat extends Card {
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
         Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
-        arr.add(new SetHp(self.getHp(),receiver));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
+        arr.add(new SetHp(self.getHp(),receiver.getPlayerNumber()));
         return arr;
     }
 }

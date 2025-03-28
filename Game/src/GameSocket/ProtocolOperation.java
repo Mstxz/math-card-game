@@ -6,7 +6,12 @@ public enum ProtocolOperation {
     LOBBY,
     DECK,
     CARD,
+    SET_HP,
+    SET_MANA,
     DRAW,
+    DISCARD,
+
+    STATUS_UPDATE,
     HAND_UPDATE,
     END_TURN,
     START_TURN,

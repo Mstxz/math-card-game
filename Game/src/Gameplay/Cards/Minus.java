@@ -35,8 +35,8 @@ public class Minus extends Card {
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
         Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
-        arr.add(new SetHp(receiver.getHp().subtract(new Constant(this.number)),receiver));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
+        arr.add(new SetHp(receiver.getHp().subtract(new Constant(this.number)),receiver.getPlayerNumber()));
         return arr;
     }
     @Override

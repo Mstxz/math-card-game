@@ -1,5 +1,6 @@
 package Gameplay;
 
+import GameSocket.PlayerInfo;
 import Gameplay.Numbers.Constant;
 
 import java.util.ArrayList;
@@ -209,6 +210,7 @@ public class Player {
         //return true;
     }
 
+
     public static ArrayList<Integer> checkLose(ArrayList<Player> playerList){
         ArrayList<Integer> lose = new ArrayList<>();
         for (Player p:playerList){
@@ -218,6 +220,7 @@ public class Player {
         }
         return lose;
     }
+
 
     public static boolean checkWinNonPrint(Player a,Player b){
         return ((Constant) (a.getHp())).getNumber() == 0 || a.getDeck().getCards().isEmpty() || ((Constant) (b.getHp())).getNumber() == 0 || b.getDeck().getCards().isEmpty();

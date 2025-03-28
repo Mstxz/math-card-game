@@ -55,7 +55,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		this.game.setObserver(this);
 		opponents = new ArrayList<>();
 		for (Player entity:game.getTurnOrder()){
-			if (entity != game.getPlayer()){
+			if (entity != game.getPlayer() && entity != null){
 				opponents.add(entity);
 			}
 		}
@@ -166,6 +166,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
+		System.out.println(isPlayerTurn);
 		SFXPlayer.playSound("Game/src/assets/Audio/SFX/PlayerTurn.wav");
 		if (isPlayerTurn){
 			endTurnButton.setText("<html><body>End<br>Turn</body></html>");
@@ -209,22 +210,23 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			System.out.println(c.isPlayable());
 			if(c.isPlayable()) {
 				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
+				System.out.println(c.getCard());
+				System.out.println(Arrays.toString(game.getPlayer().getHand().toArray()));
 				int index = game.getPlayer().getHand().indexOf(c.getCard());
-				Card cardPlayed = game.getPlayer().getHand().remove(index);
 
 				//gui.addCardPlayed(cardPlayed);
-				if (cardPlayed.getType() == CardType.GREEN){
-					showOverlay(new SelectOpponent(game.getPlayer(),opponents,cardPlayed,this),OverlayPlacement.CENTER);
+				if (game.getPlayer().getHand().get(index).getType() == CardType.GREEN){
+					showOverlay(new SelectOpponent(game.getPlayer(),opponents,index,this),OverlayPlacement.CENTER);
 				}
 				else{
-					playCard(cardPlayed,getActiveEnemy());
+					playCard(index,getActiveEnemy());
 				}
 			}
 		}
 	}
 
-	public void playCard(Card cardPlayed,Player receiver){
-		game.playerPlay(cardPlayed,receiver);
+	public void playCard(int cardIndex,Player receiver){
+		game.playerPlay(cardIndex,receiver);
 		if (game.isGameEnded()){
 			onGameEnded(Player.checkWin(game.getTurnOrder()));
 		}
@@ -274,9 +276,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 //				}
 //			}
 //		}
+		onStatChanged();
 		onHandChanged();
-		playerInfo.updateInfo();
-		enemyInfo.updateInfo();
 	}
 
 	@Override
@@ -284,6 +285,12 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		getUserPanel().updatePlayable(getActiveEnemy());
 		OpponentPanel.RenderHand();
 		UserPanel.RenderHand();
+	}
+
+	@Override
+	public void onStatChanged() {
+		playerInfo.updateInfo();
+		enemyInfo.updateInfo();
 	}
 
 	@Override
@@ -318,6 +325,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 	@Override
 	public void onTurnEnded() {
+		System.out.println("OnTurnEnd");
+		setPlayerTurn(false);
 		getUserPanel().updatePlayable(getActiveEnemy());
 		playerInfo.updateInfo();
 		enemyInfo.updateInfo();

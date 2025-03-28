@@ -40,16 +40,16 @@ public class AngryCat extends Card {
     @Override
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
 
         int selfHandSize = self.getHand().size();
         int enemyHandSize = enemy.getHand().size();
 
-        arr.add(new Discard(selfHandSize,self));
-        arr.add(new Discard(enemyHandSize,enemy));
+        arr.add(new Discard(selfHandSize,self.getPlayerNumber()));
+        arr.add(new Discard(enemyHandSize,enemy.getPlayerNumber()));
 
-        arr.add(new Draw(selfHandSize,self));
-        arr.add(new Draw(enemyHandSize,enemy));
+        arr.add(new Draw(selfHandSize,self.getPlayerNumber()));
+        arr.add(new Draw(enemyHandSize,enemy.getPlayerNumber()));
         return arr;
     }
 }

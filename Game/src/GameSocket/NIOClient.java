@@ -204,7 +204,6 @@ public class NIOClient extends Game {
                 buffer.clear();
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0) {
-                    System.out.println(Arrays.toString(buffer.array()));
                     ArrayList<Request> waitingRequest = getAllRequest(buffer.array(),byteRead);
                     //Request serverReq = Request.decodeBytes(buffer.array());
                     //System.out.println(serverReq.getOperation().name());
@@ -220,7 +219,6 @@ public class NIOClient extends Game {
                                         turnOrder.get(receiver).getHand().add(cardReceived);
                                         turnOrder.get(receiver).getDeck().getCards().removeLast();
                                     }
-                                    System.out.println(turnOrder.get(receiver).getHand());
                                     observer.onHandChanged();
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
@@ -232,9 +230,13 @@ public class NIOClient extends Game {
                             case START_TURN:
                                 try (RequestReader r = new RequestReader(req)) {
                                     currentTurn = r.readInt();
+                                    System.out.println(currentTurn + " " + playerOrder);
                                     if (currentTurn == playerOrder){
                                         currentState = ClientState.PLAY;
                                         observer.onTurnArrive();
+                                    }
+                                    else{
+                                        currentState = ClientState.WAIT;
                                     }
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
@@ -242,16 +244,31 @@ public class NIOClient extends Game {
                                 break;
                             case HAND_UPDATE:
                                 try (RequestReader r = new RequestReader(req)) {
-                                    turnOrder.clear();
                                     while (!r.reachTheEnd()) {
+
                                         PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
-                                        turnOrder.add(playerInfo);
+                                        if (playerInfo != null){
+                                            turnOrder.get(playerInfo.getPlayerID()).setMaxMana(playerInfo.getMaxMana());
+                                            turnOrder.get(playerInfo.getPlayerID()).setMana(playerInfo.getMana());
+                                            turnOrder.get(playerInfo.getPlayerID()).setHp(playerInfo.getHp());
+                                            turnOrder.get(playerInfo.getPlayerID()).getHand().clear();
+                                            turnOrder.get(playerInfo.getPlayerID()).getHand().addAll(playerInfo.getHand());
+                                        }
                                     }
+                                    observer.onHandChanged();
+                                    observer.onStatChanged();
                                     System.out.println("Hand Update " + turnOrder);
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
                                 }
-                                notifyLobbyObserver();
+                                break;
+                            case END_GAME:
+                                try (RequestReader r = new RequestReader(req)) {
+                                    int winnerID = r.readInt();
+                                    observer.onGameEnded(turnOrder.get(winnerID));
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
                                 break;
                         }
                     }
@@ -304,16 +321,6 @@ public class NIOClient extends Game {
         System.out.println(deckPath);
     }
 
-    public void playCard(Card card,int targetID){
-        if(currentState == ClientState.PLAY){
-            Request req = new Request(ProtocolOperation.CARD);
-            req.appendData(card.getName());
-            req.appendData(playerOrder);
-            req.appendData(targetID);
-            this.events.add(req);
-        }
-
-    }
     public void addLobbyObserver(LobbyObserver observer){
         lobbyObservers.add(observer);
         observer.onLobbyChange(turnOrder);
@@ -371,7 +378,9 @@ public class NIOClient extends Game {
         if(currentState == ClientState.PLAY){
             Request req = new Request(ProtocolOperation.END_TURN);
             this.events.add(req);
+            currentState = ClientState.WAIT;
         }
+        observer.onTurnEnded();
     }
 
     @Override
@@ -380,7 +389,14 @@ public class NIOClient extends Game {
     }
 
     @Override
-    public void playerPlay(Card c, Player receiver) {
-
+    public void playerPlay(int cardIndex, Player receiver) {
+        if(currentState == ClientState.PLAY){
+            Request req = new Request(ProtocolOperation.CARD);
+            req.appendData(cardIndex);
+            req.appendData(turnOrder.get(playerOrder).getHand().get(cardIndex).encode());
+            req.appendData(playerOrder);
+            req.appendData(receiver.getPlayerNumber());
+            this.events.add(req);
+        }
     }
 }

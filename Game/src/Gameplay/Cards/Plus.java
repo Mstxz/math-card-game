@@ -38,8 +38,8 @@ public class Plus extends Card {
     public ArrayList<Gameplay.CardAction.CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<Gameplay.CardAction.CardAction> arr = new ArrayList<CardAction>();
         Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
-        arr.add(new SetHp(receiver.getHp().add(new Constant(this.number)),receiver));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
+        arr.add(new SetHp(receiver.getHp().add(new Constant(this.number)),receiver.getPlayerNumber()));
         return arr;
     }
 

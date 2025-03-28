@@ -26,7 +26,7 @@ public class CatTreat extends Card implements HaveCondition {
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
         Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(receiver.getMana() + 2,receiver));
+        arr.add(new SetMana(receiver.getMana() + 2,receiver.getPlayerNumber()));
         return arr;
     }
 }

@@ -1,10 +1,14 @@
 package Gameplay.Numbers;
 
 import Gameplay.Number;
+import Gameplay.NumberType;
+
+import java.nio.ByteBuffer;
 
 public class Constant extends Number {
-    private int number;
+    private final int number;
     public Constant(int number){
+        super(NumberType.CONSTANT);
         this.number = number;
     }
 
@@ -46,5 +50,13 @@ public class Constant extends Number {
 
     public String toString(){
         return this.number+"";
+    }
+
+    @Override
+    public byte[] encodedBytes() {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(8);
+        byteBuffer.putInt(this.type.ordinal());
+        byteBuffer.putInt(number);
+        return byteBuffer.array();
     }
 }

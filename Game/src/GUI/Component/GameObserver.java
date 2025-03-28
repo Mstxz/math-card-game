@@ -10,6 +10,7 @@ public interface GameObserver {
     public abstract void onGameStart(int startTurn);
     public abstract void onCardPlayed(ArrayList<CardAction> actionsTaken);
     public abstract void onHandChanged();
+    public abstract void onStatChanged();
     public abstract void onPlayerQuit(Player playerQuit);
     public abstract void onGameEnded(Player winner);
     public abstract void onTurnArrive();
