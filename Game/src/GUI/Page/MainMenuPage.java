@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -33,14 +34,14 @@ public class MainMenuPage extends Page implements ActionListener {
     public MainMenuPage() {
         super();
         try {
-            bg = new ImageIcon(getClass().getClassLoader().getResource("assets/blankBG.jpg")).getImage();
+            bg = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/blankBG.jpg"))).getImage();
         } catch (Exception e) {
             System.out.println("Error loading background image: " + e.getMessage());
         }
         initComponents();
 
         try {
-            ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
+            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")));
             mainFrame.setIconImage(icon.getImage());
         } catch (Exception e) {
             System.out.println("Error loading icon: " + e.getMessage());

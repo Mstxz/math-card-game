@@ -7,10 +7,13 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.*;
 
-public class ResultShow extends JPanel {
+public class ResultShow extends JPanel implements ActionListener {
     private  JPanel banner;
     private String displayText;
+    private BlueButton returnButton = new BlueButton("Return to Menu", 350, 100);
+
     public ResultShow(String displayText) {
         banner = new JPanel();
         this.displayText = displayText;
@@ -43,12 +46,22 @@ public class ResultShow extends JPanel {
         this.setLayout(null);
         this.add(bigText);
         this.add(banner);
+        banner.add(returnButton);
 
+        returnButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        returnButton.addActionListener(this);
         this.setOpaque(false);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+    }
+
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == returnButton){
+            Router.setRoute("MainMenu", null);
+        }
     }
 }
