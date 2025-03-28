@@ -25,8 +25,8 @@ public class RoomSelect extends Page implements ActionListener {
     private JLabel header;
     private JLabel createRoomLabel;
     private JLabel joinRoomLabel;
-    private PlayerVSPlayerSelectButton  createButton;
-    private PlayerVSPlayerSelectButton  joinButton;
+    private BlueButton  createButton;
+    private BlueButton  joinButton;
     private JTextField hostIpField;
     private ExitButton exitLabel;
     private boolean loading;
@@ -46,33 +46,8 @@ public class RoomSelect extends Page implements ActionListener {
         joinRoomLabel.setBackground(SharedResource.SIAMESE_BRIGHT);
         joinRoomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        createButton = new PlayerVSPlayerSelectButton("Create");
-        createButton.setPreferredSize(new Dimension(350, 80));
-
-        JLabel createButtonLabel = new JLabel("                     Create                     ", SwingConstants.CENTER);
-        createButtonLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        createButtonLabel.setFont(SharedResource.getCustomSizeFont(28));
-        createButtonLabel.setForeground(new Color(102, 142, 169));
-        createButtonLabel.setBounds(0, 0, 356, 99);
-        createButton.add(createButtonLabel);
-//        createButton.setBorder(new EmptyBorder(10,60,10,60));
-//        createButton.setPreferredSize(new Dimension(200,60));
-        createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        joinButton = new PlayerVSPlayerSelectButton ("Join");
-        joinButton.setPreferredSize(new Dimension(350, 80));
-
-        JLabel joinButtonLabel = new JLabel("                        Join                        ", SwingConstants.CENTER);
-        joinButtonLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        joinButtonLabel.setFont(SharedResource.getCustomSizeFont(28));
-        joinButtonLabel.setForeground(new Color(102, 142, 169));
-        joinButtonLabel.setBounds(0, 0, 356, 99);
-        joinButton.add(joinButtonLabel);
-        joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-//        joinButton.setBorder(new EmptyBorder(10,60,10,60));
-//        joinButton.setPreferredSize(new Dimension(200,60));
-        joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        createButton = new BlueButton("Create", 350, 80);
+        joinButton = new BlueButton ("Join", 350, 80);
 
 
         hostIpField = new JTextField("Room ID");
@@ -112,6 +87,7 @@ public class RoomSelect extends Page implements ActionListener {
         exitLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
         optionPanel.setLayout(new BoxLayout(optionPanel,BoxLayout.Y_AXIS));
+        optionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         optionPanel.setPreferredSize(new Dimension(300,600));
         optionPanel.add(createRoomLabel);
         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));

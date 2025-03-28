@@ -1,14 +1,18 @@
 package GUI.Component;
-import GUI.Component.RoundBorder;
+
 import utils.SharedResource;
 
 import javax.swing.*;
-        import java.awt.*;
+import java.awt.*;
 
-public class PlayerVSPlayerSelectButton extends JButton {
-    public PlayerVSPlayerSelectButton(String text) {
+public class BlueButton extends JButton {
+    public BlueButton(String text, int width, int height) {
         super(text);
-        setPreferredSize(new Dimension(350, 80));
+        setPreferredSize(new Dimension(width, height));
+        setMaximumSize(new Dimension(width, height));
+        setAlignmentX(Component.CENTER_ALIGNMENT);
+        setHorizontalAlignment(SwingConstants.CENTER); // Center text horizontally
+        setVerticalAlignment(SwingConstants.CENTER);   // Center text vertically
 //        setMinimumSize(new Dimension(350, 80));
 //        setMaximumSize(new Dimension(350, 80));
 
@@ -29,6 +33,17 @@ public class PlayerVSPlayerSelectButton extends JButton {
                 )
         ));
         setHorizontalAlignment(SwingConstants.CENTER);
-        //setFont(new Font("SansSerif", Font.BOLD, 24));
+        add(BlueButton.createLabel(this, this.getPreferredSize()), BorderLayout.CENTER);
+    }
+
+    public static JLabel createLabel(BlueButton b, Dimension d) {
+        JLabel label = new JLabel(b.getText());
+        label.setPreferredSize(d);
+        label.setMaximumSize(d);
+        label.setHorizontalAlignment(SwingConstants.CENTER); // Center text horizontally
+        label.setVerticalAlignment(SwingConstants.CENTER);   // Center text vertically
+        label.setFont(SharedResource.getCustomSizeFont(28)); // Replace with your font method
+        label.setForeground(SharedResource.SKYBLUE_DARK); // Replace with `SharedResource.SKYBLUE_DARK`
+        return label;
     }
 }
