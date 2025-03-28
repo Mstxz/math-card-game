@@ -248,6 +248,14 @@ public class NIOServer extends Thread {
                     case CARD:
                         Request req = new Request(ProtocolOperation.CARD);
                         pushUpdate(req,registeredID.get(client));
+                    case END_TURN:
+                        if (gameState.getCurrentTurn() == registeredID.get(client)){
+                            gameState.incrementTurn();
+                            Request startTurn = new Request(ProtocolOperation.START_TURN);
+                            startTurn.appendData(gameState.getCurrentTurn());
+                            drawCards(gameState.getCurrentTurn(),1);
+                            pushUpdate(startTurn);
+                        }
                 }
             }
         } else {
@@ -283,6 +291,7 @@ public class NIOServer extends Thread {
         for (PlayerInfo p : gameState.getPlayers()){
             try {
                 p.setDeck(Deck.LoadDeckFromPath(playerState[p.getPlayerID()].getDeckPath()));
+                p.getDeck().shuffle();
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -292,9 +301,10 @@ public class NIOServer extends Thread {
         for (int i = 1; i < gameState.getPlayers().size(); i++) {
             drawCards((randomStarter + i) % gameState.getPlayers().size(),5);
         }
-
         handStateUpdate();
-        sendUpdate(new Request(ProtocolOperation.START_TURN),randomStarter);
+        Request startTurn = new Request(ProtocolOperation.START_TURN);
+        startTurn.appendData(randomStarter);
+        pushUpdate(startTurn);
     }
 
     private void drawCards(int playerOrder,int numberOfCards){
@@ -302,6 +312,7 @@ public class NIOServer extends Thread {
         ArrayList<Card> cardsDraw = new ArrayList<>();
         for (int i = 0; i < numberOfCards; i++) {
             cardsDraw.add(gameState.getPlayers().get(playerOrder).draw());
+            gameState.getPlayers().get(playerOrder).setCardsInHand(gameState.getPlayers().get(playerOrder).getHand().size());
         }
         Request request = new Request(ProtocolOperation.DRAW);
         request.appendData(playerOrder);
@@ -336,13 +347,12 @@ public class NIOServer extends Thread {
                 Request serverReq = new Request(ProtocolOperation.HAND_UPDATE);
                 for (PlayerState from : playerState) {
                     if (from != null) {
-                        if (to == from){
+                        if (from == to){
                             serverReq.appendData(from.getPlayerInfo().encodeBytesIncludeHand());
                         }
                         else{
                             serverReq.appendData(from.getPlayerInfo().encodeBytes());
                         }
-                        //bf.put(from.getPlayerInfo().encodeBytes());
                     }
                     else{
                         serverReq.appendData(new byte[]{});

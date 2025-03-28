@@ -28,12 +28,17 @@ public class PlayerInfo extends Player {
         this.playerNumber = playerNumber;
     }
 
-    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady,int cardsInHand, ArrayList<Card> hand) {
-        super(name,profilePicture);
-        this.isReady = isReady;
+
+    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady,int cardsInHand) {
+        this(name,profilePicture,hp,playerNumber,isReady);
         this.cardsInHand = cardsInHand;
-        this.hp = new Constant(hp);
-        this.playerNumber = playerNumber;
+        for (int i = 0; i < cardsInHand; i++) {
+            this.hand.add(null);
+        }
+    }
+
+    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady,int cardsInHand, ArrayList<Card> hand) {
+        this(name,profilePicture,hp,playerNumber,isReady,cardsInHand);
         this.hand = hand;
     }
 
@@ -92,7 +97,7 @@ public class PlayerInfo extends Player {
             int cardInHand = in.readInt();
             byteRead = nameByte + profilePictureByte + 24;
             if (byteRead == bytes.length){
-                return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady);
+                return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady,cardInHand);
             }
             ArrayList<Card> cards = new ArrayList<>();
             while (byteRead != bytes.length){
@@ -100,6 +105,8 @@ public class PlayerInfo extends Player {
                 byteRead += 4;
                 Card card = Card.decode(Arrays.copyOfRange(bytes,byteRead,byteRead + cardBytes));
                 cards.add(card);
+                byteRead += cardBytes;
+                in.skipNBytes(cardBytes);
             }
             return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady,cardInHand,cards);
         }
@@ -204,6 +211,7 @@ public class PlayerInfo extends Player {
                 ", numberType=" + numberType +
                 ", maxMana=" + maxMana +
                 ", playerNumber=" + playerNumber +
+                ", deck" + deck.getCards() +
                 ", hand=" + hand +
                 '}';
     }

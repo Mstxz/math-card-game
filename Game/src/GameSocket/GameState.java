@@ -38,6 +38,10 @@ public class GameState {
         this.currentTurn = currentTurn;
     }
 
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
+
     public ArrayList<PlayerInfo> getPlayers() {
         return players;
     }

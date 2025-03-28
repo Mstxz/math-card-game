@@ -21,12 +21,15 @@ public class HandDeck extends JPanel{
 		this.gui = gui;
 		this.owner = owner;
 		this.isEnemy = isEnemy;
-		if (isEnemy)
+		if (isEnemy) {
 			this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
-		else
+		}
+		else {
 			this.setLayout(new FlowLayout(FlowLayout.CENTER));
+			this.updatePlayable(gui.getActiveEnemy());
+		}
 		this.setVisible(true);
-		this.updatePlayable(gui.getActiveEnemy());
+
 	}
 
 	public void	RenderHand()
