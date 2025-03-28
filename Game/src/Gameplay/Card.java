@@ -123,8 +123,7 @@ public abstract class Card {
 
     public static Card decode(byte[] bytes){
         System.out.println(Arrays.toString(bytes));
-        DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
-        try {
+        try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes))){
             int segmentCount = in.readInt();
             if (segmentCount == 2){
                 int cardTypeNumber = in.readInt();

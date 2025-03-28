@@ -1,8 +1,12 @@
 package GameSocket;
 
 import Gameplay.Card;
+import Gameplay.CardAction.CardAction;
+import Gameplay.CardAction.Draw;
+import Gameplay.CardAction.SetHp;
 import Gameplay.Deck;
 import Gameplay.Numbers.Constant;
+import Gameplay.Player;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -246,16 +250,66 @@ public class NIOServer extends Thread {
 
                         break;
                     case CARD:
-                        Request req = new Request(ProtocolOperation.CARD);
-                        pushUpdate(req,registeredID.get(client));
+                        try (RequestReader r = new RequestReader(clientReq)){
+                            int cardIndex = r.readInt();
+                            Card cardPlayed = Card.decode(r.readByteData());
+                            int ownerID = r.readInt();
+                            int receiverID = r.readInt();
+                            //ArrayList<CardAction> cardActions = cardPlayed.getCardAction(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
+                            cardPlayed.action(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
+                            gameState.getPlayers().get(ownerID).getDeck().getDispose().add(cardPlayed);
+                            gameState.getPlayers().get(ownerID).getHand().remove(cardIndex);
+                            ArrayList<Player> playerArrayList = new ArrayList<>();
+                            for (PlayerInfo playerInfo:gameState.getPlayers()){
+                                playerArrayList.add((Player) playerInfo);
+                            }
+                            handStateUpdate();
+                            ArrayList<Integer> loseList = Player.checkLose(playerArrayList);
+                            if(!loseList.isEmpty()){
+
+                                Request gameEnded = new Request(ProtocolOperation.END_GAME);
+                                gameEnded.appendData((loseList.getFirst() + 1) % 2);
+                                pushUpdate(gameEnded);
+                                return;
+                            }
+//                            Request notifyCardPlayed = new Request(ProtocolOperation.CARD);
+//                            notifyCardPlayed.appendData(cardPlayed.encode());
+//                            notifyCardPlayed.appendData(ownerID);
+//                            notifyCardPlayed.appendData(receiverID);
+//                            pushUpdate(notifyCardPlayed);
+
+//                            for (CardAction cardAction : cardActions){
+//                                switch (cardAction.getType()){
+//                                    case DRAW -> {
+//                                        Draw draw = (Draw) cardAction;
+//                                        drawCards(draw.getTargetID(),draw.getAmount());
+//                                    }
+//                                    case SET_HP -> {
+//                                        SetHp setHp = (SetHp) cardAction;
+//
+//                                    }
+//                                }
+//                            }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+
                     case END_TURN:
                         if (gameState.getCurrentTurn() == registeredID.get(client)){
+                            if (gameState.getCurrentPlayer().getMaxMana() != 10){
+                                gameState.getCurrentPlayer().setMaxMana(gameState.getCurrentPlayer().getMaxMana() + 1);
+                            }
+                            gameState.getCurrentPlayer().setMana(gameState.getCurrentPlayer().getMaxMana());
+                            handStateUpdate();
                             gameState.incrementTurn();
                             Request startTurn = new Request(ProtocolOperation.START_TURN);
                             startTurn.appendData(gameState.getCurrentTurn());
                             drawCards(gameState.getCurrentTurn(),1);
+                            handStateUpdate();
                             pushUpdate(startTurn);
                         }
+                        break;
                 }
             }
         } else {
@@ -291,6 +345,7 @@ public class NIOServer extends Thread {
         for (PlayerInfo p : gameState.getPlayers()){
             try {
                 p.setDeck(Deck.LoadDeckFromPath(playerState[p.getPlayerID()].getDeckPath()));
+                p.setCardsInDeck(p.getDeck().getCards().size());
                 p.getDeck().shuffle();
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
@@ -307,6 +362,39 @@ public class NIOServer extends Thread {
         pushUpdate(startTurn);
     }
 
+    private void handleCardPlayed(Request clientReq){
+        try (RequestReader r = new RequestReader(clientReq)){
+            Card cardPlayed = Card.decode(r.readByteData());
+            int ownerID = r.readInt();
+            int receiverID = r.readInt();
+            ArrayList<CardAction> cardActions = cardPlayed.getCardAction(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
+            cardPlayed.action(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
+
+            Request notifyCardPlayed = new Request(ProtocolOperation.CARD);
+            notifyCardPlayed.appendData(cardPlayed.encode());
+            notifyCardPlayed.appendData(ownerID);
+            notifyCardPlayed.appendData(receiverID);
+            pushUpdate(notifyCardPlayed);
+
+//            for (CardAction cardAction : cardActions){
+//                switch (cardAction.getType()){
+//                    case DRAW -> {
+//                        Draw draw = (Draw) cardAction;
+//                        drawCards(draw.getTargetID(),draw.getAmount());
+//                    }
+//                    case SET_HP -> {
+//                        setHP((SetHp) cardAction);
+//                    }
+//                    case GET_CARD ->
+//                }
+//            }
+            handStateUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     private void drawCards(int playerOrder,int numberOfCards){
         System.out.println("Player " + playerOrder + " draw " + numberOfCards + " cards.");
         ArrayList<Card> cardsDraw = new ArrayList<>();
@@ -319,6 +407,13 @@ public class NIOServer extends Thread {
         for (Card card:cardsDraw){
             request.appendData(card.encode());
         }
+        pushUpdate(request);
+    }
+
+    private void setHP(SetHp setHp){
+        Request request = new Request(ProtocolOperation.SET_HP);
+        request.appendData(setHp.getTargetID());
+        request.appendData(setHp.getNewHp().encodedBytes());
         pushUpdate(request);
     }
 

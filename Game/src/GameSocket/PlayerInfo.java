@@ -15,44 +15,56 @@ import java.util.Arrays;
 public class PlayerInfo extends Player {
     private boolean isReady;
     private int cardsInHand;
+    private int cardsInDeck;
 
     public PlayerInfo() {
-        this("","assets/icon.png",0,0,false);
+        this("","assets/icon.png",new Constant(100),1,1,0,false);
     }
 
-    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady) {
+    public PlayerInfo(String name, String profilePicture, Number hp, int mana, int maxMana, int playerNumber,boolean isReady) {
         super(name,profilePicture);
         this.isReady = isReady;
         this.cardsInHand = 0;
-        this.hp = new Constant(hp);
+        this.hp = hp;
+        this.mana = mana;
+        this.maxMana = maxMana;
         this.playerNumber = playerNumber;
     }
 
 
-    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady,int cardsInHand) {
-        this(name,profilePicture,hp,playerNumber,isReady);
+    public PlayerInfo(String name, String profilePicture, Number hp, int mana, int maxMana, int playerNumber,boolean isReady,int cardsInDeck,int cardsInHand) {
+        this(name,profilePicture,hp, mana, maxMana,playerNumber,isReady);
         this.cardsInHand = cardsInHand;
+        this.cardsInDeck = cardsInDeck;
         for (int i = 0; i < cardsInHand; i++) {
             this.hand.add(null);
         }
+        this.deck.getCards().clear();
+        for (int i = 0; i < cardsInDeck; i++){
+            this.deck.getCards().add(null);
+        }
     }
 
-    public PlayerInfo(String name, String profilePicture, int hp, int playerNumber,boolean isReady,int cardsInHand, ArrayList<Card> hand) {
-        this(name,profilePicture,hp,playerNumber,isReady,cardsInHand);
+    public PlayerInfo(String name, String profilePicture, Number hp, int mana, int maxMana, int playerNumber,boolean isReady,int cardsInDeck,int cardsInHand, ArrayList<Card> hand) {
+        this(name,profilePicture,hp, mana, maxMana,playerNumber,isReady,cardsInDeck,cardsInHand);
         this.hand = hand;
     }
 
 
     public byte[] encodeBytes(){
-        ByteBuffer bf = ByteBuffer.allocate(24+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length);
+        ByteBuffer bf = ByteBuffer.allocate(36 +hp.encodedBytes().length + name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length);
         bf.putInt(playerNumber);
-        bf.putInt(100);
+        bf.putInt(hp.encodedBytes().length);
+        bf.put(hp.encodedBytes());
+        bf.putInt(mana);
+        bf.putInt(maxMana);
         bf.putInt(name.getBytes(StandardCharsets.UTF_8).length);
         bf.put(name.getBytes(StandardCharsets.UTF_8));
         bf.putInt(profilePicture.getBytes(StandardCharsets.UTF_8).length);
         bf.put(profilePicture.getBytes(StandardCharsets.UTF_8));
         bf.putInt((isReady ? 1: 0));
         bf.putInt(cardsInHand);
+        bf.putInt(cardsInDeck);
         return bf.array();
     }
 
@@ -61,15 +73,19 @@ public class PlayerInfo extends Player {
         for (Card card:hand){
             handLength += 4 + card.encode().length;
         }
-        ByteBuffer bf = ByteBuffer.allocate(24+name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length + handLength);
+        ByteBuffer bf = ByteBuffer.allocate(36 +hp.encodedBytes().length + name.getBytes(StandardCharsets.UTF_8).length+profilePicture.getBytes(StandardCharsets.UTF_8).length + handLength);
         bf.putInt(playerNumber);
-        bf.putInt(100);
+        bf.putInt(hp.encodedBytes().length);
+        bf.put(hp.encodedBytes());
+        bf.putInt(mana);
+        bf.putInt(maxMana);
         bf.putInt(name.getBytes(StandardCharsets.UTF_8).length);
         bf.put(name.getBytes(StandardCharsets.UTF_8));
         bf.putInt(profilePicture.getBytes(StandardCharsets.UTF_8).length);
         bf.put(profilePicture.getBytes(StandardCharsets.UTF_8));
         bf.putInt((isReady ? 1: 0));
         bf.putInt(cardsInHand);
+        bf.putInt(cardsInDeck);
         for (Card card:hand){
             bf.putInt(card.encode().length);
             bf.put(card.encode());
@@ -82,9 +98,13 @@ public class PlayerInfo extends Player {
             return null;
         }
         try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes))){
+            System.out.println(Arrays.toString(bytes));
             int byteRead = 0;
             int playerID = in.readInt();
-            int playerHP = in.readInt();
+            int playerHPByte = in.readInt();
+            Number playerHP = Number.decodedBytes(in.readNBytes(playerHPByte));
+            int mana = in.readInt();
+            int maxMana = in.readInt();
             int nameByte = in.readInt();
             String playerName = new String(in.readNBytes(nameByte),StandardCharsets.UTF_8);
             int profilePictureByte = in.readInt();
@@ -95,9 +115,11 @@ public class PlayerInfo extends Player {
                 isReady = true;
             }
             int cardInHand = in.readInt();
-            byteRead = nameByte + profilePictureByte + 24;
+            int cardInDeck = in.readInt();
+            byteRead = nameByte + profilePictureByte + playerHPByte + 36;
+            System.out.println( "hp: " + playerHPByte + " name: " + nameByte + " profile: " + profilePictureByte + " total: " + byteRead);
             if (byteRead == bytes.length){
-                return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady,cardInHand);
+                return new PlayerInfo(playerName,profilePicture,playerHP,mana,maxMana,playerID,isReady,cardInDeck,cardInHand);
             }
             ArrayList<Card> cards = new ArrayList<>();
             while (byteRead != bytes.length){
@@ -108,12 +130,19 @@ public class PlayerInfo extends Player {
                 byteRead += cardBytes;
                 in.skipNBytes(cardBytes);
             }
-            return new PlayerInfo(playerName,profilePicture,playerHP,playerID,isReady,cardInHand,cards);
+            return new PlayerInfo(playerName,profilePicture,playerHP,mana,maxMana,playerID,isReady,cardInDeck,cardInHand,cards);
         }
         catch(IOException e){
             e.printStackTrace();
         }
-        return new PlayerInfo("","assets/icon.png",0,0,false);
+        return new PlayerInfo("","assets/icon.png",new Constant(100),1,1,0,false);
+    }
+
+    @Override
+    public Card draw() {
+        Card c = super.draw();
+        cardsInDeck -= 1;
+        return c;
     }
 
     public String getProfilePicture() {
@@ -146,6 +175,14 @@ public class PlayerInfo extends Player {
 
     public void setCardsInHand(int cardsInHand) {
         this.cardsInHand = cardsInHand;
+    }
+
+    public int getCardsInDeck() {
+        return cardsInDeck;
+    }
+
+    public void setCardsInDeck(int cardsInDeck) {
+        this.cardsInDeck = cardsInDeck;
     }
 
     public Number getHp() {
@@ -211,6 +248,7 @@ public class PlayerInfo extends Player {
                 ", numberType=" + numberType +
                 ", maxMana=" + maxMana +
                 ", playerNumber=" + playerNumber +
+                ", cardsInDeck=" + cardsInDeck +
                 ", deck" + deck.getCards() +
                 ", hand=" + hand +
                 '}';

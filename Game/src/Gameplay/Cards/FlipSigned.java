@@ -26,8 +26,8 @@ public class FlipSigned extends Card {
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
 
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
-        arr.add(new SetHp(((Constant)(self.getHp())).multiply(-1),self));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
+        arr.add(new SetHp(((Constant)(self.getHp())).multiply(-1),self.getPlayerNumber()));
         return arr;
     }
 }

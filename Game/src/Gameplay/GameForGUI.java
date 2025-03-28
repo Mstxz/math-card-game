@@ -126,10 +126,11 @@ public class GameForGUI extends Game {
     }
 
     @Override
-    public void playerPlay(Card c,Player receiver) {
-        c.action(getPlayer(), receiver);
-        getPlayer().getDeck().getDispose().add(c);
-        observer.onCardPlayed(c.getCardAction(getPlayer(), receiver));
+    public void playerPlay(int cardIndex,Player receiver) {
+        getPlayer().getHand().get(cardIndex).action(getPlayer(), receiver);
+        getPlayer().getDeck().getDispose().add(getPlayer().getHand().get(cardIndex));
+        getPlayer().getHand().remove(cardIndex);
+        observer.onCardPlayed(getPlayer().getHand().get(cardIndex).getCardAction(getPlayer(), receiver));
     }
 }
 

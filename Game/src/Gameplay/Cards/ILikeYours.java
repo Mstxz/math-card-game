@@ -25,9 +25,9 @@ public class ILikeYours extends Card {
     @Override
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
-        arr.add(new SetHp(enemy.getHp(),self));
-        arr.add(new SetHp(self.getHp(),enemy));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
+        arr.add(new SetHp(enemy.getHp(),self.getPlayerNumber()));
+        arr.add(new SetHp(self.getHp(),enemy.getPlayerNumber()));
         return arr;
     }
 }

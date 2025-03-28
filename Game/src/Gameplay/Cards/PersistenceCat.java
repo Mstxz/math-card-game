@@ -32,8 +32,8 @@ public class PersistenceCat extends Card implements HaveCondition {
     public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
         ArrayList<CardAction> arr = new ArrayList<CardAction>();
         Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self));
-        arr.add(new SetHp(receiver.getHp().add(new Constant((int)(Math.sqrt(((Constant)(receiver.getHp())).getNumber())))),receiver));
+        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
+        arr.add(new SetHp(receiver.getHp().add(new Constant((int)(Math.sqrt(((Constant)(receiver.getHp())).getNumber())))),receiver.getPlayerNumber()));
         return arr;
     }
 }

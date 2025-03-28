@@ -29,14 +29,14 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
     private final int HEIGHT = 500;
 
     private Player reciever;
-    private Card card;
+    private int cardIndex;
 
-    public SelectOpponent(Player self, ArrayList<Player> opponentList, Card card, AvengerAssembleGUI gui) {
+    public SelectOpponent(Player self, ArrayList<Player> opponentList, int cardIndex, AvengerAssembleGUI gui) {
         super();
-        this.card = card;
         this.avengerAssembleGUI = gui;
         this.self = self;
         this.opponentList = opponentList;
+        this.cardIndex = cardIndex;
         gui.setBackdropDim(true);
 
         this.setLayout(new BorderLayout());
@@ -141,7 +141,7 @@ public class SelectOpponent extends JPanel implements MouseListener,ActionListen
                 SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
                 this.setVisible(false);
                 avengerAssembleGUI.setBackdropDim(false);
-                avengerAssembleGUI.playCard(card,reciever);
+                avengerAssembleGUI.playCard(cardIndex,reciever);
 
             }
 

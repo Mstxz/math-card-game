@@ -44,5 +44,5 @@ public abstract class Game extends Thread{
         return turnOrder.get(playerOrder);
     }
 
-    public abstract void playerPlay(Card c,Player receiver);
+    public abstract void playerPlay(int cardIndex,Player receiver);
 }
