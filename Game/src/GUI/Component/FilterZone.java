@@ -1,22 +1,24 @@
 package GUI.Component;
 
+import GUI.Page.DeckCreatorPage;
 import utils.SharedResource;
 import utils.UIManager.RoundPanelUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
 
 public class FilterZone extends JPanel {
-    private FilterButton baby;
-    private FilterButton easy;
-    private FilterButton medium;
-    private FilterButton hard;
-    private FilterButton expert;
+    private static FilterButton baby;
+    private static FilterButton easy;
+    private static FilterButton medium;
+    private static FilterButton hard;
+    private static FilterButton expert;
 
-    private FilterButton black;
-    private FilterButton white;
-    private FilterButton orange;
-    private FilterButton caligo;
+    private static FilterButton black;
+    private static FilterButton white;
+    private static FilterButton orange;
+    private static FilterButton caligo;
 
     private JPanel zone1;
     private JPanel zone2;
@@ -71,6 +73,7 @@ public class FilterZone extends JPanel {
                     if (e.equals(zone1Selected)){
                         zone1Selected.update(false);
                         zone1Selected = null;
+                        setCardButton();
                         return;
                     }
                 if (zone1Selected != null){
@@ -86,6 +89,7 @@ public class FilterZone extends JPanel {
                     if (e.equals(zone2Selected)){
                         zone2Selected.update(false);
                         zone2Selected = null;
+                        setCardButton();
                         return;
                     }
                 if (zone2Selected != null){
@@ -95,6 +99,29 @@ public class FilterZone extends JPanel {
                 zone2Selected.update(true);
                 break;
         }
+        setCardButton();
+    }
+
+    private static void setCardButton(){
+        HashSet<CardButton> tmp = new HashSet<CardButton>();
+        if (zone1Selected == null && zone2Selected == null){
+            tmp.addAll(easy.getCardButtons());
+            tmp.addAll(medium.getCardButtons());
+            tmp.addAll(hard.getCardButtons());
+            tmp.addAll(expert.getCardButtons());
+            tmp.addAll(baby.getCardButtons());
+        }
+        else if (zone1Selected == null){
+            tmp.addAll(zone2Selected.getCardButtons());
+        }
+        else if (zone2Selected == null){
+            tmp.addAll(zone1Selected.getCardButtons());
+        }
+        else {
+            tmp.addAll(zone1Selected.getCardButtons());
+            tmp.retainAll(zone2Selected.getCardButtons());
+        }
+        DeckCreatorPage.update(tmp);
     }
 
     public static void main(String[] args) {
@@ -107,4 +134,75 @@ public class FilterZone extends JPanel {
         frame.setVisible(true);
     }
 
+    public FilterButton getBaby() {
+        return baby;
+    }
+
+    public void setBaby(FilterButton baby) {
+        this.baby = baby;
+    }
+
+    public FilterButton getEasy() {
+        return easy;
+    }
+
+    public void setEasy(FilterButton easy) {
+        this.easy = easy;
+    }
+
+    public FilterButton getMedium() {
+        return medium;
+    }
+
+    public void setMedium(FilterButton medium) {
+        this.medium = medium;
+    }
+
+    public FilterButton getHard() {
+        return hard;
+    }
+
+    public void setHard(FilterButton hard) {
+        this.hard = hard;
+    }
+
+    public FilterButton getExpert() {
+        return expert;
+    }
+
+    public void setExpert(FilterButton expert) {
+        this.expert = expert;
+    }
+
+    public FilterButton getBlack() {
+        return black;
+    }
+
+    public void setBlack(FilterButton black) {
+        this.black = black;
+    }
+
+    public FilterButton getWhite() {
+        return white;
+    }
+
+    public void setWhite(FilterButton white) {
+        this.white = white;
+    }
+
+    public FilterButton getOrange() {
+        return orange;
+    }
+
+    public void setOrange(FilterButton orange) {
+        this.orange = orange;
+    }
+
+    public FilterButton getCaligo() {
+        return caligo;
+    }
+
+    public void setCaligo(FilterButton caligo) {
+        this.caligo = caligo;
+    }
 }

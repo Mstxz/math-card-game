@@ -13,7 +13,7 @@ import Gameplay.Card;
 import Gameplay.CardType;
 import utils.ResourceLoader;
 
-public class CardButton extends JPanel implements MouseListener {
+public class CardButton extends JPanel implements MouseListener,Comparable {
     protected String name;
     protected int amount = 0;
     protected CardLabel cardLabel = null;
@@ -152,5 +152,24 @@ public class CardButton extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
 
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        //System.out.println(this.getCardLabel().getCard().getName());
+        if ((this.getCardLabel().getCard().getName().contains("Minus") && ((CardButton)(o)).getCardLabel().getCard().getName().contains("Minus")))
+        {
+            int a1 = Integer.valueOf(this.getCardLabel().getCard().getName().split(" ")[1]);
+            int a2 = Integer.valueOf(((CardButton)(o)).getCardLabel().getCard().getName().split(" ")[1]);
+            System.out.println(a1+" "+a2);
+            //return Integer.compare(a1,a2);
+        }
+        if ((this.getCardLabel().getCard().getName().contains("Plus") && ((CardButton)(o)).getCardLabel().getCard().getName().contains("Plus"))){
+            int a1 = Integer.valueOf(this.getCardLabel().getCard().getName().split(" ")[1]);
+            int a2 = Integer.valueOf(((CardButton)(o)).getCardLabel().getCard().getName().split(" ")[1]);
+            //System.out.println(a1+a2+"!");
+            return Integer.compare(a1,a2);
+        }
+        return this.getCardLabel().getCard().getName().compareTo(((CardButton)(o)).getCardLabel().getCard().getName());
     }
 }

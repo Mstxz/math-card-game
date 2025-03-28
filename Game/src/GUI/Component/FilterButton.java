@@ -23,6 +23,7 @@ public class FilterButton extends JButton implements ActionListener {
         this.setFocusPainted(false);
         this.setBorderPainted(false);
         this.addActionListener(this);
+        cardButtons = new HashSet<CardButton>();
     }
 
     @Override
@@ -47,5 +48,23 @@ public class FilterButton extends JButton implements ActionListener {
         if (e.getSource() instanceof FilterButton) {
             FilterZone.update((FilterButton) e.getSource());
         }
+    }
+
+    public HashSet<CardButton> getCardButtons() {
+        return cardButtons;
+    }
+
+    public void setCardButtons(HashSet<CardButton> cardButtons) {
+        this.cardButtons = cardButtons;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

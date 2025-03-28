@@ -128,11 +128,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import Gameplay.CardType;
+import Gameplay.Difficulty;
 import utils.UIManager.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.SharedResource;
@@ -141,17 +145,18 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private TempDeckZone    paLeft;
     private JPanel          paRight;
     private JPanel          paRightTop;
-    private JPanel          paRightBottom;
+    private static JPanel          paRightBottom;
     private JLabel          title;
     private JPanel          deckShow;
     private JPanel          deckOption;
     private JButton         saveButton;
     private JButton         createButton;
     private FilterZone      filterZone;
+    private static JScrollPane scrollPane;
 
     private JComboBox             deckNameField;
     private PopupMenu             popupMenu;
-    private ArrayList<CardButton> cardButtonArrayList;
+    private static HashSet<CardButton> cardButtonHashSet;
     private String                name;
 
     public DeckCreatorPage() {
@@ -258,7 +263,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
             protected void paintComponent(Graphics g) {
                 int column = getWidth() / 225;
                 int row = Math.ceilDiv(getComponentCount(),column);
-                this.setPreferredSize(new Dimension(300,row * (getComponent(0).getHeight() + 25) + 10));
+                this.setPreferredSize(new Dimension(300,(row * 280 + 25) + 10));
                 super.paintComponent(g);
             }
         };
@@ -266,12 +271,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paRight.add(paRightTop, BorderLayout.NORTH);
         paRight.add(paRightBottom, BorderLayout.CENTER);
 
-        cardButtonArrayList = new ArrayList<CardButton>();
+        cardButtonHashSet = new HashSet<CardButton>();
         loadButton();
         paRightBottom.setBackground(SharedResource.SIAMESE_LIGHT);
-        JScrollPane scrollPane = new JScrollPane(paRightBottom);
+        scrollPane = new JScrollPane(paRightBottom);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
@@ -293,8 +298,57 @@ public class DeckCreatorPage extends Page implements ActionListener {
         for (int i = 0;i<fileString.size();i++){
             CardButton tmp = new CardButton(fileString.get(i),paLeft);
             paRightBottom.add(tmp);
-            cardButtonArrayList.add(tmp);
+            cardButtonHashSet.add(tmp);
+            //System.out.println(tmp.getHeight());
+
+            if (tmp.getCardLabel().getCard().getType().equals(CardType.BLUE)){
+                filterZone.getWhite().getCardButtons().add(tmp);
+            }
+            else if (tmp.getCardLabel().getCard().getType().equals(CardType.RED)){
+                filterZone.getBlack().getCardButtons().add(tmp);
+            }
+            else if (tmp.getCardLabel().getCard().getType().equals(CardType.GREEN)){
+                filterZone.getOrange().getCardButtons().add(tmp);
+            }
+            else if (tmp.getCardLabel().getCard().getType().equals(CardType.YELLOW)){
+                filterZone.getCaligo().getCardButtons().add(tmp);
+            }
+
+            if (tmp.getCardLabel().getCard().getDifficult().equals(Difficulty.BABY)){
+                filterZone.getBaby().getCardButtons().add(tmp);
+            }
+            else if (tmp.getCardLabel().getCard().getDifficult().equals(Difficulty.EASY)){
+                filterZone.getEasy().getCardButtons().add(tmp);
+            }
+            else if (tmp.getCardLabel().getCard().getDifficult().equals(Difficulty.MEDIUM)){
+                filterZone.getMedium().getCardButtons().add(tmp);
+            }
+            else if (tmp.getCardLabel().getCard().getDifficult().equals(Difficulty.HARD)){
+                filterZone.getHard().getCardButtons().add(tmp);
+            }
+            else if (tmp.getCardLabel().getCard().getDifficult().equals(Difficulty.EXPERT)){
+                filterZone.getExpert().getCardButtons().add(tmp);
+            }
         }
+    }
+
+    public static void update(HashSet<CardButton> c){
+        cardButtonHashSet = new HashSet<CardButton>();
+        paRightBottom.removeAll();
+        cardButtonHashSet = c;
+        CardButton arr[] = c.toArray(CardButton[]::new);
+        Arrays.sort(arr);
+        for (Object i: arr){
+            CardButton tmp = (CardButton) i;
+            paRightBottom.add(tmp);
+        }
+        int column = paRightBottom.getWidth() / 225;
+        int row = Math.ceilDiv(paRightBottom.getComponentCount(),column);
+        paRightBottom.setPreferredSize(new Dimension(300,(row * 280 + 25) + 10));
+        paRightBottom.revalidate();
+        paRightBottom.repaint();
+        scrollPane.revalidate();
+        scrollPane.repaint();
     }
 
 //    private void addCatFilterButtons() {
