@@ -147,20 +147,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JPanel          deckOption;
     private JButton         saveButton;
     private JButton         createButton;
-    private JButton         filterLevel0Button;
-    private JButton         filterLevel1Button;
-    private JButton         filterLevel2Button;
-    private JButton         filterLevel3Button;
-    private JButton         filterLevel4Button;
-//    private ImageIcon level0Icon;
-//    private ImageIcon level1Icon;
-//    private ImageIcon level2Icon;
-//    private ImageIcon level3Icon;
-//    private ImageIcon level4Icon;
-    private JComboBox deckNameField;
-    private PopupMenu       popupMenu;
+    private FilterZone      filterZone;
+
+    private JComboBox             deckNameField;
+    private PopupMenu             popupMenu;
     private ArrayList<CardButton> cardButtonArrayList;
-    private String name;
+    private String                name;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -255,33 +247,11 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paRight.setBackground(SharedResource.SIAMESE_LIGHT);
 
         paRightTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
-        paRightTop.setOpaque(false);
-
-        //filterLevel0Button = new JButton("Filter Level 0");
-
-        //imageButton
-        filterLevel0Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl0_.png",67,65));
-        filterLevel1Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl1_.png",67,65));
-        filterLevel2Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl2_.png",67,65));
-        filterLevel3Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl3_.png",67,65));
-        filterLevel4Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl4_.png",67,65));
+        //paRightTop.setOpaque(false);
+        filterZone = new FilterZone();
+        paRightTop.add(filterZone);
 
 
-        //add to panel
-        paRightTop.add(filterLevel0Button, BorderLayout.CENTER);
-        paRightTop.add(filterLevel1Button, BorderLayout.CENTER);
-        paRightTop.add(filterLevel2Button, BorderLayout.CENTER);
-        paRightTop.add(filterLevel3Button, BorderLayout.CENTER);
-        paRightTop.add(filterLevel4Button, BorderLayout.CENTER);
-
-        //disable very Stupid JButton design
-        filterLevel0Button.setContentAreaFilled(false);filterLevel0Button.setBorderPainted(false);filterLevel0Button.setFocusPainted(false);
-        filterLevel1Button.setContentAreaFilled(false);filterLevel1Button.setBorderPainted(false);filterLevel1Button.setFocusPainted(false);
-        filterLevel2Button.setContentAreaFilled(false);filterLevel2Button.setBorderPainted(false);filterLevel2Button.setFocusPainted(false);
-        filterLevel3Button.setContentAreaFilled(false);filterLevel3Button.setBorderPainted(false);filterLevel3Button.setFocusPainted(false);
-        filterLevel4Button.setContentAreaFilled(false);filterLevel4Button.setBorderPainted(false);filterLevel4Button.setFocusPainted(false);
-
-        // name of filter Button is filterLevel<0-4>Button
 
         paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25)) {
             @Override

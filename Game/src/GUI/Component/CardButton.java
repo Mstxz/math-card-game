@@ -61,7 +61,15 @@ public class CardButton extends JPanel implements MouseListener {
         this.add(nameButton,BorderLayout.CENTER);
         this.addMouseListener(this);
 
+        nameButton.setBackground(nameButton.getParent().getBackground());
         this.setSize(200,280);
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        this.setBackground(this.getParent().getBackground());
+        repaint();
     }
 
     @Override

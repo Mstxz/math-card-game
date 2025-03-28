@@ -68,6 +68,11 @@ public class FilterZone extends JPanel {
             case "medium":
             case "hard":
                 case "expert":
+                    if (e.equals(zone1Selected)){
+                        zone1Selected.update(false);
+                        zone1Selected = null;
+                        return;
+                    }
                 if (zone1Selected != null){
                     zone1Selected.update(false);
                 }
@@ -78,6 +83,11 @@ public class FilterZone extends JPanel {
             case "Blue":
             case "Green":
                 case "Yellow":
+                    if (e.equals(zone2Selected)){
+                        zone2Selected.update(false);
+                        zone2Selected = null;
+                        return;
+                    }
                 if (zone2Selected != null){
                     zone2Selected.update(false);
                 }
