@@ -138,15 +138,27 @@ import utils.ResourceLoader;
 import utils.SharedResource;
 
 public class DeckCreatorPage extends Page implements ActionListener {
-    private TempDeckZone paLeft;
-    private JPanel paRight;
-    private JLabel title;
-    private JPanel deckShow;
-    private JPanel deckOption;
-    private JButton saveButton;
-    private JButton createButton;
+    private TempDeckZone    paLeft;
+    private JPanel          paRight;
+    private JPanel          paRightTop;
+    private JPanel          paRightBottom;
+    private JLabel          title;
+    private JPanel          deckShow;
+    private JPanel          deckOption;
+    private JButton         saveButton;
+    private JButton         createButton;
+    private JButton         filterLevel0Button;
+    private JButton         filterLevel1Button;
+    private JButton         filterLevel2Button;
+    private JButton         filterLevel3Button;
+    private JButton         filterLevel4Button;
+//    private ImageIcon level0Icon;
+//    private ImageIcon level1Icon;
+//    private ImageIcon level2Icon;
+//    private ImageIcon level3Icon;
+//    private ImageIcon level4Icon;
     private JComboBox deckNameField;
-    private PopupMenu popupMenu;
+    private PopupMenu       popupMenu;
     private ArrayList<CardButton> cardButtonArrayList;
     private String name;
 
@@ -192,7 +204,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         createButton = new JButton(ResourceLoader.loadPicture("assets/Component/CreateButton.png",220,65));
         //createButton.setPreferredSize(new Dimension(100, 100));
         saveButton.setPreferredSize(new Dimension(220, 65));
-        
+
         popupMenu = new PopupMenu();
         PopupItem.menu = popupMenu;
         JPanel PopupMenuPanel = new JPanel(new FlowLayout());
@@ -227,7 +239,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         createButton.setFocusPainted(false);
 
         //ปิดขอบ
-        deckShow.setBorder(BorderFactory.createEmptyBorder()); 
+        deckShow.setBorder(BorderFactory.createEmptyBorder());
         cardScrollPane.setBorder(BorderFactory.createEmptyBorder());
         paLeft.setBorder(BorderFactory.createEmptyBorder());
         popupMenu.setBorder(BorderFactory.createEmptyBorder());
@@ -235,7 +247,43 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         mainPanel.add(deckShow, BorderLayout.WEST);
 
-        paRight = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25)) {
+        // start paRight
+        // paRightTop is filter button and paRightBottom is card show
+
+        paRight = new JPanel();
+        paRight.setLayout(new BorderLayout());
+        paRight.setBackground(SharedResource.SIAMESE_LIGHT);
+
+        paRightTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        paRightTop.setOpaque(false);
+
+        //filterLevel0Button = new JButton("Filter Level 0");
+
+        //imageButton
+        filterLevel0Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl0_.png",67,65));
+        filterLevel1Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl1_.png",67,65));
+        filterLevel2Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl2_.png",67,65));
+        filterLevel3Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl3_.png",67,65));
+        filterLevel4Button = new JButton(ResourceLoader.loadPicture("assets/Component/Cat_lvl4_.png",67,65));
+
+
+        //add to panel
+        paRightTop.add(filterLevel0Button, BorderLayout.CENTER);
+        paRightTop.add(filterLevel1Button, BorderLayout.CENTER);
+        paRightTop.add(filterLevel2Button, BorderLayout.CENTER);
+        paRightTop.add(filterLevel3Button, BorderLayout.CENTER);
+        paRightTop.add(filterLevel4Button, BorderLayout.CENTER);
+
+        //disable very Stupid JButton design
+        filterLevel0Button.setContentAreaFilled(false);filterLevel0Button.setBorderPainted(false);filterLevel0Button.setFocusPainted(false);
+        filterLevel1Button.setContentAreaFilled(false);filterLevel1Button.setBorderPainted(false);filterLevel1Button.setFocusPainted(false);
+        filterLevel2Button.setContentAreaFilled(false);filterLevel2Button.setBorderPainted(false);filterLevel2Button.setFocusPainted(false);
+        filterLevel3Button.setContentAreaFilled(false);filterLevel3Button.setBorderPainted(false);filterLevel3Button.setFocusPainted(false);
+        filterLevel4Button.setContentAreaFilled(false);filterLevel4Button.setBorderPainted(false);filterLevel4Button.setFocusPainted(false);
+
+        // name of filter Button is filterLevel<0-4>Button
+
+        paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25)) {
             @Override
             protected void paintComponent(Graphics g) {
                 int column = getWidth() / 225;
@@ -244,33 +292,57 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 super.paintComponent(g);
             }
         };
+
+        paRight.add(paRightTop, BorderLayout.NORTH);
+        paRight.add(paRightBottom, BorderLayout.CENTER);
+
         cardButtonArrayList = new ArrayList<CardButton>();
         loadButton();
-        paRight.setBackground(SharedResource.SIAMESE_LIGHT); 
-        JScrollPane scrollPane = new JScrollPane(paRight);
+        paRightBottom.setBackground(SharedResource.SIAMESE_LIGHT);
+        JScrollPane scrollPane = new JScrollPane(paRightBottom);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        paRight.add(scrollPane, BorderLayout.CENTER);
+
+        mainPanel.add(paRight, BorderLayout.CENTER);
         saveButton.addActionListener(this);
         createButton.addActionListener(this);
         PopupItem.deckZone = paLeft;
     }
     public Dimension calculateDimension(){
-        int column = paRight.getWidth() / 225;
-        int row = Math.ceilDiv(paRight.getComponentCount(),column);
-        return new Dimension(300,row * (paRight.getComponent(0).getHeight() + 25) + 10);
+        int column = paRightBottom.getWidth() / 225;
+        int row = Math.ceilDiv(paRightBottom.getComponentCount(),column);
+        return new Dimension(300,row * (paRightBottom.getComponent(0).getHeight() + 25) + 10);
     }
 
     private void loadButton(){
         ArrayList<String> fileString = ResourceLoader.readFile("Gameplay/Cards/CardList.txt");
         for (int i = 0;i<fileString.size();i++){
             CardButton tmp = new CardButton(fileString.get(i),paLeft);
-            paRight.add(tmp);
+            paRightBottom.add(tmp);
             cardButtonArrayList.add(tmp);
         }
     }
+
+//    private void addCatFilterButtons() {
+//        String[] catImages = { "Cat_lvl0_.png", "Cat_lvl1_.png", "Cat_lvl2_.png", "Cat_lvl3_.png", "Cat_lvl4_.png" };
+//
+//        for (String catImage : catImages) {
+//            JButton catButton = new JButton(new ImageIcon("assets/Component/" + catImage));
+//            catButton.setPreferredSize(new Dimension(50, 50));
+//            catButton.setBorderPainted(false);
+//            catButton.setContentAreaFilled(false);
+//            catButton.setFocusPainted(false);
+//            paRightTop.add(catButton);  // เพิ่มปุ่มลงใน paRightTop
+//        }
+//
+//        // รีเฟรช paRightTop เพื่อให้แน่ใจว่าปุ่มจะแสดงผล
+//        paRightTop.revalidate();
+//        paRightTop.repaint();
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
