@@ -15,7 +15,7 @@ import utils.UIManager.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
-import utils.UIManager.ScrollPaneUI;
+import utils.UIManager.CustomScrollBarUI;
 
 public class CardInspector extends JPanel implements MouseListener {
 	private	AvengerAssembleGUI	gui;
