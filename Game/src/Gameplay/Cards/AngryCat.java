@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class AngryCat extends Card {
     public AngryCat(){
-        super("AngryCat","Each player discards all cards in their hand and draws new cards equal to the number of cards discarded.",6, Difficulty.EASY, CardType.YELLOW);
+        super("AngryCat","Each player discards all cards in their hand and draws new cards equal to the number of cards discarded.",6, Difficulty.BABY, CardType.YELLOW);
     }
 
     @Override

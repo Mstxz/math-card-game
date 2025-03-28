@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Digitalize extends Card implements HaveCondition {
     public Digitalize(){
-        super("Digitalize","If the opponent's HP has only 1 or 0, change their HP to base10 number.",4, Difficulty.HARD, CardType.RED);
+        super("Digitalize","If the opponent's HP has only 1 or 0, change their HP to base10 number.",4, Difficulty.MEDIUM, CardType.RED);
     }
 
     @Override

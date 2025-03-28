@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class AdoptCat extends Card implements HaveCondition {
     public AdoptCat(){
-        super("AdoptCat","Add the last card played or discarded by the user to the user's hand.",2, Difficulty.EASY, CardType.YELLOW);
+        super("AdoptCat","Add the last card played or discarded by the user to the user's hand.",2, Difficulty.BABY, CardType.YELLOW);
     }
 
     @Override
