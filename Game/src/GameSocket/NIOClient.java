@@ -12,6 +12,7 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 
@@ -198,18 +199,20 @@ public class NIOClient extends Game {
                 }
 
             }
+            System.out.println("Switch");
             while (channel.isOpen() && (currentState == ClientState.PLAY || currentState == ClientState.WAIT)) {
                 buffer.clear();
                 int byteRead = readIntoBuffer();
-                if (byteRead > 0){
+                if (byteRead > 0) {
+                    System.out.println(Arrays.toString(buffer.array()));
                     Request serverReq = Request.decodeBytes(buffer.array());
                     System.out.println(serverReq.getOperation().name());
-                    switch (serverReq.getOperation()){
+                    switch (serverReq.getOperation()) {
                         case DRAW:
                             // other play card
-                            try (RequestReader r = new RequestReader(serverReq)){
+                            try (RequestReader r = new RequestReader(serverReq)) {
                                 int receiver = r.readInt();
-                                while (!r.reachTheEnd()){
+                                while (!r.reachTheEnd()) {
                                     Card cardReceived = Card.decode(r.readByteData());
                                     turnOrder.get(receiver).getHand().add(cardReceived);
                                     turnOrder.get(receiver).getDeck().getCards().removeLast();
@@ -227,13 +230,13 @@ public class NIOClient extends Game {
                             observer.onTurnArrive();
                             break;
                         case HAND_UPDATE:
-                            try (RequestReader r = new RequestReader(serverReq)){
+                            try (RequestReader r = new RequestReader(serverReq)) {
                                 turnOrder.clear();
-                                while (!r.reachTheEnd()){
+                                while (!r.reachTheEnd()) {
                                     PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
                                     turnOrder.add(playerInfo);
                                 }
-                                System.out.println(turnOrder);
+                                System.out.println("Hand Update " + turnOrder);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
@@ -244,10 +247,10 @@ public class NIOClient extends Game {
                 }
                 for (Iterator<Request> it = events.iterator(); it.hasNext(); ) {
                     Request e = it.next();
-                    switch (e.getOperation()){
+                    switch (e.getOperation()) {
                         case READY:
                             buffer.clear().put(e.encodeBytes()).flip();
-                            while (buffer.hasRemaining()){
+                            while (buffer.hasRemaining()) {
                                 channel.write(buffer);
                             }
                             buffer.clear();

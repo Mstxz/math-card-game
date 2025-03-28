@@ -129,16 +129,14 @@ public abstract class Card {
             if (segmentCount == 2){
                 int cardTypeNumber = in.readInt();
                 CardType cardType = CardType.values()[cardTypeNumber];
-                System.out.println(cardType);
-                String cardName = in.readUTF();
+                String cardName = new String(in.readAllBytes(),StandardCharsets.UTF_8);
                 return Card.createCard(cardName);
             }
             else if (segmentCount == 3){
                 int cardTypeNumber = in.readInt();
                 CardType cardType = CardType.values()[cardTypeNumber];
                 int cardNumber = in.readInt();
-                System.out.println(cardType+ " " +cardNumber);
-                String cardName = in.readUTF();
+                String cardName = new String(in.readAllBytes(),StandardCharsets.UTF_8);
                 return Card.createCard(cardName,cardNumber,cardType);
             }
 

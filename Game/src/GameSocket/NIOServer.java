@@ -119,7 +119,8 @@ public class NIOServer extends Thread {
                         Request bytesOut = playerState[registeredID.get(client)].getDataOutQueue().poll();
                         if (bytesOut != null){
                             //System.out.println(bytesOut.length);
-
+                            System.out.println("Send to " + registeredID.get(client));
+                            System.out.println(bytesOut);
                             buffer.clear();
                             buffer.put(bytesOut.encodeBytes());
                             buffer.flip();
@@ -221,7 +222,7 @@ public class NIOServer extends Thread {
                         lobbyUpdate();
                         break;
                     case DECK:
-                        File f = File.createTempFile("temp",".deck");
+                        File f = File.createTempFile("temp-"+registeredID.get(client),".deck");
                         f.deleteOnExit();
                         try (
                                 FileOutputStream fo = new FileOutputStream(f);
@@ -297,6 +298,7 @@ public class NIOServer extends Thread {
     }
 
     private void drawCards(int playerOrder,int numberOfCards){
+        System.out.println("Player " + playerOrder + " draw " + numberOfCards + " cards.");
         ArrayList<Card> cardsDraw = new ArrayList<>();
         for (int i = 0; i < numberOfCards; i++) {
             cardsDraw.add(gameState.getPlayers().get(playerOrder).draw());
@@ -310,9 +312,6 @@ public class NIOServer extends Thread {
     }
 
     private void lobbyUpdate(){
-
-//        pushUpdate("LOBBY");
-//        ByteBuffer bf = ByteBuffer.allocate(1024);
         for(PlayerState to:playerState){
             if(to!= null) {
                 Request serverReq = new Request(ProtocolOperation.LOBBY);
@@ -343,7 +342,6 @@ public class NIOServer extends Thread {
                         else{
                             serverReq.appendData(from.getPlayerInfo().encodeBytes());
                         }
-                        System.out.println(serverReq);
                         //bf.put(from.getPlayerInfo().encodeBytes());
                     }
                     else{
@@ -359,6 +357,7 @@ public class NIOServer extends Thread {
         for(PlayerState ps:playerState){
             if (ps !=null){
                 ps.getDataOutQueue().add(req);
+                System.out.println(ps.getDataOutQueue());
             }
         }
     }
