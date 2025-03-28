@@ -10,10 +10,12 @@ import GUI.Page.AvengerAssembleGUI;
 import java.awt.event.*;
 
 import Gameplay.Card;
+import Gameplay.Cards.AngryCat;
 import utils.UIManager.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
+import utils.UIManager.ScrollPaneUI;
 
 public class CardInspector extends JPanel implements MouseListener {
 	private	AvengerAssembleGUI	gui;
@@ -53,6 +55,8 @@ public class CardInspector extends JPanel implements MouseListener {
 		this.desArea.setLineWrap(true);
 
 		this.Pane = new JScrollPane(desArea);
+//		this.Pane.setUI(new ScrollPaneUI(Color.GREEN));
+		this.Pane.getViewport().setOpaque(false);
 		this.Pane.setOpaque(false);
 		this.Pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		this.Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -90,7 +94,8 @@ public class CardInspector extends JPanel implements MouseListener {
 		m.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		m.setBackground(SharedResource.SIAMESE_BASE);
 		m.setMinimumSize(new Dimension(600, 400));
-		m.setPreferredSize(new Dimension(800, 600));
+		m.setPreferredSize(new Dimension(800, 400));
+		m.setMaximumSize(new Dimension(800, 400));
 		m.add(this.img);
 		m.add(Box.createRigidArea(new Dimension(20, 0)));
 		m.add(p);
