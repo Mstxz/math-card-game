@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import GUI.Page.AvengerAssembleGUI;
 import Gameplay.Player;
+import utils.SharedResource;
 
 public class HandDeck extends JPanel{
 	// We should make GUI static
@@ -14,6 +15,7 @@ public class HandDeck extends JPanel{
 	private	ArrayList<CardPlayable>		list = new ArrayList<CardPlayable>();
 	private ArrayList<Integer>			playableIndex = new ArrayList<Integer>();
 	private	boolean						isEnemy;
+	private int							gap;
 	private	double						scale = 1.0;
 
 	public HandDeck(AvengerAssembleGUI gui,Player owner, boolean isEnemy)
@@ -21,15 +23,12 @@ public class HandDeck extends JPanel{
 		this.gui = gui;
 		this.owner = owner;
 		this.isEnemy = isEnemy;
-		if (isEnemy) {
-			this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
-		}
-		else {
-			this.setLayout(new FlowLayout(FlowLayout.CENTER));
+		gap = -5 * owner.getHand().size();
+			this.setLayout(new FlowLayout(FlowLayout.CENTER, this.gap, 0));
+		this.setVisible(true);
+		if (!isEnemy){
 			this.updatePlayable(gui.getActiveEnemy());
 		}
-		this.setVisible(true);
-
 	}
 
 	public void	RenderHand()
@@ -38,7 +37,9 @@ public class HandDeck extends JPanel{
 
 		this.CleanHand();
 		scale = 1.0 - (0.02 * owner.getHand().size());
-		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
+		if (-5 * owner.getHand().size() < SharedResource.CARD_WIDTH / 2)
+			this.gap = (-5 * owner.getHand().size()) % (SharedResource.CARD_WIDTH / 2);
+		this.setLayout(new FlowLayout(FlowLayout.CENTER, this.gap, 0));
 		for (int i = 0;i < owner.getHand().size();i++) {
 			tmp = new CardPlayable(this,owner.getHand().get(i), scale, isEnemy,playableIndex.contains(i));
 			tmp.setPlayable(playableIndex.contains(i));
@@ -60,7 +61,7 @@ public class HandDeck extends JPanel{
 		this.removeAll();
 		list.clear();
 		scale = 1.0;
-		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
+//		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
 		this.revalidate();
 		this.repaint();
 	}

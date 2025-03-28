@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DeckCreatorPage",
+            "request": "launch",
+            "mainClass": "GUI.Page.DeckCreatorPage",
+            "projectName": "math-card-game-6_b5429634"
+        },
+        {
+            "type": "java",
             "name": "Router",
             "request": "launch",
             "mainClass": "GUI.Router",
