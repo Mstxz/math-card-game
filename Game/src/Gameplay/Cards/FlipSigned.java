@@ -11,8 +11,11 @@ import Gameplay.Player;
 import java.util.ArrayList;
 
 public class FlipSigned extends Card {
-    public FlipSigned(){
-        super("FlipSigned","multiply -1 to your HP",2, Difficulty.MEDIUM, CardType.BLUE);
+    public FlipSigned(CardType cardType){
+        super("FlipSigned","multiply -1 to your HP",2, Difficulty.MEDIUM, cardType);
+        if (type==CardType.GREEN){
+            manaUsed+=1;
+        }
         //this.picture = "assets/Blue_BetaFlipSignedHP.png";
     }
 

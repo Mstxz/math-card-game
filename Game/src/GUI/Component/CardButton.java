@@ -41,6 +41,10 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
             //System.out.println(temp[0]+"/"+temp[1]);
             tempCard = Card.createCard(temp[0],Integer.valueOf(temp[1]),temp[2]);
         }
+        else if (temp.length == 2){
+            this.name = temp[0]+" "+temp[1];
+            tempCard = Card.createCard(temp[0],temp[1]);
+        }
         else {
             this.name = name;
             tempCard = Card.createCard(temp[0]);
@@ -161,8 +165,8 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
         {
             int a1 = Integer.valueOf(this.getCardLabel().getCard().getName().split(" ")[1]);
             int a2 = Integer.valueOf(((CardButton)(o)).getCardLabel().getCard().getName().split(" ")[1]);
-            System.out.println(a1+" "+a2);
-            //return Integer.compare(a1,a2);
+            //System.out.println(a1+" "+a2);
+            return Integer.compare(a1,a2);
         }
         if ((this.getCardLabel().getCard().getName().contains("Plus") && ((CardButton)(o)).getCardLabel().getCard().getName().contains("Plus"))){
             int a1 = Integer.valueOf(this.getCardLabel().getCard().getName().split(" ")[1]);

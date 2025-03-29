@@ -76,12 +76,21 @@ public abstract class Card {
         return null;
     }
 
-    public static Card createCard(String name, int number,CardType cardType){
+    public static Card createCard(String name,String type){
+        CardType cardType = CardType.YELLOW;
+        switch (type){
+            case "Blue":
+                cardType = CardType.BLUE;
+                break;
+            case "Red":
+                cardType = CardType.RED;
+                break;
+            case "Green":
+                cardType = CardType.GREEN;
+        }
         switch (name){
-            case "Plus":
-                return new Plus(number,cardType);
-            case "Minus":
-                return new Minus(number,cardType);
+            case "FlipSigned":
+                return new FlipSigned(cardType);
         }
         return null;
     }
@@ -137,7 +146,7 @@ public abstract class Card {
                 CardType cardType = CardType.values()[cardTypeNumber];
                 int cardNumber = in.readInt();
                 String cardName = new String(in.readAllBytes(),StandardCharsets.UTF_8);
-                return Card.createCard(cardName,cardNumber,cardType);
+                return Card.createCard(cardName,cardNumber,cardType.toString());
             }
 
         }

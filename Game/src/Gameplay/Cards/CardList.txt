@@ -77,7 +77,9 @@ Minus 15 Green
 Minus 20 Green
 Minus 25 Green
 AbsoluteCCat
-FlipSigned
+FlipSigned Blue
+FlipSigned Red
+FlipSigned Green
 PersistenceCat
 CatTreat
 CatNap
