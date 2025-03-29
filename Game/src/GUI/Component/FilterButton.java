@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import AudioPlayer.SFXPlayer;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
@@ -46,6 +47,7 @@ public class FilterButton extends JButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof FilterButton) {
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
             FilterZone.update((FilterButton) e.getSource());
         }
     }
