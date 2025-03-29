@@ -21,15 +21,6 @@ public class DeckIconPanel extends JPanel {
     public DeckIconPanel(Player player){
         this.player = player;
 
-        //For test remove in production
-        try {
-            player.setDeck(Deck.LoadDeck("a"));
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-
-
         deckIcon = loadPicture("assets/Component/deckIcon.png",72,80).getImage();
         this.setPreferredSize(new Dimension(72,80));
         this.setBackground(SharedResource.SIAMESE_BRIGHT);

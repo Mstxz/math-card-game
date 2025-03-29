@@ -48,6 +48,11 @@ public class Constant extends Number {
         return new Constant(this.number/a);
     }
 
+    @Override
+    public Number absolute() {
+        return new Constant(Math.abs(number));
+    }
+
     public String toString(){
         return this.number+"";
     }
