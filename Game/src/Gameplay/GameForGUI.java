@@ -6,6 +6,7 @@ import Gameplay.Numbers.Constant;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class GameForGUI extends Game {
     private boolean paused = false;
@@ -23,6 +24,7 @@ public class GameForGUI extends Game {
             players.getFirst().setPlayerNumber(index);
             players.getLast().setPlayerNumber(1);
         }
+        //System.out.println(Arrays.toString(getPlayer().getDeck().getCards().toArray()));
     }
 
     public void waitForGUI(){
@@ -91,6 +93,10 @@ public class GameForGUI extends Game {
             }
             inPlay.setMana(inPlay.getMaxMana());
             observer.onTurnEnded();
+        }
+        Player winner;
+        for (Player p:turnOrder){
+            p.getHp().absolute();
         }
         observer.onGameEnded(null);
     }

@@ -39,7 +39,6 @@ public class Deck {
                         d.addCard(c);
                     }
                 }
-                System.out.println(c);
             }
         }
         catch (FileNotFoundException e){
@@ -90,7 +89,6 @@ public class Deck {
         this.name = name;
         this.cards = new ArrayList<Card>();
         this.dispose = new ArrayList<Card>();
-
     }
 
     public String getName() {
