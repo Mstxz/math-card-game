@@ -3,6 +3,7 @@ package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
 import GUI.Component.ButtonPanelComponent;
+import GUI.Component.CountObserver;
 import GUI.Component.ExitButton;
 import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
@@ -19,12 +20,13 @@ import GUI.Router;
 import GameSocket.LobbyObserver;
 import GameSocket.NIOClient;
 import GameSocket.NIOServer;
+import GameSocket.PlayerInfo;
 import utils.SharedResource;
 import Gameplay.Player;
 import utils.UIManager.RoundPanelUI;
 
 
-public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserver {
+public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserver, CountObserver {
     private ArrayList<Player> list;
     private JLabel title,head;
     private NIOClient client;
@@ -96,6 +98,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         //panel.setBorder(new LineBorder(SharedResource.SIAMESE_BASE,5));
         mainPanel.add(panel, BorderLayout.CENTER);
         client.addLobbyObserver(this);
+        client.setCountObserver(this);
         client.addLobbyObserver(playerPanel);
         client.start();
     }
@@ -113,6 +116,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
                 String deckPath = jFileChooser.getSelectedFile().getAbsolutePath();
                 client.setDeckPath(deckPath);
                 btnPanel.getReadyButton().setEnabled(true);
+
             }
 
         }
@@ -120,6 +124,30 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
 
     @Override
     public void onLobbyChange(ArrayList<Player> playerInfos) {
+        int countAllPlayer = 0;
+        int countReady = 0;
+        for (Player p:playerInfos){
+            PlayerInfo playerInfo = (PlayerInfo) p;
+            if (playerInfo != null){
+                if (playerInfo.getPlayerID() == client.getPlayerOrder()){
+                    if (playerInfo.isReady()){
+                        btnPanel.getReadyButton().setText("Unready");
+                    }
+                    else{
+                        btnPanel.getReadyButton().setText("Ready");
+                    }
+                }
+                if (playerInfo.isReady()){
+                    countReady += 1;
+                }
+                countAllPlayer += 1;
+            }
+        }
+
+        if (countReady != countAllPlayer){
+            head.setText("Matchmaking...");
+        }
+
         if (client.isGameStarted()){
             Router.setRoute("Avenger",client);
         }
@@ -127,6 +155,11 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
 
     public static void main(String[] args) {
         //new PlayerVsPlayer();
+    }
+
+    @Override
+    public void onCountChange(int count) {
+        head.setText("Starting in " + count);
     }
 }
 

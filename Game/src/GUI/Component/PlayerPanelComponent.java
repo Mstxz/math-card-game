@@ -86,6 +86,10 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
         }
         updateLobby();
     }
+
+    public boolean isPlayerReady(){
+        return slot.get(ownerID).getReady();
+    }
 }
 
 

@@ -223,7 +223,7 @@ public class NIOServer extends Thread {
                             if(playerState[i].isStarted()) started=true;
                         }
                         System.out.println("Ready: " + countReady);
-                        if (countReady == registeredID.size()){
+                        if (countReady > 1 && countReady == registeredID.size()){
                             gameStarting = Instant.now().getEpochSecond() + 10;
                         }
                         else if (!started){
