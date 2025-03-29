@@ -127,12 +127,16 @@ import GUI.Component.PopupMenu;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -237,7 +241,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckOption.setOpaque(false);
 
         //ปิดขอบ
-        deckShow.setBorder(BorderFactory.createEmptyBorder());
+        deckShow.setBorder(new EmptyBorder(new Insets(10,10,0,10)));
         cardScrollPane.setBorder(BorderFactory.createEmptyBorder());
         tempDeckZone.setBorder(BorderFactory.createEmptyBorder());
         popupMenu.setBorder(BorderFactory.createEmptyBorder());
@@ -258,15 +262,28 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
 
 
-        paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25)) {
+        paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
+        paRightBottom.addComponentListener(new ComponentListener() {
             @Override
-            protected void paintComponent(Graphics g) {
-                int column = getWidth() / 225;
-                int row = Math.ceilDiv(getComponentCount(),column);
-                this.setPreferredSize(new Dimension(300,(row * 280 + 25) + 10));
-                super.paintComponent(g);
+            public void componentShown(ComponentEvent e) {
+                paRightBottom.setPreferredSize(calculateDimension());
             }
-        };
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                paRightBottom.setPreferredSize(calculateDimension());
+            }
+        });
 
         paRight.add(paRightTop, BorderLayout.NORTH);
         paRight.add(paRightBottom, BorderLayout.CENTER);
@@ -287,10 +304,10 @@ public class DeckCreatorPage extends Page implements ActionListener {
         createButton.addActionListener(this);
         PopupItem.deckZone = tempDeckZone;
     }
-    public Dimension calculateDimension(){
-        int column = paRightBottom.getWidth() / 225;
+    public static Dimension calculateDimension(){
+        int column = paRightBottom.getWidth() / 235;
         int row = Math.ceilDiv(paRightBottom.getComponentCount(),column);
-        return new Dimension(300,row * (paRightBottom.getComponent(0).getHeight() + 25) + 10);
+        return new Dimension(300,(row * (260 + 25)) + 10);
     }
 
     private void loadButton(){
@@ -330,6 +347,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 filterZone.getExpert().getCardButtons().add(tmp);
             }
         }
+
     }
 
     public static void update(HashSet<CardButton> c){
@@ -342,9 +360,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
             CardButton tmp = (CardButton) i;
             paRightBottom.add(tmp);
         }
-        int column = paRightBottom.getWidth() / 225;
-        int row = Math.ceilDiv(paRightBottom.getComponentCount(),column);
-        paRightBottom.setPreferredSize(new Dimension(300,(row * 280 + 25) + 10));
+        paRightBottom.setPreferredSize(calculateDimension());
         paRightBottom.revalidate();
         paRightBottom.repaint();
         scrollPane.revalidate();

@@ -64,7 +64,7 @@ public class PlayerInfo extends Player {
         bf.put(profilePicture.getBytes(StandardCharsets.UTF_8));
         bf.putInt((isReady ? 1: 0));
         bf.putInt(cardsInHand);
-        bf.putInt(cardsInDeck);
+        bf.putInt(deck.getCards().size());
         return bf.array();
     }
 
@@ -85,7 +85,7 @@ public class PlayerInfo extends Player {
         bf.put(profilePicture.getBytes(StandardCharsets.UTF_8));
         bf.putInt((isReady ? 1: 0));
         bf.putInt(cardsInHand);
-        bf.putInt(cardsInDeck);
+        bf.putInt(deck.getCards().size());
         for (Card card:hand){
             bf.putInt(card.encode().length);
             bf.put(card.encode());
@@ -236,21 +236,22 @@ public class PlayerInfo extends Player {
         this.playerNumber = playerNumber;
     }
 
+
     @Override
     public String toString() {
         return "PlayerInfo{" +
-                "isReady=" + isReady +
-                ", name='" + name + '\'' +
-                ", profilePicture='" + profilePicture + '\'' +
-                ", mana=" + mana +
-                ", cardsInHand=" + cardsInHand +
-                ", hp=" + hp +
-                ", numberType=" + numberType +
-                ", maxMana=" + maxMana +
-                ", playerNumber=" + playerNumber +
-                ", cardsInDeck=" + cardsInDeck +
-                ", deck" + deck.getCards() +
-                ", hand=" + hand +
-                '}';
+                "\n    isReady=" + isReady +
+                ",\n    name='" + name + '\'' +
+                ",\n    profilePicture='" + profilePicture + '\'' +
+                ",\n    mana=" + mana +
+                ",\n    cardsInHand=" + cardsInHand +
+                ",\n    hp=" + hp +
+                ",\n    numberType=" + numberType +
+                ",\n    maxMana=" + maxMana +
+                ",\n    playerNumber=" + playerNumber +
+                ",\n    cardsInDeck=" + cardsInDeck +
+                ",\n    deck=" + deck.getCards() +
+                ",\n    hand=" + hand +
+                "\n}";
     }
 }

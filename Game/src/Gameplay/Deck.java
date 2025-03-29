@@ -62,13 +62,18 @@ public class Deck {
                         d.addCard(c);
                     }
                 }
+                else if (info[0].equals("FlipSigned")){
+                    c = Card.createCard(info[0],info[1]);
+                    for (int i=0;i<Integer.parseInt(info[2]);i++){
+                        d.addCard(c);
+                    }
+                }
                 else {
                     c = Card.createCard(info[0]);
                     for (int i = 0;i<Integer.parseInt(info[info.length-1]);i++){
                         d.addCard(c);
                     }
                 }
-                System.out.println(c);
             }
         }
         catch (FileNotFoundException e){

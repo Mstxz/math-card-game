@@ -199,7 +199,7 @@ public class NIOClient extends Game {
                 }
 
             }
-            System.out.println("Switch");
+
             while (channel.isOpen() && (currentState == ClientState.PLAY || currentState == ClientState.WAIT)) {
                 buffer.clear();
                 int byteRead = readIntoBuffer();
@@ -241,6 +241,11 @@ public class NIOClient extends Game {
 
                                         PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
                                         if (playerInfo != null){
+                                            PlayerInfo oldInfo = (PlayerInfo) turnOrder.get(playerInfo.getPlayerID());
+                                            if (oldInfo.getCardsInDeck() != playerInfo.getCardsInDeck()){
+                                                oldInfo.setCardsInDeck(playerInfo.getCardsInDeck());
+                                                oldInfo.setDeck(playerInfo.getDeck());
+                                            }
                                             turnOrder.get(playerInfo.getPlayerID()).setMaxMana(playerInfo.getMaxMana());
                                             turnOrder.get(playerInfo.getPlayerID()).setMana(playerInfo.getMana());
                                             turnOrder.get(playerInfo.getPlayerID()).setHp(playerInfo.getHp());
@@ -280,6 +285,7 @@ public class NIOClient extends Game {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        System.out.println("Client Ended");
     }
 
 
@@ -357,6 +363,7 @@ public class NIOClient extends Game {
         try {
             channel.close();
             currentState = ClientState.END;
+            System.out.println("close");
         } catch (IOException e) {
             e.printStackTrace();
         }

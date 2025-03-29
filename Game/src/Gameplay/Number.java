@@ -19,7 +19,7 @@ public abstract class Number {
     public abstract Number subtract(Number a);
     public abstract Number multiply(Number a);
     public abstract Number divided(Number a);
-    public abstract Number absolute();
+    public abstract int absolute();
     @Override
     public abstract String toString();
 

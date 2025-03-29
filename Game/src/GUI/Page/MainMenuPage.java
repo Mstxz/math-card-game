@@ -85,12 +85,12 @@ public class MainMenuPage extends Page implements ActionListener {
         ButtonZone.setBorder(new EmptyBorder(50,100,0,50));
         ButtonZone.setOpaque(false);
 
-        playButton = new MainMenuButton("PLAY", "assets/catpaw_icon.png", 30, 30);
-        yourDecksButton = new MainMenuButton("Your Decks", "assets/catpaw_icon.png", 30, 30);
-        tutorialButton = new MainMenuButton("Tutorial", "assets/catpaw_icon.png", 30, 30);
-        settingsButton = new MainMenuButton("Settings", "assets/catpaw_icon.png", 30, 30);
-        creditButton = new MainMenuButton("Credits", "assets/catpaw_icon.png", 30, 30);
-        exitButton = new MainMenuButton("Exit", "assets/catpaw_icon.png", 30, 30);
+        playButton = new MainMenuButton("PLAY", 40);
+        yourDecksButton = new MainMenuButton("Your Decks");
+        tutorialButton = new MainMenuButton("Tutorial");
+        settingsButton = new MainMenuButton("Settings");
+        creditButton = new MainMenuButton("Credits");
+        exitButton = new MainMenuButton("Exit");
 
         ButtonZone.add(playButton);
         ButtonZone.add(yourDecksButton);

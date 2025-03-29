@@ -92,7 +92,7 @@ public abstract class Card {
             case "FlipSigned":
                 return new FlipSigned(cardType);
         }
-        return null;
+        return Card.createCard(name);
     }
 
     public static Card createCard(String name){
@@ -139,7 +139,7 @@ public abstract class Card {
                 int cardTypeNumber = in.readInt();
                 CardType cardType = CardType.values()[cardTypeNumber];
                 String cardName = new String(in.readAllBytes(),StandardCharsets.UTF_8);
-                return Card.createCard(cardName);
+                return Card.createCard(cardName,cardType.toString());
             }
             else if (segmentCount == 3){
                 int cardTypeNumber = in.readInt();
