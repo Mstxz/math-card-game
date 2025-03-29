@@ -5,7 +5,7 @@ import AudioPlayer.SFXPlayer;
 import GUI.Component.MainMenuButton;
 import GUI.Router;
 import GUI.Setting.UserPreference;
-import Gameplay.Bot;
+import Gameplay.Bot.Mystyr;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
@@ -53,11 +53,11 @@ public class SelGameMode extends Page implements ActionListener {
 
         if((BGMPlayer.getBgmClip() == null || !BGMPlayer.getFilepath().equals(track)) || !BGMPlayer.checkIfPlaying()){
             if (BGMPlayer.getBgmClip() == null) {
-                BGMPlayer.playBackgroundMusic(track);
+                BGMPlayer.playBackgroundMusic(track, true);
             }
             else {
                 BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic(track);
+                BGMPlayer.playBackgroundMusic(track, true);
             }
         }
     }
@@ -135,14 +135,14 @@ public class SelGameMode extends Page implements ActionListener {
 
         if (e.getSource().equals(botButton)){
             Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
-            player.setDeck(new Deck("Clown"));
+            //player.setDeck(new Deck("Clown"));
             try {
-                player.setDeck(Deck.LoadDeck("Mstxz"));
+                player.setDeck(Deck.LoadDeck("a"));
             }
             catch (FileNotFoundException ex){
                 ex.printStackTrace();
             }
-            Player bot = new Bot();
+            Player bot = new Mystyr();
             ArrayList<Player> p = new ArrayList<>();
             p.add(player);
             p.add(bot);

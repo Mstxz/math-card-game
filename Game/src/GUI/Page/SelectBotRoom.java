@@ -5,7 +5,7 @@ import AudioPlayer.SFXPlayer;
 import GUI.Component.ExitButton;
 import GUI.Router;
 import GUI.Setting.UserPreference;
-import Gameplay.Bot;
+import Gameplay.Bot.Mystyr;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
@@ -356,15 +356,14 @@ public class SelectBotRoom extends Page implements ActionListener {
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
-
-            Player bot = new Bot();
-            ArrayList<Player> players = new ArrayList<>();
-            players.add(player);
-            players.add(bot);
-
-            GameForGUI botGame = new GameForGUI(players);
-            Router.setRoute("Avenger", botGame);
-        } else if (e.getSource() == decksButton) {
+            Player bot = new Mystyr();
+            ArrayList<Player> p = new ArrayList<>();
+            p.add(player);
+            p.add(bot);
+            GameForGUI botGame = new GameForGUI(p);
+            Router.setRoute("Avenger",botGame);
+        }
+        else if (e.getSource() == decksButton){
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
         }
     }

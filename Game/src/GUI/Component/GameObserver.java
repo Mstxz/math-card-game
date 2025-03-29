@@ -15,4 +15,5 @@ public interface GameObserver {
     public abstract void onGameEnded(Player winner);
     public abstract void onTurnArrive();
     public abstract void onTurnEnded();
+    public abstract void onTurnCountChange(int count);
 }

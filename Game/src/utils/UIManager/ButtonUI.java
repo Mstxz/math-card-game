@@ -14,10 +14,15 @@ public class ButtonUI extends BasicButtonUI {
         c.setFont(SharedResource.getCustomSizeFont(30));
     }
 
+
+
     @Override
     public void paint(Graphics g, JComponent c) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        final Color outerBorder = (c.isEnabled()) ? SharedResource.SKYBLUE_DARK : SharedResource.DISABLED_GRAY_DARK;
+        final Color innerBorder = (c.isEnabled()) ? SharedResource.SKYBLUE_BASE : SharedResource.DISABLED_GRAY_BASE;
+        final Color buttonBody = (c.isEnabled()) ? SharedResource.SKYBLUE_BRIGHT : SharedResource.DISABLED_GRAY_BRIGHT;
 
         AbstractButton button = (AbstractButton) c;
         button.setFocusPainted(false);
@@ -26,9 +31,9 @@ public class ButtonUI extends BasicButtonUI {
         g2.setColor(c.getParent().getBackground());
         g2.fillRect(0,0,c.getWidth(),c.getHeight());
 
-        g2.setColor(SharedResource.SKYBLUE_BASE);
+        g2.setColor(innerBorder);
         g2.fillRoundRect(0,0,c.getWidth(),c.getHeight(),10,10);
-        g2.setColor(SharedResource.SKYBLUE_BRIGHT);
+        g2.setColor(buttonBody);
 
         int x;
         int y;
@@ -45,11 +50,11 @@ public class ButtonUI extends BasicButtonUI {
         }
 
 
-        g2.setColor(SharedResource.SKYBLUE_DARK);
+        g2.setColor(outerBorder);
         g2.setFont(button.getFont());
         g2.drawString(button.getText(), x, y);
 
-        g2.setColor(SharedResource.SKYBLUE_DARK);
+        g2.setColor(outerBorder);
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(1,1,c.getWidth()-3,c.getHeight()-3,10,10);
     }

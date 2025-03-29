@@ -3,12 +3,13 @@ package GUI.Component;
 import GameSocket.LobbyObserver;
 import GameSocket.PlayerInfo;
 import Gameplay.Player;
+import utils.SharedResource;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.swing.*;
-
+import javax.swing.border.LineBorder;
 
 
 public class PlayerPanelComponent extends JPanel implements LobbyObserver {
@@ -29,6 +30,8 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
                 slot.add(new PlayerLobbyCard(new Player(playerInfo.getName(), playerInfo.getProfilePicture()), i == ownerID,playerInfo.isReady()));
             }
         }
+
+
         //this.add(slot.getFirst()); // TODO: Set the constructor user to be owner.
 //        this.addUser(new Player("Bot1", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
 //        this.addUser(new Player("Bot2", "assets/ProfileCat1.jpg")); // TODO: Remove comment for testing scaling.
@@ -82,6 +85,10 @@ public class PlayerPanelComponent extends JPanel implements LobbyObserver {
             }
         }
         updateLobby();
+    }
+
+    public boolean isPlayerReady(){
+        return slot.get(ownerID).getReady();
     }
 }
 

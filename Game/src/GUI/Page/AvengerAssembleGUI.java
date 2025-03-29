@@ -6,14 +6,15 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import AudioPlayer.*;
 
 import GUI.Component.*;
 import GUI.Component.Game;
-import Gameplay.CardAction.*;
 import Gameplay.*;
 import utils.SharedResource;
+import utils.UIManager.RoundPanelUI;
 
 /**
  * <h1>Wanna create a doc??</h1>
@@ -42,6 +43,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private JButton 		endTurnButton;
 	private boolean 		isPlayerTurn;
 	private SelectOpponent 	selectOpponent;
+	private TurnCount turnCount;
 	private Game game;
 	public boolean	isBlocked;
 
@@ -81,16 +83,18 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		MiddlePanel.setLayout(new GridLayout(2, 2));
 
 		OpponentMainPanel.setLayout(new BorderLayout());
+		OpponentMainPanel.setBorder(new EmptyBorder(0,20,0,40));
 		OpponentInfo.setLayout(new BorderLayout());
 		OpponentStatus.setLayout(new BorderLayout());
 
 		PlayerMainPanel.setLayout(new BorderLayout());
+		PlayerMainPanel.setBorder(new EmptyBorder(0,20,0,40));
 		PlayerInfo.setLayout(new BorderLayout());
 		PlayerStatus.setLayout(new BorderLayout());
 		handPanel.setLayout(new BorderLayout());
 
 		mainPanel.setLayout(new BorderLayout(10, 10));
-		mainPanel.setBorder(new EmptyBorder(20, 20, 40, 40));
+		mainPanel.setBorder(new EmptyBorder(20, 0, 40, 0));
 		mainPanel.add(OpponentMainPanel, BorderLayout.NORTH);
 		mainPanel.add(PlayerMainPanel, BorderLayout.SOUTH);
 
@@ -127,22 +131,34 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		endTurnButton.setBorder(BorderFactory.createLineBorder(new Color(163, 190, 208, 255), 8));
 		endTurnButton.setBackground(new Color(216, 220, 223, 255));
 		endTurnButton.setForeground(new Color(102, 142, 169, 0));
-		//endTurnButton.set
+
 		endTurnButton.setPreferredSize(new Dimension(170, 170));
-		JPanel p = new JPanel();
-		p.setLayout(new GridLayout(1, 6));
-		p.setBackground(SharedResource.SIAMESE_BRIGHT);
-		for (int i = 0; i < 5; i++) {
-			JPanel tmp = new JPanel();
-			tmp.setBackground(SharedResource.SIAMESE_BRIGHT);
-			p.add(tmp);
-		}
-		JPanel p2 = new JPanel();
-		p2.setBackground(SharedResource.SIAMESE_BRIGHT);
-		p2.add(endTurnButton);
-		p2.setLayout(new FlowLayout());
-		p.add(p2);
-		mainPanel.add(p);
+		endTurnButton.setMaximumSize(new Dimension(170, 170));
+		JPanel middlePanel = new JPanel();
+		middlePanel.setLayout(new BorderLayout());
+		middlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+		JPanel endTurnPanel = new JPanel();
+		endTurnPanel.setLayout(new BoxLayout(endTurnPanel,BoxLayout.X_AXIS));
+		endTurnPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+		endTurnPanel.add(endTurnButton);
+		endTurnPanel.setPreferredSize(new Dimension(210, 170));
+		endTurnPanel.setBorder(new EmptyBorder(0,0,0,40));
+
+
+		turnCount = new TurnCount();
+
+		JPanel turnCountPanel = new JPanel();
+		turnCountPanel.setLayout(new BoxLayout(turnCountPanel,BoxLayout.X_AXIS));
+		turnCountPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+		turnCountPanel.add(turnCount);
+		turnCountPanel.setPreferredSize(new Dimension(250, 150));
+
+
+		middlePanel.add(endTurnPanel,BorderLayout.EAST);
+		middlePanel.add(turnCountPanel,BorderLayout.WEST);
+
+		mainPanel.add(middlePanel);
 
 		mainPanel.setVisible(true);
 
@@ -157,7 +173,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 		BGMPlayer.stopBackgroundMusic();
 
-		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_Mixed.wav");
+		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_Mixed.wav", true);
 	}
 
 	public void updatePlayerHUD(){
@@ -210,16 +226,17 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			CardPlayable c = (CardPlayable) e.getSource();
 			System.out.println(c.isPlayable());
 			if(c.isPlayable()) {
-				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
 				System.out.println(c.getCard());
 				System.out.println(Arrays.toString(game.getPlayer().getHand().toArray()));
 				int index = game.getPlayer().getHand().indexOf(c.getCard());
 
 				//gui.addCardPlayed(cardPlayed);
 				if (game.getPlayer().getHand().get(index).getType() == CardType.GREEN){
+					SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
 					showOverlay(new SelectOpponent(game.getPlayer(),opponents,index,this),OverlayPlacement.CENTER);
 				}
 				else{
+					SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play.wav");
 					playCard(index,getActiveEnemy());
 				}
 			}
@@ -282,16 +299,20 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		BGMPlayer.stopBackgroundMusic();
 		if (winner == game.getPlayer()){
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Victory.wav");
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Victory_BGM.wav", false);
 			showOverlay(new ResultShow("Victory"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 			//endTurnButton.removeActionListener(this);
 		}
 		else if(winner != null){
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Defeat.wav");
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Defeat_BGM.wav", false);
 			showOverlay(new ResultShow("Defeat"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
 		else{
+			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Draw.wav");
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Draw_BGM.wav", false);
 			showOverlay(new ResultShow("Draw"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
@@ -300,6 +321,11 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	@Override
 	public void onTurnArrive() {
 		setPlayerTurn(true);
+	}
+
+	@Override
+	public void onTurnCountChange(int count) {
+		turnCount.updateCount(count);
 	}
 
 	@Override
