@@ -61,6 +61,7 @@ public class Router implements ComponentListener {
             case "Lobby" -> new PlayerVsPlayer((NIOClient) data);
             case "Setting" -> new SettingPage();
             case "SelBot" -> new SelectBotRoom();
+            case "Tutorial" -> new TutorialPage();
             default -> null;
         };
 

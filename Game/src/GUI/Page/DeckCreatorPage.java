@@ -167,6 +167,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
         mainPanel.setBorder(new EmptyBorder(10,80,80,80));
+        mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
         // Title Label
         title = new JLabel("Your Deck");
         title.setFont(SharedResource.getFont48());

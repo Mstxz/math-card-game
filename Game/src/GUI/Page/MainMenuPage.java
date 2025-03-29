@@ -132,6 +132,9 @@ public class MainMenuPage extends Page implements ActionListener {
         else if (e.getSource().equals(settingsButton)){
             Router.setRoute("Setting",null);
         }
+        else if (e.getSource().equals(tutorialButton)){
+            Router.setRoute("Tutorial",null);
+        }
     }
 
 }

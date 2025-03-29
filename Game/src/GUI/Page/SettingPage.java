@@ -19,6 +19,7 @@ public class SettingPage extends Page {
 
 
     public SettingPage(){
+        mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
         ExitButton exitButton = new ExitButton("MainMenu");
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -27,12 +28,14 @@ public class SettingPage extends Page {
         settingTitle.setHorizontalAlignment(SwingConstants.CENTER);
         topPanel.add(exitButton,BorderLayout.WEST);
         topPanel.add(settingTitle,BorderLayout.CENTER);
+        topPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
         JLabel emptySpace = new JLabel();
         emptySpace.setPreferredSize(new Dimension(100, 40));
         topPanel.add(emptySpace,BorderLayout.EAST);
         settingTabPanel = new JPanel();
         settingTabPanel.setBorder(new EmptyBorder(0,40,0,80));
         settingTabPanel.add(new TabbedPanel());
+        settingTabPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(topPanel,BorderLayout.NORTH);
         mainPanel.add(settingTabPanel);
