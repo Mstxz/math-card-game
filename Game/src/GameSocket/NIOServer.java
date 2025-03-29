@@ -187,9 +187,6 @@ public class NIOServer extends Thread {
                 buffer.flip();
                 Request clientReq = Request.decodeBytes(buffer.array());
                 System.out.println(clientReq);
-                String data = new String(buffer.array(), buffer.position(), bytesRead,StandardCharsets.UTF_8);
-                //buffer.clear();
-                String[] request = data.split(" ");
                 switch (clientReq.getOperation()){
                     case ProtocolOperation.USER:
 
@@ -240,7 +237,7 @@ public class NIOServer extends Thread {
                                 RequestReader r = new RequestReader(clientReq);
                         ){
                             while (!r.reachTheEnd()){
-                                data = r.readString();
+                                String data = r.readString();
                                 out.writeBytes(data);
                             }
 
@@ -265,14 +262,10 @@ public class NIOServer extends Thread {
                             cardPlayed.action(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
                             gameState.getPlayers().get(ownerID).getDeck().getDispose().add(cardPlayed);
                             gameState.getPlayers().get(ownerID).getHand().remove(cardIndex);
-                            ArrayList<Player> playerArrayList = new ArrayList<>();
-                            for (PlayerInfo playerInfo:gameState.getPlayers()){
-                                playerArrayList.add((Player) playerInfo);
-                            }
+                            ArrayList<Player> playerArrayList = new ArrayList<>(gameState.getPlayers());
                             handStateUpdate();
                             ArrayList<Integer> loseList = Player.checkLose(playerArrayList);
                             if(!loseList.isEmpty()){
-
                                 Request gameEnded = new Request(ProtocolOperation.END_GAME);
                                 gameEnded.appendData((loseList.getFirst() + 1) % 2);
                                 pushUpdate(gameEnded);
@@ -303,6 +296,31 @@ public class NIOServer extends Thread {
                         break;
 
                     case END_TURN:
+                        if (gameState.getTurnCount() == 40){
+                            ArrayList<PlayerInfo> winner = new ArrayList<>();
+                            int maxScore = -1;
+                            for (PlayerInfo p: gameState.getPlayers()){
+                                if (maxScore == -1 || maxScore > p.getHp().absolute()){
+                                    winner.clear();
+                                    maxScore = p.getHp().absolute();
+                                    winner.add(p);
+                                }
+                                else if (maxScore == p.getHp().absolute()){
+                                    winner.clear();
+                                }
+                            }
+                            winner.add(null);
+                            Request gameEnded = new Request(ProtocolOperation.END_GAME);
+                            if (winner.getFirst() != null){
+                                gameEnded.appendData(winner.getFirst().getPlayerID());
+                            }
+                            else{
+                                gameEnded.appendData(-1);
+                            }
+                            pushUpdate(gameEnded);
+                            serverInfo.setPendingClose(true);
+                            return;
+                        }
                         if (gameState.getCurrentTurn() == registeredID.get(client)){
                             if (gameState.getCurrentPlayer().getMaxMana() != 10){
                                 gameState.getCurrentPlayer().setMaxMana(gameState.getCurrentPlayer().getMaxMana() + 1);
@@ -314,6 +332,7 @@ public class NIOServer extends Thread {
                             startTurn.appendData(gameState.getCurrentTurn());
                             drawCards(gameState.getCurrentTurn(),1);
                             handStateUpdate();
+                            gameState.setTurnCount(gameState.getTurnCount() + 1);
                             pushUpdate(startTurn);
                         }
                         break;
@@ -335,7 +354,6 @@ public class NIOServer extends Thread {
     }
 
     private void initGame(){
-
         ArrayList<PlayerInfo> playerInfos = new ArrayList<>();
         for (PlayerState ps : playerState) {
             if (ps != null) {
@@ -364,6 +382,7 @@ public class NIOServer extends Thread {
             drawCards((randomStarter + i) % gameState.getPlayers().size(),5);
         }
         handStateUpdate();
+        gameState.setTurnCount(1);
         Request startTurn = new Request(ProtocolOperation.START_TURN);
         startTurn.appendData(randomStarter);
         pushUpdate(startTurn);
