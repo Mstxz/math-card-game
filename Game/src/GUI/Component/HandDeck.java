@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import GUI.Page.AvengerAssembleGUI;
+import Gameplay.Card;
 import Gameplay.Player;
 import utils.SharedResource;
 
@@ -13,6 +14,7 @@ public class HandDeck extends JPanel{
 	protected AvengerAssembleGUI gui;
 	private	Player						owner;
 	private	ArrayList<CardPlayable>		list = new ArrayList<CardPlayable>();
+	private ArrayList<Card>				redundentList = new ArrayList<Card>();
 	private ArrayList<Integer>			playableIndex = new ArrayList<Integer>();
 	private	boolean						isEnemy;
 	private int							gap;
@@ -24,8 +26,9 @@ public class HandDeck extends JPanel{
 		this.owner = owner;
 		this.isEnemy = isEnemy;
 		gap = -5 * owner.getHand().size();
-			this.setLayout(new FlowLayout(FlowLayout.CENTER, this.gap, 0));
+		this.setLayout(new FlowLayout(FlowLayout.CENTER, this.gap, 0));
 		this.setVisible(true);
+
 		if (!isEnemy){
 			this.updatePlayable(gui.getActiveEnemy());
 		}
@@ -33,8 +36,10 @@ public class HandDeck extends JPanel{
 
 	public void	RenderHand()
 	{
-		CardPlayable	tmp;
-
+		if (owner.getHand().equals(redundentList)){
+			return;
+		}
+		redundentList.clear();
 		this.CleanHand();
 		scale = 1.0 - (0.02 * owner.getHand().size());
 		if (scale < 0.6)
@@ -43,10 +48,11 @@ public class HandDeck extends JPanel{
 			this.gap = (-5 * owner.getHand().size()) % (SharedResource.CARD_WIDTH / 2);
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, this.gap, 0));
 		for (int i = 0;i < owner.getHand().size();i++) {
-			tmp = new CardPlayable(this,owner.getHand().get(i), scale, isEnemy,playableIndex.contains(i));
+			CardPlayable tmp = new CardPlayable(this,owner.getHand().get(i), scale, isEnemy,playableIndex.contains(i));
 			tmp.setPlayable(playableIndex.contains(i));
 			tmp.addActionListener(gui);
 			list.add(tmp);
+			redundentList.add(tmp.getCard());
 			this.add(tmp);
 		}
 		this.revalidate();
@@ -64,8 +70,6 @@ public class HandDeck extends JPanel{
 		list.clear();
 		scale = 1.0;
 //		this.setLayout(new FlowLayout(FlowLayout.CENTER, -5 * owner.getHand().size(), 0));
-		this.revalidate();
-		this.repaint();
 	}
 
 	public void	AppendCard()

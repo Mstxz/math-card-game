@@ -263,19 +263,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	}
 
 	@Override
-	public void onCardPlayed(ArrayList<CardAction> actionsTaken) {
-//		for (CardAction action:actionsTaken){
-//			if (action.getTarget() == game.getPlayer()){
-//				switch (action.getType()){
-//					case DRAW -> {
-//						updatePlayerHand();
-//					}
-//					case DISCARD -> {
-//						updatePlayerHand();
-//					}
-//				}
-//			}
-//		}
+	public void onCardPlayed() {
+
 		onStatChanged();
 		onHandChanged();
 	}

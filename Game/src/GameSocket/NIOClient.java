@@ -288,6 +288,7 @@ public class NIOClient extends Game {
         }
     }
 
+
     private ArrayList<Request> getAllRequest(byte[] requestsByte,int byteRead){
         ArrayList<Request> requestArrayList = new ArrayList<>();
         int currentIndex = 0;

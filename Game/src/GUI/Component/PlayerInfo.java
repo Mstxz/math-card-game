@@ -84,7 +84,7 @@ public class PlayerInfo extends JPanel {
         manaField.add(manaZone,BorderLayout.CENTER);
 
         deckIconPanel = new DeckIconPanel(player);
-
+        deckIconPanel.update();
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.add(this.hpLabel);
         JPanel tmp = new JPanel();
@@ -104,23 +104,35 @@ public class PlayerInfo extends JPanel {
     }
 
     public void updateInfo(){
-        this.hpField.setText(player.getHp().toString());
-        this.manaLeft.setText(player.getMana()+"/"+player.getMaxMana());
-        for (int i = 0;i<10;i++){
-            if (i<=player.getMana()-1){
-                manaIconList[i].setIsUseable(true);
-                manaIconList[i].setIsUSe(false);
-            }
-            else if (i <= player.getMaxMana() - 1){
-                manaIconList[i].setIsUseable(true);
-                manaIconList[i].setIsUSe(true);
-            }
-            else {
-                manaIconList[i].setIsUseable(false);
-            }
+        boolean changed = false;
+        if (this.hp != player.getHp()){
+            hp = player.getHp();
+            this.hpField.setText(player.getHp().toString());
+            changed = true;
         }
-        manaField.repaint();
-        deckIconPanel.repaint();
+
+        if (this.mana != player.getMana()){
+            mana = player.getMana();
+            this.manaLeft.setText(player.getMana()+"/"+player.getMaxMana());
+            for (int i = 0;i<10;i++){
+                if (i<=player.getMana()-1){
+                    manaIconList[i].setIsUseable(true);
+                    manaIconList[i].setIsUSe(false);
+                }
+                else if (i <= player.getMaxMana() - 1){
+                    manaIconList[i].setIsUseable(true);
+                    manaIconList[i].setIsUSe(true);
+                }
+                else {
+                    manaIconList[i].setIsUseable(false);
+                }
+            }
+            changed = true;
+        }
+        if (changed){
+            manaField.repaint();
+        }
+        deckIconPanel.update();
     }
 
     public Number getHp() {

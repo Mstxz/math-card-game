@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 public abstract class Card {
@@ -208,7 +209,19 @@ public abstract class Card {
 
     }
 
-    public abstract void action(Player self,Player enemy);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card card)) return false;
+        return manaUsed == card.manaUsed && Objects.equals(name, card.name) && type == card.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, manaUsed, type);
+    }
+
+    public abstract void action(Player self, Player enemy);
     public ArrayList<CardAction> getCardAction(Player self, Player enemy){
         return null;
     }

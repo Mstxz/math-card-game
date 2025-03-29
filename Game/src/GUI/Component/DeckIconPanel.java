@@ -50,12 +50,13 @@ public class DeckIconPanel extends JPanel {
         g.setFont(new Font("Madimi One Regular",Font.PLAIN,30));
 
         g.drawString(String.valueOf(cardCount),12,55);
-        this.update();
     }
 
-    private void update(){
-        cardCount = player.getDeck().getCards().size();
-        this.repaint();
+    public void update(){
+        if (cardCount != player.getDeck().getCards().size()){
+            cardCount = player.getDeck().getCards().size();
+            this.repaint();
+        }
     }
 
     public static void main(String[] args) {
