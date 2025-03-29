@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import AudioPlayer.SFXPlayer;
 import utils.ResourceLoader;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
@@ -58,6 +59,7 @@ public class PopupMenu extends JPanel {
     public void toggleMenu() {
         isMenuVisible = !isMenuVisible;
         menuPanel.setVisible(isMenuVisible);
+        SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
         revalidate();
         repaint();
     }

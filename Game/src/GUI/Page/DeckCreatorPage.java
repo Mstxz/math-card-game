@@ -150,7 +150,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private TempDeckZone tempDeckZone;
     private JPanel          paRight;
     private JPanel          paRightTop;
-    private static JPanel          paRightBottom;
+    private static JPanel   paRightBottom;
     private JLabel          title;
     private JPanel          deckShow;
     private JPanel          deckOption;
