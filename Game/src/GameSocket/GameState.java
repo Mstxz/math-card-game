@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class GameState {
     private int countLoaded;
     private int currentTurn;
+    private int turnCount;
     private ArrayList<PlayerInfo> players;
     private ArrayList<Boolean> playerAlive;
     public GameState(ArrayList<PlayerInfo> playerInfos){
@@ -16,6 +17,7 @@ public class GameState {
         for (PlayerInfo p:playerInfos){
             playerAlive.add(true);
         }
+        turnCount = 0;
         currentTurn = 0;
         countLoaded = 0;
     }
@@ -44,5 +46,13 @@ public class GameState {
 
     public ArrayList<PlayerInfo> getPlayers() {
         return players;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+
+    public void setTurnCount(int turnCount) {
+        this.turnCount = turnCount;
     }
 }

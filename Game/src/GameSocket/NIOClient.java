@@ -269,7 +269,12 @@ public class NIOClient extends Game {
                             case END_GAME:
                                 try (RequestReader r = new RequestReader(req)) {
                                     int winnerID = r.readInt();
-                                    observer.onGameEnded(turnOrder.get(winnerID));
+                                    if (winnerID != -1){
+                                        observer.onGameEnded(turnOrder.get(winnerID));
+                                    }
+                                    else{
+                                        observer.onGameEnded(null);
+                                    }
                                     closeClient();
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
