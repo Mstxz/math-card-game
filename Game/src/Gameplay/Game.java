@@ -42,8 +42,8 @@ public class Game {
 
         System.out.println("Welcome to the game!");
         try {
-            a.setDeck(Deck.LoadDeck("20Minus"));
-            b.setDeck(Deck.LoadDeck("a"));
+            a.setDeck(Deck.LoadDeck("Mstxz"));
+            b.setDeck(Deck.LoadDeck("Mstxz"));
         }
         catch (FileNotFoundException e){
             e.printStackTrace();

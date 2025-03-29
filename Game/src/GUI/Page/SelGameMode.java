@@ -134,9 +134,9 @@ public class SelGameMode extends Page implements ActionListener {
 
         if (e.getSource().equals(botButton)){
             Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
-            player.setDeck(new Deck("a"));
+            player.setDeck(new Deck("Clown"));
             try {
-                player.setDeck(Deck.LoadDeck("a"));
+                player.setDeck(Deck.LoadDeck("Mstxz"));
             }
             catch (FileNotFoundException ex){
                 ex.printStackTrace();
