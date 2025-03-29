@@ -293,7 +293,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			setBackdropDim(true);
 		}
 		else{
-			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/SFX/Game_Defeat.wav", false);
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/SFX/Game_Draw.wav", false);
 			showOverlay(new ResultShow("Draw"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
