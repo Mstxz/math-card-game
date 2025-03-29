@@ -241,26 +241,15 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		return opponents.get(activeOpponent);
 	}
 
-
 	public HandDeck getUserPanel() {
 		return UserPanel;
-	}
-
-	public void setUserPanel(HandDeck userPanel) {
-		UserPanel = userPanel;
-	}
-
-	public void updatePlayerHand(){
-		UserPanel.RenderHand();
-	}
-
-	public void updateEnemyHand(){
-		OpponentPanel.RenderHand();
 	}
 
 	@Override
 	public void onGameStart(int startTurn) {
 		setPlayerTurn(game.getPlayerOrder() == startTurn);
+		onStatChanged();
+		onHandChanged();
 	}
 
 	@Override

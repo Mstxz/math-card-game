@@ -8,6 +8,8 @@ import Gameplay.Difficulty;
 import Gameplay.Numbers.Constant;
 import Gameplay.Player;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class FlipSigned extends Card {
@@ -33,4 +35,5 @@ public class FlipSigned extends Card {
         arr.add(new SetHp(((Constant)(self.getHp())).multiply(-1),self.getPlayerNumber()));
         return arr;
     }
+
 }

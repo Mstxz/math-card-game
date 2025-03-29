@@ -94,11 +94,20 @@ public class GameForGUI extends Game {
             inPlay.setMana(inPlay.getMaxMana());
             observer.onTurnEnded();
         }
-        Player winner;
+        ArrayList<Player> winner = new ArrayList<>();
+        int maxScore = -1;
         for (Player p:turnOrder){
-            p.getHp().absolute();
+            if (maxScore == -1 || maxScore > p.getHp().absolute()){
+                winner.clear();
+                maxScore = p.getHp().absolute();
+                winner.add(p);
+            }
+            else if (maxScore == p.getHp().absolute()){
+                winner.clear();
+            }
         }
-        observer.onGameEnded(null);
+        winner.add(null);
+        observer.onGameEnded(winner.getFirst());
     }
 
 

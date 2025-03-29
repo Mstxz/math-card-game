@@ -49,8 +49,8 @@ public class Constant extends Number {
     }
 
     @Override
-    public Number absolute() {
-        return new Constant(Math.abs(number));
+    public int absolute() {
+        return Math.abs(number);
     }
 
     public String toString(){

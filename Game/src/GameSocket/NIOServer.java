@@ -64,14 +64,13 @@ public class NIOServer extends Thread {
             server.setOption(StandardSocketOptions.SO_REUSEADDR,true);
             server.bind(new InetSocketAddress(5000));
             serverInfo.setListening(true);
-            System.out.println("Server Start");
             server.configureBlocking(false);
             Selector selector = Selector.open();
             server.register(selector, SelectionKey.OP_ACCEPT);
             while (serverInfo.isRunning()) {
                 if (serverInfo.isPendingClose() && registeredID.isEmpty()){
                     stopServer();
-                    return;
+                    continue;
                 }
                 try {
                     selector.select();
@@ -148,11 +147,10 @@ public class NIOServer extends Thread {
             }
             selector.close();
             server.close();
+            System.out.println("Server Closed");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
-        System.out.println("Server stopped");
     }
     public void handleAcception(Selector selector,SelectionKey k) throws RuntimeException,IOException{
         if (k.channel() instanceof ServerSocketChannel serverChannel) {
@@ -161,7 +159,7 @@ public class NIOServer extends Thread {
             clientChannel.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
             System.out.println("CONNECTED: " + clientChannel.socket().getInetAddress().getHostAddress());
             for (int i=0;i<4;i++){
-                if (!registeredID.values().contains(i)){
+                if (!registeredID.containsValue(i)){
                     registeredID.put(clientChannel,i);
                     playerState[i] = new PlayerState(i);
                     break;
@@ -278,7 +276,7 @@ public class NIOServer extends Thread {
                                 Request gameEnded = new Request(ProtocolOperation.END_GAME);
                                 gameEnded.appendData((loseList.getFirst() + 1) % 2);
                                 pushUpdate(gameEnded);
-
+                                serverInfo.setPendingClose(true);
                                 return;
                             }
 //                            Request notifyCardPlayed = new Request(ProtocolOperation.CARD);
@@ -369,39 +367,6 @@ public class NIOServer extends Thread {
         Request startTurn = new Request(ProtocolOperation.START_TURN);
         startTurn.appendData(randomStarter);
         pushUpdate(startTurn);
-    }
-
-    private void handleCardPlayed(Request clientReq){
-        try (RequestReader r = new RequestReader(clientReq)){
-            Card cardPlayed = Card.decode(r.readByteData());
-            int ownerID = r.readInt();
-            int receiverID = r.readInt();
-            ArrayList<CardAction> cardActions = cardPlayed.getCardAction(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
-            cardPlayed.action(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
-
-            Request notifyCardPlayed = new Request(ProtocolOperation.CARD);
-            notifyCardPlayed.appendData(cardPlayed.encode());
-            notifyCardPlayed.appendData(ownerID);
-            notifyCardPlayed.appendData(receiverID);
-            pushUpdate(notifyCardPlayed);
-
-//            for (CardAction cardAction : cardActions){
-//                switch (cardAction.getType()){
-//                    case DRAW -> {
-//                        Draw draw = (Draw) cardAction;
-//                        drawCards(draw.getTargetID(),draw.getAmount());
-//                    }
-//                    case SET_HP -> {
-//                        setHP((SetHp) cardAction);
-//                    }
-//                    case GET_CARD ->
-//                }
-//            }
-            handStateUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     private void drawCards(int playerOrder,int numberOfCards){

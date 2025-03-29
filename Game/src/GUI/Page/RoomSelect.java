@@ -8,6 +8,7 @@ import GUI.Router;
 import GameSocket.NIOClient;
 import GameSocket.NIOServer;
 import utils.SharedResource;
+import utils.UIManager.ButtonUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,8 +26,8 @@ public class RoomSelect extends Page implements ActionListener {
     private JLabel header;
     private JLabel createRoomLabel;
     private JLabel joinRoomLabel;
-    private BlueButton  createButton;
-    private BlueButton  joinButton;
+    private JButton  createButton;
+    private JButton  joinButton;
     private JTextField hostIpField;
     private ExitButton exitLabel;
     private boolean loading;
@@ -46,9 +47,18 @@ public class RoomSelect extends Page implements ActionListener {
         joinRoomLabel.setBackground(SharedResource.SIAMESE_BRIGHT);
         joinRoomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        createButton = new BlueButton("Create", 350, 80);
-        joinButton = new BlueButton ("Join", 350, 80);
+        createButton = new JButton("Create");
+        createButton.setUI(new ButtonUI());
+        createButton.setPreferredSize(new Dimension(350,70));
+        createButton.setMaximumSize(new Dimension(350,70));
+        createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
+        joinButton = new JButton ("Join");
+        joinButton.setUI(new ButtonUI());
+        joinButton.setPreferredSize(new Dimension(350,70));
+        joinButton.setMaximumSize(new Dimension(350,70));
+        joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         hostIpField = new JTextField("Room ID");
         hostIpField.setFont(SharedResource.getCustomSizeFont(28));
@@ -92,11 +102,11 @@ public class RoomSelect extends Page implements ActionListener {
         optionPanel.add(createRoomLabel);
         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
         optionPanel.add(createButton);
-        optionPanel.add(Box.createRigidArea(new Dimension(0,20)));
+        optionPanel.add(Box.createRigidArea(new Dimension(0,50)));
         optionPanel.add(joinRoomLabel);
         optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
         optionPanel.add(hostIpField);
-        optionPanel.add(Box.createRigidArea(new Dimension(0,10)));
+        optionPanel.add(Box.createRigidArea(new Dimension(0,30)));
         optionPanel.add(joinButton);
         optionPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
