@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class SelectBotRoom extends Page implements ActionListener {
-    private JPanel panelA, panelB, panelC, panelD, panelE;
+    private JPanel mainColorPanel, panelA, panelB, panelC, panelD, panelE;
     private JButton exit, previousBotButton, nextBotButton, decksButton, startButton;
     private JLabel chooseOpponent, selectingBotName, selectingBotProfileImage, selectingBotDescription;
 
@@ -30,6 +30,7 @@ public class SelectBotRoom extends Page implements ActionListener {
     }
 
     private void initComponents() {
+        mainColorPanel = new JPanel();
         panelA = new JPanel();
         panelB = new JPanel();
         panelC = new JPanel();
@@ -54,7 +55,19 @@ public class SelectBotRoom extends Page implements ActionListener {
     }
 
     private void setupLayout() {
-        this.mainPanel.setLayout(new GridLayout(5, 1));
+        // กำหนด Layout ให้ mainPanel
+        this.mainPanel.setLayout(new BorderLayout());
+
+        // ตั้งค่าพื้นหลังและ Layout ของ mainColorPanel
+        mainColorPanel.setLayout(new GridLayout(5, 1));
+        mainColorPanel.setBackground(new Color(221, 218, 210)); // ✅ เพิ่มสีพื้นหลัง
+
+        // ทำให้ Panel ย่อยโปร่งใส
+        panelA.setOpaque(false);
+        panelB.setOpaque(false);
+        panelC.setOpaque(false);
+        panelD.setOpaque(false);
+        panelE.setOpaque(false);
 
         panelA.setLayout(new FlowLayout());
         panelA.add(exit);
@@ -71,11 +84,14 @@ public class SelectBotRoom extends Page implements ActionListener {
         panelE.add(decksButton);
         panelE.add(startButton);
 
-        this.mainPanel.add(panelA);
-        this.mainPanel.add(panelB);
-        this.mainPanel.add(panelC);
-        this.mainPanel.add(panelD);
-        this.mainPanel.add(panelE);
+        mainColorPanel.add(panelA);
+        mainColorPanel.add(panelB);
+        mainColorPanel.add(panelC);
+        mainColorPanel.add(panelD);
+        mainColorPanel.add(panelE);
+
+        // ✅ เพิ่ม mainColorPanel เข้าไปใน mainPanel
+        this.mainPanel.add(mainColorPanel, BorderLayout.CENTER);
     }
 
     private void setupListeners() {
