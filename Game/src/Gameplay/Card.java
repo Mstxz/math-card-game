@@ -1,19 +1,17 @@
 package Gameplay;
 
-import GameSocket.PlayerInfo;
+import Gameplay.Bot.Bot;
 import Gameplay.CardAction.*;
 import Gameplay.Cards.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Scanner;
 
 public abstract class Card {
     protected String name;
@@ -201,10 +199,7 @@ public abstract class Card {
         }
         else{
             if (self instanceof Bot) {
-                if (this instanceof Plus){
-                    return self;
-                }
-                return enemy;
+                return ((Bot)(self)).getTargetId(self,enemy,this);
             }
             return enemy;
 //            System.out.print("Select Opponent : ");

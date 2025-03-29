@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import GUI.Setting.UserPreference;
-import Gameplay.Bot;
+import Gameplay.Bot.Mystyr;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
@@ -112,7 +112,7 @@ public class SelectBotRoom extends Page implements ActionListener {
             catch (FileNotFoundException ex){
                 ex.printStackTrace();
             }
-            Player bot = new Bot();
+            Player bot = new Mystyr();
             ArrayList<Player> p = new ArrayList<>();
             p.add(player);
             p.add(bot);

@@ -1,10 +1,9 @@
 package Gameplay;
 
 import GUI.Component.Game;
-import GUI.Component.GameObserver;
+import Gameplay.Bot.Bot;
 import Gameplay.Numbers.Constant;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,12 +53,10 @@ public class GameForGUI extends Game {
             inPlay.draw();
             observer.onHandChanged();
             if(inPlay instanceof Bot){
-                int targetId = ((int)(Math.random()*2));
-                while (targetId == i % 2){
-                    targetId = ((int)(Math.random()*2));
-                }
+                int targetId = playerOrder;
                 Card c;
                 try {
+                    System.out.println(Arrays.toString(inPlay.getHand().toArray()));
                     Thread.sleep(500);
                     while ((c = inPlay.play(inPlay,turnOrder.get(targetId))) != null){
                         observer.onCardPlayed();

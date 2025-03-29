@@ -7,10 +7,10 @@ import Gameplay.Player;
 
 import java.util.ArrayList;
 
-public class Mystr extends Bot {
+public class Mystyr extends Bot {
     private int hpIncrease = 0;
-    public Mystr(){
-        super("Mystr","assets/Profile/Mystr.webp","She want to play safe by increase her self HP","a");
+    public Mystyr(){
+        super("Mystyr","assets/Profile/Mystyr.webp","She want to play safe by increase her self HP","Mstxz");
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Mystr extends Bot {
             c = this.getHand().remove(index);
             Constant oldHp = (Constant) getHp();
             c.action(self,enemy);
-            int tmp = ((Constant)(getHp())).getNumber()-oldHp.getNumber();
+            int tmp = Math.abs(((Constant)getHp()).getNumber())-Math.abs(oldHp.getNumber());
             hpIncrease+=tmp;
             System.out.println(this.getName()+" play "+c.getName()+" to "+c.getReceiver(self,enemy).getName());
             this.getDeck().addDispose(c);

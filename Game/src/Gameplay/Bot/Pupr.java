@@ -1,17 +1,18 @@
-package Gameplay;
+package Gameplay.Bot;
+
+import Gameplay.Card;
+import Gameplay.Cards.Minus;
+import Gameplay.Cards.Plus;
+import Gameplay.Deck;
+import Gameplay.HaveCondition;
+import Gameplay.Player;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class Bot extends Player{
-    public Bot(){
-        super("Bot1","assets/icon.png");
-        try {
-            this.setDeck(Deck.LoadDeck("a"));
-        }
-        catch (FileNotFoundException ex){
-            ex.printStackTrace();
-        }
+public class Pupr extends Bot {
+    public Pupr(){
+        super("Pupr","assets/Profile/Pupr.webp","Can you teach me how to play this game?","a");
     }
 
     @Override
@@ -51,5 +52,16 @@ public class Bot extends Player{
 
         System.out.println(c);
         return c;
+    }
+
+    @Override
+    public Player getTargetId(Player self, Player enemy,Card c) {
+        if (c instanceof Plus){
+            return self;
+        }
+        if (c instanceof Minus){
+            return enemy;
+        }
+        return enemy;
     }
 }
