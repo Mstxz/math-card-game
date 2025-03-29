@@ -157,7 +157,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 		BGMPlayer.stopBackgroundMusic();
 
-		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_Mixed.wav");
+		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_Mixed.wav", true);
 	}
 
 	public void updatePlayerHUD(){
@@ -210,16 +210,17 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			CardPlayable c = (CardPlayable) e.getSource();
 			System.out.println(c.isPlayable());
 			if(c.isPlayable()) {
-				SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
 				System.out.println(c.getCard());
 				System.out.println(Arrays.toString(game.getPlayer().getHand().toArray()));
 				int index = game.getPlayer().getHand().indexOf(c.getCard());
 
 				//gui.addCardPlayed(cardPlayed);
 				if (game.getPlayer().getHand().get(index).getType() == CardType.GREEN){
+					SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play_Click.wav");
 					showOverlay(new SelectOpponent(game.getPlayer(),opponents,index,this),OverlayPlacement.CENTER);
 				}
 				else{
+					SFXPlayer.playSound("Game/src/assets/Audio/SFX/Card_Play.wav");
 					playCard(index,getActiveEnemy());
 				}
 			}
@@ -281,17 +282,18 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	public void onGameEnded(Player winner) {
 		BGMPlayer.stopBackgroundMusic();
 		if (winner == game.getPlayer()){
-			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Victory.wav");
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/SFX/Game_Victory.wav", false);
 			showOverlay(new ResultShow("Victory"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 			//endTurnButton.removeActionListener(this);
 		}
 		else if(winner != null){
-			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Defeat.wav");
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/SFX/Game_Defeat.wav", false);
 			showOverlay(new ResultShow("Defeat"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
 		else{
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/SFX/Game_Defeat.wav", false);
 			showOverlay(new ResultShow("Draw"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}

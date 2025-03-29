@@ -32,7 +32,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
     //private Image bg;
 
     public PlayerVsPlayer(NIOClient client) {
-        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/PVP_Lobby_BGM.wav");
+        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/PVP_Lobby_BGM.wav", true);
         this.client = client;
         list = new ArrayList<Player>();
         mainPanel.setLayout(new BorderLayout(20, 0));

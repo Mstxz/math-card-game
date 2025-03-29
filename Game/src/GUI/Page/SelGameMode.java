@@ -53,11 +53,11 @@ public class SelGameMode extends Page implements ActionListener {
 
         if((BGMPlayer.getBgmClip() == null || !BGMPlayer.getFilepath().equals(track)) || !BGMPlayer.checkIfPlaying()){
             if (BGMPlayer.getBgmClip() == null) {
-                BGMPlayer.playBackgroundMusic(track);
+                BGMPlayer.playBackgroundMusic(track, true);
             }
             else {
                 BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic(track);
+                BGMPlayer.playBackgroundMusic(track, true);
             }
         }
     }

@@ -13,7 +13,7 @@ public class BGMPlayer {
     private static String filepath;
     private static Thread playlistThread;
 
-    public static void playBackgroundMusic(String musicFile) {
+    public static void playBackgroundMusic(String musicFile, boolean loop) {
         try {
             File audioFile = new File(musicFile);
             filepath = musicFile;
@@ -23,7 +23,9 @@ public class BGMPlayer {
             //FloatControl gainControl = (FloatControl) bgmClip.getControl(FloatControl.Type.MASTER_GAIN);
             //gainControl.setValue(Calculation.percentOfRange(gainControl.getMinimum(),volume,((float) UserPreference.getInstance().getMusicVolume() / 100)));
             updateVolume();
-            bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
+            if (loop){
+                bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
+            }
             bgmClip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
