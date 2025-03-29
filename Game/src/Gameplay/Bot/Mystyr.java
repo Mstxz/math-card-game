@@ -1,0 +1,87 @@
+package Gameplay.Bot;
+
+import Gameplay.Card;
+import Gameplay.CardType;
+import Gameplay.Numbers.Constant;
+import Gameplay.Player;
+
+import java.util.ArrayList;
+
+public class Mystr extends Bot {
+    private int hpIncrease = 0;
+    public Mystr(){
+        super("Mystr","assets/Profile/Mystr.webp","She want to play safe by increase her self HP","a");
+    }
+
+    @Override
+    public Card play(Player self, Player enemy) {
+        if (hpIncrease>=20){
+            hpIncrease = 0;
+            return null;
+        }
+        ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
+        Player.log(self,enemy);
+        Card c = null;
+        int index = -1;
+        String sequence;
+
+        if ((((Constant)(this.getHp())).getNumber()<0)){
+            sequence = "Minus";
+        }
+        else{
+            sequence = "Plus";
+        }
+
+        if (!playable.isEmpty()){
+            for (int i:playable){
+                if (getHand().get(i).getType() == CardType.BLUE || getHand().get(i).getName().contains(sequence)){
+                    index = i;
+                    break;
+                }
+                if (index == -1){
+                    index = i;
+                }
+            }
+            c = this.getHand().remove(index);
+            Constant oldHp = (Constant) getHp();
+            c.action(self,enemy);
+            int tmp = ((Constant)(getHp())).getNumber()-oldHp.getNumber();
+            hpIncrease+=tmp;
+            System.out.println(this.getName()+" play "+c.getName()+" to "+c.getReceiver(self,enemy).getName());
+            this.getDeck().addDispose(c);
+            Player.log(self,enemy);
+//            playable = self.showCard(self,enemy);
+            System.out.println();
+        }
+
+        System.out.println();
+
+        System.out.println(c);
+        if (c==null){
+            hpIncrease = 0;
+        }
+        return c;
+    }
+
+    @Override
+    public Player getTargetId(Player self, Player enemy, Card c) {
+        String sequence;
+
+        if ((((Constant)(this.getHp())).getNumber()<0)){
+            sequence = "Minus";
+        }
+        else{
+            sequence = "Plus";
+        }
+
+        if (c.getName().contains(sequence)){
+            return self;
+        }
+
+        int ran = (int) ((Math.random())*2)%2;
+        if (ran == 0){
+            return self;
+        }
+        return enemy;
+    }
+}
