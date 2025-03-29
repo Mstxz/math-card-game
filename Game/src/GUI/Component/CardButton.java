@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -12,6 +13,7 @@ import AudioPlayer.SFXSwitcher;
 import Gameplay.Card;
 import Gameplay.CardType;
 import utils.ResourceLoader;
+import utils.SharedResource;
 
 public class CardButton extends JPanel implements MouseListener,Comparable {
     protected String name;
@@ -28,6 +30,11 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
     protected JButton addButton;
     protected JLabel nameButton;
     protected JButton removeButton;
+
+    private ImageIcon img;
+    private BufferedImage buffImg;
+
+    private boolean isEnter = false;
 
     public CardButton(String name,TempDeckZone deckZonePanel){
         super();
@@ -50,7 +57,9 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
             tempCard = Card.createCard(temp[0]);
         }
         cardType = tempCard.getType();
-        nameButton.setIcon(ResourceLoader.loadPicture(tempCard.getPicture(),200,250));
+        img = ResourceLoader.loadPicture(tempCard.getPicture(),200,250);
+        buffImg = ResourceLoader.loadBufferedPicture(img.getImage());
+        nameButton.setIcon(img);
         cardPicture = tempCard.getPicture();
         cardLabel = new CardLabel(tempCard,0);
         deckZonePanel.registerButton(cardLabel,this);
@@ -72,6 +81,17 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        if (isEnter){
+            Graphics2D g2 = (Graphics2D) g;
+
+            g2.setColor(SharedResource.SKYBLUE_BASE);
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER).derive(0.3f));
+            g2.fillRoundRect(0,0,getWidth(),getHeight(),20,20);
+
+//            g2.setColor(SharedResource.SIAMESE_DARK);
+//            g2.setStroke(new BasicStroke(10));
+//            g2.drawRoundRect(5,5,getWidth()-10,getHeight()-10,20,20);
+        }
         this.setBackground(this.getParent().getBackground());
         repaint();
     }
@@ -140,12 +160,14 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        isEnter = true;
+        repaint();
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        isEnter = false;
+        repaint();
     }
 
     @Override

@@ -128,7 +128,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -141,9 +140,10 @@ import utils.UIManager.ButtonUI;
 import utils.UIManager.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.SharedResource;
+import utils.UIManager.RoundPanelUI;
 
 public class DeckCreatorPage extends Page implements ActionListener {
-    private TempDeckZone    paLeft;
+    private TempDeckZone tempDeckZone;
     private JPanel          paRight;
     private JPanel          paRightTop;
     private static JPanel          paRightBottom;
@@ -178,9 +178,9 @@ public class DeckCreatorPage extends Page implements ActionListener {
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
         // Left Panel (3x2 grid with images)
-        paLeft = new TempDeckZone();
-        paLeft.setLayout(new FlowLayout(FlowLayout.CENTER,0,20));
-        paLeft.setOpaque(false);
+        tempDeckZone = new TempDeckZone();
+        tempDeckZone.setLayout(new FlowLayout(FlowLayout.CENTER,0,20));
+        tempDeckZone.setOpaque(false);
 
 
         /*เปิดแถบเลื่อน
@@ -188,7 +188,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);*/
         //ปิดแถบเลื่อน
-        JScrollPane cardScrollPane = new JScrollPane(paLeft);
+        JScrollPane cardScrollPane = new JScrollPane(tempDeckZone);
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         cardScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         cardScrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
@@ -226,12 +226,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckOption.add(createButton,BorderLayout.EAST);
         deckOption.setBackground(SharedResource.SIAMESE_LIGHT);
         deckShow.add(PopupMenuPanel,BorderLayout.NORTH);
-        deckShow.setBackground(SharedResource.SIAMESE_LIGHT);
+        deckShow.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT));
 
         //ปิดการแสดงผล
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
-        paLeft.setOpaque(false);
+        tempDeckZone.setOpaque(false);
         popupMenu.setOpaque(false);
         PopupMenuPanel.setOpaque(false);
         deckOption.setOpaque(false);
@@ -239,7 +239,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         //ปิดขอบ
         deckShow.setBorder(BorderFactory.createEmptyBorder());
         cardScrollPane.setBorder(BorderFactory.createEmptyBorder());
-        paLeft.setBorder(BorderFactory.createEmptyBorder());
+        tempDeckZone.setBorder(BorderFactory.createEmptyBorder());
         popupMenu.setBorder(BorderFactory.createEmptyBorder());
 
         mainPanel.add(deckShow, BorderLayout.WEST);
@@ -285,7 +285,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         mainPanel.add(paRight, BorderLayout.CENTER);
         saveButton.addActionListener(this);
         createButton.addActionListener(this);
-        PopupItem.deckZone = paLeft;
+        PopupItem.deckZone = tempDeckZone;
     }
     public Dimension calculateDimension(){
         int column = paRightBottom.getWidth() / 225;
@@ -296,7 +296,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private void loadButton(){
         ArrayList<String> fileString = ResourceLoader.readFile("Gameplay/Cards/CardList.txt");
         for (int i = 0;i<fileString.size();i++){
-            CardButton tmp = new CardButton(fileString.get(i),paLeft);
+            CardButton tmp = new CardButton(fileString.get(i), tempDeckZone);
             paRightBottom.add(tmp);
             cardButtonHashSet.add(tmp);
             //System.out.println(tmp.getHeight());
@@ -382,8 +382,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
             System.out.println("Have File");
             try {
                 FileOutputStream out = new FileOutputStream(f);
-                CardLabel[] s = new CardLabel[paLeft.getAllCardLabel().size()];
-                s = paLeft.getAllCardLabel().toArray(s);
+                CardLabel[] s = new CardLabel[tempDeckZone.getAllCardLabel().size()];
+                s = tempDeckZone.getAllCardLabel().toArray(s);
                 for (int i = 0;i<s.length;i++){
                     String className = s[i].getCard().getClass().getSimpleName();
                     String text = className+" "+s[i].getCardType().toString()+" "+s[i].getAmount();
@@ -425,8 +425,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 PopupMenu.items.add(new PopupItem(newName,PopupMenu.items.size()));
                 popupMenu.updateMenuPanel();
                 popupMenu.setSelectedIndex(PopupMenu.items.size()-1);
-                paLeft.setAllCardLabel(new HashSet<CardLabel>());
-                paLeft.update();
+                tempDeckZone.setAllCardLabel(new HashSet<CardLabel>());
+                tempDeckZone.update();
             }
         }
     }

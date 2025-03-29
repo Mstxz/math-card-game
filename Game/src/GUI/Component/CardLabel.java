@@ -4,8 +4,10 @@ import Gameplay.Card;
 import Gameplay.CardType;
 import utils.ResourceLoader;
 import utils.SharedResource;
+import utils.UIManager.RoundPanelUI;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,13 +31,15 @@ public class CardLabel extends JPanel {
         this.amount = amount;
         this.cardType = card.getType();
         cardNameLabel = new JLabel(name);
-        cardAmountLabel = new JLabel(String.valueOf(amount));
+        cardAmountLabel = new JLabel(String.valueOf("x"+amount));
+        cardAmountLabel.setFont(SharedResource.getCustomSizeFont(36));
         miniPicture = new JLabel(ResourceLoader.loadPicture(card.getPicture(),59,80));
         this.setLayout(new BorderLayout(20,0));
         this.add(cardNameLabel);
         this.add(miniPicture,BorderLayout.WEST);
         this.add(cardAmountLabel,BorderLayout.EAST);
-        this.setBackground(SharedResource.SIAMESE_LIGHT);
+        this.setBorder(new EmptyBorder(0,20,0,20));
+        this.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,30,30,SharedResource.SIAMESE_DARK,3));
         this.setPreferredSize(new Dimension(400,100));
     }
 
@@ -45,7 +49,7 @@ public class CardLabel extends JPanel {
 
     public void setAmount(int amount) {
         this.amount = amount;
-        this.cardAmountLabel.setText(String.valueOf(amount));
+        this.cardAmountLabel.setText("x"+String.valueOf(amount));
     }
 
     @Override
