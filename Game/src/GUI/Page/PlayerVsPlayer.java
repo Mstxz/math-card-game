@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import GUI.Router;
@@ -20,7 +21,7 @@ import GameSocket.NIOClient;
 import GameSocket.NIOServer;
 import utils.SharedResource;
 import Gameplay.Player;
-
+import utils.UIManager.RoundPanelUI;
 
 
 public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserver {
@@ -36,17 +37,13 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         this.client = client;
         list = new ArrayList<Player>();
         mainPanel.setLayout(new BorderLayout(20, 0));
-        mainPanel.setBackground(new Color(221,218,210));
-//        mainPanel.setBorder(BorderFactory.createCompoundBorder(
-//                BorderFactory.createLineBorder(Color.yellow, 3), // Outer line border
-//                new EmptyBorder(20, 40, 80, 40) // Inner padding
-//        ));
-        mainPanel.setBorder(new EmptyBorder(20, 40, 40, 40));
+        mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        mainPanel.setBorder(new EmptyBorder(20, 40, 80, 40));
         //mai/nPanel.setBorder(BorderFactory.createLineBorder(Color.yellow));
         // Title Component
         title = new JLabel("Player Vs Player");
-        title.setFont(SharedResource.getCustomSizeFont(80));
-        title.setForeground(new Color(72, 62, 56));
+        title.setFont(SharedResource.getCustomSizeFont(48));
+        title.setForeground(SharedResource.SIAMESE_DARK);
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setPreferredSize(new Dimension(0, 100));
         mainPanel.add(title, BorderLayout.NORTH);
@@ -54,7 +51,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
         head = new JLabel("Matchmaking...");
-        head.setFont(SharedResource.getCustomSizeFont(40));
+        head.setFont(SharedResource.getCustomSizeFont(36));
         head.setHorizontalAlignment(SwingConstants.CENTER);
         ExitButton exitButton = new ExitButton("SelMode"){
             @Override
@@ -70,13 +67,15 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         headerPanel.add(exitButton, BorderLayout.WEST);
         headerPanel.add(head, BorderLayout.CENTER);
         headerPanel.add(emptySpace,BorderLayout.EAST);
+        headerPanel.setBorder(new EmptyBorder(10,10,20,20));
 
         // Add ButtonPanelComponent
         btnPanel = new ButtonPanelComponent();
+
+        btnPanel.setBackground(SharedResource.SIAMESE_LIGHT);
         JPanel panel = new JPanel(new BorderLayout(20, 0));
+        panel.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT,30,30));
         panel.add(headerPanel,BorderLayout.NORTH);
-        panel.setBackground(SharedResource.SIAMESE_LIGHT);
-        btnPanel.setOpaque(false);
 
         panel.add(btnPanel, BorderLayout.SOUTH);
 
@@ -94,7 +93,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         btnPanel.getReadyButton().addActionListener(this);
 
         panel.add(centerPanel, BorderLayout.CENTER);
-
+        //panel.setBorder(new LineBorder(SharedResource.SIAMESE_BASE,5));
         mainPanel.add(panel, BorderLayout.CENTER);
         client.addLobbyObserver(this);
         client.addLobbyObserver(playerPanel);

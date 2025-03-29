@@ -17,6 +17,9 @@ public class SharedResource {
     public static final Color SKYBLUE_BASE = new Color(163, 190, 208);
     public static final Color SKYBLUE_DARK = new Color(102, 142, 169);
     public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+    public static final Color DISABLED_GRAY_BRIGHT = new Color(217,217,217);
+    public static final Color DISABLED_GRAY_BASE = new Color(168,167,167);
+    public static final Color DISABLED_GRAY_DARK = new Color(118,118,118);
 
     public static void loadFont(){
         try {
