@@ -2,8 +2,10 @@ package GUI.Component;
 
 import GUI.Router;
 import utils.SharedResource;
+import utils.UIManager.ButtonUI;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -12,10 +14,12 @@ import java.awt.event.*;
 public class ResultShow extends JPanel implements ActionListener {
     private  JPanel banner;
     private String displayText;
-    private BlueButton returnButton = new BlueButton("Return to Menu", 350, 100);
+    private JButton returnButton = new JButton("Return to Menu");
 
     public ResultShow(String displayText) {
         banner = new JPanel();
+        returnButton.setUI(new ButtonUI());
+        returnButton.setPreferredSize(new Dimension(350,80));
         this.displayText = displayText;
         JLabel bigText = new JLabel(){
             @Override
@@ -42,13 +46,20 @@ public class ResultShow extends JPanel implements ActionListener {
         banner.setBorder(new MatteBorder(2,0,2,0,SharedResource.SIAMESE_BRIGHT));
         banner.setBounds(0,Router.getMainFrame().getHeight()/2-150,Router.getMainFrame().getWidth(),300);
         bigText.setBounds((Router.getMainFrame().getWidth()-400)/2,banner.getY()-50,400,200);
+
         //System.out.println(resultText);
         this.setLayout(null);
         this.add(bigText);
         this.add(banner);
-        banner.add(returnButton);
 
-        returnButton.setBounds(Router.getMainFrame().getWidth()/2,Router.getMainFrame().getHeight()/2+350,350,50);
+        banner.setLayout(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setBackground(SharedResource.SIAMESE_DARK);
+        buttonPanel.add(returnButton);
+
+        banner.add(buttonPanel,BorderLayout.SOUTH);
+        buttonPanel.setBorder(new EmptyBorder(0,0,30,0));
+
         returnButton.setBackground(SharedResource.SIAMESE_DARK);
 
         returnButton.addActionListener(this);

@@ -7,6 +7,13 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 
 public class ButtonUI extends BasicButtonUI {
+
+    @Override
+    public void installUI(JComponent c) {
+        super.installUI(c);
+        c.setFont(SharedResource.getCustomSizeFont(30));
+    }
+
     @Override
     public void paint(Graphics g, JComponent c) {
         Graphics2D g2 = (Graphics2D) g;
@@ -29,11 +36,11 @@ public class ButtonUI extends BasicButtonUI {
         x = (button.getWidth() - fm.stringWidth(button.getText())) / 2;
 
         if (button.getModel().isRollover() || button.getModel().isPressed()){
-            g2.fillRoundRect(8,10,c.getWidth()-16,c.getHeight()-28,10,10);
+            g2.fillRoundRect(8,10,c.getWidth()-16,c.getHeight()-22,10,10);
             y = (button.getHeight() + fm.getAscent()) / 2 - 8;
         }
         else {
-            g2.fillRoundRect(8,8,c.getWidth()-16,c.getHeight()-28,10,10);
+            g2.fillRoundRect(8,8,c.getWidth()-16,c.getHeight()-22,10,10);
             y = (button.getHeight() + fm.getAscent()) / 2 - 10;
         }
 

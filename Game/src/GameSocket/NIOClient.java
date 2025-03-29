@@ -205,13 +205,10 @@ public class NIOClient extends Game {
                 int byteRead = readIntoBuffer();
                 if (byteRead > 0) {
                     ArrayList<Request> waitingRequest = getAllRequest(buffer.array(),byteRead);
-                    //Request serverReq = Request.decodeBytes(buffer.array());
-                    //System.out.println(serverReq.getOperation().name());
                     for (Request req : waitingRequest){
                         System.out.println(req.getOperation());
                         switch (req.getOperation()) {
                             case DRAW:
-                                // other play card
                                 try (RequestReader r = new RequestReader(req)) {
                                     int receiver = r.readInt();
                                     while (!r.reachTheEnd()) {
@@ -224,13 +221,9 @@ public class NIOClient extends Game {
                                     throw new RuntimeException(e);
                                 }
                                 break;
-                            case CARD:
-                                // other draw card
-                                break;
                             case START_TURN:
                                 try (RequestReader r = new RequestReader(req)) {
                                     currentTurn = r.readInt();
-                                    System.out.println(currentTurn + " " + playerOrder);
                                     if (currentTurn == playerOrder){
                                         currentState = ClientState.PLAY;
                                         observer.onTurnArrive();
@@ -266,6 +259,7 @@ public class NIOClient extends Game {
                                 try (RequestReader r = new RequestReader(req)) {
                                     int winnerID = r.readInt();
                                     observer.onGameEnded(turnOrder.get(winnerID));
+                                    closeClient();
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
                                 }
@@ -362,7 +356,7 @@ public class NIOClient extends Game {
     public void closeClient(){
         try {
             channel.close();
-            System.out.println("Client Closed");
+            currentState = ClientState.END;
         } catch (IOException e) {
             e.printStackTrace();
         }

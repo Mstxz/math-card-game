@@ -5,7 +5,8 @@ public enum ClientState {
     READY,
     PLAY,
     WAIT,
-    LOADING
+    LOADING,
+    END
 }
 
 // IDLE = join lobby

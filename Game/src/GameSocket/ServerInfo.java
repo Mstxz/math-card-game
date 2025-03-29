@@ -5,6 +5,7 @@ public class ServerInfo {
     private boolean listening = false;
     private boolean gameStarted = false;
     private boolean deckLoaded = false;
+    private boolean pendingClose = false;
 
     public void updateDeckLoaded(PlayerState[] ps) {
         int loaded = 0;
@@ -60,5 +61,13 @@ public class ServerInfo {
 
     public void setListening(boolean listening) {
         this.listening = listening;
+    }
+
+    public boolean isPendingClose() {
+        return pendingClose;
+    }
+
+    public void setPendingClose(boolean pendingClose) {
+        this.pendingClose = pendingClose;
     }
 }

@@ -69,6 +69,10 @@ public class NIOServer extends Thread {
             Selector selector = Selector.open();
             server.register(selector, SelectionKey.OP_ACCEPT);
             while (serverInfo.isRunning()) {
+                if (serverInfo.isPendingClose() && registeredID.isEmpty()){
+                    stopServer();
+                    return;
+                }
                 try {
                     selector.select();
                 } catch (IOException e) {
@@ -77,10 +81,10 @@ public class NIOServer extends Thread {
                 Set<SelectionKey> keys = selector.selectedKeys();
                 for (Iterator<SelectionKey> it = keys.iterator(); it.hasNext(); ) {
                     SelectionKey k = it.next();
-                    if (k.isAcceptable()) {
+                    if (!serverInfo.isPendingClose() && k.isAcceptable()) {
                         handleAcception(selector,k);
                     }
-                    else if (k.isWritable() && k.isReadable()) {
+                    else if (!serverInfo.isPendingClose() && k.isWritable() && k.isReadable()) {
                         handleRequest(k);
                     }
                     else if(!k.isAcceptable() && k.isWritable()){
@@ -120,16 +124,20 @@ public class NIOServer extends Thread {
                                 gameStarting = -1;
                             }
                         }
+
                         Request bytesOut = playerState[registeredID.get(client)].getDataOutQueue().poll();
                         if (bytesOut != null){
-                            //System.out.println(bytesOut.length);
-                            System.out.println("Send to " + registeredID.get(client));
-                            System.out.println(bytesOut);
                             buffer.clear();
                             buffer.put(bytesOut.encodeBytes());
                             buffer.flip();
                             while (buffer.hasRemaining()) {
                                 client.write(buffer);
+                            }
+                        }
+                        if (serverInfo.isPendingClose() && playerState[registeredID.get(client)].getDataOutQueue().isEmpty()){
+                            if (client.isConnected()){
+                                client.close();
+                                registeredID.remove(client);
                             }
                         }
                     }
@@ -270,6 +278,7 @@ public class NIOServer extends Thread {
                                 Request gameEnded = new Request(ProtocolOperation.END_GAME);
                                 gameEnded.appendData((loseList.getFirst() + 1) % 2);
                                 pushUpdate(gameEnded);
+
                                 return;
                             }
 //                            Request notifyCardPlayed = new Request(ProtocolOperation.CARD);

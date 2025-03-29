@@ -154,6 +154,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		if (game instanceof GameForGUI){
 			game.start();
 		}
+		onGameEnded(game.getPlayer());
 		BGMPlayer.stopBackgroundMusic();
 
 		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_Mixed.wav");

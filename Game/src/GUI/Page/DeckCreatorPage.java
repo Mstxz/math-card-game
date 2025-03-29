@@ -137,6 +137,7 @@ import javax.swing.border.EmptyBorder;
 
 import Gameplay.CardType;
 import Gameplay.Difficulty;
+import utils.UIManager.ButtonUI;
 import utils.UIManager.CustomScrollBarUI;
 import utils.ResourceLoader;
 import utils.SharedResource;
@@ -198,9 +199,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckOption.setPreferredSize(new Dimension(300,100));
 
         saveButton = new JButton("Save");
-        createButton = new JButton(ResourceLoader.loadPicture("assets/Component/CreateButton.png",220,65));
+        saveButton.setUI(new ButtonUI());
+        createButton = new JButton("Create");
+        createButton.setUI(new ButtonUI());
         //createButton.setPreferredSize(new Dimension(100, 100));
         saveButton.setPreferredSize(new Dimension(220, 65));
+        createButton.setPreferredSize(new Dimension(220, 65));
 
         popupMenu = new PopupMenu();
         PopupItem.menu = popupMenu;
@@ -220,6 +224,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckShow.add(deckOption,BorderLayout.SOUTH);
         deckOption.add(saveButton,BorderLayout.WEST);
         deckOption.add(createButton,BorderLayout.EAST);
+        deckOption.setBackground(SharedResource.SIAMESE_LIGHT);
         deckShow.add(PopupMenuPanel,BorderLayout.NORTH);
         deckShow.setBackground(SharedResource.SIAMESE_LIGHT);
 
@@ -228,19 +233,14 @@ public class DeckCreatorPage extends Page implements ActionListener {
         cardScrollPane.getViewport().setOpaque(false);
         paLeft.setOpaque(false);
         popupMenu.setOpaque(false);
-        saveButton.setOpaque(false);
         PopupMenuPanel.setOpaque(false);
         deckOption.setOpaque(false);
-        createButton.setContentAreaFilled(false);
-        createButton.setBorderPainted(false);
-        createButton.setFocusPainted(false);
 
         //ปิดขอบ
         deckShow.setBorder(BorderFactory.createEmptyBorder());
         cardScrollPane.setBorder(BorderFactory.createEmptyBorder());
         paLeft.setBorder(BorderFactory.createEmptyBorder());
         popupMenu.setBorder(BorderFactory.createEmptyBorder());
-        saveButton.setBorder(BorderFactory.createEmptyBorder());
 
         mainPanel.add(deckShow, BorderLayout.WEST);
 

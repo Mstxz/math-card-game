@@ -4,6 +4,7 @@ import AudioPlayer.SFXPlayer;
 import GUI.Setting.Controller.SettingController;
 import GUI.Setting.Controller.UserProfile;
 import GUI.Setting.UserPreference;
+import utils.UIManager.ButtonUI;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
@@ -53,8 +54,11 @@ public class Profile extends JPanel implements ActionListener {
         profileImage = new JLabel(selectedImage.getImage());
         selectedKey = UserPreference.getInstance().getProfile().getProfileName();
         renameButton = new JButton("Rename");
+        renameButton.setUI(new ButtonUI());
+        renameButton.setPreferredSize(new Dimension(100,70));
         saveButton = new JButton("Save");
-
+        saveButton.setUI(new ButtonUI());
+        saveButton.setPreferredSize(new Dimension(100,70));
         panel1.add(profileImage,BorderLayout.WEST);
         panel5.add(name,BorderLayout.NORTH);
 
@@ -62,6 +66,7 @@ public class Profile extends JPanel implements ActionListener {
         panel6.setLayout(new GridLayout(1,2));
         panel6.add(renameButton);
         panel6.add(saveButton);
+        panel6.setBackground(SharedResource.SIAMESE_LIGHT);
 
         panel5.add(panel6,BorderLayout.SOUTH);
         panel5.setPreferredSize(new Dimension(300,50));
