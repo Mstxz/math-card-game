@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import AudioPlayer.SFXPlayer;
 import GUI.Router;
 import utils.SharedResource;
 import utils.UIManager.ButtonUI;
@@ -73,6 +74,7 @@ public class ResultShow extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == returnButton){
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
             Router.setRoute("MainMenu", null);
         }
     }
