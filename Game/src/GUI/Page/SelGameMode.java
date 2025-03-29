@@ -2,9 +2,10 @@ package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
+import GUI.Component.MainMenuButton;
 import GUI.Router;
 import GUI.Setting.UserPreference;
-import Gameplay.Bot;
+import Gameplay.Bot.Mystyr;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
@@ -22,11 +23,11 @@ public class SelGameMode extends Page implements ActionListener {
     private JPanel ButtonZone;
     private JPanel TitlePanel;
     private JLabel Title;
-    private JButton playerButton = new JButton("Player vs Player");
-    private JButton botButton = new JButton("Player vs Bot");
-    private JButton exitButton = new JButton("exit");
-    private JButton backButton = new JButton("Back");
-    private JButton selectBotButton = new JButton("Select Bot Test");
+    private MainMenuButton playerButton = new MainMenuButton("Player vs Player");
+    private MainMenuButton botButton = new MainMenuButton("Player vs Bot");
+    private MainMenuButton exitButton = new MainMenuButton("exit");
+    private MainMenuButton backButton = new MainMenuButton("Back");
+    private MainMenuButton selectBotButton = new MainMenuButton("Select Bot Test");
 
     private Image bg;
 
@@ -52,11 +53,11 @@ public class SelGameMode extends Page implements ActionListener {
 
         if((BGMPlayer.getBgmClip() == null || !BGMPlayer.getFilepath().equals(track)) || !BGMPlayer.checkIfPlaying()){
             if (BGMPlayer.getBgmClip() == null) {
-                BGMPlayer.playBackgroundMusic(track);
+                BGMPlayer.playBackgroundMusic(track, true);
             }
             else {
                 BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic(track);
+                BGMPlayer.playBackgroundMusic(track, true);
             }
         }
     }
@@ -134,14 +135,14 @@ public class SelGameMode extends Page implements ActionListener {
 
         if (e.getSource().equals(botButton)){
             Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
-            player.setDeck(new Deck("Clown"));
+            //player.setDeck(new Deck("Clown"));
             try {
-                player.setDeck(Deck.LoadDeck("Mstxz"));
+                player.setDeck(Deck.LoadDeck("a"));
             }
             catch (FileNotFoundException ex){
                 ex.printStackTrace();
             }
-            Player bot = new Bot();
+            Player bot = new Mystyr();
             ArrayList<Player> p = new ArrayList<>();
             p.add(player);
             p.add(bot);

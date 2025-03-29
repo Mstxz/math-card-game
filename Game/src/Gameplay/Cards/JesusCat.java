@@ -14,6 +14,7 @@ public class JesusCat extends Card implements HaveCondition {
         self.setMana(self.getMana()-manaUsed);
         Card tmp = null;
         HashMap<Difficulty,Integer> hashMap = new HashMap<Difficulty,Integer>();
+        hashMap.put(Difficulty.BABY,0);
         hashMap.put(Difficulty.EASY,1);
         hashMap.put(Difficulty.MEDIUM,2);
         hashMap.put(Difficulty.HARD,3);

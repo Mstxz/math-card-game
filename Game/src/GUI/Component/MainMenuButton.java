@@ -5,47 +5,51 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 import utils.ResourceLoader;
 import utils.SharedResource;
 
-public class MainMenuButton extends JButton {
-    private ImageIcon originalIcon;
+public class MainMenuButton extends JButton implements MouseListener {
+    private static ImageIcon originalIcon = ResourceLoader.loadPicture("assets/catpaw_icon.png",30,30);
+    private ImageIcon img = null;
 
-    public MainMenuButton(String text, String iconPath, int width, int height) {
+    public MainMenuButton(String text) {
         super(text);
-        setButtonProperties(iconPath, width, height);
+        setButtonProperties();
+        this.setIcon(originalIcon);
+        this.setFont(SharedResource.getCustomSizeFont(36));
+        this.setIconTextGap(15);
     }
 
-    private void setButtonProperties(String iconPath, int width, int height) {
+    public MainMenuButton(String text,int scale){
+        super(text);
+        setButtonProperties();
+        img = new ImageIcon(originalIcon.getImage().getScaledInstance(scale,scale,Image.SCALE_SMOOTH));
+        this.setIcon(img);
+        this.setFont(SharedResource.getCustomSizeFont(52));
+        this.setIconTextGap(10);
+    }
+
+    private void setButtonProperties() {
         this.setOpaque(false);
         this.setBackground(new Color(255, 255, 255, 0));
         this.setBorder(new EmptyBorder(5, 50, 0, 0));
+
         this.setFocusPainted(false);
+        this.setBorderPainted(false);
+        this.setContentAreaFilled(false);
+
         this.setForeground(SharedResource.SIAMESE_DARK);
-        this.setIcon(ResourceLoader.loadPicture(iconPath, 30, 30));
         this.setHorizontalTextPosition(SwingConstants.RIGHT);
-        this.setIconTextGap(10);
         this.setPreferredSize(new Dimension(300, 50));
-        this.setFont(SharedResource.getCustomSizeFont(36));
 
         // Save the original icon for later use
-        originalIcon = (ImageIcon) this.getIcon();
+
 
         // MouseListener
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                ImageIcon rotatedIcon = rotateIcon(originalIcon, +90);
-                setIcon(rotatedIcon);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setIcon(originalIcon);
-            }
-        });
+        this.addMouseListener(this);
     }
 
     private ImageIcon rotateIcon(ImageIcon icon, double angle) {
@@ -62,5 +66,38 @@ public class MainMenuButton extends JButton {
         g2d.dispose();
 
         return new ImageIcon(rotatedImage);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        if (img!=null){
+            setIcon(rotateIcon(img,90));
+            return;
+        }
+        setIcon(rotateIcon(originalIcon, 90));
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        if (img!=null){
+            setIcon(img);
+            return;
+        }
+        setIcon(originalIcon);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 }
