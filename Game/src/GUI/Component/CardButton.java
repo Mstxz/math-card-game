@@ -70,7 +70,7 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
         panel1.add(addButton);
         panel1.add(removeButton);
 
-        this.setLayout(new BorderLayout());
+        this.setLayout(new FlowLayout());
         this.add(nameButton,BorderLayout.CENTER);
         this.addMouseListener(this);
 
@@ -84,13 +84,13 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
         if (isEnter){
             Graphics2D g2 = (Graphics2D) g;
 
-            g2.setColor(SharedResource.SKYBLUE_BASE);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER).derive(0.3f));
-            g2.fillRoundRect(0,0,getWidth(),getHeight(),20,20);
+//            g2.setColor(SharedResource.SKYBLUE_BASE);
+//            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER).derive(0.3f));
+//            g2.fillRoundRect(0,0,getWidth(),getHeight(),20,20);
 
-//            g2.setColor(SharedResource.SIAMESE_DARK);
-//            g2.setStroke(new BasicStroke(10));
-//            g2.drawRoundRect(5,5,getWidth()-10,getHeight()-10,20,20);
+            g2.setColor(SharedResource.SIAMESE_DARK);
+            g2.setStroke(new BasicStroke(7));
+            g2.drawRoundRect(3,3,getWidth()-7,getHeight()-7,20,20);
         }
         this.setBackground(this.getParent().getBackground());
         repaint();

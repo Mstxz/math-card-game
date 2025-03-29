@@ -263,7 +263,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
             protected void paintComponent(Graphics g) {
                 int column = getWidth() / 225;
                 int row = Math.ceilDiv(getComponentCount(),column);
-                this.setPreferredSize(new Dimension(300,(row * 280 + 25) + 10));
+                this.setPreferredSize(new Dimension(300,(row * (280 + 25)) + 10));
                 super.paintComponent(g);
             }
         };
@@ -290,7 +290,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     public Dimension calculateDimension(){
         int column = paRightBottom.getWidth() / 225;
         int row = Math.ceilDiv(paRightBottom.getComponentCount(),column);
-        return new Dimension(300,row * (paRightBottom.getComponent(0).getHeight() + 25) + 10);
+        return new Dimension(300,row * (280 + 25) + 10);
     }
 
     private void loadButton(){
@@ -344,7 +344,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         }
         int column = paRightBottom.getWidth() / 225;
         int row = Math.ceilDiv(paRightBottom.getComponentCount(),column);
-        paRightBottom.setPreferredSize(new Dimension(300,(row * 280 + 25) + 10));
+        paRightBottom.setPreferredSize(new Dimension(300,(row * (280 + 25)) + 10));
         paRightBottom.revalidate();
         paRightBottom.repaint();
         scrollPane.revalidate();
