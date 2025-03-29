@@ -67,7 +67,7 @@ public class GameForGUI extends Game {
                         }
 
                         Thread.sleep(750);
-                        System.out.println(c.getName());
+                        System.out.println(c.getName()+" "+c.getType().toString());
                     }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -94,7 +94,7 @@ public class GameForGUI extends Game {
         ArrayList<Player> winner = new ArrayList<>();
         int maxScore = -1;
         for (Player p:turnOrder){
-            if (maxScore == -1 || maxScore > p.getHp().absolute()){
+            if (maxScore == -1 || maxScore < p.getHp().absolute()){
                 winner.clear();
                 maxScore = p.getHp().absolute();
                 winner.add(p);

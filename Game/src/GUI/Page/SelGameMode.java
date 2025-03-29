@@ -6,6 +6,7 @@ import GUI.Component.MainMenuButton;
 import GUI.Router;
 import GUI.Setting.UserPreference;
 import Gameplay.Bot.Mystyr;
+import Gameplay.Bot.Who;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
@@ -137,12 +138,12 @@ public class SelGameMode extends Page implements ActionListener {
             Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
             //player.setDeck(new Deck("Clown"));
             try {
-                player.setDeck(Deck.LoadDeck("a"));
+                player.setDeck(Deck.LoadDeck("CoolIs37"));
             }
             catch (FileNotFoundException ex){
                 ex.printStackTrace();
             }
-            Player bot = new Mystyr();
+            Player bot = new Who();
             ArrayList<Player> p = new ArrayList<>();
             p.add(player);
             p.add(bot);

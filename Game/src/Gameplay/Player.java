@@ -6,7 +6,7 @@ import Gameplay.Numbers.Constant;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Player {
+public class Player implements Cloneable{
     protected String name;
     protected Deck deck = Deck.getDeck();
     protected int mana = 1;
@@ -262,5 +262,16 @@ public class Player {
                 ", profilePicture='" + profilePicture + '\'' +
                 ", playerNumber=" + playerNumber +
                 '}';
+    }
+
+    @Override
+    protected Object clone() {
+        try {
+            return (Player)super.clone();
+        }
+        catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
