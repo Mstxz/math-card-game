@@ -48,7 +48,8 @@ public class ResultShow extends JPanel implements ActionListener {
         this.add(banner);
         banner.add(returnButton);
 
-        returnButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+        returnButton.setBounds(Router.getMainFrame().getWidth()/2,Router.getMainFrame().getHeight()/2+350,350,50);
+        returnButton.setBackground(SharedResource.SIAMESE_DARK);
 
         returnButton.addActionListener(this);
         this.setOpaque(false);
