@@ -127,6 +127,7 @@ public class MainMenuPage extends Page implements ActionListener {
         SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
 
         if (e.getSource().equals(playButton)){
+            animation.stop();
             Router.setRoute("SelMode",null);
         }
         else if (e.getSource().equals(exitButton)){
@@ -143,15 +144,18 @@ public class MainMenuPage extends Page implements ActionListener {
 
                 @Override
                 public void onClose() {
+                    animation.stop();
                     Router.setRoute("DeckCreator",deckCreatorPage);
                 }
             };
             loadingScreen.startLoad();
         }
         else if (e.getSource().equals(settingsButton)){
+            animation.stop();
             Router.setRoute("Setting",null);
         }
         else if (e.getSource().equals(tutorialButton)){
+            animation.stop();
             Router.setRoute("Tutorial",null);
         }
     }

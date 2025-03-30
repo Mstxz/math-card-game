@@ -49,9 +49,14 @@ public class MainMenuAnimation extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(timer)){
+            System.out.println("timer");
             currentFrame = (currentFrame + 1) % frames.length;
             repaint();
         }
+    }
+
+    public void stop(){
+        timer.stop();
     }
 }
 
