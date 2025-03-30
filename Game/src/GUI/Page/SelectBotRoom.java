@@ -1,20 +1,16 @@
 /*
-
 package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
 import GUI.Component.ExitButton;
+import GUI.Component.BotSelectedPanel;
 import GUI.Router;
 import GUI.Setting.UserPreference;
-import Gameplay.Bot.Mystyr;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
 import utils.SharedResource;
-import utils.UIManager.ButtonUI;
-
-import java.net.URL;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,8 +21,9 @@ import java.util.ArrayList;
 
 public class SelectBotRoom extends Page implements ActionListener {
     private JPanel mainColorPanel, panelA, panelB, panelC, panelD, panelE;
-    private JButton exit, previousBotButton, nextBotButton, decksButton, startButton;
-    private JLabel chooseOpponent, selectingBotName, selectingBotDescription;
+    private JButton exit, decksButton, startButton;
+    private JLabel chooseOpponent;
+    private BotSelectedPanel botSelectedPanel;
 
     public SelectBotRoom() {
         initComponents();
@@ -35,7 +32,8 @@ public class SelectBotRoom extends Page implements ActionListener {
     }
 
     private void initComponents() {
-        // Initialize the panels
+        botSelectedPanel = new BotSelectedPanel();
+
         mainColorPanel = new JPanel();
         panelA = new JPanel();
         panelB = new JPanel();
@@ -43,119 +41,62 @@ public class SelectBotRoom extends Page implements ActionListener {
         panelD = new JPanel();
         panelE = new JPanel();
 
-        // Initialize the buttons
         exit = new ExitButton("SelMode");
-        previousBotButton = new JButton("<");
-        nextBotButton = new JButton(">");
 
         decksButton = new JButton("Decks");
-        decksButton.setUI(new ButtonUI());
+        decksButton.setUI(new utils.UIManager.ButtonUI());
         decksButton.setPreferredSize(new Dimension(250, 80));
 
         startButton = new JButton("Start");
-        startButton.setUI(new ButtonUI());
+        startButton.setUI(new utils.UIManager.ButtonUI());
         startButton.setPreferredSize(new Dimension(250, 80));
 
-        // Initialize the labels
         chooseOpponent = new JLabel("Choose Your Opponent");
-        selectingBotName = new JLabel("Bot Name");
-        selectingBotDescription = new JLabel("Bot description for explaining its behavior, pattern, and lore add-on");
-
-        // Customize label styles
         chooseOpponent.setForeground(SharedResource.SIAMESE_BASE);
         chooseOpponent.setFont(SharedResource.getCustomSizeFont(80));
-        selectingBotName.setForeground(SharedResource.SIAMESE_BASE);
-        selectingBotName.setFont(SharedResource.getCustomSizeFont(40));
     }
 
     private void setupLayout() {
-        // Set layout for the mainPanel
         this.mainPanel.setLayout(new BorderLayout());
 
-        // Set layout and background color for mainColorPanel
         mainColorPanel.setLayout(new GridLayout(5, 1));
-        mainColorPanel.setBackground(new Color(221, 218, 210)); // Background color
+        mainColorPanel.setBackground(new Color(221, 218, 210));
 
-        // Make sub-panels transparent
         panelA.setOpaque(false);
         panelB.setOpaque(false);
         panelC.setOpaque(false);
         panelD.setOpaque(false);
         panelE.setOpaque(false);
 
-        // Add components to the panels
         panelA.setLayout(new FlowLayout());
         panelA.add(exit);
         panelA.add(chooseOpponent);
 
-        panelB.add(selectingBotName);
-
-        panelC.add(previousBotButton);
-        panelC.add(selectingBotDescription);
-        panelC.add(nextBotButton);
-
-        panelD.add(selectingBotDescription);
+        panelC.setLayout(new BorderLayout());
+        panelC.add(botSelectedPanel, BorderLayout.CENTER);
 
         panelE.add(decksButton);
         panelE.add(startButton);
 
-        // Add the panels to the mainColorPanel
         mainColorPanel.add(panelA);
-        mainColorPanel.add(panelB);
         mainColorPanel.add(panelC);
-        mainColorPanel.add(panelD);
         mainColorPanel.add(panelE);
 
-        // Add mainColorPanel to the mainPanel
         this.mainPanel.add(mainColorPanel, BorderLayout.CENTER);
-    }
-
-    // Function to load and update bot profile image
-    private void updateBotProfile(String imagePath) {
-        // Load the image directly and display
-        ImageIcon loadedImage = loadImage(imagePath);
-
-        if (loadedImage != null) {
-            JLabel selectingBotProfileImage = new JLabel(); // Create a new label for image
-            Image scaledImage = loadedImage.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-            selectingBotProfileImage.setIcon(new ImageIcon(scaledImage));
-            panelC.add(selectingBotProfileImage); // Add the image to panelC
-            panelC.revalidate();
-            panelC.repaint();
-        } else {
-            System.err.println("Failed to update bot profile - Image not found");
-        }
-    }
-
-    // Function to load image from a path
-    private ImageIcon loadImage(String imagePath) {
-        URL imageURL = getClass().getClassLoader().getResource(imagePath);
-        if (imageURL != null) {
-            return new ImageIcon(imageURL);
-        } else {
-            System.err.println("Error: Image not found at path: " + imagePath);
-            return null;
-        }
     }
 
     private void setupListeners() {
         startButton.addActionListener(this);
         decksButton.addActionListener(this);
         exit.addActionListener(this);
-
-        // Update bot profile on button click
-        previousBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Klong ha.webp"));
-        nextBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Karn Bob.webp"));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
-            // Stop background music and play start sound effect
             BGMPlayer.stopBackgroundMusic();
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Start.wav");
 
-            // Set up player profile
             Player player = new Player(
                     UserPreference.getInstance().getProfile().getName(),
                     UserPreference.getInstance().getProfile().getProfilePictureURL()
@@ -167,24 +108,19 @@ public class SelectBotRoom extends Page implements ActionListener {
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
-
-            // Set up bot player
-            Player bot = new Mystyr();
-            ArrayList<Player> players = new ArrayList<>();
-            players.add(player);
-            players.add(bot);
-
-            // Start game
-            GameForGUI botGame = new GameForGUI(players);
+            Player bot = new Player(botSelectedPanel.getSelectedBot());
+            ArrayList<Player> p = new ArrayList<>();
+            p.add(player);
+            p.add(bot);
+            GameForGUI botGame = new GameForGUI(p);
             Router.setRoute("Avenger", botGame);
         } else if (e.getSource() == decksButton) {
-            // Play button click sound
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
         }
     }
 }
-*/
 
+*/
 
 
 
@@ -192,16 +128,18 @@ package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
-import GUI.Component.ExitButton;
-import GUI.Component.BotLeftButton;
-import GUI.Component.BotRightButton;
+import GUI.Component.*;
 import GUI.Router;
 import GUI.Setting.UserPreference;
 import Gameplay.Bot.Mystyr;
+import Gameplay.Bot.Pupr;
+import Gameplay.Bot.Who;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
 import utils.SharedResource;
+
+import java.io.File;
 import java.net.URL;
 
 import utils.*;
@@ -213,6 +151,9 @@ import utils.SharedResource;
 import utils.UIManager.RoundPanelUI;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -221,29 +162,39 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SelectBotRoom extends Page implements ActionListener {
-    private JPanel mainColorPanel, panelA, panelB, panelC, panelD, panelE;
+    private JPanel panelA, panelB, panelC, panelD, panelE;
     private JButton exit, previousBotButton, nextBotButton, decksButton, startButton;
-    private JLabel chooseOpponent, selectingBotName, selectingBotProfileImage, selectingBotDescription;
-    private ImageIcon botImage;
+    private JLabel chooseOpponent, selectingBotName, selectingBotProfileImage, selectingBotDescription;;
+    private JPanel botProfilePanel;
+
+    private ArrayList<BotInfo> botList;
+    private int currentIndex = 0;
+
+    private String userDeckName;
 
     public SelectBotRoom() {
+        setUpBotList();
         initComponents();
         setupLayout();
         setupListeners();
     }
 
     private void initComponents() {
-        // โหลดรูปภาพบอทเริ่มต้น
-        //String defaultImagePath = "assets/Profile/Karn Bob.webp";
-        //botImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/Profile/Karn Bob.webp")));
-        botImage = ResourceLoader.loadPicture("assets/Profile/Karn Bob.webp", 150, 150);
+        selectingBotProfileImage = new JLabel(new ImageIcon(botList.get(0).getImg().getImage().getScaledInstance(200,200,Image.SCALE_SMOOTH
+        )));
+        selectingBotProfileImage.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // สร้าง JLabel เพื่อแสดงภาพ
-        selectingBotProfileImage = new JLabel(botImage);
-        //selectingBotProfileImage.setIcon(new ImageIcon(scaledImage));
+        selectingBotName = new JLabel(botList.get(0).getName());
+        selectingBotName.setForeground(Color.WHITE); // ทำให้ข้อความอ่านง่ายขึ้น
+        selectingBotName.setFont(SharedResource.getCustomSizeFont(24));
+        selectingBotName.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // ตั้งค่า UI อื่นๆ
-        mainColorPanel = new JPanel();
+        botProfilePanel = new JPanel();
+        botProfilePanel.setLayout(new BorderLayout());
+        botProfilePanel.setOpaque(false);
+        botProfilePanel.add(selectingBotProfileImage,BorderLayout.CENTER);
+        botProfilePanel.add(selectingBotName,BorderLayout.NORTH);
+
         panelA = new JPanel();
         panelB = new JPanel();
         panelC = new JPanel();
@@ -262,72 +213,105 @@ public class SelectBotRoom extends Page implements ActionListener {
         startButton.setUI(new ButtonUI());
         startButton.setPreferredSize(new Dimension(250, 80));
 
-
         chooseOpponent = new JLabel("Choose Your Opponent");
-        selectingBotName = new JLabel("Bot Name");
-        selectingBotDescription = new JLabel("Bot description for explaining its behavior, pattern, and lore add-on");
+        selectingBotDescription = new JLabel(botList.get(0).getDescription());
+
+        //JTextArea selectingBotDescription = new JTextArea("Bot description for explaining its behavior, pattern, and lore add-on");
 
         chooseOpponent.setForeground(SharedResource.SIAMESE_BASE);
         chooseOpponent.setFont(SharedResource.getCustomSizeFont(80));
         selectingBotName.setForeground(SharedResource.SIAMESE_BASE);
         selectingBotName.setFont(SharedResource.getCustomSizeFont(40));
+
+        startButton.setEnabled(false);
     }
 
+
     private void setupLayout() {
-        // กำหนด Layout ให้ mainPanel
         this.mainPanel.setLayout(new BorderLayout());
 
-        // ตั้งค่าพื้นหลังและ Layout ของ mainColorPanel
-        mainColorPanel.setLayout(new GridLayout(5, 1));
-        mainColorPanel.setBackground(new Color(221, 218, 210)); // ✅ เพิ่มสีพื้นหลัง
+        mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
-        // ทำให้ Panel ย่อยโปร่งใส
         panelA.setOpaque(false);
         panelB.setOpaque(false);
+        //panelD.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,5));
+        panelE.setPreferredSize(new Dimension(500,180));
+        //panelA.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,5));
         panelC.setOpaque(false);
         panelD.setOpaque(false);
         panelE.setOpaque(false);
 
-        panelA.setLayout(new FlowLayout());
-        panelA.add(exit);
-        panelA.add(chooseOpponent);
+        panelA.setLayout(new BorderLayout());
+        panelA.add(exit,BorderLayout.WEST);
+        exit.setAlignmentY(Component.TOP_ALIGNMENT);
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p.setBackground(SharedResource.SIAMESE_BRIGHT);
+        p.add(chooseOpponent);
+        panelA.add(p);
 
-        panelB.add(selectingBotName);
+        panelB.setLayout(new BorderLayout());
 
-        panelC.add(previousBotButton);
-        panelC.add(selectingBotProfileImage);
-        panelC.add(nextBotButton);
+        panelC.setLayout(new BorderLayout());
+        panelC.add(selectingBotName, BorderLayout.NORTH);
 
-        panelD.add(selectingBotDescription);
+        // ใช้ FlowLayout กับการจัดตำแหน่งให้กลางในแนวนอน
+        JPanel tmp = new JPanel();
+        tmp.setLayout(new FlowLayout(FlowLayout.CENTER)); // การตั้งค่าตรงนี้สำคัญ
+        tmp.add(previousBotButton);
+        tmp.add(botProfilePanel); // ✅ ใช้ botProfilePanel แทน selectingBotProfileImage
+        tmp.add(nextBotButton);
+        tmp.setBackground(SharedResource.SIAMESE_BRIGHT);
+        panelC.add(tmp,BorderLayout.CENTER);
+
+        panelB.add(panelC, BorderLayout.NORTH);
+
+        JPanel descriptionPanel = new JPanel();
+        descriptionPanel.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT,30,30));
+        descriptionPanel.setLayout(new BorderLayout());
+        descriptionPanel.setPreferredSize(new Dimension(800, 240)); // ขนาดของ Panel
+
+        selectingBotDescription.setHorizontalAlignment(SwingConstants.CENTER);
+        selectingBotDescription.setForeground(SharedResource.SIAMESE_BASE);
+
+        descriptionPanel.setBorder(new EmptyBorder(0,30,0,30));
+        descriptionPanel.add(selectingBotDescription, BorderLayout.CENTER);
+
+        panelD.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panelD.add(descriptionPanel);
+
+        panelB.add(panelD,BorderLayout.CENTER);
 
         panelE.add(decksButton);
         panelE.add(startButton);
 
-        mainColorPanel.add(panelA);
-        mainColorPanel.add(panelB);
-        mainColorPanel.add(panelC);
-        mainColorPanel.add(panelD);
-        mainColorPanel.add(panelE);
+        panelB.add(panelE,BorderLayout.SOUTH);
 
-        // ✅ เพิ่ม mainColorPanel เข้าไปใน mainPanel
-        this.mainPanel.add(mainColorPanel, BorderLayout.CENTER);
+        mainPanel.add(panelA,BorderLayout.NORTH);
+        mainPanel.add(panelB,BorderLayout.CENTER);
+        //mainColorPanel.add(panelC);
+        //mainColorPanel.add(panelD);
+        //mainPanel.add(panelE,BorderLayout.SOUTH);
     }
 
     // 📌 ฟังก์ชันสำหรับอัปเดตรูปภาพบอท
-    private void updateBotProfile(String imagePath) {
-        System.out.println("Loading new bot image from path: " + imagePath);
+    private void updateBotProfile() {
+        //System.out.println("Loading new bot image from path: " + imagePath);
 
-        // ✅ ใช้ ResourceLoader.loadPicture() แทน
-        ImageIcon loadedImage = ResourceLoader.loadPicture(imagePath);
+        ImageIcon loadedImage = new ImageIcon(botList.get(currentIndex).getImg().getImage().getScaledInstance(200,200,Image.SCALE_SMOOTH));
 
         if (loadedImage != null) {
-            // ✅ ปรับขนาดรูปภาพให้พอดีกับ UI
-            Image scaledImage = loadedImage.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-            selectingBotProfileImage.setIcon(new ImageIcon(scaledImage));
+            selectingBotProfileImage.setIcon(loadedImage);
+            selectingBotName.setText(botList.get(currentIndex).getName()); // ✅ อัปเดตชื่อบอท
+            selectingBotDescription.setText("<html>"+botList.get(currentIndex).getDescription()+"</html>"); // ✅ อัปเดตคำอธิบายบอท
+
             selectingBotProfileImage.revalidate();
             selectingBotProfileImage.repaint();
+            selectingBotName.revalidate();
+            selectingBotName.repaint();
+            selectingBotDescription.revalidate();
+            selectingBotDescription.repaint();
 
-            System.out.println("Updated bot profile image successfully.");
+            System.out.println("Updated bot profile successfully.");
         } else {
             System.err.println("Failed to update bot profile - Image not found");
         }
@@ -339,8 +323,9 @@ public class SelectBotRoom extends Page implements ActionListener {
         decksButton.addActionListener(this);
         exit.addActionListener(this);
 
-        previousBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Karn Bob.webp"));
-        nextBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Mystyr.webp"));
+        previousBotButton.addActionListener(this);
+
+        nextBotButton.addActionListener(this);
     }
 
 
@@ -354,23 +339,58 @@ public class SelectBotRoom extends Page implements ActionListener {
                     UserPreference.getInstance().getProfile().getName(),
                     UserPreference.getInstance().getProfile().getProfilePictureURL()
             );
-            player.setDeck(new Deck("a"));
+            player.setDeck(new Deck(userDeckName));
 
             try {
-                player.setDeck(Deck.LoadDeck("a"));
+                player.setDeck(Deck.LoadDeck(userDeckName));
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
-            Player bot = new Mystyr();
             ArrayList<Player> p = new ArrayList<>();
             p.add(player);
-            p.add(bot);
+            p.add(botList.get(currentIndex).getBotPlayer());
             GameForGUI botGame = new GameForGUI(p);
             Router.setRoute("Avenger",botGame);
         }
         else if (e.getSource() == decksButton){
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.setCurrentDirectory(new File("Assets"));
+            jFileChooser.setFileFilter(new FileNameExtensionFilter("Deck File","deck"));
+            int l = jFileChooser.showOpenDialog(mainFrame);
+            if (l == JFileChooser.APPROVE_OPTION){
+                String deckPath = jFileChooser.getSelectedFile().getName();
+                userDeckName = deckPath.split("\\.")[0];
+                startButton.setEnabled(true);
+
+            }
+        }
+        else if (e.getSource() == nextBotButton){
+            if (currentIndex == botList.size()-1){
+                currentIndex = 0;
+            }
+            else {
+                currentIndex+=1;
+            }
+            updateBotProfile();
+        }
+        else if (e.getSource() == previousBotButton){
+            if (currentIndex == 0){
+                currentIndex = botList.size()-1;
+            }
+            else {
+                currentIndex-=1;
+            }
+            updateBotProfile();
         }
     }
+
+    private void setUpBotList(){
+        botList = new ArrayList<BotInfo>();
+        botList.add(new BotInfo(new Pupr()));
+        botList.add(new BotInfo(new Mystyr()));
+        botList.add(new BotInfo(new Who()));
+    }
 }
+
 

@@ -1,6 +1,7 @@
 package GUI.Page;
 
 import GUI.Component.Loader;
+import GUI.Component.MainMenuAnimation;
 import GUI.Router;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,7 @@ public class MainMenuPage extends Page implements ActionListener {
     private MainMenuButton exitButton;
     private JLabel  Title;
     private Image   bg;
+    private MainMenuAnimation animation;
 
     private String track = "Game/src/assets/Audio/BGM/Lobby_BGM.wav";
 
@@ -77,11 +79,11 @@ public class MainMenuPage extends Page implements ActionListener {
         TitlePanel.add(Title = new JLabel("Purr-fect Equations"));
         Title.setForeground(SharedResource.SIAMESE_BASE);
         Title.setFont(SharedResource.getCustomSizeFont(100));
-        Title.setBorder(new EmptyBorder(150,150,0,0));
+        Title.setBorder(new EmptyBorder(90,150,0,0));
 
         ButtonZone = new JPanel();
         ButtonZone.setLayout(new BoxLayout(ButtonZone, BoxLayout.Y_AXIS));
-        ButtonZone.setPreferredSize(new Dimension(400, 800));
+        ButtonZone.setPreferredSize(new Dimension(600, 800));
         ButtonZone.setBackground(new Color(255, 255, 255, 0));
         ButtonZone.setBorder(new EmptyBorder(50,100,0,50));
         ButtonZone.setOpaque(false);
@@ -100,6 +102,8 @@ public class MainMenuPage extends Page implements ActionListener {
         ButtonZone.add(creditButton);
         ButtonZone.add(exitButton);
 
+        animation = new MainMenuAnimation();
+
         playButton.addActionListener(this);
         yourDecksButton.addActionListener(this);
         tutorialButton.addActionListener(this);
@@ -108,7 +112,8 @@ public class MainMenuPage extends Page implements ActionListener {
         exitButton.addActionListener(this);
 
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
-        mainPanel.add(ButtonZone, BorderLayout.CENTER);
+        mainPanel.add(ButtonZone, BorderLayout.WEST);
+        mainPanel.add(animation,BorderLayout.CENTER);
         setupMainPanel();
     }
 
@@ -122,6 +127,7 @@ public class MainMenuPage extends Page implements ActionListener {
         SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
 
         if (e.getSource().equals(playButton)){
+            animation.stop();
             Router.setRoute("SelMode",null);
         }
         else if (e.getSource().equals(exitButton)){
@@ -138,15 +144,18 @@ public class MainMenuPage extends Page implements ActionListener {
 
                 @Override
                 public void onClose() {
+                    animation.stop();
                     Router.setRoute("DeckCreator",deckCreatorPage);
                 }
             };
             loadingScreen.startLoad();
         }
         else if (e.getSource().equals(settingsButton)){
+            animation.stop();
             Router.setRoute("Setting",null);
         }
         else if (e.getSource().equals(tutorialButton)){
+            animation.stop();
             Router.setRoute("Tutorial",null);
         }
     }

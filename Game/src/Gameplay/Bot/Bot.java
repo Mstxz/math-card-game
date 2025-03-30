@@ -21,5 +21,13 @@ public abstract class Bot extends Player {
         }
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public abstract Player getTargetId(Player self, Player enemy, Card c);
 }
