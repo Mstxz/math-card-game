@@ -24,7 +24,7 @@ public class FlipSigned extends Card {
     @Override
     public void action(Player self, Player enemy) {
         self.setMana(self.getMana()-this.manaUsed);
-        self.setHp(((Constant)(self.getHp())).multiply(-1));
+        getReceiver(self,enemy).setHp(((Constant)(getReceiver(self,enemy).getHp())).multiply(-1));
     }
 
     @Override
