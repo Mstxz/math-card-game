@@ -92,27 +92,7 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource().equals(this)||e.getSource().equals(nameButton)){
-
-            HashMap<Card,Integer> cardList = new HashMap<Card, Integer>();
-            try{
-                Deck tmp = Deck.LoadDeck(fileName);
-                for (Card i : tmp.getCards()){
-                    if (cardList.containsKey(i)){
-                        int j = cardList.get(i);
-                        j+=1;
-                        cardList.put(i,j);
-                    }
-                    else {
-                        cardList.put(i,1);
-                    }
-                }
-            }
-            catch (FileNotFoundException ex){
-
-            }
             menu.setSelectedIndex(index);
-            deckZone.setAllCardLabel(deckZone.createCardLabelSet(cardList));
-            deckZone.update();
             menu.toggleMenu();
         }
     }

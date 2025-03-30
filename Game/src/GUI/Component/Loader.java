@@ -5,6 +5,7 @@ import GUI.Page.Page;
 import GUI.Router;
 import utils.ResourceLoader;
 import utils.SharedResource;
+import utils.UIManager.RoundPanelUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -23,6 +24,7 @@ public class Loader extends JPanel {
     private JPanel loaderIcon;
     private JPanel tipsPanel;
     private JLabel tipsText;
+    private JLabel klongPicture;
     private Thread runnerThread;
     private BufferedImage loaderImg;
     private Timer loaderSpinTimer;
@@ -32,13 +34,18 @@ public class Loader extends JPanel {
 
     public Loader(Page parentGUI,String text){
         super();
-        tipsPanel = new JPanel();
-        tipsText = new JLabel("Tip: Did you know? Angy come from Angry Ha.");
-        tipsText.setFont(SharedResource.getCustomSizeFont(20));
         this.parentGUI = parentGUI;
         this.text = text;
+        this.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,30,30));
+        tipsPanel = new JPanel();
+        tipsPanel.setOpaque(false);
+
+        tipsText = new JLabel("Tip: Did you know? Angy come from Angry Ha.");
+        tipsText.setFont(SharedResource.getCustomSizeFont(20));
+
         loadingText = new JLabel(this.text);
-        loadingText.setFont(SharedResource.getCustomSizeFont(28));
+        loadingText.setFont(SharedResource.getCustomSizeFont(36));
+
         loadingText.setHorizontalAlignment(SwingConstants.CENTER);
         loaderImg = ResourceLoader.loadBufferedPicture("assets/Loader.png");
         loaderIcon = new JPanel(){
@@ -52,18 +59,22 @@ public class Loader extends JPanel {
                 g2d.dispose();
             }
         };
-        loaderIcon.setBorder(new EmptyBorder(10,10,10,10));
         loaderIcon.setPreferredSize(new Dimension(80,80));
+        loaderIcon.setOpaque(false);
         setOpaque(false);
 
-        tipsPanel.setLayout(new BorderLayout(20,5));
-        tipsPanel.add(loaderIcon,BorderLayout.WEST);
-        tipsPanel.add(tipsText,BorderLayout.CENTER);
+        tipsPanel.setLayout(new FlowLayout(FlowLayout.CENTER,20,5));
+        tipsPanel.add(loaderIcon);
+        tipsPanel.add(tipsText);
 
-        this.setSize(500,350);
-        this.setLayout(new BorderLayout());
+        klongPicture = new JLabel(ResourceLoader.loadPicture("assets/KlongFolder.webp",160,160));
+
+        this.setSize(600,400);
+        this.setLayout(new BorderLayout(0,20));
         this.add(loadingText,BorderLayout.NORTH);
+        this.add(klongPicture,BorderLayout.CENTER);
         this.add(tipsPanel,BorderLayout.SOUTH);
+        this.setBorder(new EmptyBorder(20,0,0,0));
         loaderSpinTimer = new Timer(40,new ActionListener (){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,12 +85,6 @@ public class Loader extends JPanel {
         Runnable runner = new Runnable() {
             @Override
             public void run() {
-                try{
-                    Thread.sleep(2000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 while (!closeCondition()){
                     running();
                 }
@@ -89,6 +94,7 @@ public class Loader extends JPanel {
         };
         runnerThread = new Thread(runner);
         loaderSpinTimer.start();
+
     }
 
     private BufferedImage rotateLoader(BufferedImage bf,double angle){
@@ -101,15 +107,6 @@ public class Loader extends JPanel {
     }
 
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(SharedResource.SIAMESE_BRIGHT);
-        g2d.drawRoundRect(0,0,getWidth(),getHeight(),20,20);
-        g2d.fillRoundRect(0,0,getWidth(),getHeight(),20,20);
-        super.paintComponent(g);
-    }
 
     public void startLoad(){
         parentGUI.setBackdropDim(true);

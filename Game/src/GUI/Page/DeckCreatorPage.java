@@ -132,6 +132,7 @@ import java.awt.event.ComponentListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -167,6 +168,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
         mainPanel.setBorder(new EmptyBorder(10,80,80,80));
+        mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
         // Title Label
         title = new JLabel("Your Deck");
         title.setFont(SharedResource.getFont48());
@@ -185,8 +187,34 @@ public class DeckCreatorPage extends Page implements ActionListener {
         tempDeckZone = new TempDeckZone();
         tempDeckZone.setLayout(new FlowLayout(FlowLayout.CENTER,0,20));
         tempDeckZone.setOpaque(false);
+        PopupItem.deckZone = tempDeckZone;
 
+        paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
+        paRightBottom.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                paRightBottom.setPreferredSize(calculateDimension());
+            }
 
+            @Override
+            public void componentMoved(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                paRightBottom.setPreferredSize(calculateDimension());
+            }
+        });
+
+        cardButtonHashSet = new HashSet<CardButton>();
+        filterZone = new FilterZone();
+        loadButton();
         /*เปิดแถบเลื่อน
 
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -257,39 +285,17 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         paRightTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         //paRightTop.setOpaque(false);
-        filterZone = new FilterZone();
+
         paRightTop.add(filterZone);
 
 
 
-        paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
-        paRightBottom.addComponentListener(new ComponentListener() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                paRightBottom.setPreferredSize(calculateDimension());
-            }
 
-            @Override
-            public void componentMoved(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentResized(ComponentEvent e) {
-                paRightBottom.setPreferredSize(calculateDimension());
-            }
-        });
 
         paRight.add(paRightTop, BorderLayout.NORTH);
         paRight.add(paRightBottom, BorderLayout.CENTER);
 
-        cardButtonHashSet = new HashSet<CardButton>();
-        loadButton();
+
         paRightBottom.setBackground(SharedResource.SIAMESE_LIGHT);
         scrollPane = new JScrollPane(paRightBottom);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -302,7 +308,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         mainPanel.add(paRight, BorderLayout.CENTER);
         saveButton.addActionListener(this);
         createButton.addActionListener(this);
-        PopupItem.deckZone = tempDeckZone;
+
     }
     public static Dimension calculateDimension(){
         int column = paRightBottom.getWidth() / 235;
@@ -311,6 +317,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
     }
 
     private void loadButton(){
+        ArrayList<Long> timeFinished = new ArrayList<>();
+        long start = Calendar.getInstance().getTimeInMillis();
         ArrayList<String> fileString = ResourceLoader.readFile("Gameplay/Cards/CardList.txt");
         for (int i = 0;i<fileString.size();i++){
             CardButton tmp = new CardButton(fileString.get(i), tempDeckZone);
@@ -346,6 +354,11 @@ public class DeckCreatorPage extends Page implements ActionListener {
             else if (tmp.getCardLabel().getCard().getDifficult().equals(Difficulty.EXPERT)){
                 filterZone.getExpert().getCardButtons().add(tmp);
             }
+            timeFinished.add(Calendar.getInstance().getTimeInMillis());
+        }
+        for (int i = 0; i < timeFinished.size(); i++){
+            long end = timeFinished.get(i);
+            System.out.println("Button " + (i+1) + " finish loading in " + ((double) (end - start) / 1000) + " s.");
         }
 
     }

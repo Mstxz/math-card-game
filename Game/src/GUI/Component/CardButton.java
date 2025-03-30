@@ -46,7 +46,7 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
         if (temp.length == 3){
             this.name = temp[0] + " " + temp[1];
             //System.out.println(temp[0]+"/"+temp[1]);
-            tempCard = Card.createCard(temp[0],Integer.valueOf(temp[1]),temp[2]);
+            tempCard = Card.createCard(temp[0],Integer.parseInt(temp[1]),temp[2]);
         }
         else if (temp.length == 2){
             this.name = temp[0]+" "+temp[1];

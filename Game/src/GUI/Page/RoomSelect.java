@@ -151,6 +151,12 @@ public class RoomSelect extends Page implements ActionListener {
                 }
                 @Override
                 public boolean closeCondition(){
+                    try{
+                        Thread.sleep(1000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return client.isLobbyLoaded();
                 }
                 @Override

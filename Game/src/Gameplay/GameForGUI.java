@@ -49,6 +49,7 @@ public class GameForGUI extends Game {
     @Override
     public void run(){
         for (int i = 0 ; i<2*20; i++){
+            observer.onTurnCountChange(i + 1);
             Player inPlay = turnOrder.get(i%2);
             inPlay.draw();
             observer.onHandChanged();

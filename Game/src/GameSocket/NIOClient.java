@@ -28,6 +28,7 @@ public class NIOClient extends Game {
     private final ArrayList<LobbyObserver> lobbyObservers;
     private CountObserver countObserver;
     private int currentTurn;
+    private int turnCount;
     public NIOClient(){
         super();
         lobbyObservers = new ArrayList<>();
@@ -36,6 +37,7 @@ public class NIOClient extends Game {
         this.lobbyLoaded = false;
         this.gameStarted = false;
         this.currentTurn = 0;
+        this.turnCount = 0;
     }
     public void connect(String hostIP){
         try {
@@ -226,6 +228,8 @@ public class NIOClient extends Game {
                             case START_TURN:
                                 try (RequestReader r = new RequestReader(req)) {
                                     currentTurn = r.readInt();
+                                    turnCount += 1;
+                                    observer.onTurnCountChange(turnCount);
                                     if (currentTurn == playerOrder){
                                         currentState = ClientState.PLAY;
                                         observer.onTurnArrive();
@@ -265,7 +269,12 @@ public class NIOClient extends Game {
                             case END_GAME:
                                 try (RequestReader r = new RequestReader(req)) {
                                     int winnerID = r.readInt();
-                                    observer.onGameEnded(turnOrder.get(winnerID));
+                                    if (winnerID != -1){
+                                        observer.onGameEnded(turnOrder.get(winnerID));
+                                    }
+                                    else{
+                                        observer.onGameEnded(null);
+                                    }
                                     closeClient();
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
