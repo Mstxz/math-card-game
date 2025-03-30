@@ -72,6 +72,7 @@ public class BotSelectedPanel extends JPanel implements ActionListener {
         botList.add(new BotInfo(null,"Pupr","How can I play this game?","assets/Profile/Pupr.webp"));
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(leftArrow)){
