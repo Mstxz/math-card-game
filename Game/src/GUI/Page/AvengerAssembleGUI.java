@@ -300,6 +300,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		if (winner == game.getPlayer()){
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Victory.wav");
 			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Victory_BGM.wav", false);
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Victory_Trap_BGM.wav", true);
 			showOverlay(new ResultShow("Victory"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 			//endTurnButton.removeActionListener(this);
@@ -307,12 +308,14 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		else if(winner != null){
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Defeat.wav");
 			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Defeat_BGM.wav", false);
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Defeat_Trap_BGM.wav", true);
 			showOverlay(new ResultShow("Defeat"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
 		else{
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Game_Draw.wav");
 			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Draw_BGM.wav", false);
+			BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Game_Draw_Trap_BGM.wav", true);
 			showOverlay(new ResultShow("Draw"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
