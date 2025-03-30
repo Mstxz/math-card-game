@@ -1,18 +1,21 @@
 package GUI.Page;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import AudioPlayer.*;
 
 import GUI.Component.*;
 import GUI.Component.Game;
+import GUI.Router;
 import Gameplay.*;
+import org.w3c.dom.ls.LSOutput;
 import utils.SharedResource;
 import utils.UIManager.RoundPanelUI;
 
@@ -24,7 +27,6 @@ import utils.UIManager.RoundPanelUI;
 public class AvengerAssembleGUI extends Page implements ActionListener,GameObserver {
 	private	HandDeck		OpponentPanel;
 	private	HandDeck		UserPanel;
-
 	private JPanel			MiddlePanel;
 	private JPanel			OpponentInfo;
 	private JPanel			OpponentStatus;
@@ -43,14 +45,32 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private JButton 		endTurnButton;
 	private boolean 		isPlayerTurn;
 	private SelectOpponent 	selectOpponent;
+	private GameMenu quitMenu;
 	private TurnCount turnCount;
 	private Game game;
 	public boolean	isBlocked;
-
+	private final AncestorListener listener;
 	private Random rand = new Random();
 
 	public AvengerAssembleGUI(Game game) {
 		super();
+		listener = new AncestorListener() {
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+				mainPanel.requestFocus();
+			}
+
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+
+			}
+		};
+		mainPanel.addAncestorListener(listener);
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
 		this.isBlocked = false;
 		this.game = game;
@@ -62,6 +82,26 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			}
 		}
 		activeOpponent = 0;
+		quitMenu = new GameMenu(this);
+
+		mainPanel.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
+		mainPanel.getActionMap().put("quit", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (quitMenu.isVisible()){
+					quitMenu.setVisible(false);
+					removeOverlay(quitMenu);
+					isBlocked = false;
+				}
+				else{
+					showOverlay(quitMenu,OverlayPlacement.CENTER);
+					quitMenu.setVisible(true);
+					isBlocked = true;
+				}
+
+			}
+		});
+
 
 		UserPanel = new HandDeck(this, game.getPlayer(), false);
 		OpponentPanel = new HandDeck(this, opponents.get(activeOpponent), true);
@@ -171,10 +211,13 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			game.start();
 		}
 
+
 		BGMPlayer.stopBackgroundMusic();
 
 		BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Gameplay_BGM_Mixed.wav", true);
 	}
+
+
 
 	public void updatePlayerHUD(){
 		playerInfo.updateInfo();
@@ -267,6 +310,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		setPlayerTurn(game.getPlayerOrder() == startTurn);
 		onStatChanged();
 		onHandChanged();
+		mainPanel.requestFocus();
 	}
 
 	@Override
@@ -291,7 +335,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 	@Override
 	public void onPlayerQuit(Player playerQuit) {
-
+		onGameEnded(getPlayer());
 	}
 
 	@Override
@@ -338,5 +382,13 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		getUserPanel().updatePlayable(getActiveEnemy());
 		playerInfo.updateInfo();
 		enemyInfo.updateInfo();
+	}
+
+	public void quitGame(){
+		game.notifyQuit();
+		mainPanel.getInputMap().remove(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+		mainPanel.getActionMap().remove("quit");
+		mainPanel.removeAncestorListener(listener);
+		Router.setRoute("MainMenu",null);
 	}
 }

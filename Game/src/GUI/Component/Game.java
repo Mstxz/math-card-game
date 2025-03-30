@@ -16,6 +16,7 @@ public abstract class Game extends Thread{
         this.playerOrder = 0;
     }
     public abstract void notifyEndTurn();
+    public abstract void notifyQuit();
     public abstract void notifyGameStart();
 
     public void setObserver(GameObserver observer) {

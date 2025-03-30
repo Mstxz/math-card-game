@@ -58,7 +58,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         ExitButton exitButton = new ExitButton("SelMode"){
             @Override
             public void cleanUp() {
-                client.closeClient();
+                client.notifyQuit();
                 NIOServer.getInstance().stopServer();
 
             }
@@ -160,6 +160,13 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
     @Override
     public void onCountChange(int count) {
         head.setText("Starting in " + count);
+    }
+
+    @Override
+    public void onLobbyClose() {
+        client.notifyQuit();
+        //NIOServer.getInstance().stopServer();
+        Router.setRoute("SelMode",null);
     }
 }
 

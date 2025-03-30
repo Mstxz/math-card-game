@@ -10,7 +10,7 @@ public enum ProtocolOperation {
     SET_MANA,
     DRAW,
     DISCARD,
-
+    QUIT,
     STATUS_UPDATE,
     HAND_UPDATE,
     END_TURN,
