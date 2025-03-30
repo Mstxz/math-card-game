@@ -55,7 +55,7 @@ public class Router implements ComponentListener {
             case "MainMenu" -> new MainMenuPage();
             case "Avenger" -> new AvengerAssembleGUI((Game) data); //game page
             case "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
-            case "DeckCreator" -> new DeckCreatorPage();
+            case "DeckCreator" -> (Page) data;
             case "SelMode" -> new SelGameMode();
             case "Player" -> new RoomSelect();
             case "Lobby" -> new PlayerVsPlayer((NIOClient) data);

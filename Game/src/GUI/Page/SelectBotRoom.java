@@ -167,7 +167,7 @@ public class SelectBotRoom extends Page implements ActionListener {
             }
 
             // Set up bot player
-            Player bot = new Bot();
+            Player bot = new Mystyr();
             ArrayList<Player> players = new ArrayList<>();
             players.add(player);
             players.add(bot);

@@ -1,5 +1,6 @@
 package GUI.Page;
 
+import GUI.Component.Loader;
 import GUI.Router;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -127,7 +128,20 @@ public class MainMenuPage extends Page implements ActionListener {
             System.exit(0);
         }
         else if (e.getSource().equals(yourDecksButton)){
-            Router.setRoute("DeckCreator",null);
+            Loader loadingScreen = new Loader(this,"Loading Your Deck..."){
+                public Page deckCreatorPage;
+                @Override
+                public boolean closeCondition() {
+                    deckCreatorPage = new DeckCreatorPage();
+                    return true;
+                }
+
+                @Override
+                public void onClose() {
+                    Router.setRoute("DeckCreator",deckCreatorPage);
+                }
+            };
+            loadingScreen.startLoad();
         }
         else if (e.getSource().equals(settingsButton)){
             Router.setRoute("Setting",null);
@@ -136,5 +150,6 @@ public class MainMenuPage extends Page implements ActionListener {
             Router.setRoute("Tutorial",null);
         }
     }
+
 
 }

@@ -132,6 +132,7 @@ import java.awt.event.ComponentListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -312,6 +313,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
     }
 
     private void loadButton(){
+        ArrayList<Long> timeFinished = new ArrayList<>();
+        long start = Calendar.getInstance().getTimeInMillis();
         ArrayList<String> fileString = ResourceLoader.readFile("Gameplay/Cards/CardList.txt");
         for (int i = 0;i<fileString.size();i++){
             CardButton tmp = new CardButton(fileString.get(i), tempDeckZone);
@@ -347,6 +350,11 @@ public class DeckCreatorPage extends Page implements ActionListener {
             else if (tmp.getCardLabel().getCard().getDifficult().equals(Difficulty.EXPERT)){
                 filterZone.getExpert().getCardButtons().add(tmp);
             }
+            timeFinished.add(Calendar.getInstance().getTimeInMillis());
+        }
+        for (int i = 0; i < timeFinished.size(); i++){
+            long end = timeFinished.get(i);
+            System.out.println("Button " + (i+1) + " finish loading in " + ((double) (end - start) / 1000) + " s.");
         }
 
     }
