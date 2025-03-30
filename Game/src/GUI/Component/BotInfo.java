@@ -1,28 +1,30 @@
 package GUI.Component;
 
+import Gameplay.Bot.Bot;
 import Gameplay.Player;
 import utils.ResourceLoader;
 
 import javax.swing.*;
 
 public class BotInfo {
-    private Player botPlayer;
+    private Bot botPlayer;
     private String name;
     private String description;
     private ImageIcon img;
 
-    public BotInfo(Player botPlayer, String name, String description, String img) {
+    public BotInfo(Bot botPlayer) {
         this.botPlayer = botPlayer;
-        this.name = name;
-        this.description = description;
-        this.img = ResourceLoader.loadPicture(img,100,100);
+        this.name = botPlayer.getName();
+        this.description = botPlayer.getDescription();
+        this.img = ResourceLoader.loadPicture(botPlayer.getProfilePicture());
+
     }
 
-    public Player getBotPlayer() {
+    public Bot getBotPlayer() {
         return botPlayer;
     }
 
-    public void setBotPlayer(Player botPlayer) {
+    public void setBotPlayer(Bot botPlayer) {
         this.botPlayer = botPlayer;
     }
 
