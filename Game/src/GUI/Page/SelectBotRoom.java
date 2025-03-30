@@ -367,6 +367,7 @@ public class SelectBotRoom extends Page implements ActionListener {
             }
         }
         else if (e.getSource() == nextBotButton){
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
             if (currentIndex == botList.size()-1){
                 currentIndex = 0;
             }
@@ -376,6 +377,7 @@ public class SelectBotRoom extends Page implements ActionListener {
             updateBotProfile();
         }
         else if (e.getSource() == previousBotButton){
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
             if (currentIndex == 0){
                 currentIndex = botList.size()-1;
             }
