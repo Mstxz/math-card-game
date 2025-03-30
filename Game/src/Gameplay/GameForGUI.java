@@ -61,7 +61,7 @@ public class GameForGUI extends Game {
                 int targetId = playerOrder;
                 Card c;
                 try {
-                    System.out.println(Arrays.toString(inPlay.getHand().toArray()));
+                    //System.out.println(Arrays.toString(inPlay.getHand().toArray()));
                     Thread.sleep(500);
                     while ((c = inPlay.play(inPlay,turnOrder.get(targetId))) != null){
                         observer.onCardPlayed();

@@ -226,7 +226,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 	public void setPlayerTurn(boolean playerTurn) {
 		isPlayerTurn = playerTurn;
-		System.out.println(isPlayerTurn);
+		//System.out.println(isPlayerTurn);
 		SFXPlayer.playSound("Game/src/assets/Audio/SFX/PlayerTurn.wav");
 		if (isPlayerTurn){
 			endTurnButton.setText("<html><body>End<br>Turn</body></html>");
@@ -267,10 +267,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		}
 		if(e.getSource() instanceof CardPlayable && isPlayerTurn){
 			CardPlayable c = (CardPlayable) e.getSource();
-			System.out.println(c.isPlayable());
+			//System.out.println(c.isPlayable());
 			if(c.isPlayable()) {
-				System.out.println(c.getCard());
-				System.out.println(Arrays.toString(game.getPlayer().getHand().toArray()));
+//				System.out.println(c.getCard());
+//				System.out.println(Arrays.toString(game.getPlayer().getHand().toArray()));
 				int index = game.getPlayer().getHand().indexOf(c.getCard());
 
 				//gui.addCardPlayed(cardPlayed);
@@ -377,7 +377,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 	@Override
 	public void onTurnEnded() {
-		System.out.println("OnTurnEnd");
+		//System.out.println("OnTurnEnd");
 		setPlayerTurn(false);
 		getUserPanel().updatePlayable(getActiveEnemy());
 		playerInfo.updateInfo();

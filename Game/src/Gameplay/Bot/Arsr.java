@@ -19,18 +19,25 @@ public class Arsr extends Bot{
     private boolean isRealPlay = false;
     private int realTarget;
 
+    private boolean isClumsy = false;
     public Arsr(){
         super("Arsr","assets/Profile/Arsr.webp","He's a weird cat that like a math too much. But he's very clumsy, If we tried, I think we're winnable! (He has a big crush on Pupr, Or is it his weakness!?)","a");
     }
 
     @Override
     public Card play(Player self, Player enemy) {
+        if (isClumsy){
+            isClumsy = false;
+            turnCount+=1;
+            return null;
+        }
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
         Player.log(self,enemy);
         Card c = null;
         //Bring this condition to bot while loop
         if (!playable.isEmpty()) {
             if (turnCount%3 == 0){
+                isClumsy = true;
                 System.out.println("Clumsy turn");
                 int index = (int)(Math.random()*getHand().size());
                 c = this.getHand().remove(index);
@@ -81,18 +88,17 @@ public class Arsr extends Bot{
                         }
                         if (selfDiff>enemyDiff && selfDiff>=0){
                             compare = selfDiff;
-                            realTarget = 0;
                         }
                         else {
                             compare = enemyDiff;
-                            realTarget = 1;
                         }
+                        resetSimulate(self,enemy,selfMana,selfHp,enemyHp);
                     }
                     else {
                         tmp.action(self,enemy);
                         selfDiff = Math.abs(((Constant) (self.getHp())).getNumber()) - Math.abs(selfHp);
                         enemyDiff = Math.abs(enemyHp) - Math.abs(((Constant) (enemy.getHp())).getNumber());
-                        if (enemyDiff != 0) {
+                        if (enemyDiff > 0) {
                             compare = enemyDiff;
                         } else if (selfDiff>0){
                             compare = selfDiff;
@@ -108,12 +114,17 @@ public class Arsr extends Bot{
                         enemy.setHp(new Constant(enemyHp));
                         break;
                     }
-                    if (mostValue == 0) {
+                    if (compare > mostValue) {
                         mostValue = compare;
                         index = i;
-                    } else if (compare > mostValue) {
-                        mostValue = compare;
-                        index = i;
+                        if (getHand().get(i).getType().equals(CardType.GREEN)){
+                            if (selfDiff>enemyDiff && selfDiff>=0){
+                                realTarget = 0;
+                            }
+                            else {
+                                realTarget = 1;
+                            }
+                        }
                     }
 
                     resetSimulate(self,enemy,selfMana,selfHp,enemyHp);
@@ -131,7 +142,7 @@ public class Arsr extends Bot{
 
                 System.out.println(this.getName() + " play " + c.getName() + " to " + c.getReceiver(self, enemy).getName());
                 this.getDeck().addDispose(c);
-                Player.log(self, enemy);
+                //Player.log(self, enemy);
 //            playable = self.showCard(self,enemy);
                 System.out.println();
             }
@@ -154,6 +165,7 @@ public class Arsr extends Bot{
     @Override
     public Player getTargetId(Player self, Player enemy, Card c) {
         if (isRealPlay){
+            System.out.println(realTarget);
             if (realTarget == 0){
                 return self;
             }

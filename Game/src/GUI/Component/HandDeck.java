@@ -60,7 +60,7 @@ public class HandDeck extends JPanel{
 	}
 
 	public void updatePlayable(Player enemy){
-		System.out.println(owner.getHand());
+		//System.out.println(owner.getHand());
 		playableIndex = Player.listPlayableCard(owner,enemy);
 	}
 
