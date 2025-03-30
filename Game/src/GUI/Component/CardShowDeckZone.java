@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class CardShowDeckZone extends JPanel {
     private int cardAmount;
+    public static final int MAX_CARD = 60;
     public CardShowDeckZone(int cardAmount){
         this.cardAmount = cardAmount;
         this.setPreferredSize(new Dimension(75,75));
@@ -23,32 +24,32 @@ public class CardShowDeckZone extends JPanel {
         g2.fillRect(0,0,getWidth(),getHeight());
 
         g2.setColor(SharedResource.SIAMESE_BRIGHT);
-        if (cardAmount == 40){
+        if (cardAmount == MAX_CARD){
             g2.setColor(SharedResource.SKYBLUE_BRIGHT);
         }
         g2.fillRoundRect(2+10,2,56,60,15,15);
 
         g2.setColor(SharedResource.SIAMESE_DARK);
-        if (cardAmount == 40){
+        if (cardAmount == MAX_CARD){
             g2.setColor(SharedResource.SKYBLUE_DARK);
         }
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(1+10,1,56+3,60+3,15,15);
 
         g2.setColor(SharedResource.SIAMESE_BRIGHT);
-        if (cardAmount == 40){
+        if (cardAmount == MAX_CARD){
             g2.setColor(SharedResource.SKYBLUE_BRIGHT);
         }
         g2.fillRoundRect(2,2+8,56,60,15,15);
 
         g2.setColor(SharedResource.SIAMESE_DARK);
-        if (cardAmount == 40){
+        if (cardAmount == MAX_CARD){
             g2.setColor(SharedResource.SKYBLUE_DARK);
         }
         g2.setStroke(new BasicStroke(3));
         g2.drawRoundRect(1,1+8,56+3,60+3,15,15);
 
-        if (cardAmount == 40){
+        if (cardAmount == MAX_CARD){
             g2.setColor(SharedResource.SKYBLUE_DARK);
         }
         else {
@@ -57,8 +58,8 @@ public class CardShowDeckZone extends JPanel {
 
         g2.setFont(getFont());
         FontMetrics fm = g2.getFontMetrics();
-        int x = (getWidth() - fm.stringWidth(cardAmount+"")) / 2 -8;
-        int y = (getHeight() + fm.getAscent()) / 2 - 2;
+        int x = (75 - fm.stringWidth(cardAmount+"")) / 2 -8;
+        int y = (75 + fm.getAscent()) / 2 - 2;
         g2.drawString(cardAmount+"", x, y);
 
     }
@@ -76,9 +77,19 @@ public class CardShowDeckZone extends JPanel {
         p.add(a);
         p.add(b);
         p.add(c);
+        p.setBackground(SharedResource.SIAMESE_BASE);
 
         f.setSize(200,200);
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setVisible(true);
+    }
+
+    public int getCardAmount() {
+        return cardAmount;
+    }
+
+    public void setCardAmount(int cardAmount) {
+        this.cardAmount = cardAmount;
+        repaint();
     }
 }

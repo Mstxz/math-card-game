@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import AudioPlayer.SFXPlayer;
 import AudioPlayer.SFXSwitcher;
+import GUI.Page.DeckCreatorPage;
 import Gameplay.Card;
 import Gameplay.CardType;
 import utils.ResourceLoader;
@@ -80,9 +81,10 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        super.paint(g2);
         if (isEnter){
-            Graphics2D g2 = (Graphics2D) g;
 
 //            g2.setColor(SharedResource.SKYBLUE_BASE);
 //            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER).derive(0.3f));
@@ -133,11 +135,12 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON3){
+        if (e.getButton() == MouseEvent.BUTTON3){ //right click
             if (cardLabel.getAmount() == 0){
                 return;
             }
             cardLabel.setAmount(cardLabel.getAmount() - 1);
+            DeckCreatorPage.showCardAmount.setCardAmount(DeckCreatorPage.showCardAmount.getCardAmount()-1);
             SFXSwitcher.deckSelectSwitcher(cardLabel.getName(), e);
             if (cardLabel.getAmount() == 0){
                 deckZonePanel.removeCard(cardLabel);
@@ -145,14 +148,17 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
                 deckZonePanel.repaint();
             }
         }
-        else if (e.getButton() == MouseEvent.BUTTON1){
+        else if (e.getButton() == MouseEvent.BUTTON1){ // left click
             SFXSwitcher.deckSelectSwitcher(cardLabel.getName(), e);
+            if (DeckCreatorPage.showCardAmount.getCardAmount() == CardShowDeckZone.MAX_CARD){
+                return;
+            }
             if (cardLabel.getAmount() == 0){
                 deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
-
             }
             cardLabel.setAmount(cardLabel.getAmount() + 1);
+            DeckCreatorPage.showCardAmount.setCardAmount(DeckCreatorPage.showCardAmount.getCardAmount()+1);
             deckZonePanel.revalidate();
             deckZonePanel.repaint();
         }

@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import AudioPlayer.SFXPlayer;
+import GUI.Page.DeckCreatorPage;
 import Gameplay.Card;
 import Gameplay.Deck;
 import utils.ResourceLoader;
@@ -34,13 +36,14 @@ public class PopupMenu extends JPanel {
 
         mainButton = new JPanel();
         mainButton.setLayout(new BorderLayout());
-        mainButton.setPreferredSize(new Dimension(490, 50));
+        mainButton.setPreferredSize(new Dimension(360, 80));
         mainButton.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,20,20,SharedResource.SIAMESE_DARK,5));
+        mainButton.setBorder(new EmptyBorder(0,15,0,15));
 
         deckName = new JTextField();
         deckName.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         deckName.setOpaque(false);
-        deckName.setFont(SharedResource.getCustomSizeFont(16));
+        deckName.setFont(SharedResource.getCustomSizeFont(32));
         arrowLabel = new JButton(ResourceLoader.loadPicture("assets/Component/DownArrow.png",24,18));
         arrowLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         arrowLabel.setOpaque(false);
@@ -52,8 +55,9 @@ public class PopupMenu extends JPanel {
 
         menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayout(0, 1));
-        menuPanel.setBackground(Color.WHITE);
-        menuPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        //menuPanel.setBackground(Color.WHITE);
+        //menuPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        menuPanel.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT));
         menuPanel.setVisible(false);
         deckName.setText(items.get(selectedIndex).getFileName());
         updateMenuPanel();
@@ -111,6 +115,7 @@ public class PopupMenu extends JPanel {
                         cardList.put(i,1);
                     }
                 }
+                DeckCreatorPage.showCardAmount.setCardAmount(tmp.getCards().size());
             }
             catch (FileNotFoundException ex){
 
