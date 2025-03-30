@@ -40,7 +40,11 @@ public class DeckIconPanel extends JPanel {
         SharedResource.loadFont();
         g.setFont(new Font("Madimi One Regular",Font.PLAIN,30));
 
-        g.drawString(String.valueOf(cardCount),12,55);
+        //g.drawString(String.valueOf(cardCount),12,55);
+        FontMetrics fm = g.getFontMetrics();
+        int x = (75 - fm.stringWidth(cardCount+"")) / 2 -10;
+        int y = (75 + fm.getAscent()) / 2 ;
+        g.drawString(cardCount+"", x, y);
     }
 
     public void update(){
@@ -50,12 +54,21 @@ public class DeckIconPanel extends JPanel {
         }
     }
 
+    public int getCardCount() {
+        return cardCount;
+    }
+
+    public void setCardCount(int cardCount) {
+        this.cardCount = cardCount;
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("JPanel with Background Image");
         frame.setLayout(new FlowLayout(FlowLayout.CENTER));
         DeckIconPanel panel = new DeckIconPanel(new Player("a"));
         frame.add(panel);
         frame.setSize(500, 500);
+        panel.setCardCount(20);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

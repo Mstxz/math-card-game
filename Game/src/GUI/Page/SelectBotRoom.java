@@ -131,6 +131,7 @@ import AudioPlayer.SFXPlayer;
 import GUI.Component.*;
 import GUI.Router;
 import GUI.Setting.UserPreference;
+import Gameplay.Bot.Arsr;
 import Gameplay.Bot.Mystyr;
 import Gameplay.Bot.Pupr;
 import Gameplay.Bot.Who;
@@ -390,6 +391,7 @@ public class SelectBotRoom extends Page implements ActionListener {
         botList.add(new BotInfo(new Pupr()));
         botList.add(new BotInfo(new Mystyr()));
         botList.add(new BotInfo(new Who()));
+        botList.add(new BotInfo(new Arsr()));
     }
 }
 
