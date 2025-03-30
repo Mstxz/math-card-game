@@ -93,8 +93,8 @@ public class SelGameMode extends Page implements ActionListener {
         setButton(playerButton);
         ButtonZone.add(botButton);
         setButton(botButton);
-        ButtonZone.add(selectBotButton);
-        setButton(selectBotButton);
+//        ButtonZone.add(selectBotButton);
+//        setButton(selectBotButton);
         ButtonZone.add(backButton);
         setButton(backButton);
 //        ButtonZone.add(exitButton);
@@ -135,29 +135,15 @@ public class SelGameMode extends Page implements ActionListener {
         SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
 
         if (e.getSource().equals(botButton)){
-            Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
+            //Player player = new Player(UserPreference.getInstance().getProfile().getName(),UserPreference.getInstance().getProfile().getProfilePictureURL());
             //player.setDeck(new Deck("Clown"));
-            try {
-                player.setDeck(Deck.LoadDeck("CoolIs37"));
-            }
-            catch (FileNotFoundException ex){
-                ex.printStackTrace();
-            }
-            Player bot = new Who();
-            ArrayList<Player> p = new ArrayList<>();
-            p.add(player);
-            p.add(bot);
-            GameForGUI botGame = new GameForGUI(p);
-            Router.setRoute("Avenger",botGame);
+            Router.setRoute("SelBot",null);
         }
        else if (e.getSource().equals(playerButton)){
             Router.setRoute("Player",null);
         }
         else if (e.getSource().equals(backButton)){
             Router.setRoute("MainMenu",null);
-        }
-        else if (e.getSource().equals(selectBotButton)){
-            Router.setRoute("SelBot",null);
         }
 
     }

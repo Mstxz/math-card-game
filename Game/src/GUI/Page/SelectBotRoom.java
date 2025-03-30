@@ -138,6 +138,8 @@ import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
 import utils.SharedResource;
+
+import java.io.File;
 import java.net.URL;
 
 import utils.*;
@@ -151,6 +153,7 @@ import utils.UIManager.RoundPanelUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -166,6 +169,8 @@ public class SelectBotRoom extends Page implements ActionListener {
 
     private ArrayList<BotInfo> botList;
     private int currentIndex = 0;
+
+    private String userDeckName;
 
     public SelectBotRoom() {
         setUpBotList();
@@ -217,6 +222,8 @@ public class SelectBotRoom extends Page implements ActionListener {
         chooseOpponent.setFont(SharedResource.getCustomSizeFont(80));
         selectingBotName.setForeground(SharedResource.SIAMESE_BASE);
         selectingBotName.setFont(SharedResource.getCustomSizeFont(40));
+
+        startButton.setEnabled(false);
     }
 
 
@@ -332,10 +339,10 @@ public class SelectBotRoom extends Page implements ActionListener {
                     UserPreference.getInstance().getProfile().getName(),
                     UserPreference.getInstance().getProfile().getProfilePictureURL()
             );
-            player.setDeck(new Deck("a"));
+            player.setDeck(new Deck(userDeckName));
 
             try {
-                player.setDeck(Deck.LoadDeck("a"));
+                player.setDeck(Deck.LoadDeck(userDeckName));
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -347,6 +354,16 @@ public class SelectBotRoom extends Page implements ActionListener {
         }
         else if (e.getSource() == decksButton){
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.setCurrentDirectory(new File("Assets"));
+            jFileChooser.setFileFilter(new FileNameExtensionFilter("Deck File","deck"));
+            int l = jFileChooser.showOpenDialog(mainFrame);
+            if (l == JFileChooser.APPROVE_OPTION){
+                String deckPath = jFileChooser.getSelectedFile().getName();
+                userDeckName = deckPath.split("\\.")[0];
+                startButton.setEnabled(true);
+
+            }
         }
         else if (e.getSource() == nextBotButton){
             if (currentIndex == botList.size()-1){
