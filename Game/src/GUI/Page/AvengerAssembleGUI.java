@@ -132,8 +132,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		endTurnButton.setBackground(new Color(216, 220, 223, 255));
 		endTurnButton.setForeground(new Color(102, 142, 169, 0));
 
-		endTurnButton.setPreferredSize(new Dimension(170, 170));
-		endTurnButton.setMaximumSize(new Dimension(170, 170));
+		endTurnButton.setPreferredSize(new Dimension(150, 150));
+		endTurnButton.setMaximumSize(new Dimension(150, 150));
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BorderLayout());
 		middlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
@@ -142,7 +142,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		endTurnPanel.setLayout(new BoxLayout(endTurnPanel,BoxLayout.X_AXIS));
 		endTurnPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 		endTurnPanel.add(endTurnButton);
-		endTurnPanel.setPreferredSize(new Dimension(210, 170));
+		endTurnPanel.setPreferredSize(new Dimension(210, 150));
 		endTurnPanel.setBorder(new EmptyBorder(0,0,0,40));
 
 
