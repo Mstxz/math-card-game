@@ -8,6 +8,7 @@ import utils.UIManager.RoundPanelUI;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicPanelUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,8 +59,15 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
 
+
+    public void setNotLast(){
+        this.setUI(new BasicPanelUI());
+        this.setBorder(new MatteBorder(0,0,3,0,SharedResource.SIAMESE_DARK));
+    }
+
     public void setLast(){
         this.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,20,20,false,false,true,true));
+        this.setBorder(null);
     }
 
     public String getFileName() {

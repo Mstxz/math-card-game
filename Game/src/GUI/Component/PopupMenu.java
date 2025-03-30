@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicPanelUI;
 
 import AudioPlayer.SFXPlayer;
 import GUI.Page.DeckCreatorPage;
@@ -82,7 +83,10 @@ public class PopupMenu extends JPanel {
                 continue;
             }
             menuPanel.add(items.get(i));
+            items.get(i).setNotLast();
         }
+        ((PopupItem) menuPanel.getComponents()[menuPanel.getComponents().length-1]).setLast();
+        System.out.println();
         revalidate();
         repaint();
     }
