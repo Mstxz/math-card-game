@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 public class GameForGUI extends Game {
     private boolean paused = false;
+    private boolean isRunning = true;
     public GameForGUI(ArrayList<Player> players){
         int index = ((int)(Math.random()*2));
         playerOrder = index;
@@ -49,6 +50,9 @@ public class GameForGUI extends Game {
     @Override
     public void run(){
         for (int i = 0 ; i<2*20; i++){
+            if (!isRunning){
+                return;
+            }
             observer.onTurnCountChange(i + 1);
             Player inPlay = turnOrder.get(i%2);
             inPlay.draw();
@@ -79,6 +83,9 @@ public class GameForGUI extends Game {
                 observer.onTurnArrive();
                 this.waitForGUI();
                 this.checkPause();
+                if (!isRunning){
+                    return;
+                }
                 ArrayList<Integer> loseList = Player.checkLose(turnOrder);
                 if(!loseList.isEmpty()){
                     observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
@@ -135,6 +142,12 @@ public class GameForGUI extends Game {
 
     @Override
     public void notifyEndTurn() {
+        resumeGame();
+    }
+
+    @Override
+    public void notifyQuit() {
+        this.isRunning = false;
         resumeGame();
     }
 

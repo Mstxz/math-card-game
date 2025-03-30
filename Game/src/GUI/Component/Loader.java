@@ -75,12 +75,9 @@ public class Loader extends JPanel {
         this.add(klongPicture,BorderLayout.CENTER);
         this.add(tipsPanel,BorderLayout.SOUTH);
         this.setBorder(new EmptyBorder(20,0,0,0));
-        loaderSpinTimer = new Timer(40,new ActionListener (){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loaderImg = rotateLoader(loaderImg,45.0);
-                loaderIcon.repaint();
-            }
+        loaderSpinTimer = new Timer(40, e -> {
+            loaderImg = rotateLoader(loaderImg,45.0);
+            loaderIcon.repaint();
         });
         Runnable runner = new Runnable() {
             @Override

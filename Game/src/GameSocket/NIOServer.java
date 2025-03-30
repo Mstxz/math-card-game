@@ -67,9 +67,10 @@ public class NIOServer extends Thread {
             server.configureBlocking(false);
             Selector selector = Selector.open();
             server.register(selector, SelectionKey.OP_ACCEPT);
-            while (serverInfo.isRunning()) {
+            while (serverInfo.isRunning()  ||  !registeredID.isEmpty() ) {
                 if (serverInfo.isPendingClose() && registeredID.isEmpty()){
                     stopServer();
+                    System.out.println("Out no registered");
                     continue;
                 }
                 try {
@@ -272,24 +273,6 @@ public class NIOServer extends Thread {
                                 serverInfo.setPendingClose(true);
                                 return;
                             }
-//                            Request notifyCardPlayed = new Request(ProtocolOperation.CARD);
-//                            notifyCardPlayed.appendData(cardPlayed.encode());
-//                            notifyCardPlayed.appendData(ownerID);
-//                            notifyCardPlayed.appendData(receiverID);
-//                            pushUpdate(notifyCardPlayed);
-
-//                            for (CardAction cardAction : cardActions){
-//                                switch (cardAction.getType()){
-//                                    case DRAW -> {
-//                                        Draw draw = (Draw) cardAction;
-//                                        drawCards(draw.getTargetID(),draw.getAmount());
-//                                    }
-//                                    case SET_HP -> {
-//                                        SetHp setHp = (SetHp) cardAction;
-//
-//                                    }
-//                                }
-//                            }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -336,6 +319,9 @@ public class NIOServer extends Thread {
                             pushUpdate(startTurn);
                         }
                         break;
+                    case QUIT:
+                        handleDisconnect(client);
+                        break;
                 }
             }
         } else {
@@ -346,8 +332,16 @@ public class NIOServer extends Thread {
     private void handleDisconnect(SocketChannel sc){
         try{
             System.out.println("DISCONNECTED: " + sc.socket().getInetAddress().getHostAddress());
+            playerState[registeredID.get(sc)] = null;
+            Request request = new Request(ProtocolOperation.QUIT);
+            request.appendData(registeredID.get(sc));
+            pushUpdate(request);
+            lobbyUpdate();
             registeredID.remove(sc);
             sc.close();
+            if (gameState != null && registeredID.size() <= 1){
+                serverInfo.setPendingClose(true);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -400,13 +394,6 @@ public class NIOServer extends Thread {
         for (Card card:cardsDraw){
             request.appendData(card.encode());
         }
-        pushUpdate(request);
-    }
-
-    private void setHP(SetHp setHp){
-        Request request = new Request(ProtocolOperation.SET_HP);
-        request.appendData(setHp.getTargetID());
-        request.appendData(setHp.getNewHp().encodedBytes());
         pushUpdate(request);
     }
 
@@ -483,5 +470,9 @@ public class NIOServer extends Thread {
 
     public boolean isBound(){
         return serverInfo.isListening();
+    }
+
+    public static boolean hasInstance(){
+        return instance != null;
     }
 }

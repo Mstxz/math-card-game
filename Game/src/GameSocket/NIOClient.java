@@ -170,7 +170,6 @@ public class NIOClient extends Game {
 
                             break;
                         case START_GAME:
-
                             try (RequestReader reader = new RequestReader(serverReq)){
                                 currentTurn = reader.readInt();
                                 System.out.println("Current Turn: " + currentTurn);
@@ -182,7 +181,13 @@ public class NIOClient extends Game {
                             gameStarted = true;
                             notifyLobbyObserver();
                             break;
-                        default:
+                        case QUIT:
+                            if (!NIOServer.hasInstance()){
+                                System.out.println("Server Quit");
+                                currentState = ClientState.END;
+                                notifyLobbyClose();
+                            }
+
                             //System.out.println(buffer.asLongBuffer().get());
                     }
                     buffer.clear();
@@ -203,7 +208,7 @@ public class NIOClient extends Game {
                 }
 
             }
-
+            lobbyObservers.clear();
             while (channel.isOpen() && (currentState == ClientState.PLAY || currentState == ClientState.WAIT)) {
                 buffer.clear();
                 int byteRead = readIntoBuffer();
@@ -275,7 +280,16 @@ public class NIOClient extends Game {
                                     else{
                                         observer.onGameEnded(null);
                                     }
-                                    closeClient();
+                                    currentState = ClientState.END;
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+                                break;
+                            case QUIT:
+                                try (RequestReader r = new RequestReader(req)) {
+                                    int loserID = r.readInt();
+                                    observer.onGameEnded(turnOrder.get((loserID + 1) % 2));
+                                    currentState = ClientState.END;
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
                                 }
@@ -283,18 +297,31 @@ public class NIOClient extends Game {
                         }
                     }
                 }
-                for (Iterator<Request> it = events.iterator(); it.hasNext(); ) {
-                    Request e = it.next();
-                    buffer.clear().put(e.encodeBytes()).flip();
-                    while (buffer.hasRemaining()) {
-                        channel.write(buffer);
+                if (currentState != ClientState.END){
+                    for (Iterator<Request> it = events.iterator(); it.hasNext(); ) {
+                        Request e = it.next();
+                        buffer.clear().put(e.encodeBytes()).flip();
+                        while (buffer.hasRemaining()) {
+                            channel.write(buffer);
+                        }
+                        buffer.clear();
+                        it.remove();
                     }
-                    buffer.clear();
-                    it.remove();
                 }
+
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+
+        } catch (RuntimeException e) {
+            notifyLobbyObserver();
+            notifyLobbyClose();
+            if (observer != null){
+                observer.onGameEnded(getPlayer());
+            }
+            currentState = ClientState.END;
+        }
+        finally {
+            closeClient();
         }
         System.out.println("Client Ended");
     }
@@ -344,9 +371,16 @@ public class NIOClient extends Game {
     }
 
     private void notifyLobbyObserver(){
-        System.out.println("Notify");
+        System.out.println("Notify Change");
         for(LobbyObserver l:lobbyObservers){
             l.onLobbyChange(turnOrder);
+        }
+    }
+
+    private void notifyLobbyClose(){
+        System.out.println("Notify Close");
+        for(LobbyObserver l:lobbyObservers){
+            l.onLobbyClose();
         }
     }
 
@@ -398,6 +432,21 @@ public class NIOClient extends Game {
             currentState = ClientState.WAIT;
         }
         observer.onTurnEnded();
+    }
+
+    @Override
+    public void notifyQuit() {
+        try{
+            Request quit = new Request(ProtocolOperation.QUIT);
+            buffer.clear().put(quit.encodeBytes()).flip();
+            while (buffer.hasRemaining()) {
+                channel.write(buffer);
+            }
+            buffer.clear();
+
+        } catch (Exception e) {
+        }
+        closeClient();
     }
 
     @Override
