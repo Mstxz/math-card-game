@@ -2,10 +2,15 @@ package GUI.Component;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.*;
 
 import AudioPlayer.SFXPlayer;
+import Gameplay.Card;
+import Gameplay.Deck;
 import utils.ResourceLoader;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
@@ -21,9 +26,10 @@ public class PopupMenu extends JPanel {
 
     public PopupMenu() {
         setLayout(new BorderLayout());
-        selectedIndex = 0;
+
         items = new ArrayList<>();
         setUpItem();
+
         //items.add(new PopupItem("Deck 1"));
 
         mainButton = new JPanel();
@@ -54,6 +60,7 @@ public class PopupMenu extends JPanel {
 
         add(mainButton, BorderLayout.NORTH);
         add(menuPanel, BorderLayout.CENTER);
+        setSelectedIndex(0);
     }
 
     public void toggleMenu() {
@@ -91,11 +98,41 @@ public class PopupMenu extends JPanel {
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
         deckName.setText(items.get(selectedIndex).getFileName());
+            HashMap<Card,Integer> cardList = new HashMap<Card, Integer>();
+            try{
+                Deck tmp = Deck.LoadDeck(items.get(selectedIndex).getFileName());
+                for (Card i : tmp.getCards()){
+                    if (cardList.containsKey(i)){
+                        int j = cardList.get(i);
+                        j+=1;
+                        cardList.put(i,j);
+                    }
+                    else {
+                        cardList.put(i,1);
+                    }
+                }
+            }
+            catch (FileNotFoundException ex){
+
+            }
+        PopupItem.deckZone.setAllCardLabel(PopupItem.deckZone.createCardLabelSet(cardList));
+        PopupItem.deckZone.update();
         updateMenuPanel();
     }
     public void setUpItem(){
         File folder = new File("Assets");
         File[] fileList = folder.listFiles();
+        if (fileList.length == 0){
+            File newDeck = new File("Assets/YourDeck.deck");
+            try{
+                newDeck.createNewFile();
+                folder = new File("Assets");
+                fileList = folder.listFiles();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
         int count = 0;
         items.clear();
         for (File i: fileList){

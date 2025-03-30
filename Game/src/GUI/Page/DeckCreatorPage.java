@@ -187,8 +187,34 @@ public class DeckCreatorPage extends Page implements ActionListener {
         tempDeckZone = new TempDeckZone();
         tempDeckZone.setLayout(new FlowLayout(FlowLayout.CENTER,0,20));
         tempDeckZone.setOpaque(false);
+        PopupItem.deckZone = tempDeckZone;
 
+        paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
+        paRightBottom.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                paRightBottom.setPreferredSize(calculateDimension());
+            }
 
+            @Override
+            public void componentMoved(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                paRightBottom.setPreferredSize(calculateDimension());
+            }
+        });
+
+        cardButtonHashSet = new HashSet<CardButton>();
+        filterZone = new FilterZone();
+        loadButton();
         /*เปิดแถบเลื่อน
 
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -259,39 +285,17 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         paRightTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         //paRightTop.setOpaque(false);
-        filterZone = new FilterZone();
+
         paRightTop.add(filterZone);
 
 
 
-        paRightBottom = new JPanel(new FlowLayout(FlowLayout.LEFT,25,25));
-        paRightBottom.addComponentListener(new ComponentListener() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                paRightBottom.setPreferredSize(calculateDimension());
-            }
 
-            @Override
-            public void componentMoved(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentResized(ComponentEvent e) {
-                paRightBottom.setPreferredSize(calculateDimension());
-            }
-        });
 
         paRight.add(paRightTop, BorderLayout.NORTH);
         paRight.add(paRightBottom, BorderLayout.CENTER);
 
-        cardButtonHashSet = new HashSet<CardButton>();
-        loadButton();
+
         paRightBottom.setBackground(SharedResource.SIAMESE_LIGHT);
         scrollPane = new JScrollPane(paRightBottom);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -304,7 +308,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         mainPanel.add(paRight, BorderLayout.CENTER);
         saveButton.addActionListener(this);
         createButton.addActionListener(this);
-        PopupItem.deckZone = tempDeckZone;
+
     }
     public static Dimension calculateDimension(){
         int column = paRightBottom.getWidth() / 235;
