@@ -27,7 +27,8 @@ public class UserProfile implements Serializable {
         profilePictureList.put("Arsr",new ProfilePicture("Arsr","Glasses cat."));
         profilePictureList.put("Angy",new ProfilePicture("Angy","Angry cat."));
         profilePictureList.put("Who",new ProfilePicture("Who","Who tf is this?"));
-
+        profilePictureList.put("Heyla",new ProfilePicture("Heyla","Often mistaken as Omm Thuk's son."));
+        profilePictureList.put("Omm Thuk",new ProfilePicture("Omm Thuk","Omm Thuk."));
         //profilePictureList.put("Klong ha",new ProfilePicture("Klong ha","Klong Eng Ha", "assets/Profile/Klong ha.jpg"));
         //profilePictureList.put("Clown",new ProfilePicture("Clown","Heavy is teammate", "assets/Profile/Clown.png"));
         //profilePictureList.put("Pleng's cat",new ProfilePicture("Pleng's cat","I don't know, this is not my cat!", "assets/Profile/Pleng's cat.png"));

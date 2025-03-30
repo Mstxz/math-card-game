@@ -23,6 +23,7 @@ public class GameMenu extends JPanel implements ActionListener {
     private JLabel klongLabel;
     public GameMenu(AvengerAssembleGUI gameGUI){
         this.gameGUI = gameGUI;
+        this.setVisible(false);
         title = new JLabel("Want to quit?");
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setFont(SharedResource.getCustomSizeFont(36));

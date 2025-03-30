@@ -5,6 +5,7 @@ import GUI.Setting.Controller.SettingController;
 import GUI.Setting.Controller.UserProfile;
 import GUI.Setting.UserPreference;
 import utils.UIManager.ButtonUI;
+import utils.UIManager.CustomScrollBarUI;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
@@ -107,15 +108,23 @@ public class Profile extends JPanel implements ActionListener {
         panel8.setBorder(new EmptyBorder(20,20,40,40));
         panel3 = new JPanel();
         panel3.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,40,40));
-        panel3.setLayout(new GridLayout(2,2,60,60));
-        panel3.setBorder(new EmptyBorder(60,10,120,20));
-        Iterator i = UserProfile.profilePictureList.keySet().iterator();
-        while (i.hasNext()){
-            ProfilePicture o = UserProfile.profilePictureList.get((String) i.next());
+        panel3.setLayout(new FlowLayout(FlowLayout.CENTER,30,30));
+        panel3.setBorder(new EmptyBorder(10,10,10,10));
+        panel3.setPreferredSize(new Dimension(300,1000));
+        for (String s : UserProfile.profilePictureList.keySet()) {
+            ProfilePicture o = UserProfile.profilePictureList.get(s);
+            o.getButton().setPreferredSize(new Dimension(150,150));
             panel3.add(o.getButton());
             o.getButton().addActionListener(this);
-            System.out.println(o.getProfileName());
         }
+
+        JScrollPane scrollPane = new JScrollPane(panel3);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+
         panel8.setUI(new RoundPanelUI(SharedResource.SIAMESE_DARK,30,30));
         panel4.setBackground(SharedResource.SIAMESE_LIGHT);
         panel4.add(panel1,BorderLayout.NORTH);
@@ -124,8 +133,8 @@ public class Profile extends JPanel implements ActionListener {
         this.setBorder(new EmptyBorder(20,20,40,40));
         this.setLayout(new BorderLayout(50,10));
         this.add(panel4,BorderLayout.WEST);
-        this.add(panel3,BorderLayout.CENTER);
-        this.setPreferredSize(new Dimension(1000,500));
+        this.add(scrollPane,BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(1100,500));
 
         saveButton.addActionListener(this);
         renameButton.addActionListener(this);
