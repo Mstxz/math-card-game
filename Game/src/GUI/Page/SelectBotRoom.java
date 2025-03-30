@@ -1,3 +1,5 @@
+/*
+
 package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
@@ -167,7 +169,7 @@ public class SelectBotRoom extends Page implements ActionListener {
             }
 
             // Set up bot player
-            Player bot = new Bot();
+            Player bot = new Mystyr();
             ArrayList<Player> players = new ArrayList<>();
             players.add(player);
             players.add(bot);
@@ -181,11 +183,11 @@ public class SelectBotRoom extends Page implements ActionListener {
         }
     }
 }
+*/
 
 
 
 
-/*
 package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
@@ -195,12 +197,20 @@ import GUI.Component.BotLeftButton;
 import GUI.Component.BotRightButton;
 import GUI.Router;
 import GUI.Setting.UserPreference;
-import Gameplay.Bot;
+import Gameplay.Bot.Mystyr;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
 import utils.SharedResource;
 import java.net.URL;
+
+import utils.*;
+
+import utils.UIManager.ButtonUI;
+import utils.UIManager.CustomScrollBarUI;
+import utils.ResourceLoader;
+import utils.SharedResource;
+import utils.UIManager.RoundPanelUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -225,10 +235,12 @@ public class SelectBotRoom extends Page implements ActionListener {
     private void initComponents() {
         // โหลดรูปภาพบอทเริ่มต้น
         //String defaultImagePath = "assets/Profile/Karn Bob.webp";
-        botImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/Profile/Karn Bob.webp")));
+        //botImage = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/Profile/Karn Bob.webp")));
+        botImage = ResourceLoader.loadPicture("assets/Profile/Karn Bob.webp", 150, 150);
 
         // สร้าง JLabel เพื่อแสดงภาพ
         selectingBotProfileImage = new JLabel(botImage);
+        //selectingBotProfileImage.setIcon(new ImageIcon(scaledImage));
 
         // ตั้งค่า UI อื่นๆ
         mainColorPanel = new JPanel();
@@ -241,8 +253,15 @@ public class SelectBotRoom extends Page implements ActionListener {
         exit = new ExitButton("SelMode");
         previousBotButton = new JButton("<");
         nextBotButton = new JButton(">");
+
         decksButton = new JButton("Decks");
+        decksButton.setUI(new ButtonUI());
+        decksButton.setPreferredSize(new Dimension(250, 80));
+
         startButton = new JButton("Start");
+        startButton.setUI(new ButtonUI());
+        startButton.setPreferredSize(new Dimension(250, 80));
+
 
         chooseOpponent = new JLabel("Choose Your Opponent");
         selectingBotName = new JLabel("Bot Name");
@@ -294,39 +313,24 @@ public class SelectBotRoom extends Page implements ActionListener {
         this.mainPanel.add(mainColorPanel, BorderLayout.CENTER);
     }
 
-    private ImageIcon loadImage(String imagePath) {
-        // แสดงข้อความเพื่อดีบัก
-        System.out.println("Trying to load image from path: " + imagePath);
-
-        // โหลดไฟล์ภาพจาก classpath
-        URL imageURL = getClass().getClassLoader().getResource(imagePath);
-
-        // ตรวจสอบว่าไฟล์ภาพถูกโหลดได้หรือไม่
-        if (imageURL == null) {
-            System.err.println("Image not found at path: " + imagePath);
-            return null;
-        } else {
-            System.out.println("Image loaded successfully from: " + imagePath);
-        }
-
-        // คืนค่า ImageIcon
-        return new ImageIcon(imageURL);
-    }
-
     // 📌 ฟังก์ชันสำหรับอัปเดตรูปภาพบอท
     private void updateBotProfile(String imagePath) {
         System.out.println("Loading new bot image from path: " + imagePath);
-        ImageIcon loadedImage = loadImage(imagePath);
+
+        // ✅ ใช้ ResourceLoader.loadPicture() แทน
+        ImageIcon loadedImage = ResourceLoader.loadPicture(imagePath);
 
         if (loadedImage != null) {
+            // ✅ ปรับขนาดรูปภาพให้พอดีกับ UI
             Image scaledImage = loadedImage.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             selectingBotProfileImage.setIcon(new ImageIcon(scaledImage));
-            System.out.println(selectingBotProfileImage.getName());
+            selectingBotProfileImage.revalidate();
+            selectingBotProfileImage.repaint();
+
+            System.out.println("Updated bot profile image successfully.");
         } else {
             System.err.println("Failed to update bot profile - Image not found");
         }
-
-        // หลังจากโหลดเสร็จให้ลบข้อความ
     }
 
     // 📌 เชื่อมปุ่มเปลี่ยนบอทกับ updateBotProfile()
@@ -335,9 +339,10 @@ public class SelectBotRoom extends Page implements ActionListener {
         decksButton.addActionListener(this);
         exit.addActionListener(this);
 
-        previousBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Klong ha.webp"));
-        nextBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Pleng's cat.webp"));
+        previousBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Karn Bob.webp"));
+        nextBotButton.addActionListener(e -> updateBotProfile("assets/Profile/Mystyr.webp"));
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -369,4 +374,3 @@ public class SelectBotRoom extends Page implements ActionListener {
     }
 }
 
- */
