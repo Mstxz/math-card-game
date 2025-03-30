@@ -34,6 +34,7 @@ public class Router implements ComponentListener {
         } catch (Exception e) {
             System.out.println("Error loading icon: " + e.getMessage());
         }
+        mainFrame.setFocusable(true);
         mainFrame.setContentPane(layeredPane);
         SettingController.update();
     }

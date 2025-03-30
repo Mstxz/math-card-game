@@ -9,6 +9,7 @@ import GUI.Page.AvengerAssembleGUI;
 
 import java.awt.event.*;
 
+import GUI.Page.Page;
 import Gameplay.Card;
 import Gameplay.Cards.AngryCat;
 import utils.UIManager.CustomScrollBarUI;
@@ -17,8 +18,8 @@ import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 import utils.UIManager.CustomScrollBarUI;
 
-public class CardInspector extends JPanel implements MouseListener {
-	private	AvengerAssembleGUI	gui;
+public class CardInspector extends JPanel implements MouseListener, KeyListener {
+	private Page				gui;
 	private JLabel				img;
 	private	JLabel				name;
 	private	JLabel				description;
@@ -27,7 +28,7 @@ public class CardInspector extends JPanel implements MouseListener {
 	private JPanel				ManaUsage;
 	private	Card				card;
 
-	public CardInspector(Card card, AvengerAssembleGUI gui,ImageIcon img) {
+	public CardInspector(Card card, Page gui,ImageIcon img) {
 
 		super();
 		this.card = card;
@@ -94,6 +95,7 @@ public class CardInspector extends JPanel implements MouseListener {
 
 		this.setSize(gui.getMainFrame().getWidth(), gui.getMainFrame().getHeight());
 		this.addMouseListener(this);
+		this.gui.getMainFrame().addKeyListener(this);
 		this.setOpaque(false);
 		this.setVisible(true);
 	}
@@ -103,8 +105,32 @@ public class CardInspector extends JPanel implements MouseListener {
 		SFXSwitcher.cardDescDown(card);
 		this.removeAll();
 		this.removeMouseListener(this);
+		this.gui.getMainFrame().removeKeyListener(this);
 		this.setVisible(false);
 		gui.clearOverlay();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int code = e.getKeyCode();
+		if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_SPACE){
+			SFXSwitcher.cardDescDown(card);
+			this.removeAll();
+			this.removeMouseListener(this);
+			this.gui.getMainFrame().removeKeyListener(this);
+			this.setVisible(false);
+			gui.clearOverlay();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
 	}
 
 	@Override
