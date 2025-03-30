@@ -4,8 +4,10 @@ import Gameplay.Card;
 import Gameplay.Deck;
 import utils.ResourceLoader;
 import utils.SharedResource;
+import utils.UIManager.RoundPanelUI;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,9 +28,9 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
 
     public PopupItem(String name,int index) {
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(480, 40));
+        this.setPreferredSize(new Dimension(360, 40));
         this.setBackground(SharedResource.SIAMESE_BRIGHT);
-        this.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        this.setBorder(new MatteBorder(0,0,3,0,SharedResource.SIAMESE_DARK));
         this.fileName = name;
         this.index = index;
 
@@ -38,19 +40,10 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
         nameButton.setFocusPainted(false);
         nameButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        deleteButton = new JButton(ResourceLoader.loadPicture("assets/Component/Bin.png", 20, 23)); // ✏
-        editButton = new JButton(ResourceLoader.loadPicture("assets/Component/editIcon.png",23,23)); // 🗑
-
-        setupButton(editButton);
-        setupButton(deleteButton);
-        editButton.addActionListener(this);
-        deleteButton.addActionListener(this);
         nameButton.addMouseListener(this);
 
         JPanel iconPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 1));
         iconPanel.setOpaque(false);
-        iconPanel.add(editButton);
-        iconPanel.add(deleteButton);
 
         this.add(nameButton, BorderLayout.WEST);
         this.add(iconPanel, BorderLayout.EAST);
@@ -63,6 +56,10 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+
+    public void setLast(){
+        this.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,20,20,false,false,true,true));
     }
 
     public String getFileName() {

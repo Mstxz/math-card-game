@@ -164,6 +164,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private PopupMenu             popupMenu;
     private static HashSet<CardButton> cardButtonHashSet;
     private String                name;
+    public static CardShowDeckZone showCardAmount;
 
     public DeckCreatorPage() {
         mainPanel.setLayout(new BorderLayout(20,0));
@@ -214,7 +215,20 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         cardButtonHashSet = new HashSet<CardButton>();
         filterZone = new FilterZone();
+
+        showCardAmount = new CardShowDeckZone(0);
+
         loadButton();
+        popupMenu = new PopupMenu();
+        PopupItem.menu = popupMenu;
+        JPanel PopupMenuPanel = new JPanel(new FlowLayout());
+        PopupMenuPanel.add(popupMenu);
+        JPanel p = new JPanel();
+        p.setLayout(new BorderLayout());
+        PopupMenuPanel.add(p);
+        p.setPreferredSize(new Dimension(75,75));
+        p.add(showCardAmount,BorderLayout.NORTH);
+        showCardAmount.setAlignmentY(Component.TOP_ALIGNMENT);
         /*เปิดแถบเลื่อน
 
         cardScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -238,10 +252,6 @@ public class DeckCreatorPage extends Page implements ActionListener {
         saveButton.setPreferredSize(new Dimension(220, 65));
         createButton.setPreferredSize(new Dimension(220, 65));
 
-        popupMenu = new PopupMenu();
-        PopupItem.menu = popupMenu;
-        JPanel PopupMenuPanel = new JPanel(new FlowLayout());
-        PopupMenuPanel.add(popupMenu);
 
         //deckNameField = new JComboBox<>(options);
         //deckNameField.setRenderer(new ColoredComboBoxRenderer());
@@ -254,11 +264,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckShow.setLayout(new BorderLayout(0,10));
         deckShow.add(cardScrollPane,BorderLayout.CENTER);
         deckShow.add(deckOption,BorderLayout.SOUTH);
+        deckShow.add(PopupMenuPanel,BorderLayout.NORTH);
+        deckShow.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT));
+
         deckOption.add(saveButton,BorderLayout.WEST);
         deckOption.add(createButton,BorderLayout.EAST);
         deckOption.setBackground(SharedResource.SIAMESE_LIGHT);
-        deckShow.add(PopupMenuPanel,BorderLayout.NORTH);
-        deckShow.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT));
 
         //ปิดการแสดงผล
         cardScrollPane.setOpaque(false);
@@ -308,6 +319,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
         mainPanel.add(paRight, BorderLayout.CENTER);
         saveButton.addActionListener(this);
         createButton.addActionListener(this);
+        PopupMenuPanel.setBackground(PopupMenuPanel.getParent().getBackground());
+        p.setBackground(p.getParent().getBackground());
 
     }
     public static Dimension calculateDimension(){
@@ -320,6 +333,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         ArrayList<Long> timeFinished = new ArrayList<>();
         long start = Calendar.getInstance().getTimeInMillis();
         ArrayList<String> fileString = ResourceLoader.readFile("Gameplay/Cards/CardList.txt");
+        int amount = 0;
         for (int i = 0;i<fileString.size();i++){
             CardButton tmp = new CardButton(fileString.get(i), tempDeckZone);
             paRightBottom.add(tmp);

@@ -30,7 +30,7 @@ public class ResourceLoader {
         picture = picture.split("\\.")[0]+".webp";
         try{
             String filePath = Paths.get(ResourceLoader.class.getClassLoader().getResource(picture).toURI()).toFile().getAbsolutePath();
-            Image loadedImg = (new ImageIcon(ImageIO.read(new File(filePath)))).getImage().getScaledInstance(width,height,Image.SCALE_DEFAULT);
+            Image loadedImg = (new ImageIcon(ImageIO.read(new File(filePath)))).getImage().getScaledInstance(width,height,Image.SCALE_SMOOTH);
             return new ImageIcon(loadedImg);
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);

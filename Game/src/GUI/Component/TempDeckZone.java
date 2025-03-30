@@ -1,5 +1,6 @@
 package GUI.Component;
 
+import GUI.Page.DeckCreatorPage;
 import Gameplay.Card;
 
 import javax.swing.*;

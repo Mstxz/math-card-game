@@ -34,6 +34,7 @@ public class FilterButton extends JButton implements ActionListener, MouseListen
     @Override
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         if (!isSelected&&!isHover){
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.5f));
         }

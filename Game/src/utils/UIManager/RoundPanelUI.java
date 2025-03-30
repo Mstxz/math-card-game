@@ -57,6 +57,7 @@ public class RoundPanelUI extends PanelUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         c.setOpaque(false);
+        c.setBackground(color);
     }
 
     @Override
