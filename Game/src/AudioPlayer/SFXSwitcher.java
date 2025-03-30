@@ -2,6 +2,7 @@ package AudioPlayer;
 
 import Gameplay.Card;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.util.EventListener;
 
@@ -11,6 +12,7 @@ public class SFXSwitcher {
     private static String defaultclickUP = "Game/src/assets/Audio/SFX/Card_Desc_UP.wav";
     private static String defaultclickDown = "Game/src/assets/Audio/SFX/Card_Desc_Down.wav";
     private static String defaultCardDeckSelection = "Game/src/assets/Audio/SFX/Deck_Card_Click.wav";
+    private static String defaultButtonClick = "Game/src/assets/Audio/SFX/Button_Click.wav";
 
     /*Easter egg SFX*/
 
@@ -50,6 +52,18 @@ public class SFXSwitcher {
                 break;
             default:
                 SFXPlayer.playSound(defaultCardDeckSelection);
+                break;
+        }
+    }
+
+    public static void botSelectSwitcher(String bot){
+        switch(bot){
+            case "Mystyr":
+                SFXPlayer.playSound(defaultButtonClick);
+                SFXPlayer.playSound("Game/src/assets/Audio/BGM/Mystyr_Bot.wav");
+                break;
+            default:
+                SFXPlayer.playSound(defaultButtonClick);
                 break;
         }
     }

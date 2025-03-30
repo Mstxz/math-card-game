@@ -128,6 +128,7 @@ package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
+import AudioPlayer.SFXSwitcher;
 import GUI.Component.*;
 import GUI.Router;
 import GUI.Setting.UserPreference;
@@ -204,7 +205,9 @@ public class SelectBotRoom extends Page implements ActionListener {
 
         exit = new ExitButton("SelMode");
         previousBotButton = new JButton("<");
+        cleanup(previousBotButton);
         nextBotButton = new JButton(">");
+        cleanup(nextBotButton);
 
         decksButton = new JButton("Decks");
         decksButton.setUI(new ButtonUI());
@@ -367,23 +370,26 @@ public class SelectBotRoom extends Page implements ActionListener {
             }
         }
         else if (e.getSource() == nextBotButton){
-            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
             if (currentIndex == botList.size()-1){
                 currentIndex = 0;
             }
             else {
                 currentIndex+=1;
             }
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+            //SFXSwitcher.botSelectSwitcher(botList.get(currentIndex).getName()); //use in case of someone wanting a signature sound to bots
             updateBotProfile();
+
         }
         else if (e.getSource() == previousBotButton){
-            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
             if (currentIndex == 0){
                 currentIndex = botList.size()-1;
             }
             else {
                 currentIndex-=1;
             }
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+            //SFXSwitcher.botSelectSwitcher(botList.get(currentIndex).getName()); //use in case of someone wanting a signature sound to bots
             updateBotProfile();
         }
     }
@@ -394,6 +400,15 @@ public class SelectBotRoom extends Page implements ActionListener {
         botList.add(new BotInfo(new Mystyr()));
         botList.add(new BotInfo(new Who()));
         botList.add(new BotInfo(new Arsr()));
+    }
+
+    private void cleanup(JButton button){
+        button.setBackground(SharedResource.TRANSPARENT);
+        button.setFont(SharedResource.getCustomSizeFont(48));
+        button.setPreferredSize(new Dimension(50, 50));
+        button.setBorder(null);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
     }
 }
 
