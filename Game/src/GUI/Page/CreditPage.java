@@ -1,5 +1,6 @@
 package GUI.Page;
 
+import AudioPlayer.BGMPlayer;
 import GUI.Component.CreditProfile;
 import GUI.Component.ExitButton;
 import GUI.Router;
@@ -14,6 +15,8 @@ public class CreditPage extends Page {
     private ExitButton exitButton;
 
     public CreditPage() {
+        BGMPlayer.stopBackgroundMusic();
+        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/PurrfectEquations_OST.wav", true);
         exitButton = new ExitButton("MainMenu");
         mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
@@ -34,7 +37,7 @@ public class CreditPage extends Page {
         creditPanel.add(new CreditProfile("Mstxz.EXE","Mystyr.webp", "Sound Producer , UX/UI Designer", "I’m just making music with my mouse and keyboard, and wasting some bucks."));
         creditPanel.add(new CreditProfile("Cyan Kagami","Pupr.webp", "Duck of the Project", "{Quote Here}"));
         creditPanel.add(new CreditProfile("Arktik","Arsr.webp", "{Position Here}", "{Quote Here}"));
-        creditPanel.add(new CreditProfile("D37un","Angy.webp", "{Position Here}", "{Quote Here}"));
+        creditPanel.add(new CreditProfile("Gun","Angy.webp", "Game Designer", "Actually, I like dogs."));
         creditPanel.add(new CreditProfile("Pooh","Who.webp", "Back-End", "Don't lie on the resume."));
         creditPanel.add(new CreditProfile("Few","More.webp", "Game design,Slave owner", "No pain no gain, go rich or go home"));
         creditPanel.add(new CreditProfile("TeeIT","Mystyr.webp", "Front-end, UI/UX", "I love to catch bugs in my computer."));

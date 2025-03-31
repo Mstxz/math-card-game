@@ -17,6 +17,7 @@ import GUI.Router;
 import Gameplay.*;
 import org.w3c.dom.ls.LSOutput;
 import utils.SharedResource;
+import utils.UIManager.ButtonUI;
 import utils.UIManager.RoundPanelUI;
 
 /**
@@ -43,6 +44,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private PlayerInfo 		enemyInfo;
 	private ArrayList<Card> cardPlayed = new ArrayList<Card>();
 	private JButton 		endTurnButton;
+	private JButton 		howtoplayButton;
 	private boolean 		isPlayerTurn;
 	private SelectOpponent 	selectOpponent;
 	private GameMenu quitMenu;
@@ -153,16 +155,25 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		endTurnButton.setForeground(new Color(102, 142, 169, 0));
 
 		endTurnButton.setPreferredSize(new Dimension(150, 150));
-		endTurnButton.setMaximumSize(new Dimension(150, 150));
+
+		howtoplayButton = new JButton("How to Play");
+		howtoplayButton.setFont(SharedResource.getCustomSizeFont(32));
+//		howtoplayButton.setUI(new ButtonUI());
+		howtoplayButton.setBackground(new Color(163, 190, 255, 255));
+		howtoplayButton.setMaximumSize(new Dimension(300, 60));
+		howtoplayButton.setForeground(Color.WHITE);
+
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BorderLayout());
 		middlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
 		JPanel endTurnPanel = new JPanel();
-		endTurnPanel.setLayout(new BoxLayout(endTurnPanel,BoxLayout.X_AXIS));
+		endTurnPanel.setLayout(new BoxLayout(endTurnPanel,BoxLayout.Y_AXIS));
 		endTurnPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+		endTurnPanel.add(howtoplayButton);
+		endTurnPanel.add(Box.createVerticalStrut(50));
 		endTurnPanel.add(endTurnButton);
-		endTurnPanel.setPreferredSize(new Dimension(210, 150));
+		endTurnPanel.setPreferredSize(new Dimension(300, 200));
 		endTurnPanel.setBorder(new EmptyBorder(0,0,0,40));
 
 
