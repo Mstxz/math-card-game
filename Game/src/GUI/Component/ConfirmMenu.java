@@ -17,8 +17,6 @@ import java.awt.event.ActionListener;
 
 public class ConfirmMenu extends JPanel implements ActionListener {
     private Page page;
-    private final int WIDTH = 450;
-    private final int HEIGHT = 340;
     private JLabel title;
     private JPanel buttonPanel;
     private JButton yesButton;
@@ -30,6 +28,10 @@ public class ConfirmMenu extends JPanel implements ActionListener {
     }
 
     public ConfirmMenu(Page page,String headerText){
+        this(page,headerText,450,340);
+    }
+
+    public ConfirmMenu(Page page,String headerText,int width, int height){
         super(new BorderLayout(0,20));
         this.page = page;
         this.title = new JLabel(headerText);
@@ -59,12 +61,18 @@ public class ConfirmMenu extends JPanel implements ActionListener {
         this.add(klongLabel,BorderLayout.CENTER);
         this.add(buttonPanel,BorderLayout.SOUTH);
         this.setBorder(new EmptyBorder(20,20,20,20));
-        this.setSize(WIDTH,HEIGHT);
+        this.setSize(width,height);
     }
 
     public void setTitle(String titleText){
         title.setText(titleText);
         title.repaint();
+    }
+
+    public void setNewSize(int width, int height) {
+        this.setSize(width,height);
+        this.revalidate();
+        this.repaint();
     }
 
     public void onConfirm(){
