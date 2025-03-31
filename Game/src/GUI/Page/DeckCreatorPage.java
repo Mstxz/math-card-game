@@ -524,7 +524,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         }
         else if (e.getSource().equals(deleteButton.getButton())) {
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
-            ConfirmMenu confirmMenu = new ConfirmMenu(this,"Do you want to delete this deck?"){
+            ConfirmMenu confirmMenu = new ConfirmMenu(this,"Do you want to delete this deck?",600,340){
                 @Override
                 public void onConfirm() {
                     File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
@@ -543,7 +543,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         }
         else if (e.getSource().equals(clearButton.getButton())) {
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
-            ConfirmMenu confirmMenu = new ConfirmMenu(this,"Do you want to clear all card in this deck?"){
+            ConfirmMenu confirmMenu = new ConfirmMenu(this,"Do you want to clear all card?",600,340){
                 @Override
                 public void onConfirm() {
                     tempDeckZone.clear();
