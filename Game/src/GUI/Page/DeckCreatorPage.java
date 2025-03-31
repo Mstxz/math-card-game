@@ -136,6 +136,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
 import utils.UIManager.ButtonUI;
@@ -153,7 +154,9 @@ public class DeckCreatorPage extends Page implements ActionListener {
     private JPanel          deckShow;
     private JPanel          deckOption;
     private JButton         saveButton;
-    private JButton         createButton;
+    private IconButton      createButton;
+    private IconButton      deleteButton;
+    private IconButton      clearButton;
     private FilterZone      filterZone;
     private static JScrollPane scrollPane;
 
@@ -244,11 +247,12 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         saveButton = new JButton("Save");
         saveButton.setUI(new ButtonUI());
-        createButton = new JButton("Create");
-        createButton.setUI(new ButtonUI());
+        saveButton.setPreferredSize(new Dimension(180, 65));
+        createButton = new IconButton("assets/CreateDeckIcon.webp");
+        deleteButton = new IconButton("assets/DeleteDeckIcon.webp");
+        clearButton = new IconButton("assets/ClearDeckIcon.webp");
         //createButton.setPreferredSize(new Dimension(100, 100));
-        saveButton.setPreferredSize(new Dimension(220, 65));
-        createButton.setPreferredSize(new Dimension(220, 65));
+
 
 
         //deckNameField = new JComboBox<>(options);
@@ -265,8 +269,14 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckShow.add(PopupMenuPanel,BorderLayout.NORTH);
         deckShow.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT));
 
-        deckOption.add(saveButton,BorderLayout.WEST);
-        deckOption.add(createButton,BorderLayout.EAST);
+        JPanel iconPanel = new JPanel(new GridLayout(1,4,10,5));
+        iconPanel.setBackground(SharedResource.SIAMESE_LIGHT);
+        iconPanel.add(deleteButton);
+        iconPanel.add(clearButton);
+        iconPanel.add(createButton);
+
+        deckOption.add(iconPanel,BorderLayout.WEST);
+        deckOption.add(saveButton,BorderLayout.EAST);
         deckOption.setBackground(SharedResource.SIAMESE_LIGHT);
 
         JPanel deckWrapper = new JPanel();
@@ -343,8 +353,11 @@ public class DeckCreatorPage extends Page implements ActionListener {
         paRight.add(scrollPane, BorderLayout.CENTER);
 
         mainPanel.add(paRight, BorderLayout.CENTER);
+        createButton.getButton().addActionListener(this);
+        deleteButton.getButton().addActionListener(this);
+        clearButton.getButton().addActionListener(this);
         saveButton.addActionListener(this);
-        createButton.addActionListener(this);
+
         PopupMenuPanel.setBackground(PopupMenuPanel.getParent().getBackground());
         p.setBackground(p.getParent().getBackground());
 
@@ -483,7 +496,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
             popupMenu.setUpItem();
             System.out.println("Write");
         }
-        else if (e.getSource().equals(createButton)) {
+        else if (e.getSource().equals(createButton.getButton())) {
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
             String newName = JOptionPane.showInputDialog(null, "Create Deck", name);
             if (newName != null && !newName.trim().isEmpty()) {
@@ -497,6 +510,25 @@ public class DeckCreatorPage extends Page implements ActionListener {
                 tempDeckZone.setAllCardLabel(new HashSet<CardLabel>());
                 tempDeckZone.update();
             }
+        }
+        else if (e.getSource().equals(deleteButton.getButton())) {
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
+            File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
+            if (f.delete()) {
+                System.out.println("Delete old deck");
+            }
+            popupMenu.setUpItem();
+            popupMenu.setSelectedIndex(0);
+        }
+        else if (e.getSource().equals(clearButton.getButton())) {
+            SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
+            for (CardLabel cardLabel:tempDeckZone.allCardLabel){
+                cardLabel.setAmount(0);
+            }
+            tempDeckZone.allCardLabel.clear();
+            tempDeckZone.removeAll();
+            tempDeckZone.revalidate();
+            tempDeckZone.repaint();
         }
     }
 

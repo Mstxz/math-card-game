@@ -33,7 +33,7 @@ public class PopupMenu extends JPanel {
         setLayout(new BorderLayout());
 
         items = new ArrayList<>();
-        setUpItem();
+
 
         //items.add(new PopupItem("Deck 1"));
 
@@ -72,16 +72,19 @@ public class PopupMenu extends JPanel {
         scrollPane.setBorder(null);
 
         menuWrapper = new JPanel();
-        menuWrapper.setBounds(25,90,350,330);
+        menuWrapper.setBounds(20,90,355,330);
         menuWrapper.setBorder(new EmptyBorder(0,10,10,10));
         menuWrapper.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,20,20,true,true,true,true,SharedResource.SIAMESE_DARK,5));
         menuWrapper.add(scrollPane);
+        menuWrapper.setVisible(false);
 
+        setUpItem();
+        setSelectedIndex(0);
         deckName.setText(items.get(selectedIndex).getFileName());
         updateMenuPanel();
 
         add(mainButton, BorderLayout.NORTH);
-        setSelectedIndex(0);
+
     }
 
     public void toggleMenu() {
@@ -165,6 +168,7 @@ public class PopupMenu extends JPanel {
             items.add(new PopupItem(i.getName().split(".deck")[0],count));
             count += 1;
         }
+
     }
 
     public PopupItem getCurrentDeck(){

@@ -31,6 +31,7 @@ public class TempDeckZone extends JPanel {
 
     public void removeCard(CardLabel c){
         this.remove(c);
+        c.setAmount(0);
         this.allCardLabel.remove(c);
         this.setPreferredSize(new Dimension(400,getComponentCount() * (120) + 10));
         revalidate();

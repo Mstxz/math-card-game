@@ -12,6 +12,9 @@ public class ButtonUI extends BasicButtonUI {
     public void installUI(JComponent c) {
         super.installUI(c);
         c.setFont(SharedResource.getCustomSizeFont(30));
+        AbstractButton button = (AbstractButton) c;
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
     }
 
 
@@ -25,8 +28,6 @@ public class ButtonUI extends BasicButtonUI {
         final Color buttonBody = (c.isEnabled()) ? SharedResource.SKYBLUE_BRIGHT : SharedResource.DISABLED_GRAY_BRIGHT;
 
         AbstractButton button = (AbstractButton) c;
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
 
         g2.setColor(c.getParent().getBackground());
         g2.fillRect(0,0,c.getWidth(),c.getHeight());

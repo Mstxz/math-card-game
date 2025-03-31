@@ -159,6 +159,7 @@ public class Profile extends JPanel implements ActionListener {
                 name.setOpaque(true);
                 name.setFocusable(true);
                 name.setEditable(true);
+                name.requestFocus();
                 SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
             }
             else if (((JButton)(e.getSource())).getText().equals("Cancel")){
