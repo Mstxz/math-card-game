@@ -1,5 +1,7 @@
 package GUI.Component;
 
+import GUI.Setting.Controller.SettingController;
+import GUI.Setting.UserPreference;
 import utils.ResourceLoader;
 
 import javax.imageio.ImageIO;
@@ -18,12 +20,15 @@ public class MainMenuAnimation extends JPanel implements ActionListener {
 
     public MainMenuAnimation(){
         frames = new BufferedImage[12];
-        for (int i = 0; i < 12; i++) {
-            System.out.println("assets/Animation/frame"+(i+1)+".png");
-            frames[i] = ResourceLoader.loadBufferedPicture("assets/Animation/frame"+(i+1)+".webp");
+        String resolution = SettingController.resolutionList.get(UserPreference.getInstance().getResolutionIndex());
+        if (resolution.equals("1366x768")){
+            updateSize(400,300);
+        }
+        else if (resolution.equals("1920x1080")){
+            updateSize(800,600);
         }
         timer = new Timer(150,this);
-        this.setPreferredSize(new Dimension(frames[0].getWidth(),frames[0].getHeight()));
+
         this.setOpaque(false);
         timer.start();
     }
@@ -32,6 +37,17 @@ public class MainMenuAnimation extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(frames[currentFrame], 0, 0, this);
+    }
+
+    public void updateSize(int width,int height){
+
+        for (int i = 0; i < 12; i++) {
+            System.out.println("assets/Animation/frame"+(i+1)+".png");
+            frames[i] = ResourceLoader.loadBufferedPicture(ResourceLoader.loadPicture("assets/Animation/frame"+(i+1)+".webp",width,height).getImage());
+        }
+        this.setPreferredSize(new Dimension(width, height));
+        this.revalidate();
+        this.repaint();
     }
 
     public static void main(String[] args) {
@@ -49,7 +65,6 @@ public class MainMenuAnimation extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(timer)){
-            System.out.println("timer");
             currentFrame = (currentFrame + 1) % frames.length;
             repaint();
         }

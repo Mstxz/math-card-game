@@ -3,17 +3,17 @@ package GUI.Page;
 import GUI.Component.*;
 import GUI.Router;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
+import GUI.Setting.Controller.SettingController;
+import GUI.Setting.UserPreference;
 import utils.SharedResource;
 import AudioPlayer.SFXPlayer;
 import AudioPlayer.BGMPlayer;
@@ -73,18 +73,20 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             }
         };
 
-        TitlePanel = new JPanel(new BorderLayout());
-        TitlePanel.setBackground(new Color(255, 255, 255, 0));
-        TitlePanel.add(Title = new JLabel("Purr-fect Equations"));
+//        TitlePanel = new JPanel(new BorderLayout());
+//        TitlePanel.setBackground(new Color(255, 255, 255, 0));
+//        TitlePanel.add();
+        Title = new JLabel("Purr-fect Equations");
         Title.setForeground(SharedResource.SIAMESE_BASE);
+        Title.setBorder(new EmptyBorder(0, 50, 0, 0));
         Title.setFont(SharedResource.getCustomSizeFont(100));
-        Title.setBorder(new EmptyBorder(90,150,0,0));
+
 
         ButtonZone = new JPanel();
         ButtonZone.setLayout(new BoxLayout(ButtonZone, BoxLayout.Y_AXIS));
         ButtonZone.setPreferredSize(new Dimension(600, 800));
         ButtonZone.setBackground(new Color(255, 255, 255, 0));
-        ButtonZone.setBorder(new EmptyBorder(50,100,0,50));
+        ButtonZone.setBorder(new EmptyBorder(0,100,0,50));
         ButtonZone.setOpaque(false);
 
         playButton = new MainMenuButton("PLAY", 40);
@@ -94,12 +96,21 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         creditButton = new MainMenuButton("Credits");
         exitButton = new MainMenuButton("Exit");
 
+        ButtonZone.add(Title);
         ButtonZone.add(playButton);
         ButtonZone.add(yourDecksButton);
         ButtonZone.add(tutorialButton);
         ButtonZone.add(settingsButton);
         ButtonZone.add(creditButton);
         ButtonZone.add(exitButton);
+
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel,BoxLayout.Y_AXIS));
+        rightPanel.add(Box.createVerticalGlue());
+        rightPanel.add(ButtonZone);
+        rightPanel.add(Box.createVerticalGlue());
+        rightPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        ButtonZone.setPreferredSize(new Dimension(600,700));
 
         animation = new MainMenuAnimation();
 
@@ -110,10 +121,30 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         creditButton.addActionListener(this);
         exitButton.addActionListener(this);
 
-        mainPanel.add(TitlePanel, BorderLayout.NORTH);
-        mainPanel.add(ButtonZone, BorderLayout.WEST);
-        mainPanel.add(animation,BorderLayout.CENTER);
+        JPanel animationPanel = new JPanel();
+        animationPanel.setLayout(new BoxLayout(animationPanel,BoxLayout.X_AXIS));
+        Box verticalBox = Box.createVerticalBox();
+        verticalBox.add(Box.createVerticalGlue());
+        verticalBox.add(animation);
+        verticalBox.add(Box.createVerticalGlue());
+        animationPanel.add(verticalBox);
+        animationPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+        mainPanel.add(animationPanel,BorderLayout.WEST);
         mainFrame.addKeyListener(this);
+        String resolution = SettingController.resolutionList.get(UserPreference.getInstance().getResolutionIndex());
+        if (resolution.equals("1366x768")){
+            ButtonZone.setPreferredSize(new Dimension(600,520));
+            Title.setFont(SharedResource.getCustomSizeFont(64));
+            animation.updateSize(480,360);
+            playButton.setFont(SharedResource.getCustomSizeFont(46));
+            yourDecksButton.setFont(SharedResource.getCustomSizeFont(36));
+            tutorialButton.setFont(SharedResource.getCustomSizeFont(36));
+            settingsButton.setFont(SharedResource.getCustomSizeFont(36));
+            creditButton.setFont(SharedResource.getCustomSizeFont(36));
+            exitButton.setFont(SharedResource.getCustomSizeFont(36));
+        }
         setupMainPanel();
     }
 

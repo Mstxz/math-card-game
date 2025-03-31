@@ -81,7 +81,6 @@ public class PopupMenu extends JPanel {
         updateMenuPanel();
 
         add(mainButton, BorderLayout.NORTH);
-        //add(menuPanel, BorderLayout.CENTER);
         setSelectedIndex(0);
     }
 

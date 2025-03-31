@@ -2,8 +2,10 @@ package GUI.Page;
 
 import AudioPlayer.BGMPlayer;
 import AudioPlayer.SFXPlayer;
+import GUI.Component.MainMenuAnimation;
 import GUI.Component.MainMenuButton;
 import GUI.Router;
+import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
 import Gameplay.Bot.Mystyr;
 import Gameplay.Bot.Who;
@@ -28,9 +30,7 @@ public class SelGameMode extends Page implements ActionListener, KeyListener {
     private JLabel Title;
     private MainMenuButton playerButton = new MainMenuButton("Player vs Player");
     private MainMenuButton botButton = new MainMenuButton("Player vs Bot");
-    private MainMenuButton exitButton = new MainMenuButton("exit");
     private MainMenuButton backButton = new MainMenuButton("Back");
-    private MainMenuButton selectBotButton = new MainMenuButton("Select Bot Test");
 
     private Image bg;
 
@@ -91,6 +91,22 @@ public class SelGameMode extends Page implements ActionListener, KeyListener {
         ButtonZone.setBorder(new EmptyBorder(50,100,0,50));
         ButtonZone.setOpaque(false);
 
+
+//        ButtonZone.add(exitButton);
+//        setButton(exitButton);
+        Title = new JLabel("Purr-fect Equations");
+        Title.setForeground(SharedResource.SIAMESE_BASE);
+        Title.setBorder(new EmptyBorder(0, 50, 0, 0));
+        Title.setFont(SharedResource.getCustomSizeFont(100));
+
+
+        ButtonZone = new JPanel();
+        ButtonZone.setLayout(new BoxLayout(ButtonZone, BoxLayout.Y_AXIS));
+        ButtonZone.setPreferredSize(new Dimension(600, 800));
+        ButtonZone.setBackground(new Color(255, 255, 255, 0));
+        ButtonZone.setBorder(new EmptyBorder(0,100,0,50));
+        ButtonZone.setOpaque(false);
+
         ButtonZone.add(playerButton);
         setButton(playerButton);
         ButtonZone.add(botButton);
@@ -99,12 +115,44 @@ public class SelGameMode extends Page implements ActionListener, KeyListener {
 //        setButton(selectBotButton);
         ButtonZone.add(backButton);
         setButton(backButton);
-//        ButtonZone.add(exitButton);
-//        setButton(exitButton);
 
-        mainPanel.add(TitlePanel, BorderLayout.NORTH);
-        mainPanel.add(ButtonZone, BorderLayout.CENTER);
+        ButtonZone.add(Title);
+        ButtonZone.add(playerButton);
+        ButtonZone.add(botButton);
+        ButtonZone.add(backButton);
+
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel,BoxLayout.Y_AXIS));
+        rightPanel.add(Box.createVerticalGlue());
+        rightPanel.add(ButtonZone);
+        rightPanel.add(Box.createVerticalGlue());
+        rightPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        ButtonZone.setPreferredSize(new Dimension(600,700));
+
+        JLabel picture = new JLabel();
+        picture.setIcon(ResourceLoader.loadPicture("assets/SelectMode.webp",800,600));
+
+        JPanel animationPanel = new JPanel();
+        animationPanel.setLayout(new BoxLayout(animationPanel,BoxLayout.X_AXIS));
+        Box verticalBox = Box.createVerticalBox();
+        verticalBox.add(Box.createVerticalGlue());
+        verticalBox.add(picture);
+        verticalBox.add(Box.createVerticalGlue());
+        animationPanel.add(verticalBox);
+        animationPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+        mainPanel.add(animationPanel,BorderLayout.WEST);
         mainFrame.addKeyListener(this);
+        String resolution = SettingController.resolutionList.get(UserPreference.getInstance().getResolutionIndex());
+        if (resolution.equals("1366x768")){
+            ButtonZone.setPreferredSize(new Dimension(600,520));
+            Title.setFont(SharedResource.getCustomSizeFont(64));
+            playerButton.setFont(SharedResource.getCustomSizeFont(36));
+            botButton.setFont(SharedResource.getCustomSizeFont(36));
+            backButton.setFont(SharedResource.getCustomSizeFont(36));
+            picture.setIcon(ResourceLoader.loadPicture("assets/SelectMode.webp",480,360));
+        }
         setupMainPanel();
     }
 
