@@ -162,7 +162,13 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             Router.setRoute("SelMode",null);
         }
         else if (e.getSource().equals(exitButton)){
-            System.exit(0);
+            showOverlay(new MenuConfirm(this, "Are you sure to exit?") {
+                @Override
+                public void onConfirm() {   System.exit(0); }
+
+                @Override
+                public void onDenied() {    this.setVisible(false); }
+            }, OverlayPlacement.CENTER);
         }
         else if (e.getSource().equals(yourDecksButton)){
             Loader loadingScreen = new Loader(this,"Loading Your Deck..."){
@@ -200,10 +206,13 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             return;
         code = e.getKeyCode();
         if (code == KeyEvent.VK_ESCAPE){
-            System.exit(0);
-//            this.overlayPanel.setLayout(new BorderLayout());
-//            this.showOverlay(new OverlayPanel(this));
-//            this.setBackdropDim(true);
+            showOverlay(new MenuConfirm(this, "Are you sure to exit?") {
+                @Override
+                public void onConfirm() {   System.exit(0); }
+
+                @Override
+                public void onDenied() {    this.setVisible(false); }
+            }, OverlayPlacement.CENTER);
         }
     }
 

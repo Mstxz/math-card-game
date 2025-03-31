@@ -113,7 +113,8 @@ public class CardInspector extends JPanel implements MouseListener, KeyListener 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-		if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_SPACE){
+//		if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_SPACE){ // TODO Reconfigure keyBinding of keyListener
+		if (code != KeyEvent.VK_ESCAPE){
 			SFXSwitcher.cardDescDown(card);
 			this.removeAll();
 			this.removeMouseListener(this);
