@@ -57,4 +57,15 @@ public class AchievementProfile implements Serializable {
     public static void setIsWinOmmThuk(boolean isWinOmmThuk) {
         AchievementProfile.isWinOmmThuk = isWinOmmThuk;
     }
+
+    @Override
+    public String toString() {
+        return "AchievementProfile{" +
+                "\n    isWinArsr: " + isWinArsr +
+                "\n    isWinPupr: " + isWinPupr +
+                "\n    isWinMystyr: " + isWinMystyr +
+                "\n    isWinWho: " + isWinWho +
+                "\n    isWinOmmThuk: " + isWinOmmThuk +
+                "\n}";
+    }
 }

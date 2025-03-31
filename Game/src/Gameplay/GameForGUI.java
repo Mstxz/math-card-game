@@ -146,7 +146,7 @@ public class GameForGUI extends Game {
             UserPreference.getInstance().getAchievementProfile().isWinOmmThuk = true;
         }
         UserPreference.writeFile();
-        System.out.println(UserPreference.getInstance().getAchievementProfile());
+        System.out.println(UserPreference.getInstance().getAchievementProfile().toString());
     }
 
     @Override

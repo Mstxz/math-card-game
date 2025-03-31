@@ -173,8 +173,9 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		endTurnPanel.add(howtoplayButton);
 		endTurnPanel.add(Box.createVerticalStrut(50));
 		endTurnPanel.add(endTurnButton);
-		endTurnPanel.setPreferredSize(new Dimension(300, 200));
-		endTurnPanel.setBorder(new EmptyBorder(0,0,0,40));
+		endTurnPanel.setPreferredSize(new Dimension(300, 400));
+		endTurnPanel.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,4));
+
 
 
 		turnCount = new TurnCount();
