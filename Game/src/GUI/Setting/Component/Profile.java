@@ -30,7 +30,7 @@ public class Profile extends JPanel implements ActionListener {
 
     private JLabel selectedProfile;
     private JLabel profileNameLabel;
-    private JTextArea descriptionLabel;
+    private JLabel descriptionLabel;
 
     private ProfilePicture selectedImage;
     private String selectedKey;
@@ -86,13 +86,12 @@ public class Profile extends JPanel implements ActionListener {
 
         selectedProfile = new JLabel(selectedImage.getImage());
         profileNameLabel = new JLabel(selectedImage.getProfileName());
-        descriptionLabel = new JTextArea(selectedImage.getDescription());
+        descriptionLabel = new JLabel(selectedImage.getDescription());
         profileNameLabel.setFont(SharedResource.getCustomSizeFont(28));
         profileNameLabel.setForeground(SharedResource.SIAMESE_BRIGHT);
         descriptionLabel.setForeground(SharedResource.SIAMESE_BRIGHT);
         descriptionLabel.setOpaque(false);
         descriptionLabel.setFont(SharedResource.getCustomSizeFont(20));
-        descriptionLabel.setColumns(30);
 
         panel2.add(selectedProfile,BorderLayout.WEST);
         panel2.setOpaque(false);
@@ -110,7 +109,7 @@ public class Profile extends JPanel implements ActionListener {
         panel3.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,40,40));
         panel3.setLayout(new FlowLayout(FlowLayout.CENTER,30,30));
         panel3.setBorder(new EmptyBorder(10,10,10,10));
-        panel3.setPreferredSize(new Dimension(300,1000));
+        panel3.setPreferredSize(new Dimension(300,1600));
         for (String s : UserProfile.profilePictureList.keySet()) {
             ProfilePicture o = UserProfile.profilePictureList.get(s);
             o.getButton().setPreferredSize(new Dimension(150,150));
@@ -172,12 +171,16 @@ public class Profile extends JPanel implements ActionListener {
             }
         }
         else if (e.getSource() instanceof JButton){
+            selectedImage.setSelect(false);
             ProfilePicture o =UserProfile.profilePictureList.get(((JButton) e.getSource()).getName());
             selectedKey = ((JButton) e.getSource()).getName();
             selectedImage = o;
+            selectedImage.setSelect(true);
             selectedProfile.setIcon(selectedImage.getImage());
             profileNameLabel.setText(selectedImage.getProfileName());
-            descriptionLabel.setText(selectedImage.getDescription());
+            descriptionLabel.setText("<html><div style='text-align: left; display: flex; justify-content: center;'>"+selectedImage.getDescription()+"</div></html>");
+            panel3.revalidate();
+            panel3.repaint();
             }
         }
     }

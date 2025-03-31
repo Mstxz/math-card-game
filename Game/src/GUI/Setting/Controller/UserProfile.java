@@ -29,6 +29,16 @@ public class UserProfile implements Serializable {
         profilePictureList.put("Who",new ProfilePicture("Who","Who tf is this?"));
         profilePictureList.put("Heyla",new ProfilePicture("Heyla","Often mistaken as Omm Thuk's son."));
         profilePictureList.put("Omm Thuk",new ProfilePicture("Omm Thuk","Omm Thuk."));
+        profilePictureList.put("CC",new ProfilePicture("CC","Eat crab too much, turn to pink."));
+        profilePictureList.put("Land",new ProfilePicture("Land","Best friend of Moon."));
+        profilePictureList.put("Moon",new ProfilePicture("Moon","Best friend of Land."));
+        profilePictureList.put("Laser",new ProfilePicture("Laser","Did you guy forget me?? (Best friend of Moon and Land"));
+        profilePictureList.put("Mai Kai Ya Sit",new ProfilePicture("Mai Kai Ya Sit","Maybe he has some magic."));
+        profilePictureList.put("More",new ProfilePicture("More","Peeranat Madlek"));
+        profilePictureList.put("Ngian",new ProfilePicture("Ngian","Move over from far sea."));
+        profilePictureList.put("Chen",new ProfilePicture("Chen","Big brother of Ngian."));
+        profilePictureList.put("Sam Nak Ngan",new ProfilePicture("Sam Nak Ngan","People call him \"Sam Nak Ngan\" cause he lives at Sam Nak Ngan.(Office in Thai)"));
+        profilePictureList.put("Sheen",new ProfilePicture("Sheen","Did someone use grammar of Meow wrong!?"));
         //profilePictureList.put("Klong ha",new ProfilePicture("Klong ha","Klong Eng Ha", "assets/Profile/Klong ha.jpg"));
         //profilePictureList.put("Clown",new ProfilePicture("Clown","Heavy is teammate", "assets/Profile/Clown.png"));
         //profilePictureList.put("Pleng's cat",new ProfilePicture("Pleng's cat","I don't know, this is not my cat!", "assets/Profile/Pleng's cat.png"));

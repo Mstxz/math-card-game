@@ -48,13 +48,13 @@ public class CreditProfile extends JPanel {
         quoteLabel.setHorizontalAlignment(SwingConstants.CENTER);
         quoteLabel.setOpaque(false);
         quoteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        quoteLabel.setFont(SharedResource.getCustomSizeFont(20));
+        quoteLabel.setFont(SharedResource.getCustomSizeFont(16));
 
         /*Add Everything*/
         add(profilePicture);
         add(profileNameLabel);
         add(jobLabel);
-        if(Router.getMainFrame().getWidth() >= 1920){
+        if(Router.getMainFrame().getWidth() >= 1366){
             add(quoteLabel);
         }
     }

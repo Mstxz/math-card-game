@@ -38,7 +38,7 @@ public class CreditPage extends Page {
         creditPanel.add(new CreditProfile("Pooh","Who.webp", "Back-End", "Don't lie on the resume."));
         creditPanel.add(new CreditProfile("Few","More.webp", "Game design,Slave owner", "No pain no gain, go rich or go home"));
         creditPanel.add(new CreditProfile("TeeIT","Mystyr.webp", "Front-end, UI/UX", "I love to catch bugs in my computer."));
-        creditPanel.add(new CreditProfile("Ja","Mystyr.webp", "Front-End", "Never gonna give you up"));
+        creditPanel.add(new CreditProfile("Ja","Chen.webp", "Front-End", "Never gonna give you up"));
         creditPanel.add(new CreditProfile("Nice","Mystyr.webp", "Front-End", "Everything you can imagine is REAL!"));
         creditPanel.add(new CreditProfile("Klong Eng Ha","Klong ha.webp", "Actor", "Klong eng Ha, Klong isn't a member of this group Ha."));
 
