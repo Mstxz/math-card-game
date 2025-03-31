@@ -15,8 +15,8 @@ public class Deck {
     public static Deck LoadDeck(String name) throws FileNotFoundException{
         File deckFile = new File("Assets/"+name+".deck");
         Deck d = new Deck(name);
-        try {
-            Scanner sc = new Scanner(deckFile);
+        try (Scanner sc = new Scanner(deckFile)){
+
             while (sc.hasNextLine()){
                 String card = sc.nextLine();
                 String info[] = card.split(" ");

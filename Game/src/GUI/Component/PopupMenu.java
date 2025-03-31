@@ -142,7 +142,7 @@ public class PopupMenu extends JPanel {
                 DeckCreatorPage.showCardAmount.setCardAmount(tmp.getCards().size());
             }
             catch (FileNotFoundException ex){
-
+                DeckCreatorPage.showCardAmount.setCardAmount(0);
             }
         PopupItem.deckZone.setAllCardLabel(PopupItem.deckZone.createCardLabelSet(cardList));
         PopupItem.deckZone.update();
@@ -162,6 +162,7 @@ public class PopupMenu extends JPanel {
             }
 
         }
+
         int count = 0;
         items.clear();
         for (File i: fileList){

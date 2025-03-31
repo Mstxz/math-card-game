@@ -74,4 +74,15 @@ public class TempDeckZone extends JPanel {
         revalidate();
         repaint();
     }
+
+    public void clear(){
+        for (CardLabel cardLabel:allCardLabel){
+            cardLabel.setAmount(0);
+        }
+        allCardLabel.clear();
+        removeAll();
+        DeckCreatorPage.showCardAmount.setCardAmount(0);
+        revalidate();
+        repaint();
+    }
 }

@@ -360,7 +360,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         PopupMenuPanel.setBackground(PopupMenuPanel.getParent().getBackground());
         p.setBackground(p.getParent().getBackground());
-
+        setupMainPanel();
     }
     public static Dimension calculateDimension(){
         int column = paRightBottom.getWidth() / 235;
@@ -462,8 +462,8 @@ public class DeckCreatorPage extends Page implements ActionListener {
             }
             File f = new File("Assets/"+ popupMenu.getCurrentName() +".deck");
             System.out.println("Have File");
-            try {
-                FileOutputStream out = new FileOutputStream(f);
+            try (FileOutputStream out = new FileOutputStream(f);){
+
                 CardLabel[] s = new CardLabel[tempDeckZone.getAllCardLabel().size()];
                 s = tempDeckZone.getAllCardLabel().toArray(s);
                 for (int i = 0;i<s.length;i++){
@@ -492,9 +492,18 @@ public class DeckCreatorPage extends Page implements ActionListener {
             catch (FileNotFoundException ex){
                 System.out.println("FileNotFound Error");
                 return;
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
+            System.out.println();
+            String oldName = popupMenu.getCurrentDeck().getFileName();
             popupMenu.setUpItem();
-            System.out.println("Write");
+            for (int i=0;i<PopupMenu.items.size();i++){
+                if (PopupMenu.items.get(i).getFileName().equals(oldName)){
+                    popupMenu.setSelectedIndex(i);
+                    break;
+                }
+            }
         }
         else if (e.getSource().equals(createButton.getButton())) {
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
@@ -504,31 +513,43 @@ public class DeckCreatorPage extends Page implements ActionListener {
                     JOptionPane.showMessageDialog(this.mainFrame,"Already Have File","",JOptionPane.ERROR_MESSAGE,ResourceLoader.loadPicture("assets/Component/DownArrow.png"));
                     return;
                 }
-                PopupMenu.items.add(new PopupItem(newName,PopupMenu.items.size()));
+                PopupItem newItem = new PopupItem(newName,PopupMenu.items.size());
+                PopupMenu.items.add(newItem);
                 popupMenu.updateMenuPanel();
-                popupMenu.setSelectedIndex(PopupMenu.items.size()-1);
+                popupMenu.setSelectedIndex(PopupMenu.items.indexOf(newItem));
                 tempDeckZone.setAllCardLabel(new HashSet<CardLabel>());
+                tempDeckZone.clear();
                 tempDeckZone.update();
             }
         }
         else if (e.getSource().equals(deleteButton.getButton())) {
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
-            File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
-            if (f.delete()) {
-                System.out.println("Delete old deck");
-            }
-            popupMenu.setUpItem();
-            popupMenu.setSelectedIndex(0);
+            ConfirmMenu confirmMenu = new ConfirmMenu(this,"Do you want to delete this deck?"){
+                @Override
+                public void onConfirm() {
+                    File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
+                    if (f.delete()) {
+                        System.out.println("Deleting: Assets/"+ popupMenu.getCurrentDeck().getFileName());
+                    }
+                    else{
+                        System.out.println( "Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck is not deleted.");
+                    }
+                    popupMenu.setUpItem();
+                    popupMenu.setSelectedIndex(0);
+                }
+            };
+            confirmMenu.setVisible(true);
+
         }
         else if (e.getSource().equals(clearButton.getButton())) {
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Action.wav");
-            for (CardLabel cardLabel:tempDeckZone.allCardLabel){
-                cardLabel.setAmount(0);
-            }
-            tempDeckZone.allCardLabel.clear();
-            tempDeckZone.removeAll();
-            tempDeckZone.revalidate();
-            tempDeckZone.repaint();
+            ConfirmMenu confirmMenu = new ConfirmMenu(this,"Do you want to clear all card in this deck?"){
+                @Override
+                public void onConfirm() {
+                    tempDeckZone.clear();
+                }
+            };
+            confirmMenu.setVisible(true);
         }
     }
 
