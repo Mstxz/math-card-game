@@ -64,6 +64,7 @@ public class Router implements ComponentListener {
             case "Setting" -> new SettingPage();
             case "SelBot" -> new SelectBotRoom();
             case "Tutorial" -> new TutorialPage();
+            case "Credit" -> new CreditPage();
             default -> null;
         };
 
