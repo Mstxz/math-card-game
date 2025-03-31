@@ -74,6 +74,7 @@ public class GameForGUI extends Game {
                         Thread.sleep(750);
                         System.out.println(c.getName()+" "+c.getType().toString());
                     }
+                    System.out.println("Bot End");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

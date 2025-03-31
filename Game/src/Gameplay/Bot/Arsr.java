@@ -39,8 +39,8 @@ public class Arsr extends Bot{
             if (turnCount%3 == 0){
                 isClumsy = true;
                 System.out.println("Clumsy turn");
-                int index = (int)(Math.random()*getHand().size());
-                c = this.getHand().remove(index);
+                int index = (int)(Math.random()*playable.size());
+                c = this.getHand().remove((int) playable.get(index));
                 realTarget = (int)(Math.random()*2);
                 isRealPlay = true;
                 c.action(self, enemy);
@@ -67,6 +67,7 @@ public class Arsr extends Bot{
                     Card tmp = self.getHand().get(i);
                     if (tmp instanceof SleepyCat || tmp instanceof CatNap || tmp instanceof AngryCat || tmp instanceof CatClown) {
                         index = i;
+                        mostValue = 100;
                         break;
                     }
                     int compare;
@@ -131,6 +132,9 @@ public class Arsr extends Bot{
 
                 }
                 if (mostValue == 0){
+                    System.out.println("Not Playing, value = 0");
+                    System.out.println("Arsr: "+self.getHand().toString());
+                    System.out.println("Arsr: "+playable.toString());
                     return null;
                 }
                 isRealPlay = true;
