@@ -193,7 +193,11 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         }
         else if (e.getSource().equals(tutorialButton)){
             animation.stop();
-            Router.setRoute("Tutorial",null);
+            (new HowToPlaySlide(this)).setVisible(
+                    true
+            );
+
+            //Router.setRoute("Tutorial",null);
         }
         else if (e.getSource().equals(creditButton)){
             animation.stop();

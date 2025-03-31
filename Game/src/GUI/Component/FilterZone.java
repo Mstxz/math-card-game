@@ -57,7 +57,7 @@ public class FilterZone extends JPanel {
 
         zone1.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT));
         zone2.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT));
-
+        this.setBackground(SharedResource.SIAMESE_LIGHT);
         //zone1.setPreferredSize(new Dimension(500,500));
         this.add(zone1);
         this.add(zone2);
