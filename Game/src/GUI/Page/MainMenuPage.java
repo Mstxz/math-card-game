@@ -113,7 +113,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.WEST);
         mainPanel.add(animation,BorderLayout.CENTER);
-        //this.getMainFrame().addKeyListener(this);
+        mainFrame.addKeyListener(this);
         setupMainPanel();
     }
 
@@ -158,6 +158,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             animation.stop();
             Router.setRoute("Tutorial",null);
         }
+        this.mainFrame.removeKeyListener(this);
     }
 
     @Override
