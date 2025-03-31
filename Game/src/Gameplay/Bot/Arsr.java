@@ -21,7 +21,7 @@ public class Arsr extends Bot{
 
     private boolean isClumsy = false;
     public Arsr(){
-        super("Arsr","assets/Profile/Arsr.webp","He's a weird cat that like a math too much. But he's very clumsy, If we tried, I think we're winnable! (He has a big crush on Pupr, Or is it his weakness!?)","a");
+        super("Arsr","assets/BotProfile/Bot_Arsr.webp","He's a weird cat that like a math too much. But he's very clumsy, If we tried, I think we're winnable! (He has a big crush on Pupr, Or is it his weakness!?)","a");
     }
 
     @Override
