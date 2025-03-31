@@ -2,8 +2,6 @@ package Gameplay.Bot;
 
 import Gameplay.Card;
 import Gameplay.CardType;
-import Gameplay.Cards.AngryCat;
-import Gameplay.Cards.CatClown;
 import Gameplay.Cards.CatNap;
 import Gameplay.Cards.SleepyCat;
 import Gameplay.Numbers.Constant;
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 
 public class OmmThuk extends Bot{
     public OmmThuk(){
-        super("OmmThuk","assets/Profile/Omm Thuk.webp","He's the professor of Omm Thuk University. He is the one who made this game cause his student is fail in the math test more than 80% of class (It's not becase he is a bad professor, but his exam is too hard)","a");
+        super("OmmThuk", "assets/Profile/Morning Sunday.webp","He's the professor of Omm Thuk University. He is the one who made this game cause his student is fail in the math test more than 80% of class (It's not becase he is a bad professor, but his exam is too hard)","a");
     }
     private int playerTest = 0;
 

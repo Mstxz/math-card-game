@@ -1,7 +1,8 @@
 package Gameplay;
 
 import GUI.Component.Game;
-import Gameplay.Bot.Bot;
+import GUI.Setting.UserPreference;
+import Gameplay.Bot.*;
 import Gameplay.Numbers.Constant;
 
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class GameForGUI extends Game {
                         observer.onCardPlayed();
                         ArrayList<Integer> loseList = Player.checkLose(turnOrder);
                         if(!loseList.isEmpty()){
+                            saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
                             observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
                             return;
                         }
@@ -89,6 +91,7 @@ public class GameForGUI extends Game {
                 }
                 ArrayList<Integer> loseList = Player.checkLose(turnOrder);
                 if(!loseList.isEmpty()){
+                    saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
                     observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
                     return;
                 }
@@ -113,10 +116,38 @@ public class GameForGUI extends Game {
             }
         }
         winner.add(null);
+        if (!(winner.getFirst() instanceof Bot)){
+            System.out.println(winner.getFirst());
+        }
+        System.out.println("End if");
+        saveAchievement(winner.getFirst());
         observer.onGameEnded(winner.getFirst());
     }
 
-
+    public void saveAchievement(Player winner){
+        System.out.println("Save Achievement");
+        if (winner == null || winner instanceof Bot){
+            return;
+        }
+        System.out.println("Save...");
+        if (turnOrder.get((playerOrder+1)%2) instanceof Pupr){
+            UserPreference.getInstance().getAchievementProfile().isWinPupr = true;
+        }
+        else if (turnOrder.get((playerOrder+1)%2) instanceof Arsr){
+            UserPreference.getInstance().getAchievementProfile().isWinArsr = true;
+        }
+        else if (turnOrder.get((playerOrder+1)%2) instanceof Who){
+            UserPreference.getInstance().getAchievementProfile().isWinWho = true;
+        }
+        else if (turnOrder.get((playerOrder+1)%2) instanceof Mystyr){
+            UserPreference.getInstance().getAchievementProfile().isWinMystyr = true;
+        }
+        else if (turnOrder.get((playerOrder+1)%2) instanceof OmmThuk){
+            UserPreference.getInstance().getAchievementProfile().isWinOmmThuk = true;
+        }
+        UserPreference.writeFile();
+        System.out.println(UserPreference.getInstance().getAchievementProfile());
+    }
 
     @Override
     public boolean isGameEnded(){

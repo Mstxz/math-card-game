@@ -109,7 +109,7 @@ public class Profile extends JPanel implements ActionListener {
         panel3.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,40,40));
         panel3.setLayout(new FlowLayout(FlowLayout.CENTER,30,30));
         panel3.setBorder(new EmptyBorder(10,10,10,10));
-        panel3.setPreferredSize(new Dimension(300,1650));
+        panel3.setPreferredSize(new Dimension(300,1900));
         for (String s : UserProfile.profilePictureList.keySet()) {
             ProfilePicture o = UserProfile.profilePictureList.get(s);
             o.getButton().setPreferredSize(new Dimension(150,150));

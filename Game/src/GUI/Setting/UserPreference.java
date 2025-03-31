@@ -2,6 +2,7 @@ package GUI.Setting;
 
 import GUI.Component.RotatingSettingOption;
 import GUI.Setting.Component.Profile;
+import GUI.Setting.Controller.AchievementProfile;
 import GUI.Setting.Controller.UserProfile;
 
 import java.io.*;
@@ -12,6 +13,7 @@ public class UserPreference implements Serializable {
     private int MusicVolume;
     private static UserPreference userPreference = null;
     private UserProfile profile;
+    private AchievementProfile achievementProfile;
 
     public static UserPreference getInstance(){
         if (userPreference==null){
@@ -48,6 +50,7 @@ public class UserPreference implements Serializable {
         this.MusicVolume = 50;
         this.SFXVolume = 50;
         this.profile = new UserProfile();
+        this.achievementProfile = new AchievementProfile();
     }
 
     private UserPreference(int resolutionIndex){
@@ -81,6 +84,14 @@ public class UserPreference implements Serializable {
 
     public UserProfile getProfile() {
         return profile;
+    }
+
+    public AchievementProfile getAchievementProfile() {
+        return achievementProfile;
+    }
+
+    public void setAchievementProfile(AchievementProfile achievementProfile) {
+        this.achievementProfile = achievementProfile;
     }
 
     public void setProfile(UserProfile profile) {

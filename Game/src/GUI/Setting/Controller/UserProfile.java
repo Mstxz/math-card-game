@@ -40,6 +40,21 @@ public class UserProfile implements Serializable {
         profilePictureList.put("Sam Nak Ngan",new ProfilePicture("Sam Nak Ngan","People call him \"Sam Nak Ngan\" cause he lives at Sam Nak Ngan.(Office in Thai)"));
         profilePictureList.put("Sheen",new ProfilePicture("Sheen","Did someone use grammar of Meow wrong!?"));
         profilePictureList.put("Mystyr",new ProfilePicture("Mystyr","Just a normal DJ"));
+        if (AchievementProfile.isWinPupr){
+            profilePictureList.put("Huh Bob",new ProfilePicture("Huh Bob","What this you just say huh?"));
+        }
+        if (AchievementProfile.isWinArsr){
+            profilePictureList.put("Romance Cat",new ProfilePicture("Romance Cat","Nah I just tell you, he loves Pupr <3"));
+        }
+        if (AchievementProfile.isWinOmmThuk){
+            profilePictureList.put("Morning Sunday",new ProfilePicture("Morning Sunday","Prof. Omm Thuk is just a cat in the eyes of his owner."));
+        }
+        if (AchievementProfile.isWinMystyr){
+            profilePictureList.put("Night Light",new ProfilePicture("Night Light","Listen to music and enjoy the long night."));
+        }
+        if (AchievementProfile.isWinWho){
+            profilePictureList.put("43 Park Popular",new ProfilePicture("43 Park Popular","\"Look! A Little Kid, I'll show you how to be loved by human\""));
+        }
         //profilePictureList.put("Klong ha",new ProfilePicture("Klong ha","Klong Eng Ha", "assets/Profile/Klong ha.jpg"));
         //profilePictureList.put("Clown",new ProfilePicture("Clown","Heavy is teammate", "assets/Profile/Clown.png"));
         //profilePictureList.put("Pleng's cat",new ProfilePicture("Pleng's cat","I don't know, this is not my cat!", "assets/Profile/Pleng's cat.png"));
