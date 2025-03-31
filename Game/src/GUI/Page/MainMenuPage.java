@@ -113,7 +113,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.WEST);
         mainPanel.add(animation,BorderLayout.CENTER);
-        this.getMainFrame().addKeyListener(this);
+        //this.getMainFrame().addKeyListener(this);
         setupMainPanel();
     }
 

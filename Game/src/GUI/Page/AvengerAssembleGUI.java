@@ -49,28 +49,10 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private TurnCount turnCount;
 	private Game game;
 	public boolean	isBlocked;
-	private final AncestorListener listener;
 	private Random rand = new Random();
 
 	public AvengerAssembleGUI(Game game) {
 		super();
-		listener = new AncestorListener() {
-			@Override
-			public void ancestorAdded(AncestorEvent event) {
-				mainPanel.requestFocus();
-			}
-
-			@Override
-			public void ancestorRemoved(AncestorEvent event) {
-
-			}
-
-			@Override
-			public void ancestorMoved(AncestorEvent event) {
-
-			}
-		};
-		mainPanel.addAncestorListener(listener);
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
 		this.isBlocked = false;
 		this.game = game;
@@ -84,19 +66,17 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		activeOpponent = 0;
 		quitMenu = new GameMenu(this);
 
-		mainPanel.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
+		mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
 		mainPanel.getActionMap().put("quit", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (quitMenu.isVisible()){
 					quitMenu.setVisible(false);
 					removeOverlay(quitMenu);
-					isBlocked = false;
 				}
 				else{
 					showOverlay(quitMenu,OverlayPlacement.CENTER);
 					quitMenu.setVisible(true);
-					isBlocked = true;
 				}
 
 			}
@@ -388,7 +368,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		game.notifyQuit();
 		mainPanel.getInputMap().remove(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
 		mainPanel.getActionMap().remove("quit");
-		mainPanel.removeAncestorListener(listener);
 		Router.setRoute("MainMenu",null);
 	}
 }
