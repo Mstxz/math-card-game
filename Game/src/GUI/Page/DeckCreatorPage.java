@@ -327,14 +327,16 @@ public class DeckCreatorPage extends Page implements ActionListener {
         // paRightTop is filter button and paRightBottom is card show
 
         paRight = new JPanel();
+        paRight.setUI(new RoundPanelUI(SharedResource.SIAMESE_LIGHT));
         paRight.setLayout(new BorderLayout());
         paRight.setBackground(SharedResource.SIAMESE_LIGHT);
+        paRight.setBorder(new EmptyBorder(10,10,30,10));
 
         paRightTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         //paRightTop.setOpaque(false);
 
         paRightTop.add(filterZone);
-
+        paRightTop.setBackground(SharedResource.SIAMESE_LIGHT);
 
 
 
@@ -349,6 +351,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(null);
 
         paRight.add(scrollPane, BorderLayout.CENTER);
 

@@ -280,7 +280,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	public void playCard(int cardIndex,Player receiver){
 		game.playerPlay(cardIndex,receiver);
 		if (game.isGameEnded()){
-			onGameEnded(Player.checkWin(game.getTurnOrder()));
+			game.notifyEndTurn();
 		}
 	}
 
