@@ -49,6 +49,12 @@ public class CardLabel extends JPanel {
 
     public void setAmount(int amount) {
         this.amount = amount;
+        if (amount == 3){
+            this.cardAmountLabel.setForeground(SharedResource.SKYBLUE_DARK);
+        }
+        else{
+            this.cardAmountLabel.setForeground(SharedResource.SIAMESE_DARK);
+        }
         this.cardAmountLabel.setText("x"+String.valueOf(amount));
     }
 

@@ -83,7 +83,7 @@ public class RoundPanelUI extends PanelUI {
         if (borderColor != null){
             g2d.setColor(borderColor);
             g2d.setStroke(new BasicStroke(borderWidth));
-            g2d.drawRoundRect(borderWidth/2,borderWidth/2,c.getWidth()-borderWidth,c.getHeight()-borderWidth,arcWidth,arcHeight);
+            g2d.drawRoundRect(borderWidth/2,borderWidth/2,c.getWidth()-borderWidth,c.getHeight()-borderWidth,arcWidth-borderWidth,arcHeight-borderWidth);
         }
     }
 

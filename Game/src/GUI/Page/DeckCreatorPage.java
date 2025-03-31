@@ -125,10 +125,7 @@ import AudioPlayer.SFXPlayer;
 import GUI.Component.*;
 import GUI.Component.PopupMenu;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,8 +217,9 @@ public class DeckCreatorPage extends Page implements ActionListener {
 
         loadButton();
         popupMenu = new PopupMenu();
+        JPanel menu = popupMenu.getMenuPanel();
         PopupItem.menu = popupMenu;
-        JPanel PopupMenuPanel = new JPanel(new FlowLayout());
+        JPanel PopupMenuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,5,0));
         PopupMenuPanel.add(popupMenu);
         JPanel p = new JPanel();
         p.setLayout(new BorderLayout());
@@ -271,6 +269,34 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deckOption.add(createButton,BorderLayout.EAST);
         deckOption.setBackground(SharedResource.SIAMESE_LIGHT);
 
+        JPanel deckWrapper = new JPanel();
+        deckWrapper.setPreferredSize(new Dimension(480,600));
+        deckWrapper.setBackground(SharedResource.SIAMESE_BRIGHT);
+        deckWrapper.setLayout(null);
+        deckWrapper.add(menu);
+        deckWrapper.add(deckShow);
+
+        deckWrapper.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                super.componentShown(e);
+                deckShow.setBounds(0,0,deckWrapper.getWidth(),deckWrapper.getHeight());
+                deckShow.revalidate();
+                deckShow.repaint();
+                menu.revalidate();
+                menu.repaint();
+            }
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                deckShow.setBounds(0,0,deckWrapper.getWidth(),deckWrapper.getHeight());
+                deckShow.revalidate();
+                deckShow.repaint();
+                menu.revalidate();
+                menu.repaint();
+            }
+        });
         //ปิดการแสดงผล
         cardScrollPane.setOpaque(false);
         cardScrollPane.getViewport().setOpaque(false);
@@ -285,7 +311,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         tempDeckZone.setBorder(BorderFactory.createEmptyBorder());
         popupMenu.setBorder(BorderFactory.createEmptyBorder());
 
-        mainPanel.add(deckShow, BorderLayout.WEST);
+        mainPanel.add(deckWrapper, BorderLayout.WEST);
 
         // start paRight
         // paRightTop is filter button and paRightBottom is card show

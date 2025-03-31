@@ -15,6 +15,7 @@ import GUI.Page.DeckCreatorPage;
 import Gameplay.Card;
 import Gameplay.Deck;
 import utils.ResourceLoader;
+import utils.UIManager.CustomScrollBarUI;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 
@@ -23,6 +24,7 @@ public class PopupMenu extends JPanel {
     private JButton arrowLabel;
     private JTextField deckName;
     private JPanel menuPanel;
+    private JPanel menuWrapper;
     public static ArrayList<PopupItem> items;
     public int selectedIndex;
     private boolean isMenuVisible = false;
@@ -58,19 +60,34 @@ public class PopupMenu extends JPanel {
         menuPanel.setLayout(new GridLayout(0, 1));
         //menuPanel.setBackground(Color.WHITE);
         //menuPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        menuPanel.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT));
-        menuPanel.setVisible(false);
+        //menuPanel.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,20,20,false,false,true,true));
+        menuPanel.setVisible(true);
+
+        JScrollPane scrollPane = new JScrollPane(menuPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setPreferredSize(new Dimension(330,320));
+        scrollPane.setBorder(null);
+
+        menuWrapper = new JPanel();
+        menuWrapper.setBounds(25,90,350,330);
+        menuWrapper.setBorder(new EmptyBorder(0,10,10,10));
+        menuWrapper.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,20,20,true,true,true,true,SharedResource.SIAMESE_DARK,5));
+        menuWrapper.add(scrollPane);
+
         deckName.setText(items.get(selectedIndex).getFileName());
         updateMenuPanel();
 
         add(mainButton, BorderLayout.NORTH);
-        add(menuPanel, BorderLayout.CENTER);
+        //add(menuPanel, BorderLayout.CENTER);
         setSelectedIndex(0);
     }
 
     public void toggleMenu() {
         isMenuVisible = !isMenuVisible;
-        menuPanel.setVisible(isMenuVisible);
+        getMenuPanel().setVisible(isMenuVisible);
         SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
         revalidate();
         repaint();
@@ -79,14 +96,15 @@ public class PopupMenu extends JPanel {
     public void updateMenuPanel() {
         menuPanel.removeAll();
         for (int i = 0; i < items.size(); i++) {
+            System.out.println(items.get(i).getSize());
             if (i == selectedIndex){
                 continue;
             }
             menuPanel.add(items.get(i));
             items.get(i).setNotLast();
+
         }
         ((PopupItem) menuPanel.getComponents()[menuPanel.getComponents().length-1]).setLast();
-        System.out.println();
         revalidate();
         repaint();
     }
@@ -156,5 +174,9 @@ public class PopupMenu extends JPanel {
 
     public String getCurrentName(){
         return deckName.getText();
+    }
+
+    public JPanel getMenuPanel() {
+        return menuWrapper;
     }
 }

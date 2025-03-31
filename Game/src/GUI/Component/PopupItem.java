@@ -61,12 +61,10 @@ public class PopupItem extends JPanel implements ActionListener, MouseListener {
 
 
     public void setNotLast(){
-        this.setUI(new BasicPanelUI());
         this.setBorder(new MatteBorder(0,0,3,0,SharedResource.SIAMESE_DARK));
     }
 
     public void setLast(){
-        this.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,20,20,false,false,true,true));
         this.setBorder(null);
     }
 

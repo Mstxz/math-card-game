@@ -157,8 +157,10 @@ public class CardButton extends JPanel implements MouseListener,Comparable {
                 deckZonePanel.addCard(cardLabel);
                 index = deckZonePanel.getAllCardLabel().size()-1;
             }
-            cardLabel.setAmount(cardLabel.getAmount() + 1);
-            DeckCreatorPage.showCardAmount.setCardAmount(DeckCreatorPage.showCardAmount.getCardAmount()+1);
+            if (cardLabel.getAmount() < 3){
+                cardLabel.setAmount(cardLabel.getAmount() + 1);
+                DeckCreatorPage.showCardAmount.setCardAmount(DeckCreatorPage.showCardAmount.getCardAmount()+1);
+            }
             deckZonePanel.revalidate();
             deckZonePanel.repaint();
         }
