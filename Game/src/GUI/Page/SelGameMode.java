@@ -13,6 +13,8 @@ import Gameplay.Player;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -20,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import utils.ResourceLoader;
 import utils.SharedResource;
 
-public class SelGameMode extends Page implements ActionListener {
+public class SelGameMode extends Page implements ActionListener, KeyListener {
     private JPanel ButtonZone;
     private JPanel TitlePanel;
     private JLabel Title;
@@ -102,6 +104,7 @@ public class SelGameMode extends Page implements ActionListener {
 
         mainPanel.add(TitlePanel, BorderLayout.NORTH);
         mainPanel.add(ButtonZone, BorderLayout.CENTER);
+        mainFrame.addKeyListener(this);
         setupMainPanel();
     }
 
@@ -145,6 +148,29 @@ public class SelGameMode extends Page implements ActionListener {
         else if (e.getSource().equals(backButton)){
             Router.setRoute("MainMenu",null);
         }
+        this.getMainFrame().removeKeyListener(this);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code;
+
+        if (!this.getMainPanel().isFocusable())
+            return;
+        code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE){
+            this.getMainFrame().removeKeyListener(this);
+            Router.setRoute("MainMenu",null);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
 
     }
 }
