@@ -132,10 +132,7 @@ import AudioPlayer.SFXSwitcher;
 import GUI.Component.*;
 import GUI.Router;
 import GUI.Setting.UserPreference;
-import Gameplay.Bot.Arsr;
-import Gameplay.Bot.Mystyr;
-import Gameplay.Bot.Pupr;
-import Gameplay.Bot.Who;
+import Gameplay.Bot.*;
 import Gameplay.Deck;
 import Gameplay.GameForGUI;
 import Gameplay.Player;
@@ -400,6 +397,7 @@ public class SelectBotRoom extends Page implements ActionListener {
         botList.add(new BotInfo(new Mystyr()));
         botList.add(new BotInfo(new Who()));
         botList.add(new BotInfo(new Arsr()));
+        botList.add(new BotInfo(new OmmThuk()));
     }
 
     private void cleanup(JButton button){
