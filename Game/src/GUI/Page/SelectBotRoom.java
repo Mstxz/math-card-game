@@ -374,7 +374,7 @@ public class SelectBotRoom extends Page implements ActionListener {
                 currentIndex+=1;
             }
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
-            //SFXSwitcher.botSelectSwitcher(botList.get(currentIndex).getName()); //use in case of someone wanting a signature sound to bots
+            SFXSwitcher.botSelectSwitcher(botList.get(currentIndex).getName()); //use in case of someone wanting a signature sound to bots
             updateBotProfile();
 
         }
@@ -386,7 +386,7 @@ public class SelectBotRoom extends Page implements ActionListener {
                 currentIndex-=1;
             }
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
-            //SFXSwitcher.botSelectSwitcher(botList.get(currentIndex).getName()); //use in case of someone wanting a signature sound to bots
+            SFXSwitcher.botSelectSwitcher(botList.get(currentIndex).getName()); //use in case of someone wanting a signature sound to bots
             updateBotProfile();
         }
     }
