@@ -17,6 +17,7 @@ public class ExitButton extends JButton implements ActionListener {
         this.route = route;
         setPreferredSize(new Dimension(100, 40));
         setFocusPainted(false);
+        setBorderPainted(false);
         setContentAreaFilled(false);
         setFont(SharedResource.getCustomSizeFont(24));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
