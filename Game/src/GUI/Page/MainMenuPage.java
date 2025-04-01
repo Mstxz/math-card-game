@@ -225,10 +225,16 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         if (code == KeyEvent.VK_ESCAPE){
             showOverlay(new MenuConfirm(this, "Are you sure to exit?") {
                 @Override
-                public void onConfirm() {   System.exit(0); }
+                public void onConfirm() {
+                    SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+                    System.exit(0);
+                }
 
                 @Override
-                public void onDenied() {    this.setVisible(false); }
+                public void onDenied() {
+                    SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+                    this.setVisible(false);
+                }
             }, OverlayPlacement.CENTER);
         }
     }
