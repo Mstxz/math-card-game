@@ -44,6 +44,7 @@ public class UserPreference implements Serializable {
             System.out.println("write");
         }
         catch (IOException e){
+            e.printStackTrace();
             System.out.println("Klong ha");
         }
     }
