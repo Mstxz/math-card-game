@@ -169,13 +169,23 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             Router.setRoute("SelMode",null);
         }
         else if (e.getSource().equals(exitButton)){
-            showOverlay(new MenuConfirm(this, "Are you sure to exit?") {
+            ConfirmMenu menu = new ConfirmMenu(this, "Are you sure to exit?"){
                 @Override
-                public void onConfirm() {   System.exit(0); }
+                public void onConfirm() {
+                    System.exit(0);
+                }
 
                 @Override
-                public void onDenied() {    this.setVisible(false); }
-            }, OverlayPlacement.CENTER);
+                public void setVisible(boolean aFlag) {
+                    super.setVisible(aFlag);
+                    if (aFlag) {
+                        mainFrame.removeKeyListener(MainMenuPage.this);
+                    } else {
+                        mainFrame.addKeyListener(MainMenuPage.this);
+                    }
+                }
+            };
+            menu.setVisible(true);
         }
         else if (e.getSource().equals(yourDecksButton)){
             Loader loadingScreen = new Loader(this,"Loading Your Deck..."){
@@ -224,19 +234,36 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             return;
         code = e.getKeyCode();
         if (code == KeyEvent.VK_ESCAPE){
-            showOverlay(new MenuConfirm(this, "Are you sure to exit?") {
+            ConfirmMenu menu = new ConfirmMenu(this, "Are you sure to exit?"){
                 @Override
                 public void onConfirm() {
-                    SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
                     System.exit(0);
                 }
 
                 @Override
-                public void onDenied() {
-                    SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
-                    this.setVisible(false);
+                public void setVisible(boolean aFlag) {
+                    super.setVisible(aFlag);
+                    if (aFlag) {
+                        mainFrame.removeKeyListener(MainMenuPage.this);
+                    } else {
+                        mainFrame.addKeyListener(MainMenuPage.this);
+                    }
                 }
-            }, OverlayPlacement.CENTER);
+            };
+            menu.setVisible(true);
+//            showOverlay(new MenuConfirm(this, "Are you sure to exit?") {
+//                @Override
+//                public void onConfirm() {
+//                    SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+//                    System.exit(0);
+//                }
+//
+//                @Override
+//                public void onDenied() {
+//                    SFXPlayer.playSound("Game/src/assets/Audio/SFX/Button_Click.wav");
+//                    this.setVisible(false);
+//                }
+//            }, OverlayPlacement.CENTER);
         }
     }
 
