@@ -5,9 +5,6 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import AudioPlayer.*;
 
@@ -15,9 +12,7 @@ import GUI.Component.*;
 import GUI.Component.Game;
 import GUI.Router;
 import Gameplay.*;
-import org.w3c.dom.ls.LSOutput;
 import utils.SharedResource;
-import utils.UIManager.ButtonUI;
 import utils.UIManager.RoundPanelUI;
 
 /**
@@ -345,11 +340,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	public void onStatChanged() {
 		playerInfo.updateInfo();
 		enemyInfo.updateInfo();
-	}
-
-	@Override
-	public void onPlayerQuit(Player playerQuit) {
-		onGameEnded(getPlayer());
 	}
 
 	@Override
