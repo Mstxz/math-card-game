@@ -11,6 +11,7 @@ import utils.SharedResource;
 import utils.UIManager.ButtonUI;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,9 +31,11 @@ public class RoomSelect extends Page implements ActionListener {
     private JButton  joinButton;
     private JTextField hostIpField;
     private ExitButton exitLabel;
+    private JPanel topPanel;
     private boolean loading;
 
     public RoomSelect() {
+        topPanel = new JPanel();
         middlePanel = new JPanel();
         optionPanel = new JPanel();
         header = new JLabel("Select");
@@ -110,16 +113,23 @@ public class RoomSelect extends Page implements ActionListener {
         optionPanel.add(joinButton);
         optionPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
+        topPanel.setLayout(new BorderLayout());
+        topPanel.add(exitLabel,BorderLayout.WEST);
+        topPanel.add(header);
+        JLabel emptySpace = new JLabel();
+        emptySpace.setPreferredSize(new Dimension(100,40));
+        topPanel.add(emptySpace,BorderLayout.EAST);
+        topPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+
         middlePanel.setLayout(new BorderLayout(0,100));
-        middlePanel.add(header,BorderLayout.NORTH);
         middlePanel.add(optionPanel);
         middlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
-        mainPanel.setLayout(new GridLayout(1,3));
+        mainPanel.setLayout(new BorderLayout(0,100));
         mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
-        mainPanel.add(exitLabel);
-        mainPanel.add(middlePanel);
-        mainPanel.add(new JLabel());
+        mainPanel.add(topPanel,BorderLayout.NORTH);
+        mainPanel.add(optionPanel,BorderLayout.CENTER);
+        mainPanel.setBorder(new EmptyBorder(20, 40, 80, 40));
 
         createButton.addActionListener(this);
         joinButton.addActionListener(this);
