@@ -32,6 +32,7 @@ public class SettingController {
     }
 
     public static void updatePreference(){
+        UserProfile.loadProfile();
         UserPreference.writeFile();
     }
 }

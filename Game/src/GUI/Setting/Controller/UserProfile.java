@@ -1,6 +1,7 @@
 package GUI.Setting.Controller;
 
 import GUI.Setting.Component.ProfilePicture;
+import GUI.Setting.UserPreference;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class UserProfile implements Serializable {
     }
 
     public static void loadProfile(){
+        //System.out.println("Load Profile");
         profilePictureList = new HashMap<String,ProfilePicture>();
         profilePictureList.put("Pupr",new ProfilePicture("Pupr","Bob hair cat."));
         profilePictureList.put("Arsr",new ProfilePicture("Arsr","Glasses cat."));
@@ -40,19 +42,20 @@ public class UserProfile implements Serializable {
         profilePictureList.put("Sam Nak Ngan",new ProfilePicture("Sam Nak Ngan","People call him \"Sam Nak Ngan\" cause he lives at Sam Nak Ngan.(Office in Thai)"));
         profilePictureList.put("Sheen",new ProfilePicture("Sheen","Did someone use grammar of Meow wrong!?"));
         profilePictureList.put("Mystyr",new ProfilePicture("Mystyr","Just a normal DJ"));
-        if (AchievementProfile.isWinPupr){
+        if (UserPreference.getInstance().getAchievementProfile().isWinPupr){
+            //System.out.println("Huh");
             profilePictureList.put("Huh Bob",new ProfilePicture("Huh Bob","What this you just say huh?"));
         }
-        if (AchievementProfile.isWinArsr){
+        if (UserPreference.getInstance().getAchievementProfile().isWinArsr){
             profilePictureList.put("Romance Cat",new ProfilePicture("Romance Cat","Nah I just tell you, he loves Pupr <3"));
         }
-        if (AchievementProfile.isWinOmmThuk){
+        if (UserPreference.getInstance().getAchievementProfile().isWinOmmThuk){
             profilePictureList.put("Morning Sunday",new ProfilePicture("Morning Sunday","Prof. Omm Thuk is just a cat in the eyes of his owner."));
         }
-        if (AchievementProfile.isWinMystyr){
+        if (UserPreference.getInstance().getAchievementProfile().isWinMystyr){
             profilePictureList.put("Night Light",new ProfilePicture("Night Light","Listen to music and enjoy the long night."));
         }
-        if (AchievementProfile.isWinWho){
+        if (UserPreference.getInstance().getAchievementProfile().isWinWho){
             profilePictureList.put("43 Park Popular",new ProfilePicture("43 Park Popular","\"Look! A Little Kid, I'll show you how to be loved by human\""));
         }
         //profilePictureList.put("Klong ha",new ProfilePicture("Klong ha","Klong Eng Ha", "assets/Profile/Klong ha.jpg"));

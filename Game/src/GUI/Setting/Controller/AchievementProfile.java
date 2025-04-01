@@ -1,14 +1,16 @@
 package GUI.Setting.Controller;
 
+import GUI.Setting.UserPreference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class AchievementProfile implements Serializable {
-    public static boolean isWinPupr;
-    public static boolean isWinArsr;
-    public static boolean isWinMystyr;
-    public static boolean isWinWho;
-    public static boolean isWinOmmThuk;
+    public boolean isWinPupr;
+    public boolean isWinArsr;
+    public boolean isWinMystyr;
+    public boolean isWinWho;
+    public boolean isWinOmmThuk;
 
     public AchievementProfile(){
         isWinPupr = false;
@@ -18,44 +20,49 @@ public class AchievementProfile implements Serializable {
         isWinOmmThuk = false;
     }
 
-    public static boolean isIsWinPupr() {
+    public boolean isWinPupr() {
         return isWinPupr;
     }
 
-    public static void setIsWinPupr(boolean isWinPupr) {
-        AchievementProfile.isWinPupr = isWinPupr;
+    public void setWinPupr(boolean winPupr) {
+        isWinPupr = winPupr;
+        SettingController.updatePreference();
     }
 
-    public static boolean isIsWinArsr() {
+    public boolean isWinArsr() {
         return isWinArsr;
     }
 
-    public static void setIsWinArsr(boolean isWinArsr) {
-        AchievementProfile.isWinArsr = isWinArsr;
+    public void setWinArsr(boolean winArsr) {
+        isWinArsr = winArsr;
+        SettingController.updatePreference();
     }
 
-    public static boolean isIsWinMystyr() {
+    public boolean isWinMystyr() {
         return isWinMystyr;
     }
 
-    public static void setIsWinMystyr(boolean isWinMystyr) {
-        AchievementProfile.isWinMystyr = isWinMystyr;
+    public void setWinMystyr(boolean winMystyr) {
+        isWinMystyr = winMystyr;
+        SettingController.updatePreference();
     }
 
-    public static boolean isIsWinWho() {
+    public boolean isWinWho() {
         return isWinWho;
     }
 
-    public static void setIsWinWho(boolean isWinWho) {
-        AchievementProfile.isWinWho = isWinWho;
+    public void setWinWho(boolean winWho) {
+        isWinWho = winWho;
+        SettingController.updatePreference();
     }
 
-    public static boolean isIsWinOmmThuk() {
+    public boolean isWinOmmThuk() {
         return isWinOmmThuk;
     }
 
-    public static void setIsWinOmmThuk(boolean isWinOmmThuk) {
-        AchievementProfile.isWinOmmThuk = isWinOmmThuk;
+    public void setWinOmmThuk(boolean winOmmThuk) {
+        isWinOmmThuk = winOmmThuk;
+        SettingController.updatePreference();
     }
 
     @Override

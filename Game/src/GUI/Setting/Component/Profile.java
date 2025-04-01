@@ -86,7 +86,7 @@ public class Profile extends JPanel implements ActionListener {
 
         selectedProfile = new JLabel(selectedImage.getImage());
         profileNameLabel = new JLabel(selectedImage.getProfileName());
-        descriptionLabel = new JLabel(selectedImage.getDescription());
+        descriptionLabel = new JLabel("<html><div style='text-align: left; display: flex; justify-content: center;'>"+selectedImage.getDescription()+"</div></html>");
         profileNameLabel.setFont(SharedResource.getCustomSizeFont(28));
         profileNameLabel.setForeground(SharedResource.SIAMESE_BRIGHT);
         descriptionLabel.setForeground(SharedResource.SIAMESE_BRIGHT);
@@ -116,6 +116,7 @@ public class Profile extends JPanel implements ActionListener {
             panel3.add(o.getButton());
             o.getButton().addActionListener(this);
         }
+        selectedImage.setSelect(true);
 
         JScrollPane scrollPane = new JScrollPane(panel3);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -137,6 +138,8 @@ public class Profile extends JPanel implements ActionListener {
 
         saveButton.addActionListener(this);
         renameButton.addActionListener(this);
+
+        selectedImage.setSelect(true);
     }
 
     @Override
