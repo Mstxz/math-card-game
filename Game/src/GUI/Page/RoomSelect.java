@@ -14,14 +14,10 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 
 
-public class RoomSelect extends Page implements ActionListener {
+public class RoomSelect extends Page implements ActionListener, KeyListener {
     private JPanel optionPanel;
     private JPanel middlePanel;
     private JLabel header;
@@ -95,7 +91,14 @@ public class RoomSelect extends Page implements ActionListener {
             }
         });
 
-        exitLabel = new ExitButton("SelMode");
+        exitLabel = new ExitButton("SelMode"){
+            @Override
+            public void cleanUp() {
+                mainFrame.removeKeyListener(RoomSelect.this);
+            }
+        };
+        mainFrame.addKeyListener(this);
+
         exitLabel.setVerticalAlignment(SwingConstants.NORTH);
         exitLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -132,7 +135,9 @@ public class RoomSelect extends Page implements ActionListener {
         mainPanel.setBorder(new EmptyBorder(20, 40, 80, 40));
 
         createButton.addActionListener(this);
+        createButton.setFocusable(false);
         joinButton.addActionListener(this);
+        joinButton.setFocusable(false);
 
         setupMainPanel();
     }
@@ -172,6 +177,7 @@ public class RoomSelect extends Page implements ActionListener {
                 @Override
                 public void onClose(){
                     super.onClose();
+                    mainFrame.removeKeyListener(RoomSelect.this);
                     Router.setRoute("Lobby",client);
                 }
             };
@@ -198,11 +204,35 @@ public class RoomSelect extends Page implements ActionListener {
                 @Override
                 public void onClose(){
                     super.onClose();
+                    mainFrame.removeKeyListener(RoomSelect.this);
                     Router.setRoute("Lobby",client);
                 }
             };
             l.startLoad();
         }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code;
+
+        if (!this.getMainPanel().isFocusable())
+            return;
+        code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE){
+            this.getMainFrame().removeKeyListener(this);
+            Router.setRoute("SelMode",null);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     public static void main(String[] args) {

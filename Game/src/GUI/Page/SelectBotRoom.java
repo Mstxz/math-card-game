@@ -138,6 +138,8 @@ import Gameplay.GameForGUI;
 import Gameplay.Player;
 import utils.SharedResource;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.net.URL;
 
@@ -160,7 +162,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class SelectBotRoom extends Page implements ActionListener {
+public class SelectBotRoom extends Page implements ActionListener, KeyListener {
     private JPanel panelA, panelB, panelC, panelD, panelE;
     private JButton exit, previousBotButton, nextBotButton, decksButton, startButton;
     private JLabel chooseOpponent, selectingBotName, selectingBotProfileImage, selectingBotDescription;;
@@ -200,7 +202,12 @@ public class SelectBotRoom extends Page implements ActionListener {
         panelD = new JPanel();
         panelE = new JPanel();
 
-        exit = new ExitButton("SelMode");
+        exit = new ExitButton("SelMode"){
+            @Override
+            public void cleanUp() {
+                mainFrame.removeKeyListener(SelectBotRoom.this);
+            }
+        };
         previousBotButton = new JButton("<");
         cleanup(previousBotButton);
         nextBotButton = new JButton(">");
@@ -327,6 +334,8 @@ public class SelectBotRoom extends Page implements ActionListener {
         previousBotButton.addActionListener(this);
 
         nextBotButton.addActionListener(this);
+
+        mainFrame.addKeyListener(this);
     }
 
 
@@ -351,6 +360,7 @@ public class SelectBotRoom extends Page implements ActionListener {
             p.add(player);
             p.add(botList.get(currentIndex).getBotPlayer());
             GameForGUI botGame = new GameForGUI(p);
+            this.mainFrame.removeKeyListener(this);
             Router.setRoute("Avenger",botGame);
         }
         else if (e.getSource() == decksButton){
@@ -407,6 +417,29 @@ public class SelectBotRoom extends Page implements ActionListener {
         button.setBorder(null);
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code;
+
+        if (!this.getMainPanel().isFocusable())
+            return;
+        code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE){
+            this.getMainFrame().removeKeyListener(this);
+            Router.setRoute("SelMode",null);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 }
 
