@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class LogAndRoll extends Card implements HaveCondition {
     public LogAndRoll(){
-        super("LogAndRoll","Make opponent's HP base 10 logarithm of theirs HP. The turn ends after this card is played.",10, Difficulty.EXPERT, CardType.RED);
+        super("LogAndRoll","Make opponent's HP base 10 logarithm of theirs HP.",10, Difficulty.EXPERT, CardType.RED);
     }
 
     @Override
