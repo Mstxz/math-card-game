@@ -86,24 +86,23 @@ public class CardPlayable extends JButton implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3 && !isEnemy && !handDeck.gui.isBlocked)
+		if (e.getButton() == MouseEvent.BUTTON3 && !isEnemy)
 		{
 			SFXSwitcher.cardDescUP(card);
 
 			JPanel	overlay;
 
 			overlay = handDeck.gui.getOverlayPanel();
-			overlay.add(new CardInspector(card, handDeck.gui,cardPic));
-			handDeck.gui.setBackdropDim(true);
+			handDeck.gui.showCardInspector(new CardInspector(card, handDeck.gui,cardPic));
 			overlay.updateUI();
-		} else if (e.getButton() == MouseEvent.BUTTON1 && !isEnemy && !handDeck.gui.isBlocked) {
+		} else if (e.getButton() == MouseEvent.BUTTON1 && !isEnemy) {
 			SFXPlayer.playSound("Game/src/assets/Audio/SFX/Cannot_Play_Click.wav");
 		}
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		if (isEnemy || handDeck.gui.isBlocked)
+		if (isEnemy)
 			return ;
 		this.setSize(OLD_WIDTH, OLD_HEIGHT);
 		this.setIcon();
