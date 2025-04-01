@@ -4,6 +4,7 @@ import GUI.Component.RotatingSettingOption;
 import GUI.Setting.Component.Profile;
 import GUI.Setting.Controller.AchievementProfile;
 import GUI.Setting.Controller.UserProfile;
+import GUI.Setting.Controller.WinStat;
 
 import java.io.*;
 
@@ -14,6 +15,7 @@ public class UserPreference implements Serializable {
     private static UserPreference userPreference = null;
     private UserProfile profile;
     private AchievementProfile achievementProfile;
+    private WinStat winStat;
 
     public static UserPreference getInstance(){
         if (userPreference==null){
@@ -52,6 +54,7 @@ public class UserPreference implements Serializable {
         this.SFXVolume = 50;
         this.profile = new UserProfile();
         this.achievementProfile = new AchievementProfile();
+        this.winStat = new WinStat();
     }
 
     private UserPreference(int resolutionIndex){
@@ -108,5 +111,13 @@ public class UserPreference implements Serializable {
                 ", profile=" + profile +
                 ", achievementProfile=" + achievementProfile.toString() +
                 '}';
+    }
+
+    public WinStat getWinStat() {
+        return winStat;
+    }
+
+    public void setWinStat(WinStat winStat) {
+        this.winStat = winStat;
     }
 }

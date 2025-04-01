@@ -3,6 +3,7 @@ package GUI.Page;
 import GUI.Component.ExitButton;
 import GUI.Component.OmmThukStudentCard;
 import GUI.Router;
+import GUI.Setting.UserPreference;
 import utils.SharedResource;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class StatisticsPage extends Page {
         contentPanel = new JPanel();
         contentPanel.setBackground(SharedResource.TRANSPARENT);
         contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        contentPanel.add(new OmmThukStudentCard("Mstxz", "Mystyr")); //username, profile path
+        contentPanel.add(new OmmThukStudentCard(UserPreference.getInstance().getProfile().getName(), UserPreference.getInstance().getProfile().getProfileName())); //username, profile path
 
         titleLabel.setFont(SharedResource.getCustomSizeFont(96));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
