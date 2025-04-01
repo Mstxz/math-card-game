@@ -1,6 +1,7 @@
 package Gameplay;
 
 import GUI.Component.Game;
+import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
 import Gameplay.Bot.*;
 import Gameplay.Numbers.Constant;
@@ -142,10 +143,10 @@ public class GameForGUI extends Game {
         else if (turnOrder.get((playerOrder+1)%2) instanceof Mystyr){
             UserPreference.getInstance().getAchievementProfile().isWinMystyr = true;
         }
-        else if (turnOrder.get((playerOrder+1)%2) instanceof OmmThuk){
+        else if (turnOrder.get((playerOrder+1)%2) instanceof OmmThuk) {
             UserPreference.getInstance().getAchievementProfile().isWinOmmThuk = true;
         }
-        UserPreference.writeFile();
+        SettingController.updatePreference();
         System.out.println(UserPreference.getInstance().getAchievementProfile().toString());
     }
 
