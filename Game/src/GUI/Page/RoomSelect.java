@@ -63,7 +63,7 @@ public class RoomSelect extends Page implements ActionListener {
         joinButton.setMaximumSize(new Dimension(350,70));
         joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        hostIpField = new JTextField("Room ID");
+        hostIpField = new JTextField("Host IP");
         hostIpField.setFont(SharedResource.getCustomSizeFont(28));
         hostIpField.setHorizontalAlignment(SwingConstants.CENTER);
         hostIpField.setBounds(0, 0, 500, 90);
@@ -80,7 +80,7 @@ public class RoomSelect extends Page implements ActionListener {
         hostIpField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (hostIpField.getText().equals("Room ID")) {
+                if (hostIpField.getText().equals("Host IP")) {
                     hostIpField.setText("");
                     hostIpField.setForeground(SharedResource.SIAMESE_DARK);
                 }
@@ -89,7 +89,7 @@ public class RoomSelect extends Page implements ActionListener {
             @Override
             public void focusLost(FocusEvent e) {
                 if (hostIpField.getText().isEmpty()) {
-                    hostIpField.setText("Room ID");
+                    hostIpField.setText("Host IP");
                     hostIpField.setForeground(SharedResource.SIAMESE_BASE); // กลับมาเป็น placeholder สีเทา
                 }
             }
