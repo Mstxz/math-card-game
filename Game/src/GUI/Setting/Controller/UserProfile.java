@@ -47,7 +47,7 @@ public class UserProfile implements Serializable {
             profilePictureList.put("Huh Bob",new ProfilePicture("Huh Bob","What this you just say huh?"));
         }
         if (UserPreference.getInstance().getAchievementProfile().isWinArsr){
-            profilePictureList.put("Romance Cat",new ProfilePicture("Romance Cat","Nah I just tell you, he loves Pupr <3"));
+            profilePictureList.put("Romance Cat",new ProfilePicture("Romance Cat","Nah I just tell you, he loves Pupr &lt;3"));
         }
         if (UserPreference.getInstance().getAchievementProfile().isWinOmmThuk){
             profilePictureList.put("Morning Sunday",new ProfilePicture("Morning Sunday","Prof. Omm Thuk is just a cat in the eyes of his owner."));

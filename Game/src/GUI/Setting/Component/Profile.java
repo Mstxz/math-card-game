@@ -90,7 +90,8 @@ public class Profile extends JPanel implements ActionListener {
 
         selectedProfile = new JLabel(selectedImage.getImage());
         profileNameLabel = new JLabel(selectedImage.getProfileName());
-        descriptionLabel = new JLabel("<html><div style='text-align: left; display: flex; justify-content: center;'>"+selectedImage.getDescription()+"</div></html>");
+        descriptionLabel = new JLabel();
+        descriptionLabel.setText("<html><div style='text-align: left; display: flex; justify-content: center;'>"+selectedImage.getDescription()+"</div></html>");
         profileNameLabel.setFont(SharedResource.getCustomSizeFont(28));
         profileNameLabel.setForeground(SharedResource.SIAMESE_BRIGHT);
         descriptionLabel.setForeground(SharedResource.SIAMESE_BRIGHT);
@@ -199,5 +200,13 @@ public class Profile extends JPanel implements ActionListener {
             panel3.repaint();
             }
         }
-    }
+
+//    @Override
+//    public void paint(Graphics g) {
+//        //super.revalidate();
+//        super.paint(g);
+//        panel3.revalidate();
+//        panel3.repaint();
+//    }
+}
 

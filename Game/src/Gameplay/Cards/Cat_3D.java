@@ -5,7 +5,7 @@ import Gameplay.Numbers.Constant;
 
 public class Cat_3D extends Card implements HaveCondition {
     public Cat_3D(){
-        super("3D_CAT","Convert the target's HP to the target's HP raised to the power of 3.",8, Difficulty.HARD, CardType.GREEN);
+        super("3D_CAT","Convert the target's HP to the target's HP raised to the power of 3.",8, Difficulty.HARD, CardType.BLUE);
     }
 
     @Override
