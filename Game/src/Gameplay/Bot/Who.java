@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Who extends Bot{
     private boolean endTurn = false;
     public Who(){
-        super("Who","assets/BotProfile/Bot_Who.webp","We don't know who is him, but Everyone know that he lives at 42 park. (Actually he's not a stray cat)","Who");
+        super("Who","assets/BotProfile/Bot_Who.webp","We don't know who is him, but Everyone know that he lives at 43 park. (Actually he's not a stray cat)","Who");
     }
 
     @Override
