@@ -136,6 +136,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import GUI.Router;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -145,7 +146,7 @@ import utils.ResourceLoader;
 import utils.SharedResource;
 import utils.UIManager.RoundPanelUI;
 
-public class DeckCreatorPage extends Page implements ActionListener {
+public class DeckCreatorPage extends Page implements ActionListener, KeyListener {
     private TempDeckZone tempDeckZone;
     private JPanel          paRight;
     private JPanel          paRightTop;
@@ -177,7 +178,13 @@ public class DeckCreatorPage extends Page implements ActionListener {
         title.setHorizontalAlignment(SwingConstants.LEFT);
         title.setPreferredSize(new Dimension(title.getWidth(),100));
 
-        ExitButton exitButton = new ExitButton("MainMenu");
+        ExitButton exitButton = new ExitButton("MainMenu"){
+            @Override
+            public void cleanUp() {
+                mainFrame.removeKeyListener(DeckCreatorPage.this);
+            }
+        };
+        mainFrame.addKeyListener(this);
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.setOpaque(false);
         topPanel.add(exitButton);
@@ -360,6 +367,7 @@ public class DeckCreatorPage extends Page implements ActionListener {
         deleteButton.getButton().addActionListener(this);
         clearButton.getButton().addActionListener(this);
         saveButton.addActionListener(this);
+        saveButton.setFocusable(false);
 
         PopupMenuPanel.setBackground(PopupMenuPanel.getParent().getBackground());
         p.setBackground(p.getParent().getBackground());
@@ -554,6 +562,29 @@ public class DeckCreatorPage extends Page implements ActionListener {
             };
             confirmMenu.setVisible(true);
         }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code;
+
+        if (!this.getMainPanel().isFocusable())
+            return;
+        code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE){
+            this.getMainFrame().removeKeyListener(this);
+            Router.setRoute("MainMenu",null);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     public static void main(String[] args) {

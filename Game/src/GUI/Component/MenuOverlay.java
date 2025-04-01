@@ -1,6 +1,7 @@
 package GUI.Component;
 
 import AudioPlayer.SFXPlayer;
+import GUI.Page.MainMenuPage;
 import GUI.Page.Page;
 import utils.SharedResource;
 import utils.UIManager.RoundPanelUI;
@@ -11,7 +12,7 @@ import java.awt.event.*;
 
 public abstract class MenuOverlay extends JPanel implements KeyListener, MouseListener {
     private final KeyListener tmp;
-    private final Page        page;
+    protected final Page        page;
 
     public MenuOverlay(Page page, LayoutManager layout){
         super();
@@ -23,9 +24,9 @@ public abstract class MenuOverlay extends JPanel implements KeyListener, MouseLi
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         this.setOpaque(false);
         this.setLayout(layout);
-        this.setSize(new Dimension(1000, 600));
-        this.setPreferredSize(new Dimension(1000, 600));
-        this.setMinimumSize(new Dimension(600, 400));
+        this.setSize(new Dimension(450, 340));
+        this.setPreferredSize(new Dimension(450, 340));
+        this.setMinimumSize(new Dimension(450, 340));
         this.setMaximumSize(new Dimension(1200, 600));
 
         this.addMouseListener(this);
@@ -44,9 +45,9 @@ public abstract class MenuOverlay extends JPanel implements KeyListener, MouseLi
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         this.setOpaque(false);
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-        this.setSize(new Dimension(1000, 600));
-        this.setPreferredSize(new Dimension(1000, 600));
-        this.setMinimumSize(new Dimension(600, 400));
+        this.setSize(new Dimension(450, 340));
+        this.setPreferredSize(new Dimension(450, 340));
+        this.setMinimumSize(new Dimension(450, 340));
         this.setMaximumSize(new Dimension(1200, 600));
 
         this.addMouseListener(this);
@@ -94,9 +95,9 @@ public abstract class MenuOverlay extends JPanel implements KeyListener, MouseLi
     public void keyTyped(KeyEvent e) {}
 
     private void clearMenuAction() {
-        page.getMainFrame().removeKeyListener(this);
         this.removeMouseListener(this);
         this.page.getOverlayPanel().removeMouseListener(this);
+        page.getMainFrame().removeKeyListener(this);
         page.getMainFrame().addKeyListener(tmp);
     }
 

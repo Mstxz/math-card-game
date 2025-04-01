@@ -16,22 +16,40 @@ public abstract class MenuConfirm extends MenuOverlay implements ActionListener 
     private JButton confirmButton;
     private JButton deniedButton;
 
-    public MenuConfirm(Page page, String label) {
-        super(page);
+    public MenuConfirm(Page page, String label, JComponent midComp){
+        super(page, new BorderLayout(0, 20));
         setupButton();
 
         JLabel title = new JLabel(label);
         title.setHorizontalAlignment(SwingConstants.CENTER);
-        title.setFont(SharedResource.getFont48());
+        title.setFont(SharedResource.getCustomSizeFont(36));
+
+        this.add(title, BorderLayout.NORTH);
+        this.add(midComp, BorderLayout.CENTER);
+        this.add(btnPanel, BorderLayout.SOUTH);
+    }
+
+    public MenuConfirm(Page page, String label) {
+        super(page);
+        setupButton();
+
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel title = new JLabel(label);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setFont(SharedResource.getCustomSizeFont(36));
+        p.setMaximumSize(new Dimension(1200, 40));
+        p.setOpaque(false);
+        p.add(title);
 
         this.add(Box.createVerticalGlue());
-        this.add(title);
+        this.add(p);
         this.add(btnPanel);
-        this.add(Box.createVerticalBox());
-//        System.out.println(this.getKeyListeners());
+        this.add(Box.createVerticalGlue());
     }
 
     private void setupButton() {
+        btnPanel.setMaximumSize(new Dimension(1200, 60));
+
         confirmButton = new JButton("Yes");
         confirmButton.setUI(new ButtonUI());
         confirmButton.addActionListener(this);
