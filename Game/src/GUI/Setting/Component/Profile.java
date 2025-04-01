@@ -53,9 +53,8 @@ public class Profile extends JPanel implements ActionListener {
         name.setFocusable(false);
         name.setFont(SharedResource.getCustomSizeFont(30));
         name.setOpaque(false);
-        name.setUI(new TextFieldUI());
+        name.setMargin(new Insets(5,5,5,5));
 
-        name.setHorizontalAlignment(SwingConstants.LEFT);
 
         profileImage = new JLabel(selectedImage.getImage());
         selectedKey = UserPreference.getInstance().getProfile().getProfileName();
