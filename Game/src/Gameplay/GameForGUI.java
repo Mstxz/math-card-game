@@ -66,7 +66,7 @@ public class GameForGUI extends Game {
                     //System.out.println(Arrays.toString(inPlay.getHand().toArray()));
                     Thread.sleep(500);
                     while ((c = inPlay.play(inPlay,turnOrder.get(targetId))) != null){
-                        observer.onCardPlayed();
+                        observer.onCardPlayed(c);
                         ArrayList<Integer> loseList = Player.checkLose(turnOrder);
                         if(!loseList.isEmpty()){
                             saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
@@ -188,9 +188,9 @@ public class GameForGUI extends Game {
     public void playerPlay(int cardIndex,Player receiver) {
         Card cardPlayed = getPlayer().getHand().get(cardIndex);
         cardPlayed.action(getPlayer(), receiver);
-        getPlayer().getDeck().getDispose().add(getPlayer().getHand().get(cardIndex));
+        getPlayer().getDeck().addDispose(getPlayer().getHand().get(cardIndex));
         getPlayer().getHand().remove(cardIndex);
-        observer.onCardPlayed();
+        observer.onCardPlayed(cardPlayed);
         if (isGameEnded()){
             ArrayList<Integer> loseList = Player.checkLose(turnOrder);
             saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));

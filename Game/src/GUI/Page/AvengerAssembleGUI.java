@@ -52,6 +52,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private final Game game;
 	private final HowToPlaySlide howToPlaySlide;
 	private CardInspector cardInspector;
+	private CardPlayShow cardPlayShow;
 
 	public AvengerAssembleGUI(Game game) {
 		super();
@@ -67,6 +68,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		}
 		activeOpponent = 0;
 		quitMenu = new GameMenu(this);
+
+		cardPlayShow = new CardPlayShow();
 
 		mainPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "quit");
 		mainPanel.getActionMap().put("quit", new AbstractAction() {
@@ -170,7 +173,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 		howtoplayButton = new JButton("How to Play");
 		howtoplayButton.setFont(SharedResource.getCustomSizeFont(32));
-//		howtoplayButton.setUI(new ButtonUI());
 		howtoplayButton.setBackground(SharedResource.SKYBLUE_DARK);
 		howtoplayButton.setBorderPainted(false);
 		howtoplayButton.setFocusPainted(false);
@@ -205,6 +207,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 
 		middlePanel.add(endTurnPanel,BorderLayout.EAST);
+		middlePanel.add(cardPlayShow);
 		middlePanel.add(turnCountPanel,BorderLayout.WEST);
 
 		mainPanel.add(middlePanel);
@@ -325,8 +328,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	}
 
 	@Override
-	public void onCardPlayed() {
-
+	public void onCardPlayed(Card cardPlayed) {
+		cardPlayShow.setIcon(cardPlayed);
 		onStatChanged();
 		onHandChanged();
 	}

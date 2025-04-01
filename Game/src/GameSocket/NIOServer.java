@@ -259,9 +259,10 @@ public class NIOServer extends Thread {
                             Card cardPlayed = Card.decode(r.readByteData());
                             int ownerID = r.readInt();
                             int receiverID = r.readInt();
+                            pushUpdate(clientReq);
                             //ArrayList<CardAction> cardActions = cardPlayed.getCardAction(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
                             cardPlayed.action(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
-                            gameState.getPlayers().get(ownerID).getDeck().getDispose().add(cardPlayed);
+                            gameState.getPlayers().get(ownerID).getDeck().addDispose(cardPlayed);
                             gameState.getPlayers().get(ownerID).getHand().remove(cardIndex);
                             ArrayList<Player> playerArrayList = new ArrayList<>(gameState.getPlayers());
                             handStateUpdate();

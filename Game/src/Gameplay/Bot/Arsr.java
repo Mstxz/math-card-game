@@ -94,8 +94,12 @@ public class Arsr extends Bot{
                             compare = enemyDiff;
                         }
                         resetSimulate(self,enemy,selfMana,selfHp,enemyHp);
-                    }
-                    else {
+                    } else if (tmp.getType().equals(CardType.YELLOW)) {
+                        if (index == -1){
+                            index = i;
+                        }
+                        continue;
+                    } else {
                         tmp.action(self,enemy);
                         selfDiff = Math.abs(((Constant) (self.getHp())).getNumber()) - Math.abs(selfHp);
                         enemyDiff = Math.abs(enemyHp) - Math.abs(((Constant) (enemy.getHp())).getNumber());

@@ -13,7 +13,7 @@ public class AdoptCat extends Card implements HaveCondition {
     @Override
     public void action(Player self, Player enemy) {
         self.setMana(self.getMana()-manaUsed);
-        Card tmp = self.getDeck().getDispose().removeLast();
+        Card tmp = self.getDeck().getDispose().getLast();
         self.getHand().add(tmp);
     }
 

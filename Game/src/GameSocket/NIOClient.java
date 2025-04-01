@@ -271,6 +271,18 @@ public class NIOClient extends Game {
                                     throw new RuntimeException(e);
                                 }
                                 break;
+                            case CARD:
+                                try (RequestReader r = new RequestReader(req)){
+                                    int cardIndex = r.readInt();
+                                    Card cardPlayed = Card.decode(r.readByteData());
+                                    int ownerID = r.readInt();
+                                    int receiverID = r.readInt();
+                                    observer.onCardPlayed(cardPlayed);
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                break;
                             case END_GAME:
                                 try (RequestReader r = new RequestReader(req)) {
                                     int winnerID = r.readInt();

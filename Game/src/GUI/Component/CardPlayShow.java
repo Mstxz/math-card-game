@@ -9,6 +9,7 @@ import utils.SharedResource;
 import utils.UIManager.ButtonUI;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -26,10 +27,14 @@ public class CardPlayShow extends JPanel {
 
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 if (icon == null){
+                    g2.setColor(SharedResource.SKYBLUE_BRIGHT);
+                    g2.fillRoundRect(1,1,getWidth()-3,getHeight()-3,20,20);
+
                     g2.setColor(SharedResource.SKYBLUE_DARK);
                     float[] dashPattern = {10,5};
                     g2.setStroke(new BasicStroke(3,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND,10,dashPattern,10));
                     g2.drawRoundRect(1,1,getWidth()-3,getHeight()-3,20,20);
+
 
                     g2.setFont(SharedResource.getCustomSizeFont(32));
                     FontMetrics metrics = g2.getFontMetrics(SharedResource.getCustomSizeFont(32));
@@ -48,10 +53,14 @@ public class CardPlayShow extends JPanel {
                 }
             }
         };
+
         this.setSize(177,242);
         cardZone.setPreferredSize(new Dimension(177,242));
-        //cardZone.setBackground(SharedResource.SKYBLUE_BASE);
-        this.add(cardZone);
+        cardZone.setMinimumSize(new Dimension(177,242));
+        cardZone.setBackground(SharedResource.SIAMESE_BRIGHT);
+        this.setLayout(new GridBagLayout());
+        this.add(cardZone,new GridBagConstraints());
+        this.setBackground(SharedResource.SIAMESE_BRIGHT);
     }
 
     public void setIcon(Card c){

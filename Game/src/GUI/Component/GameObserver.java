@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface GameObserver {
     public abstract void onGameStart(int startTurn);
-    public abstract void onCardPlayed();
+    public abstract void onCardPlayed(Card cardPlayed);
     public abstract void onHandChanged();
     public abstract void onStatChanged();
     public abstract void onPlayerQuit(Player playerQuit);
