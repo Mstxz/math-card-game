@@ -43,7 +43,7 @@ public class Router implements ComponentListener {
         new Router();
         Router.setRoute("MainMenu",null);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //mainFrame.setResizable(false);
+        mainFrame.setResizable(false);
     }
     public static void setRoute(String route,Object data){
         if (currentPage != null){
@@ -65,6 +65,7 @@ public class Router implements ComponentListener {
             case "SelBot" -> new SelectBotRoom();
             case "Tutorial" -> new TutorialPage();
             case "Credit" -> new CreditPage();
+            case "Statistics" -> new StatisticsPage();
             default -> null;
         };
 

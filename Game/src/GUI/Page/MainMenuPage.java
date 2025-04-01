@@ -23,8 +23,9 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
     private JPanel  TitlePanel;
     private MainMenuButton playButton;
     private MainMenuButton yourDecksButton;
-    private MainMenuButton tutorialButton;
+    private MainMenuButton statsButton;
     private MainMenuButton settingsButton;
+    private MainMenuButton tutorialButton;
     private MainMenuButton creditButton;
     private MainMenuButton exitButton;
     private JLabel  Title;
@@ -91,6 +92,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
 
         playButton = new MainMenuButton("PLAY", 40);
         yourDecksButton = new MainMenuButton("Your Decks");
+        statsButton = new MainMenuButton("Statistics");
         tutorialButton = new MainMenuButton("Tutorial");
         settingsButton = new MainMenuButton("Settings");
         creditButton = new MainMenuButton("Credits");
@@ -99,6 +101,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         ButtonZone.add(Title);
         ButtonZone.add(playButton);
         ButtonZone.add(yourDecksButton);
+        ButtonZone.add(statsButton);
         ButtonZone.add(tutorialButton);
         ButtonZone.add(settingsButton);
         ButtonZone.add(creditButton);
@@ -116,6 +119,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
 
         playButton.addActionListener(this);
         yourDecksButton.addActionListener(this);
+        statsButton.addActionListener(this);
         tutorialButton.addActionListener(this);
         settingsButton.addActionListener(this);
         creditButton.addActionListener(this);
@@ -140,6 +144,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             animation.updateSize(480,360);
             playButton.setFont(SharedResource.getCustomSizeFont(46));
             yourDecksButton.setFont(SharedResource.getCustomSizeFont(36));
+            statsButton.setFont(SharedResource.getCustomSizeFont(36));
             tutorialButton.setFont(SharedResource.getCustomSizeFont(36));
             settingsButton.setFont(SharedResource.getCustomSizeFont(36));
             creditButton.setFont(SharedResource.getCustomSizeFont(36));
@@ -190,6 +195,10 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         else if (e.getSource().equals(settingsButton)){
             animation.stop();
             Router.setRoute("Setting",null);
+        }
+        else if (e.getSource().equals(statsButton)){
+            animation.stop();
+            Router.setRoute("Statistics",null);
         }
         else if (e.getSource().equals(tutorialButton)){
             animation.stop();
