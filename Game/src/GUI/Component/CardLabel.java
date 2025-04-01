@@ -32,6 +32,7 @@ public class CardLabel extends JPanel {
         this.cardType = card.getType();
         cardNameLabel = new JLabel(name);
         cardAmountLabel = new JLabel(String.valueOf("x"+amount));
+        setAmount(amount);
         cardAmountLabel.setFont(SharedResource.getCustomSizeFont(36));
         miniPicture = new JLabel(ResourceLoader.loadPicture(card.getPicture(),59,80));
         this.setLayout(new BorderLayout(20,0));

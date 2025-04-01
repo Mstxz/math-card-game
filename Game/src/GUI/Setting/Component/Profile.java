@@ -8,6 +8,7 @@ import utils.UIManager.ButtonUI;
 import utils.UIManager.CustomScrollBarUI;
 import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
+import utils.UIManager.TextFieldUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -52,6 +53,10 @@ public class Profile extends JPanel implements ActionListener {
         name.setFocusable(false);
         name.setFont(SharedResource.getCustomSizeFont(30));
         name.setOpaque(false);
+        name.setUI(new TextFieldUI());
+
+        name.setHorizontalAlignment(SwingConstants.LEFT);
+
         profileImage = new JLabel(selectedImage.getImage());
         selectedKey = UserPreference.getInstance().getProfile().getProfileName();
         renameButton = new JButton("Rename");
@@ -64,7 +69,7 @@ public class Profile extends JPanel implements ActionListener {
         panel5.add(name,BorderLayout.NORTH);
 
         JPanel panel6 = new JPanel();
-        panel6.setLayout(new GridLayout(1,2));
+        panel6.setLayout(new GridLayout(1,2,10,0));
         panel6.add(renameButton);
         panel6.add(saveButton);
         panel6.setBackground(SharedResource.SIAMESE_LIGHT);
@@ -105,11 +110,12 @@ public class Profile extends JPanel implements ActionListener {
         panel2.setAlignmentY(0.5f);
         panel8.add(panel2);
         panel8.setBorder(new EmptyBorder(20,20,40,40));
+
         panel3 = new JPanel();
-        panel3.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,40,40));
         panel3.setLayout(new FlowLayout(FlowLayout.CENTER,30,30));
         panel3.setBorder(new EmptyBorder(10,10,10,10));
-        panel3.setPreferredSize(new Dimension(300,1900));
+        panel3.setPreferredSize(new Dimension(300,(Math.ceilDiv(UserProfile.profilePictureList.size(),2) * 180 + 40)));
+        panel3.setBackground(SharedResource.SIAMESE_BRIGHT);
         for (String s : UserProfile.profilePictureList.keySet()) {
             ProfilePicture o = UserProfile.profilePictureList.get(s);
             o.getButton().setPreferredSize(new Dimension(150,150));
@@ -118,11 +124,19 @@ public class Profile extends JPanel implements ActionListener {
         }
         selectedImage.setSelect(true);
 
+
+
         JScrollPane scrollPane = new JScrollPane(panel3);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(null);
+
+        JPanel profilePanel = new JPanel(new BorderLayout());
+        profilePanel.setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,40,40));
+        profilePanel.setBorder(new EmptyBorder(10,10,10,10));
+        profilePanel.add(scrollPane);
 
 
         panel8.setUI(new RoundPanelUI(SharedResource.SIAMESE_DARK,30,30));
@@ -133,7 +147,7 @@ public class Profile extends JPanel implements ActionListener {
         this.setBorder(new EmptyBorder(20,20,40,40));
         this.setLayout(new BorderLayout(50,10));
         this.add(panel4,BorderLayout.WEST);
-        this.add(scrollPane,BorderLayout.CENTER);
+        this.add(profilePanel,BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(1100,500));
 
         saveButton.addActionListener(this);

@@ -4,19 +4,23 @@ import GUI.Component.RoundBorder;
 import utils.SharedResource;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.*;
 
 public class TextFieldUI extends BasicTextFieldUI {
+
+
     @Override
     protected void paintSafely(Graphics g) {
         JTextField tmp = ((JTextField)getComponent());
         tmp.setFont(SharedResource.getCustomSizeFont(28));
-        tmp.setHorizontalAlignment(SwingConstants.CENTER);
         tmp.setBounds(getComponent().getBounds());
         tmp.setForeground(SharedResource.SIAMESE_DARK);
-        //hostIpField.setBorder(BorderFactory.createLineBorder(new Color(100,90,82),3));
-        tmp.setBorder(new RoundBorder(SharedResource.SIAMESE_BASE, null, 3, 20));
+        tmp.setBorder(new CompoundBorder(
+                new RoundBorder(SharedResource.SIAMESE_BASE, null, 3, 20),
+                BorderFactory.createEmptyBorder(10,10,10,10)
+        ));
         tmp.setOpaque(false); // ทำให้พื้นหลังของ JTextField โปร่งใส
         tmp.setBackground((tmp.getParent().getBackground()));
         super.paintSafely(g);

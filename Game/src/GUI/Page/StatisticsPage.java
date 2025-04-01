@@ -21,9 +21,14 @@ public class StatisticsPage extends Page {
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
         topPanel.setPreferredSize(new Dimension(Router.getMainFrame().getWidth(), 150));
+        topPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        JPanel fknblank = new JPanel();
+        fknblank.setPreferredSize(new Dimension(exitButton.getPreferredSize().width, exitButton.getPreferredSize().height));
+        fknblank.setBackground(SharedResource.SIAMESE_BRIGHT);
+
         topPanel.add(exitButton, BorderLayout.WEST);
         topPanel.add(titleLabel, BorderLayout.CENTER);
-        topPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
+        topPanel.add(fknblank, BorderLayout.EAST);
 
         contentPanel = new JPanel();
         contentPanel.setBackground(SharedResource.TRANSPARENT);
