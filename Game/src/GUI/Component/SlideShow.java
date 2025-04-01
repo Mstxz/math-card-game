@@ -27,6 +27,7 @@ public class SlideShow extends JPanel implements MouseListener, ActionListener {
     protected JButton closeButton;
     public SlideShow(Page page, ArrayList<String> slidesPath){
         this.page = page;
+
         currentIndex = 0;
         slides = new ArrayList<>();
         for (String s : slidesPath) {
@@ -52,6 +53,7 @@ public class SlideShow extends JPanel implements MouseListener, ActionListener {
         setBorder(new EmptyBorder(10,30,10,30));
         setUI(new RoundPanelUI(SharedResource.SIAMESE_BRIGHT,30,30));
         setSize(1600,840);
+        this.setVisible(false);
     }
 
     @Override

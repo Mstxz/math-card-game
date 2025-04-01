@@ -18,7 +18,7 @@ import utils.UIManager.RoundPanelUI;
 import utils.SharedResource;
 import utils.UIManager.CustomScrollBarUI;
 
-public class CardInspector extends JPanel implements MouseListener, KeyListener {
+public class CardInspector extends JPanel implements MouseListener {
 	private Page				gui;
 	private JLabel				img;
 	private	JLabel				name;
@@ -95,7 +95,6 @@ public class CardInspector extends JPanel implements MouseListener, KeyListener 
 
 		this.setSize(gui.getMainFrame().getWidth(), gui.getMainFrame().getHeight());
 		this.addMouseListener(this);
-		this.gui.getMainFrame().addKeyListener(this);
 		this.setOpaque(false);
 		this.setVisible(true);
 	}
@@ -105,33 +104,16 @@ public class CardInspector extends JPanel implements MouseListener, KeyListener 
 		SFXSwitcher.cardDescDown(card);
 		this.removeAll();
 		this.removeMouseListener(this);
-		this.gui.getMainFrame().removeKeyListener(this);
 		this.setVisible(false);
 		gui.clearOverlay();
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int code = e.getKeyCode();
-//		if (code == KeyEvent.VK_ESCAPE || code == KeyEvent.VK_SPACE){ // TODO Reconfigure keyBinding of keyListener
-		if (code != KeyEvent.VK_ESCAPE){
-			SFXSwitcher.cardDescDown(card);
-			this.removeAll();
-			this.removeMouseListener(this);
-			this.gui.getMainFrame().removeKeyListener(this);
-			this.setVisible(false);
-			gui.clearOverlay();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
+	public void closeInspect(){
+		SFXSwitcher.cardDescDown(card);
+		this.removeAll();
+		this.removeMouseListener(this);
+		this.setVisible(false);
+		gui.clearOverlay();
 	}
 
 	@Override

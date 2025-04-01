@@ -47,16 +47,16 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 	private JButton 		howtoplayButton;
 	private boolean 		isPlayerTurn;
 	private SelectOpponent 	selectOpponent;
-	private GameMenu quitMenu;
-	private TurnCount turnCount;
-	private Game game;
-	public boolean	isBlocked;
-	private Random rand = new Random();
+	private final GameMenu quitMenu;
+	private final TurnCount turnCount;
+	private final Game game;
+	private final HowToPlaySlide howToPlaySlide;
+	private CardInspector cardInspector;
 
 	public AvengerAssembleGUI(Game game) {
 		super();
+		howToPlaySlide = new HowToPlaySlide(this);
 		this.getMainPanel().setBackground(SharedResource.SIAMESE_BRIGHT);
-		this.isBlocked = false;
 		this.game = game;
 		this.game.setObserver(this);
 		opponents = new ArrayList<>();
@@ -76,11 +76,16 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 					quitMenu.setVisible(false);
 					removeOverlay(quitMenu);
 				}
+				else if (cardInspector != null && cardInspector.isVisible()){
+					cardInspector.closeInspect();
+				}
+				else if (howToPlaySlide.isVisible()){
+					howToPlaySlide.setVisible(false);
+				}
 				else{
 					showOverlay(quitMenu,OverlayPlacement.CENTER);
 					quitMenu.setVisible(true);
 				}
-
 			}
 		});
 
@@ -157,12 +162,22 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		endTurnButton.setPreferredSize(new Dimension(150, 150));
 		endTurnButton.setMaximumSize(new Dimension(150, 150));
 
+
+		JPanel howToPlayWrapper = new JPanel(new BorderLayout());
+		howToPlayWrapper.setUI(new RoundPanelUI(SharedResource.SKYBLUE_DARK,60,60,true,false,true,false));
+
+
+
 		howtoplayButton = new JButton("How to Play");
 		howtoplayButton.setFont(SharedResource.getCustomSizeFont(32));
 //		howtoplayButton.setUI(new ButtonUI());
-		howtoplayButton.setBackground(new Color(163, 190, 255, 255));
-		howtoplayButton.setMaximumSize(new Dimension(300, 60));
+		howtoplayButton.setBackground(SharedResource.SKYBLUE_DARK);
+		howtoplayButton.setBorderPainted(false);
+		howtoplayButton.setFocusPainted(false);
+		howtoplayButton.setContentAreaFilled(false);
 		howtoplayButton.setForeground(Color.WHITE);
+
+		howToPlayWrapper.add(howtoplayButton);
 
 		JPanel middlePanel = new JPanel();
 		middlePanel.setLayout(new BorderLayout());
@@ -176,7 +191,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		JPanel endTurnPanel = new JPanel();
 		endTurnPanel.setLayout(new BorderLayout(0,60));
 		endTurnPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
-		endTurnPanel.add(howtoplayButton,BorderLayout.NORTH);
+		endTurnPanel.add(howToPlayWrapper,BorderLayout.NORTH);
 		endTurnPanel.add(endTurnWrapper);
 		endTurnPanel.setPreferredSize(new Dimension(300, 400));
 
@@ -197,6 +212,8 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		mainPanel.setVisible(true);
 
 		endTurnButton.addActionListener(this);
+
+		howtoplayButton.addActionListener(this);
 
 		onHandChanged();
 		updatePlayerHUD();
@@ -278,6 +295,9 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 				}
 			}
 		}
+		if (e.getSource().equals(howtoplayButton)){
+			howToPlaySlide.setVisible(true);
+		}
 	}
 
 	public void playCard(int cardIndex,Player receiver){
@@ -354,6 +374,12 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 			showOverlay(new ResultShow("Draw"),0,0, mainPanel.getWidth(), mainPanel.getHeight());
 			setBackdropDim(true);
 		}
+	}
+
+	public void showCardInspector(CardInspector cardInspector) {
+		this.cardInspector = cardInspector;
+		this.getOverlayPanel().add(cardInspector);
+		this.setBackdropDim(true);
 	}
 
 	@Override
