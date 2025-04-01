@@ -76,7 +76,7 @@ public class GameForGUI extends Game {
                                 if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
                                     UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
                                 }
-                                else if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Player) {
+                                else if (turnOrder.get((loseList.getFirst()+1) % 2) != null) {
                                     UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
                                 }
                                 SettingController.updatePreference();
@@ -110,7 +110,7 @@ public class GameForGUI extends Game {
                         if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
                             UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
                         }
-                        else if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Player) {
+                        else if (turnOrder.get((loseList.getFirst()+1) % 2) != null) {
                             UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
                         }
                         SettingController.updatePreference();
@@ -148,7 +148,7 @@ public class GameForGUI extends Game {
             if (winner.getFirst() instanceof Bot){
                 UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
             }
-            else if (winner.getFirst() instanceof Player) {
+            else if (winner.getFirst() != null) {
                 UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
             }
             SettingController.updatePreference();
@@ -235,7 +235,7 @@ public class GameForGUI extends Game {
                         if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
                             UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
                         }
-                        else if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Player){
+                        else if (turnOrder.get((loseList.getFirst()+1) % 2) != null){
                             UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
                         }
                         SettingController.updatePreference();
