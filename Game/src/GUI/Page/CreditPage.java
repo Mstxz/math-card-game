@@ -16,7 +16,6 @@ public class CreditPage extends Page {
 
     public CreditPage() {
         BGMPlayer.stopBackgroundMusic();
-        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/PurrfectEquations_OST.wav", true);
         exitButton = new ExitButton("MainMenu");
         mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
@@ -47,6 +46,7 @@ public class CreditPage extends Page {
 
         mainPanel.add(topPanel);
         mainPanel.add(creditPanel);
+        BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/PurrfectEquations_OST.wav", true);
 
     }
 
