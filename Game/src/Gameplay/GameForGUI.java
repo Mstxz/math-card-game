@@ -70,6 +70,18 @@ public class GameForGUI extends Game {
                         ArrayList<Integer> loseList = Player.checkLose(turnOrder);
                         if(!loseList.isEmpty()){
                             saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
+
+                            if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
+                                UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
+                                if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
+                                    UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
+                                }
+                                else {
+                                    UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
+                                }
+                                SettingController.updatePreference();
+                            }
+
                             observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
                             return;
                         }
@@ -93,6 +105,17 @@ public class GameForGUI extends Game {
                 ArrayList<Integer> loseList = Player.checkLose(turnOrder);
                 if(!loseList.isEmpty()){
                     saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
+                    if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
+                        UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
+                        if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
+                            UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
+                        }
+                        else {
+                            UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
+                        }
+                        SettingController.updatePreference();
+                    }
+
                     observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
                     return;
                 }
@@ -119,6 +142,16 @@ public class GameForGUI extends Game {
         winner.add(null);
         if (!(winner.getFirst() instanceof Bot)){
             System.out.println(winner.getFirst());
+        }
+        if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
+            UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
+            if (winner.getFirst() instanceof Bot){
+                UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
+            }
+            else {
+                UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
+            }
+            SettingController.updatePreference();
         }
         System.out.println("End if");
         saveAchievement(winner.getFirst());
@@ -193,6 +226,16 @@ public class GameForGUI extends Game {
         observer.onCardPlayed(cardPlayed);
         if (isGameEnded()){
             ArrayList<Integer> loseList = Player.checkLose(turnOrder);
+            if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
+                UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
+                if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
+                    UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
+                }
+                else {
+                    UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
+                }
+                SettingController.updatePreference();
+            }
             saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
             observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
         }

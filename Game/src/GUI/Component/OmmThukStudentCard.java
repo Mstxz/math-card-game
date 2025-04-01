@@ -1,6 +1,7 @@
 package GUI.Component;
 
 import GUI.Router;
+import GUI.Setting.UserPreference;
 import utils.SharedResource;
 
 import javax.swing.*;
@@ -30,9 +31,9 @@ public class OmmThukStudentCard extends JPanel {
         this.image = loadPicture(getProfileURL(), 230, 230);
 
         username = new StudentCardInformation(new Dimension(600, 230), "NAME", name);
-        playBotCount = new StudentCardInformation(new Dimension(200, 150), "PLAY BOT", String.format("%d",1));
-        winBotCount = new StudentCardInformation(new Dimension(200, 150), "WIN BOT", String.format("%d",1));
-        loseBotCount = new StudentCardInformation(new Dimension(200, 150), "LOSE BOT", String.format("%d",1));
+        playBotCount = new StudentCardInformation(new Dimension(200, 150), "PLAY BOT", String.format("%d", UserPreference.getInstance().getWinStat().getPlay()));
+        winBotCount = new StudentCardInformation(new Dimension(200, 150), "WIN BOT", String.format("%d",UserPreference.getInstance().getWinStat().getWin()));
+        loseBotCount = new StudentCardInformation(new Dimension(200, 150), "LOSE BOT", String.format("%d",UserPreference.getInstance().getWinStat().getLose()));
 
         /*set up*/
         setBorder(new RoundBorder(SharedResource.SIAMESE_DARK, SharedResource.SIAMESE_LIGHT, 3, 100));
