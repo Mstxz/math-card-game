@@ -29,7 +29,7 @@ public class Router implements ComponentListener {
         mainFrame.setSize(1920,1080);
         mainFrame.setLayout(new BorderLayout());
         mainFrame.addComponentListener(this);
-        mainFrame.setVisible(true);
+
         layeredPane = new JLayeredPane();
         try {
             ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("assets/icon.png"));
@@ -40,6 +40,7 @@ public class Router implements ComponentListener {
         mainFrame.setFocusable(true);
         mainFrame.setContentPane(layeredPane);
         SettingController.update();
+        mainFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

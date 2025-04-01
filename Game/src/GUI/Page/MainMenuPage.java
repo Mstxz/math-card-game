@@ -201,10 +201,8 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             Router.setRoute("Statistics",null);
         }
         else if (e.getSource().equals(tutorialButton)){
-            animation.stop();
-            (new HowToPlaySlide(this)).setVisible(
-                    true
-            );
+
+            (new HowToPlaySlide(this)).setVisible(true);
             return;
             //Router.setRoute("Tutorial",null);
         }
@@ -212,6 +210,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             animation.stop();
             Router.setRoute("Credit",null);
         }
+
         this.mainFrame.removeKeyListener(this);
     }
 
