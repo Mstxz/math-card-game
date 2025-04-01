@@ -155,6 +155,7 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		endTurnButton.setForeground(new Color(102, 142, 169, 0));
 
 		endTurnButton.setPreferredSize(new Dimension(150, 150));
+		endTurnButton.setMaximumSize(new Dimension(150, 150));
 
 		howtoplayButton = new JButton("How to Play");
 		howtoplayButton.setFont(SharedResource.getCustomSizeFont(32));
@@ -167,16 +168,17 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 		middlePanel.setLayout(new BorderLayout());
 		middlePanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
+
+		JPanel endTurnWrapper = new JPanel();
+		endTurnWrapper.add(endTurnButton);
+		endTurnWrapper.setBackground(SharedResource.SIAMESE_BRIGHT);
+
 		JPanel endTurnPanel = new JPanel();
-		endTurnPanel.setLayout(new BoxLayout(endTurnPanel,BoxLayout.Y_AXIS));
+		endTurnPanel.setLayout(new BorderLayout(0,60));
 		endTurnPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
-		endTurnPanel.add(howtoplayButton);
-		endTurnPanel.add(Box.createVerticalStrut(50));
-		endTurnPanel.add(endTurnButton);
+		endTurnPanel.add(howtoplayButton,BorderLayout.NORTH);
+		endTurnPanel.add(endTurnWrapper);
 		endTurnPanel.setPreferredSize(new Dimension(300, 400));
-		endTurnPanel.setBorder(new LineBorder(SharedResource.SIAMESE_DARK,4));
-
-
 
 		turnCount = new TurnCount();
 
@@ -280,9 +282,6 @@ public class AvengerAssembleGUI extends Page implements ActionListener,GameObser
 
 	public void playCard(int cardIndex,Player receiver){
 		game.playerPlay(cardIndex,receiver);
-		if (game.isGameEnded()){
-			game.notifyEndTurn();
-		}
 	}
 
 	public Player getPlayer() {

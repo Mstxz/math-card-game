@@ -190,6 +190,12 @@ public class GameForGUI extends Game {
         getPlayer().getDeck().getDispose().add(getPlayer().getHand().get(cardIndex));
         getPlayer().getHand().remove(cardIndex);
         observer.onCardPlayed();
+        if (isGameEnded()){
+            ArrayList<Integer> loseList = Player.checkLose(turnOrder);
+            saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
+            observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
+        }
+
     }
 }
 
