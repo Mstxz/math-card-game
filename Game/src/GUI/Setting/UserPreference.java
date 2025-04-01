@@ -21,6 +21,7 @@ public class UserPreference implements Serializable {
             if (userFile.exists()){
                 try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(userFile));){
                     userPreference = (UserPreference) oi.readObject();
+                    System.out.println(userPreference.toString());
                 }
                 catch (ClassNotFoundException | IOException e){
                     userPreference = new UserPreference();
@@ -96,5 +97,16 @@ public class UserPreference implements Serializable {
 
     public void setProfile(UserProfile profile) {
         this.profile = profile;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPreference{" +
+                "resolutionIndex=" + resolutionIndex +
+                ", SFXVolume=" + SFXVolume +
+                ", MusicVolume=" + MusicVolume +
+                ", profile=" + profile +
+                ", achievementProfile=" + achievementProfile.toString() +
+                '}';
     }
 }
