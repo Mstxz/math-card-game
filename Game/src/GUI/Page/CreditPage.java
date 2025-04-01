@@ -26,7 +26,7 @@ public class CreditPage extends Page {
 
         topPanel = new JPanel(new BorderLayout());
         topPanel.setPreferredSize(new Dimension(Router.getMainFrame().getWidth(), 100));
-        topPanel.setBackground(SharedResource.TRANSPARENT);
+        topPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
         topPanel.add(exitButton, BorderLayout.WEST);
         topPanel.add(creditLabel, BorderLayout.CENTER);
 

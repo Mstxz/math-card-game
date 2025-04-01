@@ -6,6 +6,7 @@ import utils.SharedResource;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,11 +17,9 @@ public class ExitButton extends JButton implements ActionListener {
         this.route = route;
         setPreferredSize(new Dimension(100, 40));
         setFocusPainted(false);
-        setBorderPainted(false);
         setContentAreaFilled(false);
         setFont(SharedResource.getCustomSizeFont(24));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
         addActionListener(this);
     }
     public void cleanUp(){}
