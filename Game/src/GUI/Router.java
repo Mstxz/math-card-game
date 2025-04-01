@@ -78,6 +78,7 @@ public class Router implements ComponentListener {
         mainFrame.revalidate();
         mainFrame.repaint();
         mainFrame.addWindowListener(new WindowListener() {
+            private boolean writing = false;
             @Override
             public void windowOpened(WindowEvent e) {
 
@@ -85,7 +86,11 @@ public class Router implements ComponentListener {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                UserPreference.writeFile();
+                if (!writing){
+                    writing = true;
+                    UserPreference.writeFile();
+
+                }
             }
 
             @Override
