@@ -6,11 +6,14 @@ import GUI.Page.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import GUI.Setting.Controller.SettingController;
+import GUI.Setting.UserPreference;
 import GameSocket.NIOClient;
 import utils.SharedResource;
 
@@ -74,6 +77,42 @@ public class Router implements ComponentListener {
         mainFrame.setTitle(currentPage.getTitle());
         mainFrame.revalidate();
         mainFrame.repaint();
+        mainFrame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                UserPreference.writeFile();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
     }
 
     public static void refresh(){

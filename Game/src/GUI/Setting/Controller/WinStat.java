@@ -1,6 +1,8 @@
 package GUI.Setting.Controller;
 
-public class WinStat {
+import java.io.Serializable;
+
+public class WinStat implements Serializable {
     private int win;
     private int lose;
     private int play;
