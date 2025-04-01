@@ -8,8 +8,10 @@ import utils.SharedResource;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class StatisticsPage extends Page {
+public class StatisticsPage extends Page implements KeyListener {
     private JPanel topPanel;
     private JPanel contentPanel;
     private final JLabel titleLabel = new JLabel("Statistics");
@@ -17,7 +19,13 @@ public class StatisticsPage extends Page {
     public StatisticsPage() {
         mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
-        exitButton = new ExitButton("MainMenu");
+        exitButton = new ExitButton("MainMenu"){
+            @Override
+            public void cleanUp() {
+                mainFrame.removeKeyListener(StatisticsPage.this);
+            }
+        };
+        mainFrame.addKeyListener(this);
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
         topPanel.setPreferredSize(new Dimension(Router.getMainFrame().getWidth(), 150));
@@ -40,5 +48,28 @@ public class StatisticsPage extends Page {
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(contentPanel);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code;
+
+        if (!this.getMainPanel().isFocusable())
+            return;
+        code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE){
+            this.getMainFrame().removeKeyListener(this);
+            Router.setRoute("MainMenu",null);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 }

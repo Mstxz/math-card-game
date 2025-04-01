@@ -98,6 +98,8 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         creditButton = new MainMenuButton("Credits");
         exitButton = new MainMenuButton("Exit");
 
+        exitButton.setFocusable(false);
+
         ButtonZone.add(Title);
         ButtonZone.add(playButton);
         ButtonZone.add(yourDecksButton);

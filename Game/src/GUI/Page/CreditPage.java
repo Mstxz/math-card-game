@@ -8,15 +8,23 @@ import utils.SharedResource;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class CreditPage extends Page {
+public class CreditPage extends Page implements KeyListener {
     private JPanel topPanel, creditPanel;
     private JLabel creditLabel;
     private ExitButton exitButton;
 
     public CreditPage() {
         BGMPlayer.stopBackgroundMusic();
-        exitButton = new ExitButton("MainMenu");
+        exitButton = new ExitButton("MainMenu"){
+            @Override
+            public void cleanUp() {
+                mainFrame.removeKeyListener(CreditPage.this);
+            }
+        };
+        mainFrame.addKeyListener(this);
         mainPanel.setBackground(SharedResource.SIAMESE_BRIGHT);
 
         creditLabel = new JLabel("Credits");
@@ -50,4 +58,26 @@ public class CreditPage extends Page {
 
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code;
+
+        if (!this.getMainPanel().isFocusable())
+            return;
+        code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE){
+            this.getMainFrame().removeKeyListener(this);
+            Router.setRoute("MainMenu",null);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
 }

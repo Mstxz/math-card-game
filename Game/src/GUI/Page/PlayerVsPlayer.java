@@ -9,6 +9,8 @@ import GUI.Component.PlayerPanelComponent; //จัดแสดงรูป
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -26,12 +28,13 @@ import Gameplay.Player;
 import utils.UIManager.RoundPanelUI;
 
 
-public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserver, CountObserver {
+public class PlayerVsPlayer extends Page implements ActionListener, KeyListener, LobbyObserver, CountObserver {
     private ArrayList<Player> list;
     private JLabel title,head;
     private NIOClient client;
     private ButtonPanelComponent btnPanel;
     private PlayerPanelComponent playerPanel;
+    private ExitButton exitButton;
     //private Image bg;
 
     public PlayerVsPlayer(NIOClient client) {
@@ -55,12 +58,12 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         head = new JLabel("Matchmaking...");
         head.setFont(SharedResource.getCustomSizeFont(36));
         head.setHorizontalAlignment(SwingConstants.CENTER);
-        ExitButton exitButton = new ExitButton("SelMode"){
+        exitButton = new ExitButton("SelMode"){
             @Override
             public void cleanUp() {
                 client.notifyQuit();
                 NIOServer.getInstance().stopServer();
-
+                mainFrame.removeKeyListener(PlayerVsPlayer.this);
             }
         };
 
@@ -97,6 +100,9 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         panel.add(centerPanel, BorderLayout.CENTER);
         //panel.setBorder(new LineBorder(SharedResource.SIAMESE_BASE,5));
         mainPanel.add(panel, BorderLayout.CENTER);
+
+        mainFrame.addKeyListener(this);
+
         client.addLobbyObserver(this);
         client.setCountObserver(this);
         client.addLobbyObserver(playerPanel);
@@ -119,6 +125,8 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
 
             }
 
+        } else if (e.getSource().equals(exitButton)) {
+//            this.mainFrame.removeKeyListener(this);
         }
     }
 
@@ -168,8 +176,32 @@ public class PlayerVsPlayer extends Page implements ActionListener, LobbyObserve
         //NIOServer.getInstance().stopServer();
         Router.setRoute("SelMode",null);
     }
-}
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code;
+
+        System.out.println("Pressed");
+//        if (!this.getMainPanel().isFocusable())
+//            return;
+        code = e.getKeyCode();
+        if (code == KeyEvent.VK_ESCAPE){
+            System.out.println("Quit from keyboard");
+            this.getMainFrame().removeKeyListener(this);
+            Router.setRoute("SelMode",null);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+}
 
 
 /*
