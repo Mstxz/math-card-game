@@ -1,9 +1,11 @@
 package GUI.Component;
 
 import java.awt.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.*;
@@ -154,9 +156,9 @@ public class PopupMenu extends JPanel {
         File folder = new File("Assets");
         File[] fileList = folder.listFiles();
         if (fileList.length == 0){
-            File newDeck = new File("Assets/YourDeck.deck");
-            try{
-                newDeck.createNewFile();
+            File newDeck = new File("Assets/Default Deck.deck");
+            try(BufferedInputStream sourceDeck = ResourceLoader.loadFileAsStream("assets/ConstantAsset/Default Deck.deck")){
+                Files.copy(sourceDeck, newDeck.toPath());
                 folder = new File("Assets");
                 fileList = folder.listFiles();
             } catch (IOException e) {
