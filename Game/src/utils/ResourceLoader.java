@@ -66,7 +66,7 @@ public class ResourceLoader {
     }
 
     public static BufferedInputStream loadFileAsStream(String file){
-        return (BufferedInputStream) ResourceLoader.class.getClassLoader().getResourceAsStream(file);
+        return new BufferedInputStream(ResourceLoader.class.getClassLoader().getResourceAsStream(file));
     }
 
     public static ArrayList<String> readFile(String file){
