@@ -28,12 +28,11 @@ public class AngryCat extends Card {
             enemy.getDeck().addDispose(i);
         }
         enemy.setHand(new ArrayList<Card>());
-
-        for (int i = 0;i<selfHandSize;i++){
+        for (int i = 0; i < Math.min(selfHandSize,self.getDeck().getCards().size()); i++) {
             self.draw();
         }
-        for (int i = 0;i<enemyHandSize;i++){
-            enemy.draw();
+        for (int i = 0; i < Math.min(enemyHandSize,enemy.getDeck().getCards().size()); i++) {
+            self.draw();
         }
     }
 

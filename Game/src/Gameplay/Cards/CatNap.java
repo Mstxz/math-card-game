@@ -16,8 +16,9 @@ public class CatNap extends Card {
 
     @Override
     public void action(Player self, Player enemy) {
-        self.draw();
-        self.draw();
+        for (int i = 0; i < Math.min(2,self.getDeck().getCards().size()); i++) {
+            self.draw();
+        }
         self.setMana(self.getMana()-this.manaUsed);
 
     }

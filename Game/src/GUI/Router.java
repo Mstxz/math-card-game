@@ -50,11 +50,11 @@ public class Router implements ComponentListener {
             }
         });
         mainFrame.setResizable(false);
+        setRoute("MainMenu",null);
     }
 
     public static void main(String[] args) {
         new Router();
-        Router.setRoute("MainMenu",null);
 
 
     }

@@ -221,6 +221,17 @@ public class Player implements Cloneable{
         return lose;
     }
 
+    public static ArrayList<Integer> checkLoseHP(ArrayList<Player> playerList){
+        ArrayList<Integer> lose = new ArrayList<>();
+        for (Player p:playerList){
+            if (((Constant)(p.getHp())).getNumber() == 0){
+                lose.add(p.getPlayerNumber());
+            }
+        }
+        return lose;
+    }
+
+
 
     public static boolean checkWinNonPrint(Player a,Player b){
         return ((Constant) (a.getHp())).getNumber() == 0 || a.getDeck().getCards().isEmpty() || ((Constant) (b.getHp())).getNumber() == 0 || b.getDeck().getCards().isEmpty();

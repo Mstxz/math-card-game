@@ -465,6 +465,16 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)){
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Confirm.wav");
+            if (showCardAmount.getCardAmount() < 5){
+                AlertMenu alert = new AlertMenu(this,"Deck must contain at least 5 cards",700,400);
+                alert.setVisible(true);
+                return;
+            }
+            if (showCardAmount.getCardAmount() > 60){
+                AlertMenu alert = new AlertMenu(this,"Deck must contain no more than 60 cards",700,400);
+                alert.setVisible(true);
+                return;
+            }
             if (!popupMenu.getCurrentDeck().getFileName().equals(popupMenu.getCurrentName())){
                 File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
                 if (f.delete()) {
@@ -488,7 +498,7 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
                     }
                     System.out.println("Have Text");
                     System.out.println(text);
-                    for (int j = 0;j<text.toCharArray().length;j++){
+                    for (int j = 0; j< text.length(); j++){
                         try {
                             out.write((int)(text.charAt(j)));
                         }

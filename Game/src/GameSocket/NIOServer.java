@@ -266,7 +266,7 @@ public class NIOServer extends Thread {
                             gameState.getPlayers().get(ownerID).getHand().remove(cardIndex);
                             ArrayList<Player> playerArrayList = new ArrayList<>(gameState.getPlayers());
                             handStateUpdate();
-                            ArrayList<Integer> loseList = Player.checkLose(playerArrayList);
+                            ArrayList<Integer> loseList = Player.checkLoseHP(playerArrayList);
                             if(!loseList.isEmpty()){
                                 Request gameEnded = new Request(ProtocolOperation.END_GAME);
                                 gameEnded.appendData((loseList.getFirst() + 1) % 2);
@@ -314,6 +314,14 @@ public class NIOServer extends Thread {
                             gameState.incrementTurn();
                             Request startTurn = new Request(ProtocolOperation.START_TURN);
                             startTurn.appendData(gameState.getCurrentTurn());
+                            ArrayList<Integer> loseList = Player.checkLose(new ArrayList<Player>(gameState.getPlayers()));
+                            if(gameState.getCurrentPlayer().getDeck().getCards().isEmpty()){
+                                Request gameEnded = new Request(ProtocolOperation.END_GAME);
+                                gameEnded.appendData((loseList.getFirst() + 1) % 2);
+                                pushUpdate(gameEnded);
+                                serverInfo.setPendingClose(true);
+                                return;
+                            }
                             drawCards(gameState.getCurrentTurn(),1);
                             handStateUpdate();
                             gameState.setTurnCount(gameState.getTurnCount() + 1);

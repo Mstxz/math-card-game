@@ -55,9 +55,28 @@ public class GameForGUI extends Game {
             if (!isRunning){
                 return;
             }
-            observer.onTurnCountChange(i + 1);
             Player inPlay = turnOrder.get(i%2);
+            observer.onTurnCountChange(i + 1);
+            ArrayList<Integer> loseList = Player.checkLose(turnOrder);
+            if(!loseList.isEmpty() && turnOrder.get(loseList.getFirst()) == inPlay){
+                saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
+                if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
+                    UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
+                    if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
+                        UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
+                    }
+                    else if (turnOrder.get((loseList.getFirst()+1) % 2) != null) {
+                        UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
+                    }
+                    SettingController.updatePreference();
+                }
+
+                observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
+                return;
+            }
+
             inPlay.draw();
+            observer.onStatChanged();
             observer.onHandChanged();
             if(inPlay instanceof Bot){
                 int targetId = playerOrder;
@@ -67,7 +86,7 @@ public class GameForGUI extends Game {
                     Thread.sleep(500);
                     while ((c = inPlay.play(inPlay,turnOrder.get(targetId))) != null){
                         observer.onCardPlayed(c);
-                        ArrayList<Integer> loseList = Player.checkLose(turnOrder);
+                        loseList = Player.checkLoseHP(turnOrder);
                         if(!loseList.isEmpty()){
                             saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
 
@@ -89,6 +108,8 @@ public class GameForGUI extends Game {
                         Thread.sleep(750);
                         System.out.println(c.getName()+" "+c.getType().toString());
                     }
+
+
                     System.out.println("Bot End");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -102,23 +123,6 @@ public class GameForGUI extends Game {
                 if (!isRunning){
                     return;
                 }
-                ArrayList<Integer> loseList = Player.checkLose(turnOrder);
-                if(!loseList.isEmpty()){
-                    saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
-                    if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
-                        UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
-                        if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
-                            UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
-                        }
-                        else if (turnOrder.get((loseList.getFirst()+1) % 2) != null) {
-                            UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
-                        }
-                        SettingController.updatePreference();
-                    }
-
-                    observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
-                    return;
-                }
             }
 
             if (inPlay.getMaxMana()<10){
@@ -126,6 +130,7 @@ public class GameForGUI extends Game {
             }
             inPlay.setMana(inPlay.getMaxMana());
             observer.onTurnEnded();
+
         }
         ArrayList<Player> winner = new ArrayList<>();
         int maxScore = -1;
@@ -185,7 +190,7 @@ public class GameForGUI extends Game {
 
     @Override
     public boolean isGameEnded(){
-        return !Player.checkLose(turnOrder).isEmpty();
+        return !Player.checkLoseHP(turnOrder).isEmpty();
     }
 
     @Override
@@ -225,7 +230,7 @@ public class GameForGUI extends Game {
         getPlayer().getHand().remove(cardIndex);
         observer.onCardPlayed(cardPlayed);
         if (isGameEnded()){
-            ArrayList<Integer> loseList = Player.checkLose(turnOrder);
+            ArrayList<Integer> loseList = Player.checkLoseHP(turnOrder);
             observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
             Runnable save = new Runnable() {
                 @Override
