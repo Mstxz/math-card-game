@@ -174,6 +174,7 @@ public class SelectBotRoom extends Page implements ActionListener, KeyListener {
     private String userDeckName;
 
     public SelectBotRoom() {
+        SFXSwitcher.botSelectSwitcher("Pupr");
         setUpBotList();
         initComponents();
         setupLayout();

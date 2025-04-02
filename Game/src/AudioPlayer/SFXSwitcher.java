@@ -58,25 +58,7 @@ public class SFXSwitcher {
 
     public static void botSelectSwitcher(String bot){
         SFXPlayer.playSound(defaultButtonClick);
-        switch(bot){
-            case "Mystyr":
-                BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Bot_2_Mystyr.wav", true);
-                break;
-            case "Arsr":
-                BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Bot_4_Arsr.wav", true);
-                break;
-            case "OmmThuk":
-                BGMPlayer.stopBackgroundMusic();
-                BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Bot_5_OmmThuk.wav", true);
-                break;
-            default:
-                if (!BGMPlayer.getFilepath().equals("Game/src/assets/Audio/BGM/Lobby_BGM.wav")){
-                    BGMPlayer.stopBackgroundMusic();
-                    BGMPlayer.playBackgroundMusic("Game/src/assets/Audio/BGM/Lobby_BGM.wav", true);
-                }
-                break;
-        }
+        BGMPlayer.stopBackgroundMusic();
+        BGMPlayer.playBackgroundMusic(String.format("Game/src/assets/Audio/BGM/Bot_%s.wav", bot),true);
     }
 }
