@@ -182,12 +182,10 @@ public class PlayerVsPlayer extends Page implements ActionListener, KeyListener,
     public void keyPressed(KeyEvent e) {
         int code;
 
-        System.out.println("Pressed");
 //        if (!this.getMainPanel().isFocusable())
 //            return;
         code = e.getKeyCode();
         if (code == KeyEvent.VK_ESCAPE){
-            System.out.println("Quit from keyboard");
             this.getMainFrame().removeKeyListener(this);
             Router.setRoute("SelMode",null);
         }

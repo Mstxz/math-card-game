@@ -161,7 +161,6 @@ public class Profile extends JPanel implements ActionListener {
         if (e.getSource().equals(saveButton)){
             UserPreference.getInstance().setProfile(new UserProfile(name.getText(),selectedKey) );
             SettingController.updatePreference();
-            System.out.println("Save");
             profileImage.setIcon(UserPreference.getInstance().getProfile().getProfilePicture().getImage());
             renameButton.setText("Rename");
             name.setEditable(false);

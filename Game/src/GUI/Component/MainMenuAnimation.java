@@ -42,7 +42,6 @@ public class MainMenuAnimation extends JPanel implements ActionListener {
     public void updateSize(int width,int height){
 
         for (int i = 0; i < 12; i++) {
-            System.out.println("assets/Animation/frame"+(i+1)+".png");
             frames[i] = ResourceLoader.loadBufferedPicture(ResourceLoader.loadPicture("assets/Animation/frame"+(i+1)+".webp",width,height).getImage());
         }
         this.setPreferredSize(new Dimension(width, height));

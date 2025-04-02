@@ -20,7 +20,6 @@ public class Who extends Bot{
             return null;
         }
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
-        Player.log(self,enemy);
         Card c = null;
         //Bring this condition to bot while loop
         if (!playable.isEmpty()) {
@@ -85,26 +84,19 @@ public class Who extends Bot{
                 Constant enemyOldHp = (Constant)enemy.getHp();
                 c.action(self, enemy);
                 int tmp = Math.abs(((Constant)getHp()).getNumber())-Math.abs(oldHp.getNumber());
-                System.out.println(tmp);
                 if (tmp<0){
                     endTurn = true;
                 }
                 tmp = Math.abs(((Constant)enemy.getHp()).getNumber())-Math.abs(enemyOldHp.getNumber());
-                System.out.println(tmp);
                 if (tmp>0){
                     endTurn = true;
                 }
 
-                System.out.println(this.getName() + " play " + c.getName() + " to " + c.getReceiver(self, enemy).getName());
+
                 this.getDeck().addDispose(c);
-                Player.log(self, enemy);
-//            playable = self.showCard(self,enemy);
-                System.out.println();
             }
         }
-        System.out.println();
 
-        System.out.println(c);
         return c;
 
     }

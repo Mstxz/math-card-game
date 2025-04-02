@@ -70,7 +70,6 @@ public class NIOServer extends Thread {
             while (serverInfo.isRunning()  ||  !registeredID.isEmpty() ) {
                 if (serverInfo.isPendingClose() && registeredID.isEmpty()){
                     stopServer();
-                    System.out.println("Out no registered");
                     continue;
                 }
                 try {
@@ -148,7 +147,6 @@ public class NIOServer extends Thread {
             }
             selector.close();
             server.close();
-            System.out.println("Server Closed");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -158,7 +156,6 @@ public class NIOServer extends Thread {
             SocketChannel clientChannel = serverChannel.accept();
             clientChannel.configureBlocking(false);
             clientChannel.register(selector, SelectionKey.OP_WRITE | SelectionKey.OP_READ);
-            System.out.println("CONNECTED: " + clientChannel.socket().getInetAddress().getHostAddress());
             for (int i=0;i<4;i++){
                 if (!registeredID.containsValue(i)){
                     registeredID.put(clientChannel,i);
@@ -187,7 +184,6 @@ public class NIOServer extends Thread {
             else if (bytesRead > 0){
                 buffer.flip();
                 Request clientReq = Request.decodeBytes(buffer.array());
-                System.out.println(clientReq);
                 switch (clientReq.getOperation()){
                     case ProtocolOperation.USER:
 
@@ -195,11 +191,9 @@ public class NIOServer extends Thread {
                             String name = r.readString();
                             String profileURL = r.readString();
                             int startHp = r.readInt();
-                            System.out.println("Player "+name+" has joined the game.");
                             playerState[this.registeredID.get(client)].getPlayerInfo().setName(name);
                             playerState[this.registeredID.get(client)].getPlayerInfo().setProfilePicture(profileURL);
                             playerState[this.registeredID.get(client)].getPlayerInfo().setHp(new Constant(startHp));
-                            System.out.println(playerState[this.registeredID.get(client)].getPlayerInfo());
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -220,7 +214,6 @@ public class NIOServer extends Thread {
                             if(playerState[i].isReady()) countReady++;
                             if(playerState[i].isStarted()) started=true;
                         }
-                        System.out.println("Ready: " + countReady);
                         if (countReady > 1 && countReady == registeredID.size()){
                             gameStarting = Instant.now().getEpochSecond() + 10;
                         }
@@ -244,7 +237,6 @@ public class NIOServer extends Thread {
 
                             playerState[registeredID.get(client)].setDeckPath(f.getAbsolutePath());
                             serverInfo.updateDeckLoaded(playerState);
-                            System.out.println(f.getAbsolutePath());
                             if (serverInfo.isDeckLoaded()){
                                 initGame();
                             }
@@ -345,7 +337,6 @@ public class NIOServer extends Thread {
 
     private void handleDisconnect(SocketChannel sc){
         try{
-            System.out.println("DISCONNECTED: " + sc.socket().getInetAddress().getHostAddress());
             playerState[registeredID.get(sc)] = null;
             Request request = new Request(ProtocolOperation.QUIT);
             request.appendData(registeredID.get(sc));
@@ -397,7 +388,6 @@ public class NIOServer extends Thread {
     }
 
     private void drawCards(int playerOrder,int numberOfCards){
-        System.out.println("Player " + playerOrder + " draw " + numberOfCards + " cards.");
         ArrayList<Card> cardsDraw = new ArrayList<>();
         for (int i = 0; i < numberOfCards; i++) {
             cardsDraw.add(gameState.getPlayers().get(playerOrder).draw());
@@ -418,8 +408,6 @@ public class NIOServer extends Thread {
                 for (PlayerState from : playerState) {
                     if (from != null) {
                         serverReq.appendData(from.getPlayerInfo().encodeBytes());
-                        System.out.println(serverReq);
-                        //bf.put(from.getPlayerInfo().encodeBytes());
                     }
                     else{
                         serverReq.appendData(new byte[]{});
@@ -456,7 +444,6 @@ public class NIOServer extends Thread {
         for(PlayerState ps:playerState){
             if (ps !=null){
                 ps.getDataOutQueue().add(req);
-                System.out.println(ps.getDataOutQueue());
             }
         }
     }

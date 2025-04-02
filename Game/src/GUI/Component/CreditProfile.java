@@ -76,7 +76,6 @@ public class CreditProfile extends JPanel implements ComponentListener {
         int panelWidth = Math.min(200, width / 5);
         int panelHeight = Math.min(400, height / 2);
         setPreferredSize(new Dimension(panelWidth, panelHeight));
-        System.out.println(panelWidth + " " + panelHeight);
 
 
         if (200 >= width) {

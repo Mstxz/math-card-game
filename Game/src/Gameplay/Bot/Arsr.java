@@ -32,24 +32,19 @@ public class Arsr extends Bot{
             return null;
         }
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
-        Player.log(self,enemy);
         Card c = null;
         //Bring this condition to bot while loop
         if (!playable.isEmpty()) {
             if (turnCount%3 == 0){
                 isClumsy = true;
-                System.out.println("Clumsy turn");
                 int index = (int)(Math.random()*playable.size());
                 c = this.getHand().remove((int) playable.get(index));
                 realTarget = (int)(Math.random()*2);
                 isRealPlay = true;
                 c.action(self, enemy);
 
-                System.out.println(this.getName() + " play " + c.getName() + " to " + c.getReceiver(self, enemy).getName());
                 this.getDeck().addDispose(c);
-                Player.log(self, enemy);
-//            playable = self.showCard(self,enemy);
-                System.out.println();
+
                 return c;
             }
             int index = -1;
@@ -136,28 +131,18 @@ public class Arsr extends Bot{
 
                 }
                 if (mostValue == 0){
-                    System.out.println("Not Playing, value = 0");
-                    System.out.println("Arsr: "+self.getHand().toString());
-                    System.out.println("Arsr: "+playable.toString());
                     return null;
                 }
                 isRealPlay = true;
                 resetSimulate(self,enemy,selfMana,selfHp,enemyHp);
-                System.out.println("Arsr: "+self.getHand().toString());
-                System.out.println("Arsr: "+playable.toString());
                 c = this.getHand().remove(index);
                 c.action(self, enemy);
 
-                System.out.println(this.getName() + " play " + c.getName() + " to " + c.getReceiver(self, enemy).getName());
                 this.getDeck().addDispose(c);
-                //Player.log(self, enemy);
-//            playable = self.showCard(self,enemy);
-                System.out.println();
+
             }
         }
-        System.out.println();
 
-        System.out.println(c);
         if (c == null){
             turnCount+=1;
         }
@@ -173,7 +158,6 @@ public class Arsr extends Bot{
     @Override
     public Player getTargetId(Player self, Player enemy, Card c) {
         if (isRealPlay){
-            System.out.println(realTarget);
             if (realTarget == 0){
                 return self;
             }

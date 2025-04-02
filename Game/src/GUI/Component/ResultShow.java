@@ -39,7 +39,6 @@ public class ResultShow extends JPanel implements ActionListener {
                 }
                 g2d.setColor(SharedResource.SIAMESE_LIGHT);
                 g2d.drawString(displayText, x,y);
-                System.out.println(x+ ", " + y);
             }
         };
 

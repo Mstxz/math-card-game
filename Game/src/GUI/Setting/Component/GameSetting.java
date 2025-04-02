@@ -29,7 +29,6 @@ public class GameSetting extends JPanel implements ActionListener {
     public GameSetting(){
         this.setLayout(new BorderLayout());
         resolution = new RotatingSettingOption(SettingController.resolutionList, UserPreference.getInstance().getResolutionIndex());
-        System.out.println(resolution.getCurrentIndex());
         panel1 = new JPanel();
         panel1.setLayout(new GridLayout(3,3));
         panel1.add(new JLabel("BGM Volume"));
@@ -72,7 +71,6 @@ public class GameSetting extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(applyButton)) {
-            System.out.println(resolution.getCurrentIndex());
             if (UserPreference.getInstance().getResolutionIndex() != resolution.getCurrentIndex()){
                 Router.getMainFrame().setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 UserPreference.getInstance().setResolutionIndex(resolution.getCurrentIndex());

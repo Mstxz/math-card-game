@@ -100,7 +100,6 @@ public class PopupMenu extends JPanel {
     public void updateMenuPanel() {
         menuPanel.removeAll();
         for (int i = 0; i < items.size(); i++) {
-            System.out.println(items.get(i).getSize());
             if (i == selectedIndex){
                 continue;
             }

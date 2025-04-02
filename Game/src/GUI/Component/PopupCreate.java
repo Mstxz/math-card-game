@@ -76,9 +76,7 @@ public class PopupCreate extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ConfirmButton) {
-            System.out.println("Confirm: " + renameField.getText());
         } else if (e.getSource() == CancelButton) {
-            System.out.println("Cancel");
             fr.dispose();
         }
     }

@@ -43,7 +43,6 @@ public class NIOClient extends Game {
         try {
             SocketAddress address = new InetSocketAddress(hostIP, 5000);
             channel = SocketChannel.open(address);
-            System.out.println("Client Start");
             channel.configureBlocking(true);
             Request req = new Request(ProtocolOperation.USER);
             req.appendData(UserPreference.getInstance().getProfile().getName());
@@ -63,9 +62,7 @@ public class NIOClient extends Game {
 
                 //String data = new String(buffer.array(),buffer.position(),byteRead);
                 if(serverRes.getOperation() == ProtocolOperation.ACKN){
-                    System.out.println("Acknowledged");
                     playerOrder = ByteBuffer.wrap(serverRes.getData()).getInt();
-                    System.out.println("Player Index:" + playerOrder);
                 }
 
             }
@@ -86,7 +83,6 @@ public class NIOClient extends Game {
                     }
                     lobbyLoaded = true;
                     notifyLobbyObserver();
-                    System.out.println("Successfully Connected");
                 }
             }
             channel.configureBlocking(false);
@@ -152,7 +148,6 @@ public class NIOClient extends Game {
                                     PlayerInfo playerInfo = PlayerInfo.decodeBytes(r.readByteData());
                                     turnOrder.add(playerInfo);
                                 }
-                                System.out.println(turnOrder);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
@@ -172,7 +167,6 @@ public class NIOClient extends Game {
                         case START_GAME:
                             try (RequestReader reader = new RequestReader(serverReq)){
                                 currentTurn = reader.readInt();
-                                System.out.println("Current Turn: " + currentTurn);
                             }
                             catch (Exception ex){
                                 ex.printStackTrace();
@@ -183,7 +177,6 @@ public class NIOClient extends Game {
                             break;
                         case QUIT:
                             if (!NIOServer.hasInstance()){
-                                System.out.println("Server Quit");
                                 currentState = ClientState.END;
                                 notifyLobbyClose();
                             }
@@ -215,7 +208,6 @@ public class NIOClient extends Game {
                 if (byteRead > 0) {
                     ArrayList<Request> waitingRequest = getAllRequest(buffer.array(),byteRead);
                     for (Request req : waitingRequest){
-                        System.out.println(req.getOperation());
                         switch (req.getOperation()) {
                             case DRAW:
                                 try (RequestReader r = new RequestReader(req)) {
@@ -266,7 +258,6 @@ public class NIOClient extends Game {
                                     }
                                     observer.onHandChanged();
                                     observer.onStatChanged();
-                                    System.out.println("Hand Update " + turnOrder);
                                 } catch (Exception e) {
                                     throw new RuntimeException(e);
                                 }
@@ -335,7 +326,6 @@ public class NIOClient extends Game {
         finally {
             closeClient();
         }
-        System.out.println("Client Ended");
     }
 
 
@@ -369,7 +359,6 @@ public class NIOClient extends Game {
 
     public void setDeckPath(String deckPath){
         this.deckPath = deckPath;
-        System.out.println(deckPath);
     }
 
     public void addLobbyObserver(LobbyObserver observer){
@@ -383,14 +372,12 @@ public class NIOClient extends Game {
     }
 
     private void notifyLobbyObserver(){
-        System.out.println("Notify Change");
         for(LobbyObserver l:lobbyObservers){
             l.onLobbyChange(turnOrder);
         }
     }
 
     private void notifyLobbyClose(){
-        System.out.println("Notify Close");
         for(LobbyObserver l:lobbyObservers){
             l.onLobbyClose();
         }
@@ -424,7 +411,6 @@ public class NIOClient extends Game {
         try {
             channel.close();
             currentState = ClientState.END;
-            System.out.println("close");
         } catch (IOException e) {
             e.printStackTrace();
         }

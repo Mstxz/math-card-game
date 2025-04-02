@@ -102,11 +102,9 @@ public class GameForGUI extends Game {
                         }
 
                         Thread.sleep(750);
-                        System.out.println(c.getName()+" "+c.getType().toString());
                     }
 
 
-                    System.out.println("Bot End");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -142,7 +140,6 @@ public class GameForGUI extends Game {
         }
         winner.add(null);
         if (!(winner.getFirst() instanceof Bot)){
-            System.out.println(winner.getFirst());
         }
         if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
             UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
@@ -154,17 +151,14 @@ public class GameForGUI extends Game {
             }
             SettingController.updatePreference();
         }
-        System.out.println("End if");
         saveAchievement(winner.getFirst());
         observer.onGameEnded(winner.getFirst());
     }
 
     public void saveAchievement(Player winner){
-        System.out.println("Save Achievement");
         if (winner == null || winner instanceof Bot){
             return;
         }
-        System.out.println("Save...");
         if (turnOrder.get((playerOrder+1)%2) instanceof Pupr){
             UserPreference.getInstance().getAchievementProfile().isWinPupr = true;
         }
@@ -181,7 +175,6 @@ public class GameForGUI extends Game {
             UserPreference.getInstance().getAchievementProfile().isWinOmmThuk = true;
         }
         SettingController.updatePreference();
-        System.out.println(UserPreference.getInstance().getAchievementProfile().toString());
     }
 
     @Override

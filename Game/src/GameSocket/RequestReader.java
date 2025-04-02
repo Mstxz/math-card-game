@@ -38,7 +38,6 @@ public class RequestReader implements AutoCloseable {
         readByte += 4;
         byte[] strByte = dataInputStream.readNBytes(strLen);
         readByte += strLen;
-        System.out.println(strLen+ " " +new String(strByte, StandardCharsets.UTF_8));
         return new String(strByte, StandardCharsets.UTF_8);
     }
     public boolean reachTheEnd(){

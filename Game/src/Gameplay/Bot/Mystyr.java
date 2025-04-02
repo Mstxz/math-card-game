@@ -20,7 +20,6 @@ public class Mystyr extends Bot {
             return null;
         }
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
-        Player.log(self,enemy);
         Card c = null;
         int index = -1;
         String sequence;
@@ -47,16 +46,10 @@ public class Mystyr extends Bot {
             c.action(self,enemy);
             int tmp = Math.abs(((Constant)getHp()).getNumber())-Math.abs(oldHp.getNumber());
             hpIncrease+=tmp;
-            System.out.println(this.getName()+" play "+c.getName()+" to "+c.getReceiver(self,enemy).getName());
             this.getDeck().addDispose(c);
-            Player.log(self,enemy);
-//            playable = self.showCard(self,enemy);
-            System.out.println();
         }
 
-        System.out.println();
 
-        System.out.println(c);
         if (c==null){
             hpIncrease = 0;
         }

@@ -422,7 +422,6 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
         }
         for (int i = 0; i < timeFinished.size(); i++){
             long end = timeFinished.get(i);
-            System.out.println("Button " + (i+1) + " finish loading in " + ((double) (end - start) / 1000) + " s.");
         }
 
     }
@@ -477,12 +476,9 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
             }
             if (!popupMenu.getCurrentDeck().getFileName().equals(popupMenu.getCurrentName())){
                 File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
-                if (f.delete()) {
-                    System.out.println("Delete old deck");
-                }
+                f.delete();
             }
             File f = new File("Assets/"+ popupMenu.getCurrentName() +".deck");
-            System.out.println("Have File");
             try (FileOutputStream out = new FileOutputStream(f);){
 
                 CardLabel[] s = new CardLabel[tempDeckZone.getAllCardLabel().size()];
@@ -496,8 +492,6 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
                     if (i!=s.length-1){
                         text+="\n";
                     }
-                    System.out.println("Have Text");
-                    System.out.println(text);
                     for (int j = 0; j< text.length(); j++){
                         try {
                             out.write((int)(text.charAt(j)));
@@ -507,7 +501,6 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
                             return;
                         }
                     }
-                    System.out.println("Write Text");
                 }
             }
             catch (FileNotFoundException ex){
@@ -516,7 +509,6 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            System.out.println();
             String oldName = popupMenu.getCurrentDeck().getFileName();
             popupMenu.setUpItem();
             for (int i=0;i<PopupMenu.items.size();i++){
@@ -549,12 +541,7 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
                 @Override
                 public void onConfirm() {
                     File f = new File("Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck");
-                    if (f.delete()) {
-                        System.out.println("Deleting: Assets/"+ popupMenu.getCurrentDeck().getFileName());
-                    }
-                    else{
-                        System.out.println( "Assets/"+ popupMenu.getCurrentDeck().getFileName() +".deck is not deleted.");
-                    }
+                    f.delete();
                     popupMenu.setUpItem();
                     popupMenu.setSelectedIndex(0);
                 }

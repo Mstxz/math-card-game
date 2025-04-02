@@ -87,7 +87,6 @@ public class Request {
         bf.clear().put(this.data).putInt(newBytes.length).put(newBytes).flip();
         this.data = bf.array();
         this.bytesLength = this.data.length;
-        System.out.println("Request: " + Arrays.toString(this.data) + " Len: "+bytesLength);
 
         return this;
     }
@@ -97,7 +96,6 @@ public class Request {
         bf.clear().put(this.data).putInt(integer).flip();
         this.data = bf.array();
         this.bytesLength = this.data.length;
-        System.out.println("Request: " + Arrays.toString(this.data) + " Len: "+bytesLength);
         return this;
     }
 

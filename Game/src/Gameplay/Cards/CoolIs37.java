@@ -14,7 +14,6 @@ public class CoolIs37 extends Card {
     @Override
     public void action(Player self, Player enemy) {
         self.setMana(self.getMana()-manaUsed);
-        System.out.println(((Constant)(enemy.getHp())).getNumber()+" "+((Constant)(enemy.getHp())).getNumber()%37);
         enemy.setHp((new Constant((((Constant)(enemy.getHp())).absolute()%37))));
     }
 }

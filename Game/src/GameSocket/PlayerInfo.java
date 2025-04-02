@@ -98,7 +98,6 @@ public class PlayerInfo extends Player {
             return null;
         }
         try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes))){
-            System.out.println(Arrays.toString(bytes));
             int byteRead = 0;
             int playerID = in.readInt();
             int playerHPByte = in.readInt();
@@ -117,7 +116,6 @@ public class PlayerInfo extends Player {
             int cardInHand = in.readInt();
             int cardInDeck = in.readInt();
             byteRead = nameByte + profilePictureByte + playerHPByte + 36;
-            System.out.println( "hp: " + playerHPByte + " name: " + nameByte + " profile: " + profilePictureByte + " total: " + byteRead);
             if (byteRead == bytes.length){
                 return new PlayerInfo(playerName,profilePicture,playerHP,mana,maxMana,playerID,isReady,cardInDeck,cardInHand);
             }

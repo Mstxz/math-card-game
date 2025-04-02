@@ -46,7 +46,6 @@ public class Router implements ComponentListener {
                 if (mainFrame.getDefaultCloseOperation() == WindowConstants.EXIT_ON_CLOSE){
                     UserPreference.writeFile();
                 }
-                System.out.println(mainFrame.getDefaultCloseOperation());
             }
         });
         mainFrame.setResizable(false);

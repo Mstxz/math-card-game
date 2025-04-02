@@ -145,11 +145,9 @@ public class Player implements Cloneable{
                 System.out.print(red+c.getName()+reset+"/");
             }
         }
-        System.out.println();
         return playable;
     }
     public Card play(Player self,Player enemy){
-        Player.log(self,enemy);
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
         Card c = null;
         while (!playable.isEmpty()){
@@ -168,7 +166,6 @@ public class Player implements Cloneable{
             c.action(self,enemy);
             deck.addDispose(c);
             System.out.println(deck.getDispose().getLast().getName());
-            Player.log(self,enemy);
             playable = self.showCard(self,enemy);
             if (!playable.isEmpty()){
                 System.out.print("Do you want to end turn (Y/N) : ");
@@ -188,12 +185,6 @@ public class Player implements Cloneable{
         return c;
     }
 
-    public static void log(Player self,Player enemy){
-        System.out.println(self.getName()+"'s hp ("+self.getPlayerNumber()+") : "+self.getHp());
-        System.out.println(self.getName()+"'s mana ("+self.getPlayerNumber()+") : "+self.getMana());
-        System.out.println(enemy.getName()+"'s hp ("+enemy.getPlayerNumber()+") : "+enemy.getHp());
-        System.out.println(enemy.getName()+"'s mana ("+enemy.getPlayerNumber()+") : "+enemy.getMana());
-    }
 
     public static Player checkWin(ArrayList<Player> playerList){
         ArrayList<Integer> stillAlive = new ArrayList<>();

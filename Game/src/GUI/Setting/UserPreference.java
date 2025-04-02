@@ -23,7 +23,6 @@ public class UserPreference implements Serializable {
             if (userFile.exists()){
                 try (ObjectInputStream oi = new ObjectInputStream(new FileInputStream(userFile));){
                     userPreference = (UserPreference) oi.readObject();
-                    System.out.println(userPreference.toString());
                 }
                 catch (ClassNotFoundException | IOException e){
                     userPreference = new UserPreference();
@@ -41,13 +40,9 @@ public class UserPreference implements Serializable {
         File f = new File("Game/src/GUI/Setting/Preference.dat");
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f));){
             out.writeObject(UserPreference.getInstance());
-
-            System.out.println("write");
-            System.out.println(UserPreference.getInstance().toString());
         }
         catch (IOException e){
             e.printStackTrace();
-            System.out.println("Klong ha");
         }
     }
 

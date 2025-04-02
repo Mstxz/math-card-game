@@ -319,8 +319,6 @@ public class SelectBotRoom extends Page implements ActionListener, KeyListener {
             selectingBotName.repaint();
             selectingBotDescription.revalidate();
             selectingBotDescription.repaint();
-
-            System.out.println("Updated bot profile successfully.");
         } else {
             System.err.println("Failed to update bot profile - Image not found");
         }

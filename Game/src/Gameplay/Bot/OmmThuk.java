@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class OmmThuk extends Bot{
     public OmmThuk(){
-        super("OmmThuk", "assets/Profile/Morning Sunday.webp","He's the professor of Omm Thuk University. He is the one who made this game cause his student is fail in the math test more than 80% of class (It's not becase he is a bad professor, but his exam is too hard)","a");
+        super("OmmThuk", "assets/Profile/Morning Sunday.webp","He's the professor of Omm Thuk University. He is the one who made this game cause his student is fail in the math test more than 80% of class (It's not because he is a bad professor, but his exam is too hard)","Om Tuk");
     }
     private int playerTest = 0;
 
@@ -21,7 +21,6 @@ public class OmmThuk extends Bot{
     @Override
     public Card play(Player self, Player enemy) {
         ArrayList<Integer> playable = Player.listPlayableCard(self,enemy);
-        Player.log(self,enemy);
         Card c = null;
         //Bring this condition to bot while loop
         if (!playable.isEmpty()) {
@@ -121,21 +120,14 @@ public class OmmThuk extends Bot{
                 }
                 isRealPlay = true;
                 resetSimulate(self,enemy,selfMana,selfHp,enemyHp);
-                System.out.println("Arsr: "+self.getHand().toString());
-                System.out.println("Arsr: "+playable.toString());
+
                 c = this.getHand().remove(index);
                 c.action(self, enemy);
 
-                System.out.println(this.getName() + " play " + c.getName() + " to " + c.getReceiver(self, enemy).getName());
                 this.getDeck().addDispose(c);
-                //Player.log(self, enemy);
-//            playable = self.showCard(self,enemy);
-                System.out.println();
             }
         }
-        System.out.println();
 
-        System.out.println(c);
         return c;
     }
 
@@ -148,7 +140,7 @@ public class OmmThuk extends Bot{
     @Override
     public Player getTargetId(Player self, Player enemy, Card c) {
         if (isRealPlay){
-            System.out.println(realTarget);
+
             if (realTarget == 0){
                 return self;
             }
