@@ -157,6 +157,7 @@ public class PlayerVsPlayer extends Page implements ActionListener, KeyListener,
         }
 
         if (client.isGameStarted()){
+            mainFrame.removeKeyListener(PlayerVsPlayer.this);
             Router.setRoute("Avenger",client);
         }
     }
