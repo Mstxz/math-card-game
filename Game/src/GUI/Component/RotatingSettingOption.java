@@ -54,9 +54,15 @@ public class RotatingSettingOption extends JPanel implements MouseListener {
             if ( currentIndex != optionList.size() -1){
                 currentIndex += 1;
             }
+            else {
+                currentIndex = 0;
+            }
         } else if (e.getSource().equals(leftArrow)) {
             if (currentIndex != 0){
                 currentIndex -= 1;
+            }
+            else {
+                currentIndex = optionList.size() -1;
             }
         }
         this.currentOptionText.setText(optionList.get(currentIndex));
