@@ -50,7 +50,7 @@ public class CreditPage extends Page implements KeyListener {
         creditPanel.add(new CreditProfile("TeeIT","Toom.webp", "Front-end, UI/UX", "I love to catch bugs in my computer."));
         creditPanel.add(new CreditProfile("Ja","Chen.webp", "Front-End", "Never gonna give you up"));
         creditPanel.add(new CreditProfile("Nice","LifeCoach.webp", "Front-End", "Everything you can imagine is REAL!"));
-        creditPanel.add(new CreditProfile("Klong Eng Ha","Klong ha.webp", "Actor", "Klong eng Ha, Klong isn't a member of this group Ha."));
+        creditPanel.add(new CreditProfile("Klong Eng Ha","Klong Ha.webp", "Actor", "Klong eng Ha, Klong isn't a member of this group Ha."));
 
         mainPanel.add(topPanel);
         mainPanel.add(creditPanel);

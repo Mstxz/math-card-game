@@ -17,10 +17,9 @@ public class ResourceLoader {
     public static ImageIcon loadPicture(String picture){
         //System.out.println(picture+" "+picture.split("\\.")[0]+".webp");
         picture = picture.split("\\.")[0]+".webp";
-        try{
-            String filePath = Paths.get(ResourceLoader.class.getClassLoader().getResource(picture).toURI()).toFile().getAbsolutePath();
-            return new ImageIcon(ImageIO.read(new File(filePath)));
-        } catch (IOException | URISyntaxException e) {
+        try(InputStream stream = ResourceLoader.class.getClassLoader().getResourceAsStream(picture)){
+            return new ImageIcon(ImageIO.read(stream));
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -28,11 +27,10 @@ public class ResourceLoader {
     public static ImageIcon loadPicture(String picture,int width,int height){
         //System.out.println(picture+" "+picture.split("\\.")[0]+".webp");
         picture = picture.split("\\.")[0]+".webp";
-        try{
-            String filePath = Paths.get(ResourceLoader.class.getClassLoader().getResource(picture).toURI()).toFile().getAbsolutePath();
-            Image loadedImg = (new ImageIcon(ImageIO.read(new File(filePath)))).getImage().getScaledInstance(width,height,Image.SCALE_SMOOTH);
+        try (InputStream stream = ResourceLoader.class.getClassLoader().getResourceAsStream(picture)){
+            Image loadedImg = (new ImageIcon(ImageIO.read(stream))).getImage().getScaledInstance(width,height,Image.SCALE_SMOOTH);
             return new ImageIcon(loadedImg);
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -40,15 +38,14 @@ public class ResourceLoader {
     public static BufferedImage loadBufferedPicture(String picture){
         //System.out.println(picture+" "+picture.split("\\.")[0]+".webp");
         picture = picture.split("\\.")[0]+".webp";
-        try{
-            String filePath = Paths.get(ResourceLoader.class.getClassLoader().getResource(picture).toURI()).toFile().getAbsolutePath();
-            Image loadedImg = (new ImageIcon(ImageIO.read(new File(filePath)))).getImage();
+        try (InputStream stream = ResourceLoader.class.getClassLoader().getResourceAsStream(picture)){
+            Image loadedImg = (new ImageIcon(ImageIO.read(stream))).getImage();
             BufferedImage bf = new BufferedImage(loadedImg.getWidth(null),loadedImg.getHeight(null),BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = bf.createGraphics();
             g2d.drawImage(loadedImg,0,0,null);
             g2d.dispose();
             return bf;
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

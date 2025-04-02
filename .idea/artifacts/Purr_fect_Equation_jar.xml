@@ -1,14 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="Purr-fect-Equation:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Purr_fect_Equation_jar</output-path>
-    <root id="archive" name="math-card-game.jar">
+    <root id="archive" name="Purr-fect-Equation.jar">
       <element id="module-output" name="math-card-game" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Libraries/common-io-3.12.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Libraries/imageio-core-3.12.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Libraries/imageio-webp-3.12.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Libraries/common-image-3.12.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/Libraries/common-lang-3.12.0.jar" path-in-jar="/" />
-      <element id="library" level="project" name="imageio-webp-3.12.0" />
     </root>
   </artifact>
 </component>
