@@ -88,20 +88,16 @@ public class GameForGUI extends Game {
                         observer.onCardPlayed(c);
                         loseList = Player.checkLoseHP(turnOrder);
                         if(!loseList.isEmpty()){
-                            saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
-
-                            if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
-                                UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
-                                if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
-                                    UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
-                                }
-                                else if (turnOrder.get((loseList.getFirst()+1) % 2) != null) {
-                                    UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
-                                }
-                                SettingController.updatePreference();
+                            Player winner;
+                            if (loseList.size() == 2){
+                                winner = inPlay;
                             }
-
-                            observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
+                            else{
+                                winner = turnOrder.get((loseList.getFirst()+1) % 2);
+                            }
+                            observer.onGameEnded(winner);
+                            Thread thread = getThread(winner);
+                            thread.start();
                             return;
                         }
 
@@ -231,29 +227,39 @@ public class GameForGUI extends Game {
         observer.onCardPlayed(cardPlayed);
         if (isGameEnded()){
             ArrayList<Integer> loseList = Player.checkLoseHP(turnOrder);
-            observer.onGameEnded(turnOrder.get((loseList.getFirst()+1) % 2));
-            Runnable save = new Runnable() {
-                @Override
-                public void run() {
-                    if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
-                        UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
-                        if (turnOrder.get((loseList.getFirst()+1) % 2) instanceof Bot){
-                            UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
-                        }
-                        else if (turnOrder.get((loseList.getFirst()+1) % 2) != null){
-                            UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
-                        }
-                        SettingController.updatePreference();
-                    }
-                    saveAchievement(turnOrder.get((loseList.getFirst()+1) % 2));
-                }
-            };
-            Thread thread =  new Thread(save);
+
+            Player winner;
+            if (loseList.size() == 2){
+                winner = getPlayer();
+            }
+            else{
+                winner = turnOrder.get((loseList.getFirst()+1) % 2);
+            }
+
+            observer.onGameEnded(winner);
+            Thread thread = getThread(winner);
             thread.start();
         }
 
 
 
+    }
+
+    private Thread getThread(Player winner) {
+        Runnable save = () -> {
+            if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
+                UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
+                if (winner instanceof Bot){
+                    UserPreference.getInstance().getWinStat().setLose(UserPreference.getInstance().getWinStat().getLose()+1);
+                }
+                else if (winner != null) {
+                    UserPreference.getInstance().getWinStat().setWin(UserPreference.getInstance().getWinStat().getWin()+1);
+                }
+                SettingController.updatePreference();
+            }
+            saveAchievement(winner);
+        };
+        return new Thread(save);
     }
 }
 
