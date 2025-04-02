@@ -1,7 +1,6 @@
 package Gameplay.Cards;
 
 
-import Gameplay.CardAction.*;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -27,13 +26,5 @@ public class FlipSigned extends Card {
         getReceiver(self,enemy).setHp(((Constant)(getReceiver(self,enemy).getHp())).multiply(-1));
     }
 
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        arr.add(new SetHp(((Constant)(self.getHp())).multiply(-1),self.getPlayerNumber()));
-        return arr;
-    }
 
 }

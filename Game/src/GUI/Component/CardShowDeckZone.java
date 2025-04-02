@@ -64,25 +64,6 @@ public class CardShowDeckZone extends JPanel {
 
     }
 
-    public static void main(String[] args) {
-        SharedResource.loadFont();
-        SharedResource.setAllFont();
-        JFrame f = new JFrame();
-        JPanel p = new JPanel();
-        CardShowDeckZone a = new CardShowDeckZone(20);
-        CardShowDeckZone b = new CardShowDeckZone(2);
-        CardShowDeckZone c = new CardShowDeckZone(40);
-
-        f.add(p,BorderLayout.CENTER);
-        p.add(a);
-        p.add(b);
-        p.add(c);
-        p.setBackground(SharedResource.SIAMESE_BASE);
-
-        f.setSize(200,200);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setVisible(true);
-    }
 
     public int getCardAmount() {
         return cardAmount;

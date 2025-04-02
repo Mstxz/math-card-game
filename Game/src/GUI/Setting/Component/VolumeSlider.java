@@ -51,11 +51,4 @@ public class VolumeSlider extends JPanel {
         slider.setValue(value);
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.add(new VolumeSlider());
-        frame.setSize(700,100);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
 }

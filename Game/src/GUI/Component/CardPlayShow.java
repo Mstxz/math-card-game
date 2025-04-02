@@ -68,37 +68,4 @@ public class CardPlayShow extends JPanel {
         repaint();
     }
 
-    public static void main(String[] args) {
-        SharedResource.loadFont();
-        SharedResource.setAllFont();
-        JFrame frame = new JFrame();
-        CardPlayShow c = new CardPlayShow();
-
-        JPanel p = new JPanel();
-        JButton addCard = new JButton();
-        addCard.addActionListener(e->{
-            Card tmp;
-            int ran = (int)(Math.random()*3)%3;
-            if (ran == 0){
-                tmp = new CatNap();
-            }
-            else if (ran == 1){
-                tmp = new SleepyCat();
-            }
-            else {
-                tmp = new CatClown();
-            }
-            c.setIcon(tmp);
-        });
-        addCard.setUI(new ButtonUI());
-        addCard.setText("Add");
-        p.add(addCard);
-
-        frame.setSize(500,500);
-        frame.add(c,BorderLayout.CENTER);
-        frame.add(p,BorderLayout.SOUTH);
-
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
 }

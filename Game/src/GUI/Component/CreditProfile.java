@@ -105,13 +105,4 @@ public class CreditProfile extends JPanel implements ComponentListener {
 
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Credit Profile");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setSize(300, 400);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.add(new CreditProfile("Mstxz","Mystyr.webp", "(Sound Producer , UX/UI Designer)", "I’m just making music with my mouse and keyboard, and wasting some bucks."));
-    }
 }

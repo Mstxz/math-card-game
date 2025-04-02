@@ -1,6 +1,5 @@
 package Gameplay.Cards;
 
-import Gameplay.CardAction.*;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -20,12 +19,4 @@ public class GiftCat extends Card {
         getReceiver(self,enemy).setHp(self.getHp());
     }
 
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        arr.add(new SetHp(self.getHp(),receiver.getPlayerNumber()));
-        return arr;
-    }
 }

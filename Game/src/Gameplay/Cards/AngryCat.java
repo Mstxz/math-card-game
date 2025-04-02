@@ -1,10 +1,8 @@
 package Gameplay.Cards;
 
-import Gameplay.CardAction.*;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
-import Gameplay.Numbers.Constant;
 import Gameplay.Player;
 
 import java.util.ArrayList;
@@ -36,19 +34,4 @@ public class AngryCat extends Card {
         }
     }
 
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-
-        int selfHandSize = self.getHand().size();
-        int enemyHandSize = enemy.getHand().size();
-
-        arr.add(new Discard(selfHandSize,self.getPlayerNumber()));
-        arr.add(new Discard(enemyHandSize,enemy.getPlayerNumber()));
-
-        arr.add(new Draw(selfHandSize,self.getPlayerNumber()));
-        arr.add(new Draw(enemyHandSize,enemy.getPlayerNumber()));
-        return arr;
-    }
 }

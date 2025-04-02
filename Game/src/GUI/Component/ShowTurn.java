@@ -31,12 +31,4 @@ public class ShowTurn extends JLabel {
         //this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setText(String.valueOf(getTurn()));
     }
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setLayout(new FlowLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new ShowTurn());
-        frame.setSize(500,500);
-        frame.setVisible(true);
-    }
 }

@@ -235,7 +235,4 @@ public class RoomSelect extends Page implements ActionListener, KeyListener {
 
     }
 
-    public static void main(String[] args) {
-        new RoomSelect();
-    }
 }

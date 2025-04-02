@@ -1,7 +1,6 @@
 package Gameplay;
 
 import Gameplay.Bot.Bot;
-import Gameplay.CardAction.*;
 import Gameplay.Cards.*;
 
 import java.io.ByteArrayInputStream;
@@ -225,7 +224,4 @@ public abstract class Card {
     }
 
     public abstract void action(Player self, Player enemy);
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy){
-        return null;
-    }
 }

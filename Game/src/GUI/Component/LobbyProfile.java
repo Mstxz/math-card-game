@@ -105,15 +105,4 @@ public class LobbyProfile extends JPanel implements ActionListener {
         isReady = ready;
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setLayout(new FlowLayout(FlowLayout.CENTER));
-        frame.add(new LobbyProfile("Klong",false, "assets/testLobby/Klong ha.jpg"));
-        frame.add(new LobbyProfile("Pupe",false,"assets/testLobby/clown.png"));
-        frame.add(new LobbyProfile("Pleng's Cat",false,"assets/testLobby/pleng_cat.png"));
-        frame.add(new LobbyProfile("Bob Hair Karn",true,"assets/testLobby/pupe_karn_1.png"));
-        frame.pack();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
 }

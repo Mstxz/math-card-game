@@ -1,6 +1,5 @@
 package Gameplay.Cards;
 
-import Gameplay.CardAction.*;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -22,13 +21,4 @@ public class BlindBox extends Card {
         self.setMana(self.getMana()-manaUsed);
     }
 
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        int tmp = (int)(Math.random()*9)+1;
-        arr.add(new SetHp(receiver.getHp().add(new Constant(tmp)),receiver.getPlayerNumber()));
-        return arr;
-    }
 }

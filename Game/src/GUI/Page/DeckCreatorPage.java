@@ -584,7 +584,4 @@ public class DeckCreatorPage extends Page implements ActionListener, KeyListener
 
     }
 
-    public static void main(String[] args) {
-        new DeckCreatorPage();
-    }
 }

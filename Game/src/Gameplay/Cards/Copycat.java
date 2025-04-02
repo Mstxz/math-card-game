@@ -1,6 +1,5 @@
 package Gameplay.Cards;
 
-import Gameplay.CardAction.*;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -18,12 +17,5 @@ public class Copycat extends Card {
         self.setHp(enemy.getHp());
         self.setMana(self.getMana()-this.manaUsed);
     }
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        arr.add(new SetHp(enemy.getHp(),receiver.getPlayerNumber()));
-        return arr;
-    }
+
 }

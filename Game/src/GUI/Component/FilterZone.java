@@ -124,16 +124,6 @@ public class FilterZone extends JPanel {
         DeckCreatorPage.update(tmp);
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        FilterZone filterZone = new FilterZone();
-        frame.add(filterZone,BorderLayout.CENTER);
-
-        frame.setSize(500,300);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
-
     public FilterButton getBaby() {
         return baby;
     }

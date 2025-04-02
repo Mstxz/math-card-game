@@ -49,17 +49,6 @@ public class MainMenuAnimation extends JPanel implements ActionListener {
         this.repaint();
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Image Animation");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
-        //frame.setSize(500, 400);
-
-        MainMenuAnimation animationPanel = new MainMenuAnimation();
-        frame.add(animationPanel);
-        frame.pack();
-        frame.setVisible(true);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

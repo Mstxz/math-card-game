@@ -1,6 +1,5 @@
 package Gameplay.Cards;
 
-import Gameplay.CardAction.*;
 import Gameplay.*;
 import Gameplay.Numbers.Constant;
 
@@ -24,12 +23,4 @@ public class LogAndRoll extends Card implements HaveCondition {
         return (((Constant)(receiver.getHp())).getNumber() >=10);
     }
 
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        arr.add(new SetHp(new Constant((int)Math.log10(((Constant)(receiver.getHp())).getNumber())),receiver.getPlayerNumber()));
-        return arr;
-    }
 }

@@ -29,15 +29,4 @@ public class TabbedPanel extends JTabbedPane {
         super.paintComponent(g);
     }
 
-    public static void main(String[] args) {
-        SharedResource.loadFont();
-        JFrame frame = new JFrame();
-        frame.setLayout(null);
-        frame.add(new TabbedPanel());
-
-        frame.setSize(1000,659);
-        frame.setBackground(SharedResource.SIAMESE_BRIGHT);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
 }

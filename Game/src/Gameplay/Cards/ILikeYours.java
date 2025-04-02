@@ -1,6 +1,5 @@
 package Gameplay.Cards;
 
-import Gameplay.CardAction.*;
 import Gameplay.Card;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
@@ -22,12 +21,4 @@ public class ILikeYours extends Card {
         enemy.setHp(tmp);
     }
 
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        arr.add(new SetHp(enemy.getHp(),self.getPlayerNumber()));
-        arr.add(new SetHp(self.getHp(),enemy.getPlayerNumber()));
-        return arr;
-    }
 }
