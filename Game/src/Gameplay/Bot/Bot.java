@@ -14,7 +14,7 @@ public abstract class Bot extends Player {
         super(name,profile);
         this.description = description;
         try {
-            this.setDeck(Deck.LoadDeck(deckName));
+            this.setDeck(Deck.LoadBotDeck(deckName));
         }
         catch (FileNotFoundException ex){
             ex.printStackTrace();

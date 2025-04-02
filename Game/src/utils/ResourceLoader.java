@@ -70,8 +70,8 @@ public class ResourceLoader {
     }
 
     public static ArrayList<String> readFile(String file){
-        try {
-            BufferedInputStream f = loadFileAsStream(file);
+        //String filePath = Paths.get(ResourceLoader.class.getClassLoader().getResource(picture).toURI()).toFile().getAbsolutePath();
+        try (BufferedInputStream f = loadFileAsStream(file)){
             ArrayList<String> stringArrayList = new ArrayList<String>();
             int current = f.read();
             String currentS = "";

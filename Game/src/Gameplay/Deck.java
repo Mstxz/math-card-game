@@ -1,6 +1,7 @@
 package Gameplay;
 
 import Gameplay.Cards.Plus;
+import utils.ResourceLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +20,7 @@ public class Deck {
 
             while (sc.hasNextLine()){
                 String card = sc.nextLine();
-                String info[] = card.split(" ");
+                String[] info = card.split(" ");
                 Card c;
                 if (info[0].equals("Plus")||info[0].equals("Minus")){
                     c = Card.createCard(info[0],Integer.parseInt(info[1]),info[2]);
@@ -43,6 +44,34 @@ public class Deck {
         }
         catch (FileNotFoundException e){
             throw e;
+        }
+        return d;
+    }
+
+    public static Deck LoadBotDeck(String name) throws FileNotFoundException{
+        ArrayList<String> deckContent = ResourceLoader.readFile("assets/BotDeck/"+name+".deck");
+        Deck d = new Deck(name);
+        for (String card: deckContent){
+            String[] info = card.split(" ");
+            Card c;
+            if (info[0].equals("Plus")||info[0].equals("Minus")){
+                c = Card.createCard(info[0],Integer.parseInt(info[1]),info[2]);
+                for (int i=0;i<Integer.parseInt(info[3]);i++){
+                    d.addCard(c);
+                }
+            }
+            else if (info[0].equals("FlipSigned")){
+                c = Card.createCard(info[0],info[1]);
+                for (int i=0;i<Integer.parseInt(info[2]);i++){
+                    d.addCard(c);
+                }
+            }
+            else {
+                c = Card.createCard(info[0]);
+                for (int i = 0;i<Integer.parseInt(info[info.length-1]);i++){
+                    d.addCard(c);
+                }
+            }
         }
         return d;
     }
