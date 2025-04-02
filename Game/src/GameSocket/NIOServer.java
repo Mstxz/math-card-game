@@ -260,7 +260,6 @@ public class NIOServer extends Thread {
                             int ownerID = r.readInt();
                             int receiverID = r.readInt();
                             pushUpdate(clientReq);
-                            //ArrayList<CardAction> cardActions = cardPlayed.getCardAction(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
                             cardPlayed.action(gameState.getPlayers().get(ownerID),gameState.getPlayers().get(receiverID));
                             gameState.getPlayers().get(ownerID).getDeck().addDispose(cardPlayed);
                             gameState.getPlayers().get(ownerID).getHand().remove(cardIndex);
@@ -269,7 +268,13 @@ public class NIOServer extends Thread {
                             ArrayList<Integer> loseList = Player.checkLoseHP(playerArrayList);
                             if(!loseList.isEmpty()){
                                 Request gameEnded = new Request(ProtocolOperation.END_GAME);
-                                gameEnded.appendData((loseList.getFirst() + 1) % 2);
+
+                                if (loseList.size() == 2){
+                                    gameEnded.appendData(ownerID);
+                                }
+                                else{
+                                    gameEnded.appendData((loseList.getFirst() + 1) % 2);
+                                }
                                 pushUpdate(gameEnded);
                                 serverInfo.setPendingClose(true);
                                 return;
