@@ -65,18 +65,14 @@ public class Router implements ComponentListener {
             //mainFrame.remove(currentPage.getMainPanel());
         }
         Router.currentPage = switch (route){
-            case "Demo" -> new DemoPage();
-            case "Demo2" -> new Demo2Page();
             case "MainMenu" -> new MainMenuPage();
             case "Avenger" -> new AvengerAssembleGUI((Game) data); //game page
-            case "Lobby2" -> new Lobby2(false,new ArrayList<LobbyProfile>());
             case "DeckCreator" -> (Page) data;
             case "SelMode" -> new SelGameMode();
             case "Player" -> new RoomSelect();
             case "Lobby" -> new PlayerVsPlayer((NIOClient) data);
             case "Setting" -> new SettingPage();
             case "SelBot" -> new SelectBotRoom();
-            case "Tutorial" -> new TutorialPage();
             case "Credit" -> new CreditPage();
             case "Statistics" -> new StatisticsPage();
             default -> null;
