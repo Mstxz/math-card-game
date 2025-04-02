@@ -32,7 +32,7 @@ public class AngryCat extends Card {
             self.draw();
         }
         for (int i = 0; i < Math.min(enemyHandSize,enemy.getDeck().getCards().size()); i++) {
-            self.draw();
+            enemy.draw();
         }
     }
 
