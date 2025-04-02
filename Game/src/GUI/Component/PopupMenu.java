@@ -106,7 +106,9 @@ public class PopupMenu extends JPanel {
             items.get(i).setNotLast();
 
         }
-        ((PopupItem) menuPanel.getComponents()[menuPanel.getComponents().length-1]).setLast();
+        if (menuPanel.getComponents().length>=1){
+            ((PopupItem) menuPanel.getComponents()[menuPanel.getComponents().length-1]).setLast();
+        }
         revalidate();
         repaint();
     }
