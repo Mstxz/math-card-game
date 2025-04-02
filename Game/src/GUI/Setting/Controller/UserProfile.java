@@ -11,19 +11,7 @@ public class UserProfile implements Serializable {
     private String name;
     private String profileName;
     public static HashMap<String,ProfilePicture> profilePictureList;
-
-    public UserProfile(){
-        this("Pupr","Pupr");
-    }
-
-    public UserProfile(String name,String profileName){
-        this.name = name;
-        this.profileName = profileName;
-        this.profilePicture = profilePictureList.get(profileName);
-    }
-
-    public static void loadProfile(){
-        //System.out.println("Load Profile");
+    static {
         profilePictureList = new HashMap<String,ProfilePicture>();
         profilePictureList.put("Pupr",new ProfilePicture("Pupr","Bob hair cat."));
         profilePictureList.put("Arsr",new ProfilePicture("Arsr","Glasses cat."));
@@ -44,6 +32,19 @@ public class UserProfile implements Serializable {
         profilePictureList.put("Mystyr",new ProfilePicture("Mystyr","Just a normal DJ"));
         profilePictureList.put("LifeCoach",new ProfilePicture("LifeCoach","Anyone knows  who is him but L I F E C O A C H"));
         profilePictureList.put("Toom",new ProfilePicture("Toom","Who let's the cat plays with a wire!!"));
+    }
+
+    public UserProfile(){
+        this("Pupr","Pupr");
+    }
+
+    public UserProfile(String name,String profileName){
+        this.name = name;
+        this.profileName = profileName;
+        this.profilePicture = profilePictureList.get(profileName);
+    }
+
+    public static void loadProfile(){
         int a = 0;
         if (UserPreference.getInstance().getAchievementProfile().isWinPupr){
             //System.out.println("Huh");

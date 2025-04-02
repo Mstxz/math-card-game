@@ -95,9 +95,9 @@ public class GameForGUI extends Game {
                             else{
                                 winner = turnOrder.get((loseList.getFirst()+1) % 2);
                             }
-                            observer.onGameEnded(winner);
                             Thread thread = getThread(winner);
                             thread.start();
+                            observer.onGameEnded(winner);
                             return;
                         }
 
@@ -229,9 +229,10 @@ public class GameForGUI extends Game {
                 winner = turnOrder.get((loseList.getFirst()+1) % 2);
             }
 
-            observer.onGameEnded(winner);
+
             Thread thread = getThread(winner);
             thread.start();
+            observer.onGameEnded(winner);
         }
 
 
@@ -240,6 +241,7 @@ public class GameForGUI extends Game {
 
     private Thread getThread(Player winner) {
         Runnable save = () -> {
+            saveAchievement(winner);
             if (turnOrder.get((playerOrder+1)%2) instanceof Bot){
                 UserPreference.getInstance().getWinStat().setPlay(UserPreference.getInstance().getWinStat().getPlay()+1);
                 if (winner instanceof Bot){
@@ -250,7 +252,7 @@ public class GameForGUI extends Game {
                 }
                 SettingController.updatePreference();
             }
-            saveAchievement(winner);
+
         };
         return new Thread(save);
     }

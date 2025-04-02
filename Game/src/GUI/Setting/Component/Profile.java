@@ -37,7 +37,9 @@ public class Profile extends JPanel implements ActionListener {
     private String selectedKey;
 
     public Profile(){
+        UserProfile.loadProfile();
         selectedImage = UserPreference.getInstance().getProfile().getProfilePicture();
+
         panel4 = new JPanel();
         panel4.setLayout(new BorderLayout(0,100));
 
@@ -160,12 +162,12 @@ public class Profile extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)){
             UserPreference.getInstance().setProfile(new UserProfile(name.getText(),selectedKey) );
-            SettingController.updatePreference();
             profileImage.setIcon(UserPreference.getInstance().getProfile().getProfilePicture().getImage());
             renameButton.setText("Rename");
             name.setEditable(false);
             name.setFocusable(false);
             name.setOpaque(false);
+            UserPreference.writeFile();
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Confirm.wav");
         }
         else if (e.getSource().equals(renameButton)){
