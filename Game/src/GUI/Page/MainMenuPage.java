@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
+import utils.ResourceLoader;
 import utils.SharedResource;
 import AudioPlayer.SFXPlayer;
 import AudioPlayer.BGMPlayer;
@@ -28,22 +29,16 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
     private MainMenuButton creditButton;
     private MainMenuButton exitButton;
     private JLabel  Title;
-    private Image   bg;
     private MainMenuAnimation animation;
 
     private String track = "Game/src/assets/Audio/BGM/Lobby_BGM.wav";
 
     public MainMenuPage() {
         super();
-        try {
-            bg = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/blankBG.jpg"))).getImage();
-        } catch (Exception e) {
-            System.out.println("Error loading background image: " + e.getMessage());
-        }
         initComponents();
 
         try {
-            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("assets/icon.png")));
+            ImageIcon icon = ResourceLoader.loadPicture("assets/icon.webp");
             mainFrame.setIconImage(icon.getImage());
         } catch (Exception e) {
             System.out.println("Error loading icon: " + e.getMessage());
@@ -63,15 +58,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
     }
 
     private void initComponents() {
-        mainPanel = new JPanel(new BorderLayout()) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                if (bg != null) {
-                    g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
-                }
-            }
-        };
+        mainPanel = new JPanel(new BorderLayout());
 
 //        TitlePanel = new JPanel(new BorderLayout());
 //        TitlePanel.setBackground(new Color(255, 255, 255, 0));

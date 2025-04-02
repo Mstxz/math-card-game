@@ -1,9 +1,6 @@
 package Gameplay.Cards;
 
 import Gameplay.Card;
-import Gameplay.CardAction.CardAction;
-import Gameplay.CardAction.SetHp;
-import Gameplay.CardAction.SetMana;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
 import Gameplay.Numbers.Constant;
@@ -34,14 +31,6 @@ public class Plus extends Card {
         receiver.setHp(receiver.getHp().add(new Constant(this.number)));
     }
 
-    @Override
-    public ArrayList<Gameplay.CardAction.CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<Gameplay.CardAction.CardAction> arr = new ArrayList<CardAction>();
-        Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        arr.add(new SetHp(receiver.getHp().add(new Constant(this.number)),receiver.getPlayerNumber()));
-        return arr;
-    }
 
     @Override
     public byte[] encode(){

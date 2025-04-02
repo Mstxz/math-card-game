@@ -1,9 +1,6 @@
 package Gameplay.Cards;
 
-import Gameplay.CardAction.CardAction;
 import Gameplay.Card;
-import Gameplay.CardAction.SetHp;
-import Gameplay.CardAction.SetMana;
 import Gameplay.CardType;
 import Gameplay.Difficulty;
 import Gameplay.Numbers.Constant;
@@ -31,14 +28,6 @@ public class Minus extends Card {
         receiver.setHp(receiver.getHp().subtract(new Constant(this.number)));
     }
 
-    @Override
-    public ArrayList<CardAction> getCardAction(Player self, Player enemy) {
-        ArrayList<CardAction> arr = new ArrayList<CardAction>();
-        Player receiver = this.getReceiver(self,enemy);
-        arr.add(new SetMana(self.getMana()-this.getManaUsed(),self.getPlayerNumber()));
-        arr.add(new SetHp(receiver.getHp().subtract(new Constant(this.number)),receiver.getPlayerNumber()));
-        return arr;
-    }
     @Override
     public byte[] encode(){
         byte[] nameBytes = getClass().getSimpleName().getBytes(StandardCharsets.UTF_8);
