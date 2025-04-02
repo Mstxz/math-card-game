@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Pupr extends Bot {
     public Pupr(){
-        super("Pupr","assets/BotProfile/Bot_Pupr.webp","Can you teach me how to play this game?","a");
+        super("Pupr","assets/BotProfile/Bot_Pupr.webp","Can you teach me how to play this game?","Pupr");
     }
 
     @Override

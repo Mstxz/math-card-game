@@ -21,7 +21,7 @@ public class OmmThukStudentCard extends JPanel {
     private ImageIcon image;
     private ImageIcon OmmThukCertified;
     private String profilePicturePath;
-    private AchievementProfile achievementProfile = new AchievementProfile();
+    private AchievementProfile achievementProfile = UserPreference.getInstance().getAchievementProfile();
 
     private StudentCardInformation username;
     private StudentCardInformation playBotCount;
