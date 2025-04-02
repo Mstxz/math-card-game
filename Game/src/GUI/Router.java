@@ -4,11 +4,9 @@ import GUI.Component.Game;
 import GUI.Component.LobbyProfile;
 import GUI.Page.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -41,13 +39,24 @@ public class Router implements ComponentListener {
         mainFrame.setContentPane(layeredPane);
         SettingController.update();
         mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (mainFrame.getDefaultCloseOperation() == WindowConstants.EXIT_ON_CLOSE){
+                    UserPreference.writeFile();
+                }
+                System.out.println(mainFrame.getDefaultCloseOperation());
+            }
+        });
+        mainFrame.setResizable(false);
     }
 
     public static void main(String[] args) {
         new Router();
         Router.setRoute("MainMenu",null);
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.setResizable(false);
+
+
     }
     public static void setRoute(String route,Object data){
         if (currentPage != null){
@@ -78,47 +87,7 @@ public class Router implements ComponentListener {
         mainFrame.setTitle(currentPage.getTitle());
         mainFrame.revalidate();
         mainFrame.repaint();
-        mainFrame.addWindowListener(new WindowListener() {
-            private boolean writing = false;
-            @Override
-            public void windowOpened(WindowEvent e) {
 
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                if (!writing){
-                    writing = true;
-                    UserPreference.writeFile();
-
-                }
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        });
     }
 
     public static void refresh(){

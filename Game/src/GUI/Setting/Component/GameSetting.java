@@ -3,6 +3,7 @@ package GUI.Setting.Component;
 import AudioPlayer.SFXPlayer;
 import GUI.Component.RotatingSettingOption;
 import GUI.Component.RoundBorder;
+import GUI.Router;
 import GUI.Setting.Controller.SettingController;
 import GUI.Setting.UserPreference;
 import utils.UIManager.ButtonUI;
@@ -60,6 +61,7 @@ public class GameSetting extends JPanel implements ActionListener {
         panel2.add(applyButton);
         panel2.setBorder(new EmptyBorder(0,60,0,60));
         panel2.setBackground(SharedResource.SIAMESE_LIGHT);
+        revertButton.addActionListener(this);
         applyButton.addActionListener(this);
         this.add(panel1,BorderLayout.NORTH);
         this.add(panel2,BorderLayout.SOUTH);
@@ -69,14 +71,25 @@ public class GameSetting extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(applyButton)){
+        if (e.getSource().equals(applyButton)) {
             System.out.println(resolution.getCurrentIndex());
-            UserPreference.getInstance().setResolutionIndex(resolution.getCurrentIndex());
+            if (UserPreference.getInstance().getResolutionIndex() != resolution.getCurrentIndex()){
+                Router.getMainFrame().setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                UserPreference.getInstance().setResolutionIndex(resolution.getCurrentIndex());
+                SettingController.updateResolution(resolution.getCurrentIndex());
+                Router.getMainFrame().setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            }
             UserPreference.getInstance().setSFXVolume(sfxVolume.getValue());
             UserPreference.getInstance().setMusicVolume(musicVolume.getValue());
-            SettingController.update();
+            SettingController.updateSoundVolume();
             SettingController.updatePreference();
             SFXPlayer.playSound("Game/src/assets/Audio/SFX/Deck_Confirm.wav");
+        }
+        else if(e.getSource().equals(revertButton)){
+            resolution.setCurrentIndex(0);
+            sfxVolume.setValue(50);
+            musicVolume.setValue(50);
+
         }
     }
 }

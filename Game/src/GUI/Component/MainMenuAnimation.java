@@ -21,8 +21,8 @@ public class MainMenuAnimation extends JPanel implements ActionListener {
     public MainMenuAnimation(){
         frames = new BufferedImage[12];
         String resolution = SettingController.resolutionList.get(UserPreference.getInstance().getResolutionIndex());
-        if (resolution.equals("1366x768")){
-            updateSize(400,300);
+        if (resolution.equals("Fullscreen")){
+            updateSize(800,600);
         }
         else if (resolution.equals("1920x1080")){
             updateSize(800,600);

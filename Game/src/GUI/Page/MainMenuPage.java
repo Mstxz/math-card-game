@@ -20,7 +20,6 @@ import AudioPlayer.BGMPlayer;
 
 public class MainMenuPage extends Page implements ActionListener, KeyListener {
     private JPanel  ButtonZone;
-    private JPanel  TitlePanel;
     private MainMenuButton playButton;
     private MainMenuButton yourDecksButton;
     private MainMenuButton statsButton;
@@ -139,25 +138,7 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
         mainPanel.add(rightPanel, BorderLayout.CENTER);
         mainPanel.add(animationPanel,BorderLayout.WEST);
         mainFrame.addKeyListener(this);
-        String resolution = SettingController.resolutionList.get(UserPreference.getInstance().getResolutionIndex());
-        if (resolution.equals("1366x768")){
-            ButtonZone.setPreferredSize(new Dimension(600,520));
-            Title.setFont(SharedResource.getCustomSizeFont(64));
-            animation.updateSize(480,360);
-            playButton.setFont(SharedResource.getCustomSizeFont(46));
-            yourDecksButton.setFont(SharedResource.getCustomSizeFont(36));
-            statsButton.setFont(SharedResource.getCustomSizeFont(36));
-            tutorialButton.setFont(SharedResource.getCustomSizeFont(36));
-            settingsButton.setFont(SharedResource.getCustomSizeFont(36));
-            creditButton.setFont(SharedResource.getCustomSizeFont(36));
-            exitButton.setFont(SharedResource.getCustomSizeFont(36));
-        }
         setupMainPanel();
-    }
-
-    @Override
-    public JPanel getMainPanel() {
-        return mainPanel;
     }
 
     @Override
@@ -172,7 +153,9 @@ public class MainMenuPage extends Page implements ActionListener, KeyListener {
             ConfirmMenu menu = new ConfirmMenu(this, "Are you sure to exit?"){
                 @Override
                 public void onConfirm() {
+                    UserPreference.writeFile();
                     System.exit(0);
+
                 }
 
                 @Override

@@ -45,6 +45,7 @@ public class RotatingSettingOption extends JPanel implements MouseListener {
 
     public void setCurrentIndex(int currentIndex) {
         this.currentIndex = currentIndex;
+        this.currentOptionText.setText(optionList.get(currentIndex));
     }
 
     @Override
