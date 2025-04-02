@@ -53,16 +53,10 @@ public class Router implements ComponentListener {
         setRoute("MainMenu",null);
     }
 
-    public static void main(String[] args) {
-        new Router();
-
-
-    }
     public static void setRoute(String route,Object data){
         if (currentPage != null){
             layeredPane.remove(currentPage.getMainPanel());
             layeredPane.remove(currentPage.getOverlayPanel());
-            //mainFrame.remove(currentPage.getMainPanel());
         }
         Router.currentPage = switch (route){
             case "MainMenu" -> new MainMenuPage();

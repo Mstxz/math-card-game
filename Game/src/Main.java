@@ -1,5 +1,7 @@
+import GUI.Router;
+
 class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World :P");
+        new Router();
     }
 }
