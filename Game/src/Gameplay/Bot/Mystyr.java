@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Mystyr extends Bot {
     private int hpIncrease = 0;
     public Mystyr(){
-        super("Mystyr","assets/BotProfile/Bot_Mystyr.webp","She is fear to lose, so she is always wanting to play safe by increase her self HP before everything (Even her signature is about darkness anyway)","Mstxz");
+        super("Mystyr","assets/BotProfile/Bot_Mystyr.webp","She wants to stay high in the colorful night sky, so she is always wanting to play safe by increase her self HP before everything (Just like her music Signature)","Mstxz");
     }
 
     @Override
